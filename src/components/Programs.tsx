@@ -171,6 +171,11 @@ export function Programs() {
                             <TableHead>Name</TableHead>
                             <TableHead>Program Address</TableHead>
                             <TableHead>Derived Address</TableHead>
+                            <TableHead>Inspect</TableHead>
+                            <TableHead>Verified</TableHead>
+                            <TableHead>Mutable</TableHead>
+                            <TableHead>IDL</TableHead>
+                            <TableHead>Age</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -186,7 +191,6 @@ export function Programs() {
                                 onMouseEnter={() => setHoveredRow(program.pubkey)}
                                 onMouseLeave={() => setHoveredRow(null)}
                             >
-
                                 <TableCell>
                                 </TableCell>
                                 <TableCell>
@@ -198,6 +202,7 @@ export function Programs() {
                                 <TableCell>
                                     <ProgramDataModal programAddress={program.pubkey} />
                                 </TableCell>
+                                <TableCell></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
