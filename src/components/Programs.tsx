@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check, PackageOpen, Package } from 'lucide-react'
+import { Copy, Check } from 'lucide-react'
 import {
     Table,
     TableBody,
@@ -49,7 +49,6 @@ export function Programs() {
     const [loading, setLoading] = useState(true)
     const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState(1)
-    const [hoveredRow, setHoveredRow] = useState<string | null>(null)
     const programsPerPage = 50
 
     useEffect(() => {
@@ -187,11 +186,7 @@ export function Programs() {
                                 </TableCell>
                             </TableRow>
                         ) : currentPrograms.map((program) => (
-                            <TableRow
-                                key={program.pubkey}
-                                onMouseEnter={() => setHoveredRow(program.pubkey)}
-                                onMouseLeave={() => setHoveredRow(null)}
-                            >
+                            <TableRow key={program.pubkey}>
                                 <TableCell>
                                 </TableCell>
                                 <TableCell>
