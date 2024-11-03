@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check } from 'lucide-react'
+import { Copy, Check, PackageOpen, Package } from 'lucide-react'
 import {
     Table,
     TableBody,
@@ -18,6 +18,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import ProgramDataModal from './ProgramDataModal';
 
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
@@ -47,6 +48,7 @@ export function Programs() {
     const [loading, setLoading] = useState(true)
     const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState(1)
+    const [hoveredRow, setHoveredRow] = useState<string | null>(null)
     const programsPerPage = 50
 
     useEffect(() => {
@@ -169,15 +171,6 @@ export function Programs() {
                             <TableHead>Name</TableHead>
                             <TableHead>Program Address</TableHead>
                             <TableHead>Derived Address</TableHead>
-                            <TableHead>Program Size</TableHead>
-                            <TableHead>Deployment Date</TableHead>
-                            <TableHead>Upgradeable</TableHead>
-                            <TableHead>IDL Address</TableHead>
-                            <TableHead>IDL Available</TableHead>
-                            <TableHead>Link to IDL</TableHead>
-                            <TableHead>Instructions</TableHead>
-                            <TableHead>Accounts Used</TableHead>
-                            <TableHead>Error Messages</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -188,17 +181,23 @@ export function Programs() {
                                 </TableCell>
                             </TableRow>
                         ) : currentPrograms.map((program) => (
-                            <TableRow key={program.pubkey}>
-                                <TableCell>
+                            <TableRow
+                                key={program.pubkey}
+                                onMouseEnter={() => setHoveredRow(program.pubkey)}
+                                onMouseLeave={() => setHoveredRow(null)}
+                            >
 
+                                <TableCell>
                                 </TableCell>
                                 <TableCell>
-                                    <CopyableAddress address={program.pubkey.slice(0, 8) + '...'} />
+                                    <CopyableAddress address={program.pubkey} />
                                 </TableCell>
                                 <TableCell>
-                                    <CopyableAddress address={program.derived?.slice(0, 8) + '...' || ''} />
+                                    <CopyableAddress address={program.derived || ''} />
                                 </TableCell>
-                                <TableCell></TableCell>
+                                <TableCell>
+                                    <ProgramDataModal programAddress={program.pubkey} />
+                                </TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
