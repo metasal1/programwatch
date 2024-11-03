@@ -166,8 +166,18 @@ export function Programs() {
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead>Name</TableHead>
                             <TableHead>Program Address</TableHead>
                             <TableHead>Derived Address</TableHead>
+                            <TableHead>Program Size</TableHead>
+                            <TableHead>Deployment Date</TableHead>
+                            <TableHead>Upgradeable</TableHead>
+                            <TableHead>IDL Address</TableHead>
+                            <TableHead>IDL Available</TableHead>
+                            <TableHead>Link to IDL</TableHead>
+                            <TableHead>Instructions</TableHead>
+                            <TableHead>Accounts Used</TableHead>
+                            <TableHead>Error Messages</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -180,11 +190,17 @@ export function Programs() {
                         ) : currentPrograms.map((program) => (
                             <TableRow key={program.pubkey}>
                                 <TableCell>
-                                    <CopyableAddress address={program.pubkey} />
+
                                 </TableCell>
                                 <TableCell>
-                                    <CopyableAddress address={program.derived || ''} />
+                                    <CopyableAddress address={program.pubkey.slice(0, 8) + '...'} />
                                 </TableCell>
+                                <TableCell>
+                                    <CopyableAddress address={program.derived?.slice(0, 8) + '...' || ''} />
+                                </TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
