@@ -19,6 +19,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import ProgramDataModal from './ProgramDataModal';
+import SecurityModal from './SecurityModal';
 
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
@@ -172,7 +173,7 @@ export function Programs() {
                             <TableHead>Program Address</TableHead>
                             <TableHead>Derived Address</TableHead>
                             <TableHead>Inspect</TableHead>
-                            <TableHead>Verified</TableHead>
+                            <TableHead>Security</TableHead>
                             <TableHead>Mutable</TableHead>
                             <TableHead>IDL</TableHead>
                             <TableHead>Age</TableHead>
@@ -202,7 +203,9 @@ export function Programs() {
                                 <TableCell>
                                     <ProgramDataModal programAddress={program.pubkey} />
                                 </TableCell>
-                                <TableCell></TableCell>
+                                <TableCell>
+                                    <SecurityModal programAddress={program.pubkey} />
+                                </TableCell>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                             </TableRow>

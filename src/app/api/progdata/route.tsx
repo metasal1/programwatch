@@ -6,29 +6,16 @@ const UPGRADEABLE_LOADER = 'BPFLoaderUpgradeab1e11111111111111111111111';
 
 const connection = new Connection(`https://api.mainnet-beta.solana.com`);
 
-interface PerformanceMetrics {
-    totalTime: number;
-    programAccountFetch?: number;
-    programDataAccountFetch?: number;
-}
-
 export async function GET(request: NextRequest) {
-    const startTime = performance.now();
-    const metrics: PerformanceMetrics = {
-        totalTime: 0
-    };
-
     try {
         const searchParams = request.nextUrl.searchParams;
         const programAddress = searchParams.get('address');
 
         if (!programAddress) {
-            metrics.totalTime = performance.now() - startTime;
             return NextResponse.json(
                 {
                     success: false,
-                    error: 'Program address is required',
-                    performance: metrics
+                    error: 'Program address is required'
                 },
                 { status: 400 }
             );
@@ -36,18 +23,14 @@ export async function GET(request: NextRequest) {
 
         const programPublicKey = new PublicKey(programAddress);
 
-        // Get program account with timing
-        const programAccountStart = performance.now();
+        // Get program account
         const programAccount = await connection.getAccountInfo(programPublicKey);
-        metrics.programAccountFetch = performance.now() - programAccountStart;
 
         if (!programAccount) {
-            metrics.totalTime = performance.now() - startTime;
             return NextResponse.json(
                 {
                     success: false,
-                    error: 'Program not found',
-                    performance: metrics
+                    error: 'Program not found'
                 },
                 { status: 404 }
             );
@@ -57,7 +40,6 @@ export async function GET(request: NextRequest) {
         const isUpgradeable = programAccount.owner.toBase58() === UPGRADEABLE_LOADER;
 
         if (!isUpgradeable) {
-            metrics.totalTime = performance.now() - startTime;
             return NextResponse.json({
                 programId: programAddress,
                 owner: programAccount.owner.toBase58(),
@@ -65,8 +47,7 @@ export async function GET(request: NextRequest) {
                 authority: null,
                 lastDeploySlot: null,
                 dataLen: programAccount.data.length,
-                lamports: programAccount.lamports,
-                performance: metrics
+                lamports: programAccount.lamports
             });
         }
 
@@ -76,30 +57,23 @@ export async function GET(request: NextRequest) {
             new PublicKey(UPGRADEABLE_LOADER)
         );
 
-        // Get program data account with timing
-        const programDataAccountStart = performance.now();
         const programDataAccount = await connection.getAccountInfo(programDataAddress);
-        metrics.programDataAccountFetch = performance.now() - programDataAccountStart;
 
         if (!programDataAccount) {
-            metrics.totalTime = performance.now() - startTime;
             return NextResponse.json({
                 success: false,
-                error: 'Program data account not found',
-                performance: metrics
+                error: 'Program data account not found'
             }, { status: 404 });
         }
 
         const accountData = Buffer.from(programDataAccount.data);
 
-        // Get slot from bytes 9-13
-        const slot = accountData.readUInt32LE(9);
+        // Get slot from bytes 1-9 using readBigUint64LE for 64-bit number
+        const slot = Number(accountData.readBigUInt64LE(1));
 
         // Get upgrade authority from bytes 13-45
         const upgradeAuthorityBytes = accountData.subarray(13, 45);
         const upgradeAuthority = new PublicKey(upgradeAuthorityBytes);
-
-        metrics.totalTime = performance.now() - startTime;
 
         return NextResponse.json({
             programId: programAddress,
@@ -108,19 +82,16 @@ export async function GET(request: NextRequest) {
             authority: upgradeAuthority.toBase58(),
             lastDeploySlot: slot,
             dataLen: programDataAccount.data.length,
-            lamports: programDataAccount.lamports,
-            performance: metrics
+            lamports: programDataAccount.lamports
         });
 
     } catch (error) {
-        metrics.totalTime = performance.now() - startTime;
         console.error('Error fetching program info:', error);
         return NextResponse.json(
             {
                 success: false,
                 error: 'Failed to fetch program info',
-                details: error instanceof Error ? error.message : 'Unknown error',
-                performance: metrics
+                details: error instanceof Error ? error.message : 'Unknown error'
             },
             { status: 500 }
         );
