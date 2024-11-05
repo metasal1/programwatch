@@ -6,28 +6,41 @@ import { Pool } from 'pg';
 const pool = new Pool({
     connectionString: process.env.POSTGRES_URL,
     ssl: {
-        rejectUnauthorized: false // Required for some hosting providers
+        rejectUnauthorized: false
     }
 });
 
 export async function GET(request: NextRequest) {
     try {
-        // Get pagination parameters from URL
+        // First, test the database connection
+        await pool.query('SELECT NOW()');
+
         const searchParams = request.nextUrl.searchParams;
         const page = parseInt(searchParams.get('page') || '1');
         const limit = parseInt(searchParams.get('limit') || '50');
+        const searchQuery = searchParams.get('query') || '';
         const offset = (page - 1) * limit;
 
-        // Get total count for pagination
-        const countResult = await pool.query(
-            'SELECT COUNT(*) FROM programs'
-        );
+        // Log the query parameters for debugging
+        console.log('Query params:', { page, limit, searchQuery, offset });
+
+        let countQuery = 'SELECT COUNT(*) FROM programs';
+        let countParams: string[] = [];
+
+        if (searchQuery) {
+            countQuery += ' WHERE LOWER(program) LIKE LOWER($1) OR LOWER(address) LIKE LOWER($1)';
+            countParams = [`%${searchQuery}%`];
+        }
+
+        // Log the count query for debugging
+        console.log('Count query:', countQuery, countParams);
+
+        const countResult = await pool.query(countQuery, countParams);
         const totalItems = parseInt(countResult.rows[0].count);
         const totalPages = Math.ceil(totalItems / limit);
 
-        // Fetch paginated programs from the database
-        const { rows } = await pool.query(
-            `SELECT 
+        let dataQuery = `
+            SELECT 
                 program,
                 version,
                 address,
@@ -39,11 +52,26 @@ export async function GET(request: NextRequest) {
                 deployed,
                 verified
             FROM programs
-            ORDER BY program
-            LIMIT $1
-            OFFSET $2`,
-            [limit, offset]
-        );
+        `;
+
+        let dataParams: (string | number)[] = [];
+
+        if (searchQuery) {
+            dataQuery += ' WHERE LOWER(program) LIKE LOWER($3) OR LOWER(address) LIKE LOWER($3)';
+            dataParams = [limit, offset, `%${searchQuery}%`];
+        } else {
+            dataParams = [limit, offset];
+        }
+
+        dataQuery += ' ORDER BY program LIMIT $1 OFFSET $2';
+
+        // Log the data query for debugging
+        console.log('Data query:', dataQuery, dataParams);
+
+        const { rows } = await pool.query(dataQuery, dataParams);
+
+        // Log the result size for debugging
+        console.log('Rows returned:', rows.length);
 
         return NextResponse.json({
             success: true,
@@ -59,11 +87,18 @@ export async function GET(request: NextRequest) {
         });
 
     } catch (error) {
-        console.error('Database error:', error);
+        // Enhanced error logging
+        console.error('Database error details:', {
+            message: error instanceof Error ? error.message : 'Unknown error',
+            stack: error instanceof Error ? error.stack : undefined,
+            error
+        });
+
         return NextResponse.json(
             {
                 success: false,
-                error: 'Failed to fetch data from database'
+                error: 'Failed to fetch data from database',
+                details: error instanceof Error ? error.message : 'Unknown error'
             },
             { status: 500 }
         );

@@ -65,12 +65,18 @@ export default function Programs() {
     useEffect(() => {
         const fetchPrograms = async () => {
             try {
-                const response = await fetch(`/api/database?query=${encodeURIComponent(searchQuery)}`);
+                const response = await fetch(`/api/database?page=${currentPage}&query=${encodeURIComponent(searchQuery)}`);
                 const result = await response.json();
-                setPrograms(Array.isArray(result.data) ? result.data : []);
-                if (result.pagination) {
-                    setTotalPages(result.pagination.totalPages);
-                    setTotalItems(result.pagination.totalItems);
+
+                if (result.success) {
+                    setPrograms(result.data || []);
+                    if (result.pagination) {
+                        setTotalPages(result.pagination.totalPages);
+                        setTotalItems(result.pagination.totalItems);
+                    }
+                } else {
+                    console.error('API Error:', result.error);
+                    setPrograms([]);
                 }
                 setLoading(false);
             } catch (error) {
@@ -80,13 +86,14 @@ export default function Programs() {
             }
         };
 
+        setLoading(true);
         // Debounce the search to avoid too many requests
         const timeoutId = setTimeout(() => {
             fetchPrograms();
         }, 300);
 
         return () => clearTimeout(timeoutId);
-    }, [searchQuery]);
+    }, [searchQuery, currentPage]);
 
     const handleCopy = async (text: string) => {
         await navigator.clipboard.writeText(text);
