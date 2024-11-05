@@ -48,10 +48,12 @@ export default function Programs() {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [totalItems, setTotalItems] = useState(0)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchPrograms = async () => {
             try {
+                setError(null);
                 const response = await fetch(`/api/database?page=${currentPage}&query=${encodeURIComponent(searchQuery)}`);
                 const result = await response.json();
 
@@ -62,12 +64,15 @@ export default function Programs() {
                         setTotalItems(result.pagination.totalItems);
                     }
                 } else {
-                    console.error('API Error:', result.error);
+                    const errorMessage = result.details || result.error || 'An unknown error occurred';
+                    console.error('API Error:', errorMessage);
+                    setError(errorMessage);
                     setPrograms([]);
                 }
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching programs:', error);
+                setError('Failed to fetch programs. Please try again later.');
                 setPrograms([]);
                 setLoading(false);
             }
@@ -150,6 +155,12 @@ export default function Programs() {
                 />
             </div>
 
+            {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span className="block sm:inline">{error}</span>
+                </div>
+            )}
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -172,8 +183,8 @@ export default function Programs() {
                                     Loading...
                                 </TableCell>
                             </TableRow>
-                        ) : filteredPrograms.map((program) => (
-                            <TableRow key={program.address}>
+                        ) : filteredPrograms.map((program, index) => (
+                            <TableRow key={program.address || `program-${index}`}>
                                 <TableCell>{program.program}</TableCell>
                                 <TableCell>{program.version}</TableCell>
                                 <TableCell>

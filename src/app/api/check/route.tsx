@@ -10,16 +10,6 @@ const RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
 const connection = new Connection(RPC_ENDPOINT);
 
 // Type definitions
-interface VerificationResponse {
-    is_verified: boolean;
-    message: string;
-    on_chain_hash: string;
-    executable_hash: string;
-    last_verified_at: string | null;
-    repo_url: string;
-    commit: string;
-}
-
 interface ProgramInfo {
     programId: string;
     pda: string;
@@ -30,23 +20,11 @@ interface ProgramInfo {
     deployed: string | null;
     space: number;
     size: number;
-    verification: {
-        available: boolean;
-        error?: string;
-        verified?: boolean;
-        message?: string;
-        onChainHash?: string;
-        executableHash?: string;
-        lastVerifiedAt?: string | null;
-        repoUrl?: string;
-        commit?: string;
-    };
     performance: {
         total: number;
         pdaComputation: number;
         accountFetch: number;
         blockTimeFetch?: number;
-        verificationApiFetch?: number;
     };
 }
 
@@ -55,7 +33,6 @@ export async function GET(request: NextRequest) {
     let pdaComputationTime = 0;
     let accountFetchTime = 0;
     let blockTimeFetchTime = 0;
-    let verificationApiFetchTime = 0;
 
     try {
         // Extract and validate program address
@@ -146,44 +123,6 @@ export async function GET(request: NextRequest) {
             }
         }
 
-        // Initialize verification object with default state
-        let verification = {
-            available: false,
-            error: 'Verification data not fetched'
-        };
-
-        // Fetch verification status from osec API
-        try {
-            const verificationStartTime = performance.now();
-            const verificationResponse = await fetch(`https://verify.osec.io/status/${programAddress}`);
-
-            if (!verificationResponse.ok) {
-                throw new Error(`HTTP error! status: ${verificationResponse.status}`);
-            }
-
-            const verificationData: VerificationResponse = await verificationResponse.json();
-            verificationApiFetchTime = performance.now() - verificationStartTime;
-
-            verification = {
-                available: true,
-                verified: verificationData.is_verified,
-                message: verificationData.message,
-                ...(verificationData.is_verified && {
-                    onChainHash: verificationData.on_chain_hash,
-                    executableHash: verificationData.executable_hash,
-                    lastVerifiedAt: verificationData.last_verified_at,
-                    repoUrl: verificationData.repo_url,
-                    commit: verificationData.commit
-                })
-            };
-        } catch (error) {
-            console.warn('Failed to fetch verification data:', error);
-            verification = {
-                available: false,
-                error: error instanceof Error ? error.message : 'Failed to fetch verification data'
-            };
-        }
-
         const totalTime = performance.now() - startTime;
 
         const programInfo: ProgramInfo = {
@@ -196,13 +135,11 @@ export async function GET(request: NextRequest) {
             deployed,
             space,
             size: Math.round(space / 1024),
-            verification,
             performance: {
                 total: Math.round(totalTime),
                 pdaComputation: Math.round(pdaComputationTime),
                 accountFetch: Math.round(accountFetchTime),
-                ...(blockTimeFetchTime && { blockTimeFetch: Math.round(blockTimeFetchTime) }),
-                ...(verificationApiFetchTime && { verificationApiFetch: Math.round(verificationApiFetchTime) })
+                ...(blockTimeFetchTime && { blockTimeFetch: Math.round(blockTimeFetchTime) })
             }
         };
 
@@ -230,8 +167,7 @@ export async function GET(request: NextRequest) {
                     total: Math.round(totalTime),
                     pdaComputation: Math.round(pdaComputationTime),
                     accountFetch: Math.round(accountFetchTime),
-                    ...(blockTimeFetchTime && { blockTimeFetch: Math.round(blockTimeFetchTime) }),
-                    ...(verificationApiFetchTime && { verificationApiFetch: Math.round(verificationApiFetchTime) })
+                    ...(blockTimeFetchTime && { blockTimeFetch: Math.round(blockTimeFetchTime) })
                 }
             },
             { status: isConnectionError ? 503 : 500 }
