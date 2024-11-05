@@ -36,19 +36,6 @@ interface Program {
     verified: boolean | null
 }
 
-interface DatabaseResponse {
-    success: boolean
-    data: Program[]
-    pagination: {
-        currentPage: number
-        pageSize: number
-        totalRecords: number
-        totalPages: number
-        hasMore: boolean
-    }
-    error?: string
-}
-
 const truncateAddress = (address: string) => {
     return `${address.slice(0, 4)}...`;
 };
