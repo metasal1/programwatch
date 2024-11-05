@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Programs } from "@/components/Programs";
+import Programs from "@/components/Programs";
 
 export default function Home() {
   return (

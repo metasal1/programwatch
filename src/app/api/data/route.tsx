@@ -20,9 +20,20 @@ interface ProgramInfo {
     deployed: string | null;
     space: number;
     size: number;
+    performance: {
+        total: number;
+        pdaComputation: number;
+        accountFetch: number;
+        blockTimeFetch?: number;
+    };
 }
 
 export async function GET(request: NextRequest) {
+    const startTime = performance.now();
+    let pdaComputationTime = 0;
+    let accountFetchTime = 0;
+    let blockTimeFetchTime = 0;
+
     try {
         // Extract and validate program address
         const searchParams = request.nextUrl.searchParams;
@@ -52,17 +63,21 @@ export async function GET(request: NextRequest) {
         }
 
         // Get program PDA
+        const pdaStartTime = performance.now();
         const programId = new PublicKey(programAddress);
         const [pda] = PublicKey.findProgramAddressSync(
             [programId.toBytes()],
             new PublicKey(UPGRADEABLE_LOADER)
         );
+        pdaComputationTime = performance.now() - pdaStartTime;
 
         // Fetch program data
+        const accountFetchStartTime = performance.now();
         const pdaData = await connection.getParsedAccountInfo(
             new PublicKey(pda),
             { commitment: 'confirmed' }
         );
+        accountFetchTime = performance.now() - accountFetchStartTime;
 
         if (!pdaData?.value) {
             return NextResponse.json(
@@ -79,7 +94,7 @@ export async function GET(request: NextRequest) {
         const parsedData = pdaData.value.data as any; // Type assertion needed due to Solana API
         const authority = parsedData?.parsed?.info?.authority ?? null;
         const slot = parsedData?.parsed?.info?.slot ?? null;
-        const space = Buffer.isBuffer(pdaData.value.data) ? pdaData.value.data.length : 0;
+        const space = parsedData?.space;
         const upgradeable = Boolean(authority);
 
         // Get deployment time
@@ -88,13 +103,17 @@ export async function GET(request: NextRequest) {
 
         if (slot) {
             try {
+                const blockTimeStartTime = performance.now();
                 unix = await connection.getBlockTime(slot);
+                blockTimeFetchTime = performance.now() - blockTimeStartTime;
                 deployed = unix ? new Date(unix * 1000).toLocaleString() : null;
             } catch (error) {
                 console.warn('Failed to fetch block time:', error);
                 // Continue execution without deployment time
             }
         }
+
+        const totalTime = performance.now() - startTime;
 
         const programInfo: ProgramInfo = {
             programId: programAddress,
@@ -105,7 +124,13 @@ export async function GET(request: NextRequest) {
             unix,
             deployed,
             space,
-            size: Math.round(space / 1024)
+            size: Math.round(space / 1024),
+            performance: {
+                total: Math.round(totalTime),
+                pdaComputation: Math.round(pdaComputationTime),
+                accountFetch: Math.round(accountFetchTime),
+                ...(blockTimeFetchTime && { blockTimeFetch: Math.round(blockTimeFetchTime) })
+            }
         };
 
         return NextResponse.json({
@@ -114,6 +139,7 @@ export async function GET(request: NextRequest) {
         });
 
     } catch (error) {
+        const totalTime = performance.now() - startTime;
         console.error('Error fetching program info:', error);
 
         // Determine if it's a connection error
@@ -126,7 +152,13 @@ export async function GET(request: NextRequest) {
             {
                 success: false,
                 error: isConnectionError ? 'Failed to connect to Solana network' : 'Failed to fetch program info',
-                details: error instanceof Error ? error.message : 'Unknown error'
+                details: error instanceof Error ? error.message : 'Unknown error',
+                performance: {
+                    total: Math.round(totalTime),
+                    pdaComputation: Math.round(pdaComputationTime),
+                    accountFetch: Math.round(accountFetchTime),
+                    ...(blockTimeFetchTime && { blockTimeFetch: Math.round(blockTimeFetchTime) })
+                }
             },
             { status: isConnectionError ? 503 : 500 }
         );

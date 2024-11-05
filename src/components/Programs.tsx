@@ -24,101 +24,69 @@ import SecurityModal from './SecurityModal';
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
 interface Program {
-    pubkey: string
-    account: {
-        executable: boolean
-        lamports: number
-        owner: string
-        data: {
-            type: string
-            data: number[]
-        }
-    }
-    derived?: string
+    program: string
+    version: string
+    address: string
+    instructions_referenced: string
+    accounts_used: string
+    error_messages: string
+    mutable: boolean | null
+    idl: string | null
+    deployed: string | null
+    verified: boolean | null
 }
 
-interface ProgramsResponse {
+interface DatabaseResponse {
     success: boolean
-    count: number
-    programs: Program[]
+    data: Program[]
+    pagination: {
+        currentPage: number
+        pageSize: number
+        totalRecords: number
+        totalPages: number
+        hasMore: boolean
+    }
+    error?: string
 }
 
-export function Programs() {
+const truncateAddress = (address: string) => {
+    return `${address.slice(0, 4)}...`;
+};
+
+export default function Programs() {
     const [programs, setPrograms] = useState<Program[]>([])
-    const [search, setSearch] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
     const [loading, setLoading] = useState(true)
     const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState(1)
-    const programsPerPage = 50
+    const [totalPages, setTotalPages] = useState(1)
+    const [totalItems, setTotalItems] = useState(0)
 
     useEffect(() => {
-        fetch('/api/programs')
-            .then(res => res.json())
-            .then((data: ProgramsResponse) => {
-                const processPrograms = (startIndex: number) => {
-                    const chunk = data.programs.slice(startIndex, startIndex + 100);
-                    if (chunk.length === 0) {
-                        setLoading(false);
-                        return;
-                    }
-
-                    const processedChunk = chunk.map(program => {
-                        try {
-                            const publicKey = new PublicKey(program.pubkey);
-                            const [programDataAddress] = PublicKey.findProgramAddressSync(
-                                [publicKey.toBytes()],
-                                BPF_LOADER_UPGRADEABLE
-                            );
-                            return {
-                                ...program,
-                                derived: programDataAddress.toString()
-                            };
-                        } catch (error) {
-                            return {
-                                ...program,
-                                derived: `Invalid: ${error}`
-                            };
-                        }
-                    });
-
-                    setPrograms(prev => [...prev, ...processedChunk]);
-                    setTimeout(() => processPrograms(startIndex + 100), 0);
-                };
-
-                processPrograms(0);
-            })
-    }, [])
-
-    const [debouncedSearch] = useState(() => {
-        let timeoutId: NodeJS.Timeout;
-        return (value: string, callback: (value: string) => void) => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => callback(value), 300);
+        const fetchPrograms = async () => {
+            try {
+                const response = await fetch(`/api/database?query=${encodeURIComponent(searchQuery)}`);
+                const result = await response.json();
+                setPrograms(Array.isArray(result.data) ? result.data : []);
+                if (result.pagination) {
+                    setTotalPages(result.pagination.totalPages);
+                    setTotalItems(result.pagination.totalItems);
+                }
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching programs:', error);
+                setPrograms([]);
+                setLoading(false);
+            }
         };
-    });
 
-    const filteredPrograms = useMemo(() => {
-        const searchLower = search.toLowerCase();
-        return programs.filter(program =>
-            program.pubkey.toLowerCase().includes(searchLower) ||
-            program.account.owner.toLowerCase().includes(searchLower)
-        );
-    }, [programs, search]);
+        // Debounce the search to avoid too many requests
+        const timeoutId = setTimeout(() => {
+            fetchPrograms();
+        }, 300);
 
-    const currentPrograms = useMemo(() => {
-        const indexOfLastProgram = currentPage * programsPerPage;
-        const indexOfFirstProgram = indexOfLastProgram - programsPerPage;
-        return filteredPrograms.slice(indexOfFirstProgram, indexOfLastProgram);
-    }, [filteredPrograms, currentPage]);
-
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearch(value);
-        debouncedSearch(value, (debouncedValue) => {
-            setSearch(debouncedValue);
-            setCurrentPage(1);
-        });
-    };
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
 
     const handleCopy = async (text: string) => {
         await navigator.clipboard.writeText(text);
@@ -128,7 +96,8 @@ export function Programs() {
 
     const CopyableAddress = ({ address }: { address: string }) => (
         <div className="flex items-center gap-2">
-            <span className="font-mono">{address}</span>
+            <span className="font-mono hidden md:block">{address}</span>
+            <span className="font-mono md:hidden">{truncateAddress(address)}</span>
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>
@@ -151,58 +120,85 @@ export function Programs() {
         </div>
     );
 
+    const filteredPrograms = useMemo(() => {
+        const searchLower = searchQuery.toLowerCase();
+        return programs.filter(program =>
+            program.program?.toLowerCase().includes(searchLower) ||
+            program.address?.toLowerCase().includes(searchLower)
+        );
+    }, [programs, searchQuery]);
+
+    const getDerivedAddress = (programAddress: string) => {
+        try {
+            const publicKey = new PublicKey(programAddress);
+            const [programDataAddress] = PublicKey.findProgramAddressSync(
+                [publicKey.toBytes()],
+                BPF_LOADER_UPGRADEABLE
+            );
+            return programDataAddress.toString();
+        } catch (error) {
+            return `Invalid: ${error}`;
+        }
+    };
+
     return (
         <div className="w-full space-y-4">
-            <div>
-                Showing {currentPrograms.length} of {filteredPrograms.length} programs
-                {search && ` (filtered from ${programs.length} total)`}
+            <div className="flex justify-between items-center">
+                <div>
+                    Showing {filteredPrograms.length} of {totalItems} programs
+                    {searchQuery && ` (filtered by "${searchQuery}")`}
+                </div>
+                <Input
+                    placeholder="Search by program name or address..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="max-w-sm"
+                />
             </div>
-            <Input
-                placeholder="Search programs..."
-                value={search}
-                onChange={handleSearch}
-                className="max-w-sm"
-            />
 
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Program Address</TableHead>
+                            <TableHead>Program</TableHead>
+                            <TableHead>Version</TableHead>
+                            <TableHead>Address</TableHead>
                             <TableHead>Derived Address</TableHead>
+                            <TableHead>Instructions</TableHead>
+                            <TableHead>Accounts</TableHead>
+                            <TableHead>Errors</TableHead>
                             <TableHead>Inspect</TableHead>
                             <TableHead>Security</TableHead>
-                            <TableHead>Mutable</TableHead>
-                            <TableHead>IDL</TableHead>
-                            <TableHead>Age</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={5} className="text-center">
+                                <TableCell colSpan={9} className="text-center">
                                     Loading...
                                 </TableCell>
                             </TableRow>
-                        ) : currentPrograms.map((program) => (
-                            <TableRow key={program.pubkey}>
+                        ) : filteredPrograms.map((program) => (
+                            <TableRow key={program.address}>
+                                <TableCell>{program.program}</TableCell>
+                                <TableCell>{program.version}</TableCell>
                                 <TableCell>
+                                    {program.address && <CopyableAddress address={program.address} />}
                                 </TableCell>
                                 <TableCell>
-                                    <CopyableAddress address={program.pubkey} />
+                                    {program.address && (
+                                        <CopyableAddress address={getDerivedAddress(program.address)} />
+                                    )}
+                                </TableCell>
+                                <TableCell>{program.instructions_referenced}</TableCell>
+                                <TableCell>{program.accounts_used}</TableCell>
+                                <TableCell>{program.error_messages}</TableCell>
+                                <TableCell>
+                                    {program.address && <ProgramDataModal programAddress={program.address} />}
                                 </TableCell>
                                 <TableCell>
-                                    <CopyableAddress address={program.derived || ''} />
+                                    {program.address && <SecurityModal programAddress={program.address} />}
                                 </TableCell>
-                                <TableCell>
-                                    <ProgramDataModal programAddress={program.pubkey} />
-                                </TableCell>
-                                <TableCell>
-                                    <SecurityModal programAddress={program.pubkey} />
-                                </TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -218,11 +214,11 @@ export function Programs() {
                     Previous
                 </button>
                 <span className="px-4 py-2">
-                    Page {currentPage} of {Math.ceil(filteredPrograms.length / programsPerPage)}
+                    Page {currentPage} of {totalPages}
                 </span>
                 <button
                     onClick={() => setCurrentPage(prev => prev + 1)}
-                    disabled={currentPage >= Math.ceil(filteredPrograms.length / programsPerPage)}
+                    disabled={currentPage >= totalPages}
                     className="px-4 py-2 border rounded disabled:opacity-50"
                 >
                     Next
