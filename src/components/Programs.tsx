@@ -24,9 +24,9 @@ import SecurityModal from './SecurityModal';
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
 interface Program {
-    program: string
+    program_name: string
     version: string
-    address: string
+    program_address: string
     instructions_referenced: string
     accounts_used: string
     error_messages: string
@@ -122,8 +122,8 @@ export default function Programs() {
     const filteredPrograms = useMemo(() => {
         const searchLower = searchQuery.toLowerCase();
         return programs.filter(program =>
-            program.program?.toLowerCase().includes(searchLower) ||
-            program.address?.toLowerCase().includes(searchLower)
+            program.program_name?.toLowerCase().includes(searchLower) ||
+            program.program_address?.toLowerCase().includes(searchLower)
         );
     }, [programs, searchQuery]);
 
@@ -184,25 +184,25 @@ export default function Programs() {
                                 </TableCell>
                             </TableRow>
                         ) : filteredPrograms.map((program, index) => (
-                            <TableRow key={program.address || `program-${index}`}>
-                                <TableCell>{program.program}</TableCell>
+                            <TableRow key={program.program_address || `program-${index}`}>
+                                <TableCell>{program.program_name}</TableCell>
                                 <TableCell>{program.version}</TableCell>
                                 <TableCell>
-                                    {program.address && <CopyableAddress address={program.address} />}
+                                    {program.program_address && <CopyableAddress address={program.program_address} />}
                                 </TableCell>
                                 <TableCell>
-                                    {program.address && (
-                                        <CopyableAddress address={getDerivedAddress(program.address)} />
+                                    {program.program_address && (
+                                        <CopyableAddress address={getDerivedAddress(program.program_address)} />
                                     )}
                                 </TableCell>
                                 <TableCell>{program.instructions_referenced}</TableCell>
                                 <TableCell>{program.accounts_used}</TableCell>
                                 <TableCell>{program.error_messages}</TableCell>
                                 <TableCell>
-                                    {program.address && <ProgramDataModal programAddress={program.address} />}
+                                    {program.program_address && <ProgramDataModal programAddress={program.program_address} />}
                                 </TableCell>
                                 <TableCell>
-                                    {program.address && <SecurityModal programAddress={program.address} />}
+                                    {program.program_address && <SecurityModal programAddress={program.program_address} />}
                                 </TableCell>
                             </TableRow>
                         ))}

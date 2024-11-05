@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         let countParams: string[] = [];
 
         if (searchQuery) {
-            countQuery += ' WHERE LOWER(program) LIKE LOWER($1) OR LOWER(address) LIKE LOWER($1)';
+            countQuery += ' WHERE LOWER(program_name) LIKE LOWER($1) OR LOWER(program_address) LIKE LOWER($1)';
             countParams = [`%${searchQuery}%`];
         }
 
@@ -41,9 +41,10 @@ export async function GET(request: NextRequest) {
 
         let dataQuery = `
             SELECT 
-                program,
+                program_name,
                 version,
-                address,
+                program_address,
+                program_derived_address,
                 instructions_referenced,
                 accounts_used,
                 error_messages,
@@ -57,13 +58,13 @@ export async function GET(request: NextRequest) {
         let dataParams: (string | number)[] = [];
 
         if (searchQuery) {
-            dataQuery += ' WHERE LOWER(program) LIKE LOWER($3) OR LOWER(address) LIKE LOWER($3)';
+            dataQuery += ' WHERE LOWER(program_name) LIKE LOWER($3) OR LOWER(program_address) LIKE LOWER($3)';
             dataParams = [limit, offset, `%${searchQuery}%`];
         } else {
             dataParams = [limit, offset];
         }
 
-        dataQuery += ' ORDER BY program LIMIT $1 OFFSET $2';
+        dataQuery += ' ORDER BY program_name LIMIT $1 OFFSET $2';
 
         // Log the data query for debugging
         console.log('Data query:', dataQuery, dataParams);

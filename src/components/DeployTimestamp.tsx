@@ -25,7 +25,7 @@ const DeployTimestamp = () => {
 
     return (
         <div className={`inline-flex items-center gap-2 px-3 py-1 text-xs rounded-md ${getBadgeColor()}`}>
-            <span className="opacity-75">Environment:</span>
+            <span className="opacity-75">Last deployed:</span>
             <span className="font-mono">
                 {getTimestampDisplay()}
             </span>
