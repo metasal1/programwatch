@@ -101,7 +101,7 @@ export function StatisticsDashboard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.ownerStats.map((owner, index) => (
+                            {data.ownerStats.map((owner) => (
                                 <tr
                                     key={owner.owner}
                                     className="border-b transition-colors hover:bg-muted/50"

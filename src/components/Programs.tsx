@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check, Package } from 'lucide-react'
+import { Copy, Check, Package, ShieldX, ShieldCheck } from 'lucide-react'
 import {
     Table,
     TableBody,
@@ -26,6 +26,7 @@ interface Program {
     program_name: string
     version: string
     program_address: string
+    program_derived_address: string
     instructions_referenced: string
     accounts_used: string
     error_messages: string
@@ -197,13 +198,17 @@ export default function Programs() {
                                         <CopyableAddress address={getDerivedAddress(program.program_address)} />
                                     )}
                                 </TableCell>
-                                <TableCell>{program.verified ? 'Yes' : 'No'}</TableCell>
-                                <TableCell>{program.mutable ? 'Yes' : 'No'}</TableCell>
                                 <TableCell>
-                                    {program.idl ? <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" /> : ''}
+                                    {!program.verified && <SecurityModal programAddress={program.program_address} />}
                                 </TableCell>
+                                <TableCell>{program.mutable ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <ShieldX className="h-4 w-4 text-red-500" />}</TableCell>
                                 <TableCell>
-                                    {program.program_address && <SecurityModal programAddress={program.program_address} />}
+                                    {program.idl ?
+                                        <>
+                                            <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" />
+                                            <CopyableAddress address={program.idl_address!} />
+                                        </>
+                                        : ''}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -230,6 +235,6 @@ export default function Programs() {
                     Next
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
