@@ -1,0 +1,2819 @@
+{
+  "version": "0.1.0",
+  "name": "crafting_manager",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "deployer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "genoversePortalPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "genoverseGuardian",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "itemBaseUri",
+          "type": "string"
+        },
+        {
+          "name": "levelToLabs",
+          "type": {
+            "array": [
+              "u8",
+              3
+            ]
+          }
+        },
+        {
+          "name": "rerollGeneCosts",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "maxRerollsAllowed",
+          "type": "u8"
+        },
+        {
+          "name": "expediteGeneCosts",
+          "type": "string"
+        },
+        {
+          "name": "addressLookupTables",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateSettings",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "itemBaseUri",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "levelToLabs",
+          "type": {
+            "option": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          }
+        },
+        {
+          "name": "rerollGeneCosts",
+          "type": {
+            "option": {
+              "vec": "u64"
+            }
+          }
+        },
+        {
+          "name": "genoversePortalPda",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "treasury",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "updateAuthority",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "maxRerollsAllowed",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "expediteGeneCosts",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "genoverseGuardian",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "addressLookupTables",
+          "type": {
+            "option": {
+              "vec": "publicKey"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "createItem",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "itemTokenMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "itemMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata"
+              },
+              {
+                "kind": "const",
+                "type": {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                "value": [
+                  11,
+                  112,
+                  101,
+                  177,
+                  227,
+                  209,
+                  124,
+                  69,
+                  56,
+                  157,
+                  82,
+                  127,
+                  107,
+                  4,
+                  195,
+                  205,
+                  88,
+                  184,
+                  108,
+                  115,
+                  26,
+                  160,
+                  253,
+                  181,
+                  73,
+                  182,
+                  209,
+                  188,
+                  3,
+                  248,
+                  41,
+                  70
+                ]
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "item_token_mint"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "token_metadata_program"
+            }
+          }
+        },
+        {
+          "name": "item",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "item"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "item_token_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mintingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pdaMinter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "minter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "attributes",
+          "type": {
+            "vec": {
+              "defined": "ItemAttribute"
+            }
+          }
+        },
+        {
+          "name": "mintCost",
+          "type": "u64"
+        },
+        {
+          "name": "unmintable",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "createRecipe",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipe",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "recipe"
+              },
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_inputs"
+              }
+            ]
+          }
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedInputs",
+          "type": "bytes"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "inputs",
+          "type": {
+            "vec": {
+              "defined": "RecipeInput"
+            }
+          }
+        },
+        {
+          "name": "kiCost",
+          "type": "u64"
+        },
+        {
+          "name": "geneCost",
+          "type": "u64"
+        },
+        {
+          "name": "outcomes",
+          "type": {
+            "vec": {
+              "defined": "RecipeOutcome"
+            }
+          }
+        },
+        {
+          "name": "craftingTime",
+          "type": "u64"
+        },
+        {
+          "name": "habitatRequired",
+          "type": "bool"
+        },
+        {
+          "name": "habitatElement",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "whitelistedPlayers",
+          "type": {
+            "option": {
+              "vec": "publicKey"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "editRecipe",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipe",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "kiCost",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "geneCost",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "outcomes",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": "RecipeOutcome"
+              }
+            }
+          }
+        },
+        {
+          "name": "craftingTime",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "active",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "habitatRequired",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "habitatElement",
+          "type": {
+            "option": {
+              "option": "u8"
+            }
+          }
+        },
+        {
+          "name": "whitelistedPlayers",
+          "type": {
+            "option": {
+              "vec": "publicKey"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "craftItem",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "crafter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lockedItem",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "locked-item"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player"
+              },
+              {
+                "kind": "account",
+                "type": "u32",
+                "account": "Crafter",
+                "path": "crafter.current_item_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "geneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerGeneTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryGeneAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "kiMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerKiTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "treasury"
+          ]
+        },
+        {
+          "name": "habitatMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "habitat-master"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "account": "HabitatMasterSettings",
+              "path": "habitat_master_settings"
+            }
+          },
+          "relations": [
+            "ki_mint"
+          ]
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "habitatManagerProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sgeneMinter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeMaster",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": "publicKey"
+    },
+    {
+      "name": "editItem",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "item",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "description",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "attributes",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": "ItemAttribute"
+              }
+            }
+          }
+        },
+        {
+          "name": "mintCost",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "mintToken",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "unmintable",
+          "type": {
+            "option": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawItem",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lockedItem",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "recipe",
+            "player",
+            "item_mint"
+          ]
+        },
+        {
+          "name": "itemMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "itemMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaMinter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "minter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addOutcomesToRecipe",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipe",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "outcomes",
+          "type": {
+            "vec": {
+              "defined": "RecipeOutcome"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "rerollItem",
+      "docs": [
+        "Rerolls an item, changing the outcome.",
+        "The player has to pay for this, gradually gets more expensive and",
+        "it can be done up to 10 times.",
+        "This action can only be called by the crafter of the item, and",
+        "can be called at any point after the item has been crafted before it is withdrawn"
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerGeneTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "geneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "This account has all safety checks needed performed by Account<T>"
+          ]
+        },
+        {
+          "name": "lockedItem",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "player",
+            "recipe"
+          ]
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "treasury"
+          ]
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryGeneAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "habitatMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "habitat-master"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "account": "HabitatMasterSettings",
+              "path": "habitat_master_settings"
+            }
+          }
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sgeneMinter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeMaster",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": "publicKey"
+    },
+    {
+      "name": "expediteItem",
+      "docs": [
+        "Speeds up the unlock date for a locked item.",
+        "Anybody can call this to speed up any locked item, even not their own.",
+        "This action can be called at any point from the crafting until the end timestamp."
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerGeneTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "geneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockedItem",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "treasury"
+          ]
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryGeneAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "habitatMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "habitat-master"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "account": "HabitatMasterSettings",
+              "path": "habitat_master_settings"
+            }
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sgeneMinter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeMaster",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "geneCost",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mintItemFromGenoverse",
+      "docs": [
+        "Game to chain item minting"
+      ],
+      "accounts": [
+        {
+          "name": "genoverseGuardian",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerItemAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerMintTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryMintTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaMinter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "minter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mintToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "itemTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "item",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "item"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "item_token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "mint_token"
+          ]
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "genoverse_guardian",
+            "treasury"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sgeneMinter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeMaster",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "payMintCost",
+          "type": "bool"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "gameAccountUid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "burnItemToGenoverse",
+      "docs": [
+        "Chain to game item burning"
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerItemAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaMinter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "minter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "itemTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "gameAccountUid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createVendingMachineItem",
+      "docs": [
+        "Gift Opening for Open Creator Protocol (OCP)",
+        "commented out to save program data space",
+        "Set collection for items (only admin)",
+        "commented out to save program data space"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "mintToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "item",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "item"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "item_token_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "itemTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pdaMinter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "minter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vendingMachineItem",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "vending-machine-item"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "item_token_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint_token"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "inputTokenAmount",
+          "type": "u64"
+        },
+        {
+          "name": "outputTokenAmount",
+          "type": "u64"
+        },
+        {
+          "name": "inactive",
+          "type": {
+            "option": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "editVendingMachineItem",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vendingMachineItem",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "inactive",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "inputTokenAmount",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "outputTokenAmount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "purchaseVendingMachineItem",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "itemTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerItemAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerMintTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryMintTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "craftingMasterSettings",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "crafting-master"
+              }
+            ]
+          },
+          "relations": [
+            "treasury"
+          ]
+        },
+        {
+          "name": "pdaMinter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "minter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vendingMachineItem",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "vending-machine-item"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "item_token_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint_token"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Crafter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "currentItemIndex",
+            "docs": [
+              "How many items have been crafted, used to create the LockedItem PDA"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CraftingCapacity",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "labs",
+            "docs": [
+              "The slots available for crafting.",
+              "When a LockedItem is created, its pubkey is used to occupy a slot in the workshop.",
+              "When it’s withdrawn, it’s set to None.",
+              "Max 10 slots"
+            ],
+            "type": {
+              "array": [
+                {
+                  "option": "publicKey"
+                },
+                10
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CraftingMasterSettings",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "docs": [
+              "The address that can modify settings and create items"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "genoversePortalPda",
+            "docs": [
+              "The portal contract PDA that will need to mint and burn items"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "docs": [
+              "Where the payments go"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "updateAuthority",
+            "docs": [
+              "The address that will govern the metadata updates for the NFT/SFTs"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "itemBaseUri",
+            "docs": [
+              "The base uri for item NFT/SFTs (max 50 bytes)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "levelToLabs",
+            "docs": [
+              "The number of workshops each level gets"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          },
+          {
+            "name": "rerollGeneCosts",
+            "docs": [
+              "How much it costs in GENE to reroll the crafting randomization, should increase every try",
+              "If max_rerolls_allowed is larger than the Vec's length, the last value keeps getting used"
+            ],
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "maxRerollsAllowed",
+            "docs": [
+              "How many times a locked item can be re-rolled, max"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "expediteGeneCosts",
+            "docs": [
+              "Map of gene cost => decrease by (10 entries)",
+              "The JSON should look something like this (without whitespace)",
+              "```json",
+              "{",
+              "\"1000000\": [1, 500],",
+              "\"5000000\": [1, 900],",
+              "\"9000000\": [0, 50],",
+              "}",
+              "```",
+              "Where the first parameter of the array is flat_reduction and the other one is decrease_by",
+              "flat_reduction: bool    -> true ? flat reduction : percentage reduction",
+              "decrease_by: u64        -> value to use for the expedition",
+              ""
+            ],
+            "type": "string"
+          },
+          {
+            "name": "genoverseGuardian",
+            "docs": [
+              "Pubkey of the second signer in Genoverse instructions"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "addressLookupTables",
+            "docs": [
+              "Pubkey of the address lookup tables for v0 transactions."
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Item",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemTokenMint",
+            "docs": [
+              "The mint of the nft/sft that represents this item"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "docs": [
+              "The name of the item"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "docs": [
+              "The description of the item which serves",
+              "as a fallback when displaying metadata"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "attributes",
+            "docs": [
+              "The fallback for the attributes field on",
+              "NFT / SFT metadata, conforms to EIP-1155",
+              "Max 20 attributes"
+            ],
+            "type": {
+              "vec": {
+                "defined": "ItemAttribute"
+              }
+            }
+          },
+          {
+            "name": "mintCost",
+            "docs": [
+              "Cost to mint this to chain from game,",
+              "used by Genoverse portal"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "mintToken",
+            "docs": [
+              "The token used to mint this item from game"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "unmintable",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LockedItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "docs": [
+              "Player who crafted this item"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "itemMint",
+            "docs": [
+              "The pubkey for the item to mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount of items locked"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "startTimestamp",
+            "docs": [
+              "Timestamp of when this crafting period started"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "endTimestamp",
+            "docs": [
+              "Timestamp of when this item is withdrawable"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "recipe",
+            "docs": [
+              "The recipe that created this item"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "producedBy",
+            "docs": [
+              "Habitat it’s produced by"
+            ],
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "indexId",
+            "docs": [
+              "Index id"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "rerolls",
+            "docs": [
+              "Times it has been re-rolled"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Recipe",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "docs": [
+              "Human readable name of this recipe (Primary Key)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "inputs",
+            "docs": [
+              "Ingredients for this recipe, max 5"
+            ],
+            "type": {
+              "vec": {
+                "defined": "RecipeInput"
+              }
+            }
+          },
+          {
+            "name": "kiCost",
+            "docs": [
+              "How much KI this costs"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "geneCost",
+            "docs": [
+              "How much GENE this costs"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "outcomes",
+            "docs": [
+              "All the craftable items from this recipe, max 100"
+            ],
+            "type": {
+              "vec": {
+                "defined": "RecipeOutcome"
+              }
+            }
+          },
+          {
+            "name": "craftingTime",
+            "docs": [
+              "The amount of time this item takes to craft"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "active",
+            "docs": [
+              "Whether this recipe is still active"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "habitatRequired",
+            "docs": [
+              "Whether a habitat is needed for this recipe, most are true"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "habitatElement",
+            "docs": [
+              "Whether this requires a special elemental habitat to craft"
+            ],
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "whitelistedPlayers",
+            "docs": [
+              "Whether this recipe can only be used by certain players",
+              "NOTE: Due to backward compatibility this is typed as",
+              "Option<Vec<Pubkey>> but this will never be None. That means",
+              "This is the same as a Vec<Pubkey> that is always wrapped in \"Some\".",
+              "To clarify: an empty whitelist is represented with Some([])"
+            ],
+            "type": {
+              "option": {
+                "vec": "publicKey"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VendingMachineItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "inputTokenMint",
+            "docs": [
+              "The token mint used to purchase this item"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "inputTokenAmount",
+            "docs": [
+              "Amount to be paid"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "outputTokenMint",
+            "docs": [
+              "The token mint of the item purchased"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "outputTokenAmount",
+            "docs": [
+              "Amount of items purchased"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "inactive",
+            "docs": [
+              "If the VM item is active or not"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ItemAttribute",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "attributeType",
+            "docs": [
+              "Max 100 byte string"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "attributeValue",
+            "docs": [
+              "Max 100 byte string"
+            ],
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RecipeInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemMint",
+            "docs": [
+              "The token mint of the item"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "The number of this item needed"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RecipeOutcome",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemMint",
+            "docs": [
+              "The token mint of the item"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "probabilityWeight",
+            "docs": [
+              "The probability of this item being crafted"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "BurnItemToGenoverseEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameAccountUid",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "itemTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CraftItemEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "itemMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "lockedKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "habitat",
+          "type": {
+            "option": "publicKey"
+          },
+          "index": false
+        },
+        {
+          "name": "recipe",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "indexId",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "kiCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "geneCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "geneMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "unlockTime",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreateRecipeEvent",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "inputs",
+          "type": {
+            "vec": {
+              "defined": "RecipeInput"
+            }
+          },
+          "index": false
+        },
+        {
+          "name": "kiCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "geneCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "outcomes",
+          "type": {
+            "vec": {
+              "defined": "RecipeOutcome"
+            }
+          },
+          "index": false
+        },
+        {
+          "name": "active",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "craftingTime",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "habitatRequired",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "habitatElement",
+          "type": {
+            "option": "u8"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ExpediteItemEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "itemMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "recipe",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "geneMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "geneCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "flatReduction",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "decreaseBy",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "MintItemFromGenoverseEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameAccountUid",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "itemTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "payMintCost",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CraftItemEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "itemMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "lockedKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "habitat",
+          "type": {
+            "option": "publicKey"
+          },
+          "index": false
+        },
+        {
+          "name": "recipe",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "indexId",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "kiCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "geneCost",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "unlockTime",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PurchaseVendingMachineItemEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "itemTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ReRollItemEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "itemMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "recipe",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "geneMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rerolls",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "rerollCost",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawItemEvent",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "itemMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "lockedKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "recipe",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rerolls",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "OnlyDeployerCanSetAdmin",
+      "msg": "Only Deployer Can Set Admin"
+    },
+    {
+      "code": 6001,
+      "name": "NameTooLong",
+      "msg": "Name Too Long"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidEmptyString",
+      "msg": "Invalid Empty String"
+    },
+    {
+      "code": 6003,
+      "name": "DescriptionTooLong",
+      "msg": "Description Too Long"
+    },
+    {
+      "code": 6004,
+      "name": "AttributeFieldTooLong",
+      "msg": "Attribute Field Too Long"
+    },
+    {
+      "code": 6005,
+      "name": "TooManyAttributes",
+      "msg": "Too Many Attributes"
+    },
+    {
+      "code": 6006,
+      "name": "TooManyInputs",
+      "msg": "Too Many Inputs"
+    },
+    {
+      "code": 6007,
+      "name": "TooManyOutcomes",
+      "msg": "Too Many Outcomes"
+    },
+    {
+      "code": 6008,
+      "name": "NoZeroOutcomes",
+      "msg": "Outcomes Length Cannot Be Zero"
+    },
+    {
+      "code": 6009,
+      "name": "NoZeroInputs",
+      "msg": "Inputs Length Cannot Be Zero"
+    },
+    {
+      "code": 6010,
+      "name": "InputsMustBeUnique",
+      "msg": "Inputs Must Be Unique"
+    },
+    {
+      "code": 6011,
+      "name": "OutcomesMustBeUnique",
+      "msg": "Outcomes Must Be Unique"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidAdmin",
+      "msg": "Invalid Admin Pubkey"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidPlayer",
+      "msg": "Invalid Player"
+    },
+    {
+      "code": 6014,
+      "name": "InactiveRecipe",
+      "msg": "Inactive Recipe"
+    },
+    {
+      "code": 6015,
+      "name": "InstructionMustBeFinal",
+      "msg": "Instruction Must Be Final"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidRecipeItem",
+      "msg": "Invalid Recipe Item"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidHabitatAccount",
+      "msg": "Invalid Habitat Account"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidCraftingCapacityAccount",
+      "msg": "Invalid Crafting Capacity Account"
+    },
+    {
+      "code": 6019,
+      "name": "InsufficientCapacityOnHabitat",
+      "msg": "Insufficient Capacity On Habitat"
+    },
+    {
+      "code": 6020,
+      "name": "IncorrectAlchemist",
+      "msg": "Incorrect Alchemist"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidHabitatOwner",
+      "msg": "Invalid Habitat Owner"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidHabitatElement",
+      "msg": "Invalid Habitat Element"
+    },
+    {
+      "code": 6023,
+      "name": "HabitatElementMismatch",
+      "msg": "Habitat Element Mismatch"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidTreasury",
+      "msg": "Invalid Treasury"
+    },
+    {
+      "code": 6025,
+      "name": "ItemNotYetUnlocked",
+      "msg": "Item Not Yet Unlocked"
+    },
+    {
+      "code": 6026,
+      "name": "ItemAlreadyUnlocked",
+      "msg": "Item Is Already Unlocked"
+    },
+    {
+      "code": 6027,
+      "name": "PlayerNotInWhitelist",
+      "msg": "Player Not In Whitelist"
+    },
+    {
+      "code": 6028,
+      "name": "InputsSerializationIncorrect",
+      "msg": "Inputs Serialization Incorrect"
+    },
+    {
+      "code": 6029,
+      "name": "OnlyCallsToAllowedPrograms",
+      "msg": "The transaction included instructions after current with a disallowed program ID"
+    },
+    {
+      "code": 6030,
+      "name": "MaxRerollsAchieved",
+      "msg": "Can't reroll an item more than max times!"
+    },
+    {
+      "code": 6031,
+      "name": "InvalidExpediteCost",
+      "msg": "The provided expedite GENE cost is invalid"
+    },
+    {
+      "code": 6032,
+      "name": "InvalidExpediteCostJSON",
+      "msg": "The stored expedite gene cost JSON is invalid"
+    },
+    {
+      "code": 6033,
+      "name": "Overflow",
+      "msg": "An overflow occured"
+    },
+    {
+      "code": 6034,
+      "name": "InputsAndOutcomesIntersection",
+      "msg": "Inputs and outcomes must not intersect"
+    },
+    {
+      "code": 6035,
+      "name": "InvalidNFTCollection",
+      "msg": "Invalid NFT Collection"
+    },
+    {
+      "code": 6036,
+      "name": "InvalidOCPCubeRecipe",
+      "msg": "The OCP cube recipe must have exactly one item"
+    },
+    {
+      "code": 6037,
+      "name": "MissingNFTStringParameters",
+      "msg": "Please provide NFT string parameters"
+    },
+    {
+      "code": 6038,
+      "name": "InvalidCollectionNFT",
+      "msg": "Collection NFT hasn't been minted yet, or something else is wrong with it"
+    },
+    {
+      "code": 6039,
+      "name": "MutuallyExclusiveCollectionMintAccount",
+      "msg": "Only provide either collection mint or existing collection mint"
+    },
+    {
+      "code": 6040,
+      "name": "MissingCollectionMintAccount",
+      "msg": "Need to provide either collection mint or existing collection mint"
+    },
+    {
+      "code": 6041,
+      "name": "MissingOrSurplusRemainingAccount",
+      "msg": "Missing or surplus remaining account"
+    },
+    {
+      "code": 6042,
+      "name": "MismatchingInputMint",
+      "msg": "Mismatching input mint"
+    },
+    {
+      "code": 6043,
+      "name": "InvalidInputMint",
+      "msg": "Invalid input mint"
+    },
+    {
+      "code": 6044,
+      "name": "InvalidGameItem",
+      "msg": "Invalid game item"
+    },
+    {
+      "code": 6045,
+      "name": "UnmintableItem",
+      "msg": "Item is unmintable"
+    },
+    {
+      "code": 6046,
+      "name": "InvalidMintToken",
+      "msg": "Invalid Mint Token"
+    },
+    {
+      "code": 6047,
+      "name": "InactiveVendingMachineItem",
+      "msg": "Vending Machine Item is currently inactive"
+    }
+  ]
+}

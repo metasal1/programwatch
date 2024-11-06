@@ -1,0 +1,232 @@
+{
+  "version": "0.7.0",
+  "name": "profile_vault",
+  "instructions": [
+    {
+      "name": "closeVault",
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The profile the vault belongs to"
+          ]
+        },
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key with close permissions"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The vault to close"
+          ]
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority account for the vault"
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where to send tokens from the closed account"
+          ]
+        },
+        {
+          "name": "fundsTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where to send the closed lamports"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "createVaultAuthority",
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The profile the vault authority belongs to"
+          ]
+        },
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key with create permissions"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new vault authority"
+          ]
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The authority to create"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "vaultSeed",
+          "type": "publicKey"
+        },
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "drainVault",
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The profile the vault belongs to"
+          ]
+        },
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key with drain permissions"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The vault to drain"
+          ]
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority account for the vault"
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where to send tokens from the vault"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VaultAuthority",
+      "docs": [
+        "An authority over vaults for a profile"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of this account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "profile",
+            "docs": [
+              "The profile the authority is for"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultSeed",
+            "docs": [
+              "The seed of this authority"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultBump",
+            "docs": [
+              "The bump for this authority"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

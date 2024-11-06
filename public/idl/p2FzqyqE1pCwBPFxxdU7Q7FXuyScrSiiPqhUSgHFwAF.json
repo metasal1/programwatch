@@ -1,0 +1,2436 @@
+{
+  "version": "0.14.0",
+  "name": "player2_farm",
+  "instructions": [
+    {
+      "name": "createRealm",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "new realm account"
+          ]
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateRealmArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeRealm",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeAdmin",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "changeBeneficiary",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newBeneficiary",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "changeBot",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newBot",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTreasury",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "beneficiary",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createRecipe",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recipe",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "list",
+          "type": {
+            "vec": {
+              "defined": "ReceipeItem"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "createConsumable",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "consumable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "consumableAuthority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateConsumableArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createWorkerFactory",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "workerFactory",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateWorkerFactoryArgs"
+          }
+        },
+        {
+          "name": "uriPrefix",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "closeWorkerFactory",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "workerFactory",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPlotFactory",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "plotFactory",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreatePlotFactoryArgs"
+          }
+        },
+        {
+          "name": "uriPrefix",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "closePlotFactory",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "plotFactory",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createCrop",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "crop",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "iouMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redemptionMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redemptionVault",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeCrop",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "crop",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPlot",
+      "accounts": [
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bot",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "bot signs-off the TX to ensure seeds are generated by Player2 API"
+          ]
+        },
+        {
+          "name": "plotFactory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "plot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "accounts": [
+            {
+              "name": "user",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "tokenAccount",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "realm",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "realmAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "chainlinkFeed",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "mint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "metadata",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "metadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "chainlinkProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreatePlotArgs"
+          }
+        },
+        {
+          "name": "merkleRoot",
+          "type": {
+            "option": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "forceClosePlot",
+      "accounts": [
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "factory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "plot",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPlotRewarder",
+      "accounts": [
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "plot NFT token account"
+          ]
+        },
+        {
+          "name": "plot",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "`authority` for rewarder"
+          ]
+        },
+        {
+          "name": "factory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "crop",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintWrapper",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewarderBase",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewarder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "minter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pausePlotRewarder",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "plot NFT token account"
+          ]
+        },
+        {
+          "name": "plot",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "`authority` for rewarder"
+          ]
+        },
+        {
+          "name": "rewarder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mineProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createWorker",
+      "accounts": [
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bot",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "bot signs-off the TX to ensure seeds are generated by Player2 API"
+          ]
+        },
+        {
+          "name": "workerFactory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "worker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "accounts": [
+            {
+              "name": "user",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "tokenAccount",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "realm",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "realmAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "chainlinkFeed",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "mint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "metadata",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "metadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "chainlinkProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateWorkerArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "depositWorkerQuarry",
+      "accounts": [
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "plot NFT token account"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "NFT Mint address"
+          ]
+        },
+        {
+          "name": "worker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "factory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "plot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewarder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quarry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "miner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "minerVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawWorkerQuarry",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "worker NFT token account"
+          ]
+        },
+        {
+          "name": "worker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "factory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "plot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewarder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quarry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "miner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "minerVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "harvestWorkerQuarry",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "crop",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintWrapper",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "minter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewarder",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quarry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "miner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "iouMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "iouTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redemptionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redemptionVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "produceConsumable",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "consumable",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "consumableAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Recipe",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "list",
+            "type": {
+              "vec": {
+                "defined": "ReceipeItem"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Consumable",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "recipe",
+            "type": "publicKey"
+          },
+          {
+            "name": "consumableMint",
+            "docs": [
+              "consumable token mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "unitAmount",
+            "docs": [
+              "unit amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "authorityBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Crop",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintWrapper",
+            "type": "publicKey"
+          },
+          {
+            "name": "redemptionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "redemptionVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "multiplier",
+            "type": "u32"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlotFactory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "docs": [
+              "parent realm"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nftCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "unusedPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "unusedU64",
+            "type": "u64"
+          },
+          {
+            "name": "refundValue",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "refundValueChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expiration",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expirationChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat1",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat1Change",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat1ExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat1ExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat2",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat2Change",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat2ExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat2ExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxUtilityUpgrade",
+            "type": {
+              "array": [
+                "u16",
+                4
+              ]
+            }
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "uriPrefix",
+            "docs": [
+              "dynamic metadata URI prefix"
+            ],
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Plot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "docs": [
+              "NFT mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "factory",
+            "type": "publicKey"
+          },
+          {
+            "name": "refundValue",
+            "type": "u32"
+          },
+          {
+            "name": "refundValueChange",
+            "type": "u32"
+          },
+          {
+            "name": "expiration",
+            "type": "u32"
+          },
+          {
+            "name": "expirationChange",
+            "type": "u32"
+          },
+          {
+            "name": "maxStat1",
+            "type": "u32"
+          },
+          {
+            "name": "maxStat1Change",
+            "type": "u32"
+          },
+          {
+            "name": "stat1",
+            "type": "u32"
+          },
+          {
+            "name": "stat1ExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "stat1ExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "maxStat2",
+            "type": "u32"
+          },
+          {
+            "name": "maxStat2Change",
+            "type": "u32"
+          },
+          {
+            "name": "stat2",
+            "type": "u32"
+          },
+          {
+            "name": "stat2ExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "stat2ExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "maxUtilityUpgrade",
+            "type": "u16"
+          },
+          {
+            "name": "utilityUpgrade",
+            "type": "u16"
+          },
+          {
+            "name": "maxCapacity",
+            "type": "u16"
+          },
+          {
+            "name": "activeWorkers",
+            "type": "u16"
+          },
+          {
+            "name": "createdTs",
+            "docs": [
+              "unix timestamp"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "lastUpdateTs",
+            "type": "u32"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "merkleRoot",
+            "docs": [
+              "for whitelisted users"
+            ],
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Realm",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "bot",
+            "type": "publicKey"
+          },
+          {
+            "name": "beneficiary",
+            "type": "publicKey"
+          },
+          {
+            "name": "unusedPubkey1",
+            "type": "publicKey"
+          },
+          {
+            "name": "unusedPubkey2",
+            "type": "publicKey"
+          },
+          {
+            "name": "chainlinkFeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "emergencyFlag",
+            "type": "bool"
+          },
+          {
+            "name": "authorityBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WorkerFactory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "docs": [
+              "parent realm"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nftCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "unusedPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "unusedU64",
+            "type": "u64"
+          },
+          {
+            "name": "refundValue",
+            "docs": [
+              "value when worker is burnt/refunded, randomized between range"
+            ],
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "refundValueChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expiration",
+            "docs": [
+              "utility duration of worker, randomized between range"
+            ],
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expirationChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxMood",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxMoodChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "moodExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "moodExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxEnergy",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxEnergyChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "energyExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "energyExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldMultiplierRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldMultiplierRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldCapacity",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldCapacityChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "luckRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "luckRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "insuranceRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "insuranceRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxUtilityUpgrade",
+            "type": {
+              "array": [
+                "u16",
+                4
+              ]
+            }
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "uriPrefix",
+            "docs": [
+              "dynamic metadata URI prefix"
+            ],
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Worker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "docs": [
+              "NFT mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "factory",
+            "type": "publicKey"
+          },
+          {
+            "name": "refundValue",
+            "type": "u32"
+          },
+          {
+            "name": "refundValueChange",
+            "type": "u32"
+          },
+          {
+            "name": "expiration",
+            "type": "u32"
+          },
+          {
+            "name": "expirationChange",
+            "type": "u32"
+          },
+          {
+            "name": "maxMood",
+            "type": "u32"
+          },
+          {
+            "name": "maxMoodChange",
+            "type": "u32"
+          },
+          {
+            "name": "moodExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "moodExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "maxEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "maxEnergyChange",
+            "type": "u32"
+          },
+          {
+            "name": "energyExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "energyExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "yieldMultiplierRate",
+            "type": "u32"
+          },
+          {
+            "name": "yieldMultiplierRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "yieldCapacity",
+            "type": "u32"
+          },
+          {
+            "name": "yieldCapacityChange",
+            "type": "u32"
+          },
+          {
+            "name": "luckRate",
+            "type": "u32"
+          },
+          {
+            "name": "luckRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "insuranceRate",
+            "type": "u32"
+          },
+          {
+            "name": "insuranceRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "maxUtilityUpgrade",
+            "type": "u16"
+          },
+          {
+            "name": "utilityUpgrade",
+            "type": "u16"
+          },
+          {
+            "name": "createdTs",
+            "docs": [
+              "unix timestamp"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "lastUpdateTs",
+            "type": "u32"
+          },
+          {
+            "name": "isIdle",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Fee",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "basisPoints",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateConsumableArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "recipe",
+            "type": "publicKey"
+          },
+          {
+            "name": "consumableMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "unitAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePlotArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seedRefundValue",
+            "type": "u32"
+          },
+          {
+            "name": "seedRefundValueChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedExpiration",
+            "type": "u32"
+          },
+          {
+            "name": "seedExpirationChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxStat1",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxStat1Change",
+            "type": "u32"
+          },
+          {
+            "name": "seedStat1ExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedStat1ExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxStat2",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxStat2Change",
+            "type": "u32"
+          },
+          {
+            "name": "seedStat2ExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedStat2ExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxUtilityUpgrade",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePlotFactoryArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "refundValue",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "refundValueChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expiration",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expirationChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat1",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat1Change",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat1ExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat1ExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat2",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStat2Change",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat2ExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "stat2ExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxUtilityUpgrade",
+            "type": {
+              "array": [
+                "u16",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRealmArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "bot",
+            "type": "publicKey"
+          },
+          {
+            "name": "beneficiary",
+            "type": "publicKey"
+          },
+          {
+            "name": "chainlinkFeed",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateWorkerArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seedRefundValue",
+            "type": "u32"
+          },
+          {
+            "name": "seedRefundValueChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedExpiration",
+            "type": "u32"
+          },
+          {
+            "name": "seedExpirationChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxMood",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxMoodChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMoodExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedMoodExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxEnergyChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedEnergyExpenditureRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedEnergyExpenditureRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedYieldMultiplierRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedYieldMultiplierRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedYieldCapacity",
+            "type": "u32"
+          },
+          {
+            "name": "seedYieldCapacityChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedLuckRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedLuckRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedInsuranceRate",
+            "type": "u32"
+          },
+          {
+            "name": "seedInsuranceRateChange",
+            "type": "u32"
+          },
+          {
+            "name": "seedMaxUtilityUpgrade",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateWorkerFactoryArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "refundValue",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "refundValueChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expiration",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "expirationChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxMood",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxMoodChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "moodExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "moodExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxEnergy",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxEnergyChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "energyExpenditureRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "energyExpenditureRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldMultiplierRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldMultiplierRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldCapacity",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "yieldCapacityChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "luckRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "luckRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "insuranceRate",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "insuranceRateChange",
+            "type": {
+              "array": [
+                "u32",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxUtilityUpgrade",
+            "type": {
+              "array": [
+                "u16",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReceipeItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "recipeMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AccessDenied",
+      "msg": "Access denied"
+    },
+    {
+      "code": 6001,
+      "name": "ServiceNotAvailable",
+      "msg": "Service not available"
+    },
+    {
+      "code": 6002,
+      "name": "FactoryUnknown",
+      "msg": "Factory is unknown"
+    },
+    {
+      "code": 6003,
+      "name": "FactoryNotAvailable",
+      "msg": "Factory is not active"
+    },
+    {
+      "code": 6004,
+      "name": "NftUnknown",
+      "msg": "NFT is unknown"
+    },
+    {
+      "code": 6005,
+      "name": "NftOwnerInvalid",
+      "msg": "NFT owner is invalid"
+    },
+    {
+      "code": 6006,
+      "name": "NftInvalid",
+      "msg": "NFT is invalid"
+    },
+    {
+      "code": 6007,
+      "name": "PlotOpened",
+      "msg": "Plot is already opened"
+    },
+    {
+      "code": 6008,
+      "name": "PlotClosed",
+      "msg": "Plot is not opened yet"
+    },
+    {
+      "code": 6009,
+      "name": "PlotActive",
+      "msg": "Plot has active workers"
+    },
+    {
+      "code": 6010,
+      "name": "PlotFull",
+      "msg": "Plot is already full"
+    },
+    {
+      "code": 6011,
+      "name": "ConsumableMintInvalid",
+      "msg": "Consumable mint is invalid"
+    }
+  ]
+}

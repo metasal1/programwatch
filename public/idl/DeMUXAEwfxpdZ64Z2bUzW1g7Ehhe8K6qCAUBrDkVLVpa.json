@@ -1,0 +1,3417 @@
+{
+  "version": "0.2.1",
+  "name": "demux",
+  "instructions": [
+    {
+      "name": "addDefaultWeights",
+      "docs": [
+        "Default weights are addresses to which funds with no active Strategy are sent. Note that",
+        "funds are sent to the cannnonical ATA of those addresses, i.e., the address is used like",
+        "a \"wallet\", hence the term `destination_wallet`",
+        "",
+        "A demux admin runs this ix to register those addresses and the fee ratio distributed to",
+        "each destination_wallet",
+        "",
+        "* Destination wallets must be passed in remaining_accounts, and are completely unchecked.",
+        "* `dist_ratios` - indexes match remaining_accounts. A %, as u32, e.g. `50% = u32::MAX / 2`.",
+        "* `append` - If true, appends to weights array. If false, clears the array, then appends."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "distRatios",
+          "type": {
+            "vec": "u32"
+          }
+        },
+        {
+          "name": "append",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "addStrategyWeights",
+      "docs": [
+        "A demux admin runs this ix to register the ATAs that will be the destinations for demuxed",
+        "assets, and the fee ratio distributed to each destination",
+        "",
+        "* Destination ATAs must be passed in remaining_accounts, and are completely unchecked.",
+        "* `dist_ratios` - indexes match remaining_accounts. A %, as u32, e.g. `50% = u32::MAX / 2`.",
+        "* `append` - If true, appends to weights array. If false, clears the array, then appends."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "strategy",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "distRatios",
+          "type": {
+            "vec": "u32"
+          }
+        },
+        {
+          "name": "append",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "crankPool",
+      "docs": [
+        "Permisionless. Demuxes tokens to their destinations. Must supply a valid and initialized pool",
+        "(the cannonical ATA of the demuxer) and the Strategy for that asset, or at least the correctly",
+        "derived blank PDA if it doesn't exist. Must also provide a valid and initialized global fee",
+        "pool (the cannonical ATA of the fee_state).",
+        "",
+        "Pass corresponding destination accounts as remaining accounts. Order does not matter, but",
+        "must pass all accounts that are storted in the `dist_weights` array in the Strategy.",
+        "",
+        "If the Strategy doesn't exist or is inactive, pass the ATAs for this asset derived from the",
+        "destinations stored in `default_dist_weights` instead."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the flat SOL crank fee"
+          ]
+        },
+        {
+          "name": "globalFeeWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "globalFeePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The global fee admin's crank fee goes here, the cannonical ATA of `global_fee_wallet`"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "strategy",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Strategy for this asset (i.e., the one that has this pool), if one exists, or the valid",
+            "(blank) PDA address where this Strategy would be if it was initialized."
+          ]
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The pool for this Strategy, which is the cannonical ATA of the demuxer for this asset.",
+            "",
+            "All destinations for funds (`weight.destination`) for this pool must be passed in remaining_accounts.",
+            "Likewise, all remaining accounts must correspond to this pool, i.e. same mint",
+            "",
+            "If the Strategy is inactive or does not exist yet, pass the cannonical ATA for each default",
+            "weight destination_wallet (`default_weight.destination_wallet`) to remaining_accounts instead."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "editDefaultOracle",
+      "docs": [
+        "The global default oracle admin can run this ix to update the Oracle used or change",
+        "suggested settings for age/confidence.",
+        "",
+        "* `suggested_price_confidence_threshold` - Suggested confidence, in native decimals, to use",
+        "for this oracle. Pass u32 max to signify no suggestion",
+        "* `suggested_price_max_age` - Suggested max price age, in seconds, to use for this oracle.",
+        "Pass u16 max to signify no suggestion"
+      ],
+      "accounts": [
+        {
+          "name": "globalOracleAdmin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the oracle admin"
+          ]
+        },
+        {
+          "name": "defaultOracleAdmin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "defaultOracle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint for this oracle entry"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "global admin is trusted implictily to pick a correct oracle for the given mint."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "suggestedPriceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "suggestedPriceMaxAge",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "editStrategy",
+      "docs": [
+        "Demux admin only. Run this ix to edit a Stategy's flags and related variables.",
+        "",
+        "* `flags` - can be combined bit & or addition. Flags available: `THROTTLE_WINDOW_ACTIVE`",
+        "* `throttle_amount`, `throttle_reset_interval` - if using a throttle window, determines the",
+        "max amount that can be demuxed in one interval (native decimals), and duration of an",
+        "interval (seconds)`"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "demuxer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "strategy",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "flags",
+          "type": "u8"
+        },
+        {
+          "name": "throttleAmount",
+          "type": "u64"
+        },
+        {
+          "name": "throttleResetInterval",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "initDefaultOracleAdmin",
+      "docs": [
+        "This IX runs once *per program*. The program owner uses it administer oracles for",
+        "Default Actions",
+        "",
+        "* `admin_key` becomes the global default oracle admin,"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the init fee"
+          ]
+        },
+        {
+          "name": "defaultOracleAdmin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "adminKey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initDefaultOracle",
+      "docs": [
+        "The global default oracle admin can run this ix to add a Mint, Oracle combo that Default",
+        "Actions can use. The global admin can also suggest some parameters, like confidence and max",
+        "price age, which other projects may opt to adopt even for normal non-Default Actions.",
+        "",
+        "* `suggested_price_confidence_threshold` - Suggested confidence, in native decimals, to use",
+        "for this oracle. Pass u32 max to signify no suggestion",
+        "* `suggested_price_max_age` - Suggested max price age, in seconds, to use for this oracle.",
+        "Pass u16 max to signify no suggestion"
+      ],
+      "accounts": [
+        {
+          "name": "globalOracleAdmin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the init fee, must be the oracle admin"
+          ]
+        },
+        {
+          "name": "defaultOracleAdmin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "defaultOracle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint for this oracle entry"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "global admin is trusted implicitly to pick a correct oracle for the given mint."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "suggestedPriceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "suggestedPriceMaxAge",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "initializeDemuxer",
+      "docs": [
+        "A demux admin runs this ix once to init the demuxer for their campaign",
+        "",
+        "* `nonce` - arbitrary, the demuxer admin can pick any unique number.",
+        "* `admin_key` becomes the demuxer admin, with total control over changing weights. Typically",
+        "recommended to be a governance key or multisig."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the account initialization fee"
+          ]
+        },
+        {
+          "name": "feeState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The global fee state account, a PDA that is unique per-program"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u16"
+        },
+        {
+          "name": "adminKey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initializeGlobalFeeState",
+      "docs": [
+        "This IX runs once *per program*. The program owner uses it create the global fee account,",
+        "which controls the crank fee to all demuxers, and sets the destination wallet to which all",
+        "crank fees are sent.",
+        "",
+        "* `admin_key` becomes the global fee_state admin,",
+        "* `fee_wallet` becomes destination for all crank fees, i.e. all ATAs derive from this wallet.",
+        "* `crank_asset_fee` is a %, as u32, e.g. `50% = u32::MAX / 2`",
+        "* `crank_flat_sol_fee` is in SOL, in native decimals"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the init fee"
+          ]
+        },
+        {
+          "name": "feeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "adminKey",
+          "type": "publicKey"
+        },
+        {
+          "name": "feeWallet",
+          "type": "publicKey"
+        },
+        {
+          "name": "crankAssetFee",
+          "type": "u32"
+        },
+        {
+          "name": "crankFlatSolFee",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "initStrategy",
+      "docs": [
+        "Permisionless. Run this ix to start a new strategy for some asset.",
+        "This creates an empty Strategy PDA that must be configured by other ixes.",
+        "The strategy remains inactive until configuration is done (which DOES require demux admin).",
+        "Cranks to inactive strategies will use the default strategy instead."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the init fee"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint for this strategy"
+          ]
+        },
+        {
+          "name": "strategy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "propogateCrankFee",
+      "docs": [
+        "Permisionless. Forces a demuxer to adopt the current global fee state's rates."
+      ],
+      "accounts": [
+        {
+          "name": "feeState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The global fee state account, a PDA that is unique per-program"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Any demuxer, this ix is permisionless and can propogate the fee to any demuxer"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "registerSwapMaster",
+      "docs": [
+        "Demux admin only. Sets the `swap_master` field. Provided key is completely unchecked."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "swapMasterKey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "startDefaultStrategy",
+      "docs": [
+        "After `init_default_strategy`, and `add_default_weights`, a demux admin runs",
+        "this ix to validate the strategy and make it the active default strategy for the demuxer.",
+        "",
+        "After this ix, cranks to assets that have no active Strategy will use the configured default",
+        "instead. Sorts the weights array."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "startStrategy",
+      "docs": [
+        "After `init_strategy`, and `add_strategy_weights`, a demux admin runs",
+        "this ix to validate the strategy and make it the active.",
+        "",
+        "After this ix, cranks to this asset will use the configured Strategy. Sorts the weights array."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "strategy",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stopDefaultStrategy",
+      "docs": [
+        "After the default Strategy was started with `start_default_strategy`, a demux admin runs this",
+        "ix to deactivate the strategy. If a crank is issued after this, and no active Strategy exists for",
+        "that asset, the crank will fail.",
+        "",
+        "This is is typically used to edit the default Strategy. E.g., in the same tx, send:",
+        "`stop_default_strategy`, `add_default_weights`, and `start_default_strategy`"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stopStrategy",
+      "docs": [
+        "After a Strategy was started with `start_strategy`, a demux admin runs this ix to",
+        "deactivate the strategy. If a crank is issued after this, it will use the default distribution",
+        "from the demuxer instead.",
+        "",
+        "This is is typically used to edit a Strategy. E.g., in the same tx, send:",
+        "`stop_strategy`, `add_strategy_weights`, and `start_strategy`"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the demux admin"
+          ]
+        },
+        {
+          "name": "demuxer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "strategy",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateCrankFee",
+      "docs": [
+        "The global fee admin runs this ix to update the crank fee"
+      ],
+      "accounts": [
+        {
+          "name": "globalFeeAdmin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the global fee admin"
+          ]
+        },
+        {
+          "name": "feeState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "crankAssetFee",
+          "type": "u32"
+        },
+        {
+          "name": "crankFlatSolFee",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "depositToClp",
+      "docs": [
+        "* CLP_IXES",
+        "Permisionless. Invokes a CPI that deposits funds to the CLP Vault corresponding with this",
+        "Route."
+      ],
+      "accounts": [
+        {
+          "name": "route",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Payer, also signs"
+          ]
+        },
+        {
+          "name": "destA",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "`user_token_a`"
+          ]
+        },
+        {
+          "name": "destB",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "`user_token_b`"
+          ]
+        },
+        {
+          "name": "lpAcc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "`user_lp_token_acct`"
+          ]
+        },
+        {
+          "name": "clpVault",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clp Vault acc: Position bundle, token vaults, lp mint, and clp must match"
+          ]
+        },
+        {
+          "name": "lpMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionBundleTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clpProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clpTokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clpTokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lpMintAmount",
+          "type": "u64"
+        },
+        {
+          "name": "tokenMaxA",
+          "type": "u64"
+        },
+        {
+          "name": "tokenMaxB",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "editOracleSettingsRoute",
+      "docs": [
+        "Modify a Route's oracle settings, such as the max age and confidence threshold before an",
+        "oracle request for ANY of the Route's assets will fail"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the `swap_master`'s admin"
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "route",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "priceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "priceMaxAge",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "externalSwapCleanup",
+      "docs": [
+        "Revoke temporary token account delegate privileges granted to the swap executor. Must be the",
+        "last ix in the tx where `external_swap_setup` appears."
+      ],
+      "accounts": [
+        {
+          "name": "swapExecutor",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Gained authority to transfer funds from the pool until the end of the ix."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "route",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "aOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "externalSwapSetup",
+      "docs": [
+        "Grant token account delegate privileges to the swap executor until the end of the tx. Must",
+        "be the first ix in the tx other than compute program ixes (such as requesting more CU,",
+        "requesting more heap, etc)"
+      ],
+      "accounts": [
+        {
+          "name": "swapExecutor",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Gains authority to transfer funds from the pool until the end of the ix."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clpVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "route",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvar",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initClpRoute",
+      "docs": [
+        "Initialize a permisionless route from the source asset to the CLP vault's assets. After this",
+        "ix complete, any user can use this route to swap funds from the source token into the",
+        "destination assets. Note that all assets are stored in the cannonical ATAs of the Route, and",
+        "these ATAs should be initialized before the first attempt to swap."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Must be the `swap_master`'s admin. Pays the account init fee."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clpVault",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The CLP Vault that will become the target for this route",
+            ""
+          ]
+        },
+        {
+          "name": "sourceMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Source asset for this route, i.e. the currency to be exchanged for clp_vault's currencies"
+          ]
+        },
+        {
+          "name": "aMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Match the CLP Vault's Mint A"
+          ]
+        },
+        {
+          "name": "bMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Match the CLP Vault's Mint B"
+          ]
+        },
+        {
+          "name": "route",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "aOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "priceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "clpRatioTolerance",
+          "type": "u32"
+        },
+        {
+          "name": "priceAllowedSlippage",
+          "type": "u32"
+        },
+        {
+          "name": "priceMaxAge",
+          "type": "u16"
+        },
+        {
+          "name": "cacheMaxAge",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "initSwapMaster",
+      "docs": [
+        "Initialize the SwapMaster, which manages the piping of assets into Concentrated Liquidity",
+        "Pool Vaults (CLP Vaults) on PsyFi.",
+        "",
+        "* Demuxer is optional, and can be any key."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays the account initialization fee"
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u16"
+        },
+        {
+          "name": "adminKey",
+          "type": "publicKey"
+        },
+        {
+          "name": "demuxer",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "editOracleSettingsAction",
+      "docs": [
+        "* SALE ACTION IXES",
+        "Modify an Action's oracle settings, such as the max age and confidence threshold before an",
+        "oracle request for ANY of the Action's assets will fail"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the `swap_master`'s admin"
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "action",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "priceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "priceMaxAge",
+          "type": "u16"
+        },
+        {
+          "name": "inFlightClpVault",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "externalSaleCleanup",
+      "docs": [
+        "Revoke temporary token account delegate privileges granted to the swap executor. Must be the",
+        "last ix in the tx where `external_sale_setup` appears."
+      ],
+      "accounts": [
+        {
+          "name": "saleExecutor",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Gained authority to transfer funds from the pool until the end of the ix."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "action",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The canonical ATA for `action` on `source_mint`. If this is a Default Action, you will need",
+            "to derive it, otherwise it can be read from the Action account."
+          ]
+        },
+        {
+          "name": "sourceMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Source asset for this Action, i.e. the currency to be sold."
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "If using an internal Oracle, must pass pubkey default",
+            ""
+          ]
+        },
+        {
+          "name": "destinationOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "If using an internal Oracle, must pass pubkey default",
+            ""
+          ]
+        },
+        {
+          "name": "defaultOracle",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Only required if the Action is a Default Action.",
+            "Note: PDA is validated in `validate_source_oracle`"
+          ]
+        },
+        {
+          "name": "inFlightClpVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "If the feature is in use, reduces flight fees. If the feature is not in use, this is the",
+            "Action's own key again (which passes the mutablility check), and does nothing."
+          ]
+        },
+        {
+          "name": "clpProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "externalSaleSetup",
+      "docs": [
+        "Grant token account delegate privileges to the sale executor until the end of the tx. Must",
+        "be the first ix in the tx other than compute program ixes (such as requesting more CU,",
+        "requesting more heap, etc)"
+      ],
+      "accounts": [
+        {
+          "name": "saleExecutor",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Gains authority to transfer funds from the pool until the end of the ix."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "action",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The canonical ATA for `action` on `source_mint`. If this is a Default Action, you will need",
+            "to derive it, otherwise it can be read from the Action account."
+          ]
+        },
+        {
+          "name": "sourceMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Source asset for this Action, i.e. the currency to be sold."
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvar",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initSaleAction",
+      "docs": [
+        "Initialize a sale Action, facilitating the permisionless exchange of the source asset to the",
+        "destination asset. After this ix is complete, any user can use this Action to set up a tx",
+        "that swaps the source asset for destination",
+        "",
+        "* nonce - typically zero, monotonically increasing if a project requires additional Actions",
+        "for the same asset pair.",
+        "* source/destination_oracle_type - `USE_REAL_ORACLE` to use the provided Pyth/Switchboard",
+        "Oracle, or `USE_SELF_ORACLE` to use a admin-controlled Oracle",
+        "* in_flight_clp_vault - If this Action serves a CLP Vault and should reduce its in-flight",
+        "fees, designate it here. Otherwise, pass the key of the Action itself."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Must be the `swap_master`'s admin. Pays the account init fee."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Source asset for this Action, i.e. the currency to be sold"
+          ]
+        },
+        {
+          "name": "destinationMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Destination asset for this Action, i.e. the currency to be purchased"
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Purchased funds are sent to this account, which must match use the destination mint, but",
+            "otherwise is completely unchecked."
+          ]
+        },
+        {
+          "name": "action",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u8"
+        },
+        {
+          "name": "sourceOracleType",
+          "type": "u8"
+        },
+        {
+          "name": "destinationOracleType",
+          "type": "u8"
+        },
+        {
+          "name": "priceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "priceAllowedSlippage",
+          "type": "u32"
+        },
+        {
+          "name": "priceMaxAge",
+          "type": "u16"
+        },
+        {
+          "name": "priceMinAge",
+          "type": "u8"
+        },
+        {
+          "name": "inFlightClpVault",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initDefaultAction",
+      "docs": [
+        "Initialize the Default Sale Action, facilitating the permisionless exchange of any source",
+        "asset the SwapMaster holds to the destination asset. After this ix is complete, any user can",
+        "use this Action to swap a source asset that this SwapMaster has accumulated in fees into the",
+        "preferred asset that this Default Action designates.",
+        "",
+        "Note that the source asset must have a valid Oracle designated by the global program",
+        "administrator. Organizations using a new source asset should contact the program admin or",
+        "set up an Action for that asset to designate an Oracle explicitly.",
+        "",
+        "* destination_oracle_type - `USE_REAL_ORACLE` to use the provided Pyth/Switchboard Oracle,",
+        "or `USE_SELF_ORACLE` to use a admin-controlled Oracle"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Must be the `swap_master`'s admin. Pays the account init fee."
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Destination asset for this Action, i.e. the currency to be purchased"
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Purchased funds are sent to this account, which must match use the destination mint, but",
+            "otherwise is completely unchecked."
+          ]
+        },
+        {
+          "name": "action",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Note: Default Actions use the same struct as all other Actions, but have a different PDA",
+            "derivation. An organization can only have one default Action."
+          ]
+        },
+        {
+          "name": "destinationOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "destinationOracleType",
+          "type": "u8"
+        },
+        {
+          "name": "priceConfidenceThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "priceAllowedSlippage",
+          "type": "u32"
+        },
+        {
+          "name": "priceMaxAge",
+          "type": "u16"
+        },
+        {
+          "name": "priceMinAge",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateOracle",
+      "docs": [
+        "Admin-only. Sets the latest price for the internal oracle",
+        "",
+        "* update_source - pass true to update the source oracle cache, false to update the",
+        "destination oracle cache"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Must be the `sale_master`'s admin"
+          ]
+        },
+        {
+          "name": "swapMaster",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "action",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "updateSource",
+          "type": "bool"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DefaultOracleAdmin",
+      "docs": [
+        "Unique per-program. The Program Owner uses this account to administrate default oracles."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This struct's own key. A PDA derived from just `b\"global_oracle_admin\"`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "globalOracleAdmin",
+            "docs": [
+              "Can modify default oracles"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "placeholder",
+            "type": "u64"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DefaultOracle",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This struct's own key. A PDA derived from `mint`` and `b\"default_oracle\"`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "globalOracleAdmin",
+            "docs": [
+              "Can fully modify this account with no limitations at any time"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "The mint for this asset"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "oracle",
+            "docs": [
+              "The preferred Oracle for this asset"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "placeholder",
+            "type": "u64"
+          },
+          {
+            "name": "suggestedPriceConfidenceThreshold",
+            "docs": [
+              "Suggested value to use for the confidence threshold when using this oracle (in native token",
+              "decimals).",
+              "",
+              "u32::MAX if the global admin has no suggestion."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "suggestedPriceMaxAge",
+            "docs": [
+              "Suggested value to use for the price max age (in seconds).",
+              "",
+              "u16::MAX if the global admin has no suggestion."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "oracleId",
+            "docs": [
+              "0 = PYTH, 1 = SWITCHBOARD"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Demuxer",
+      "docs": [
+        "Project administrators (aka \"demux admin\") typically set up a single Demuxer to handle all of their",
+        "asset distributions (aka a \"campaign\").",
+        "",
+        "Strategies for specific assets are PDAs of this account.",
+        "",
+        "Stores various information about the campaign, and the default distribution plan used for assets",
+        "where no specific Strategy has been set yet."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The Demuxer's own key. A PDA of `admin`, `nonce`, `b\"demuxer\"`. All asset pools where assets",
+              "are stored before being demuxed are the cannonical ATA derived from this key."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "docs": [
+              "Configures the demuxer's strategy. Normally this would be a DAO's governance, a multi-sig,",
+              "etc, which has authority to change the distribution weights.",
+              "* WARN: Is generally in full control of the demuxer's funds, set this permission carefully!"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "swapMaster",
+            "docs": [
+              "(Optional) The SwapMaster associated with this Demuxer. Set by the Demux admin. Useful when",
+              "a project using Demuxer wishes to explicitly specify the address of the SwapMaster on-chain",
+              "so integrators can validate that a SwapMaster is actually associated with the project.",
+              "Pubkey default if not set."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "lastUpdated",
+            "docs": [
+              "Timestamp of when any strategy update was last made (including modifications to default, or",
+              "the activation/deactivation of any Strategy)."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "flags",
+            "docs": [
+              "Single-bit feature flags, one bit for each byte in 0b00000000",
+              "* 1, 2, 4, 8, 16, 32 = Reserved for future use"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "nonce",
+            "docs": [
+              "Ensures each Demuxer is unique per-program, the demux admin can pick this arbitrarily."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "activeStrategies",
+            "docs": [
+              "Number of actively managed (not default) strategies this demuxer currently has"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "defaultStrategyActive",
+            "docs": [
+              "If false, cranking an asset for which there is no explicitly defined active Strategy will",
+              "simply fail. If true, it will use the distribution campaign set in `default_dist_weights`.",
+              "",
+              "See `STRATEGY_STATE_ACTIVE` and `STRATEGY_STATE_INACTIVE`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "nextWeightIndex",
+            "docs": [
+              "The next empty index in the `default_dist_weights` array, when adding weights.",
+              "* Note: once the strategy is started, the array is sorted, and this value is no longer the",
+              "next index, but may be used to get the number (length) of initialized weights."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "defaultDistWeights",
+            "docs": [
+              "Destinations for assets to be demuxed, along with the portion of the assets to be sent.",
+              "* Note: Sorted by pubkey after `start_default_strategy`.",
+              "May be unsorted when default_strategy_active is `STRATEGY_STATE_INACTIVE`."
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "DefaultDistWeight"
+                },
+                64
+              ]
+            }
+          },
+          {
+            "name": "feeStateCache",
+            "type": {
+              "defined": "FeeStateCache"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClpRoute",
+      "docs": [
+        "When a SwapMaster Admin configures a CLP Route, it enables the permisionless swap of",
+        "a source asset for the assets in a CLP Vault's pools.",
+        "",
+        "For example, the SwapMaster admin sets a USDC -> ETH/BTC CLP Vault Route. Any user can crank the",
+        "USDC ATA of this Route to swap USDC into ETH/BTC at the Vault's current ratio.",
+        "",
+        "A PDA of `swap_master`, `clp_vault`, `source_mint`, and `b\"route\"`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This struct's key: A PDA of `swap_master`, `clp_vault`, `source_mint`, and `b\"route\"`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "swapMaster",
+            "docs": [
+              "The SwapMaster that adminstrates this route"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "clpVault",
+            "docs": [
+              "The CLP Vault this route is intended to facilitate deposits into",
+              "When swapping, the exchange rate of a/b must match the clp_vault's ratio."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "source",
+            "docs": [
+              "Funds from this pool can be permisionlessly exchanged for a and/or b.",
+              "The cannonical ATA of the ClpRoute."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceMint",
+            "docs": [
+              "The mint for `source`. The admin picks this to determine the source asset for a Route."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "destA",
+            "docs": [
+              "An ATA for Token A on the CLP Vault. The cannonical ATA of the ClpRoute."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "destB",
+            "docs": [
+              "An ATA for Token B on the CLP Vault. The cannonical ATA of the ClpRoute."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "lpAcc",
+            "docs": [
+              "An ATA for the CLP Vault's LP token. The cannonical ATA of the ClpRoute."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceOracle",
+            "docs": [
+              "The oracle used for pricing the source asset. Chosen by the admin. Pyth and Switchboard",
+              "oracles are allowed. The asset is unchecked, allowing, for example, using the SOL oracle to",
+              "price MSOL, if one wishes to do so."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "aOracle",
+            "docs": [
+              "The oracle used for pricing the asset a. Chosen by the admin. Pyth and Switchboard oracles",
+              "are allowed. The asset is unchecked, allowing, for example, using the SOL oracle to price",
+              "MSOL, if one wishes to do so."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bOracle",
+            "docs": [
+              "The oracle used for pricing the asset b. Chosen by the admin. Pyth and Switchboard oracles",
+              "are allowed. The asset is unchecked, allowing, for example, using the SOL oracle to price",
+              "MSOL, if one wishes to do so."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "priceConfidenceThreshold",
+            "docs": [
+              "A percentage of the price. If confidence falls below this value when fetching Pyth prices,",
+              "fetching the price will fail.",
+              "",
+              "A percent, as u32: 100% = `u32::MAX`, 50% = `u32::MAX / 2`. etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "clpRatioTolerance",
+            "docs": [
+              "When exchanging source -> A/B, the ratio of A:B must match the CLP vault's current deposit",
+              "ratio (see the cache), within this tolerance. For example, if this is 1%, and the intended",
+              "ratio is 50%, then a ratio of 49-51% is acceptable.",
+              "",
+              "A percent, as u32: 100% = `u32::MAX`, 50% = `u32::MAX / 2`. etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "priceAllowedSlippage",
+            "docs": [
+              "When swapping assets, the value of source must equal a + b within this slippage. For",
+              "example, if this is 1%, and source value = 100, then the price of the exchanged a + b must",
+              "be at least (1-.01) * 100 = 99.",
+              "",
+              "A percent, as u32: 100% = `u32::MAX`, 50% = `u32::MAX / 2`. etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "priceMaxAge",
+            "docs": [
+              "When fetching pyth prices, will fail if price is older than this, in seconds"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "cacheMaxAge",
+            "docs": [
+              "When reading the CLP Vault's cache, will fail if the cache's totals are non-zero and",
+              "last_cached is older than this many seconds from now. Note that when the cache is zero (i.e.",
+              "when it has been initialized and never cranked), the initial token ratios are used,",
+              "regardless of the cache's last refresh time."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "sourceOracleId",
+            "docs": [
+              "0 = PYTH, 1 = SWITCHBOARD"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "aOracleId",
+            "docs": [
+              "0 = PYTH, 1 = SWITCHBOARD"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bOracleId",
+            "docs": [
+              "0 = PYTH, 1 = SWITCHBOARD"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "sourceDecimals",
+            "docs": [
+              "Decimals of the source Mint"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "aDecimals",
+            "docs": [
+              "Decimals of Mint for token A"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bDecimals",
+            "docs": [
+              "Decimals of Mint for token B"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "routeCache",
+            "type": {
+              "defined": "RouteCache"
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SaleAction",
+      "docs": [
+        "When a SwapMaster Admin configures a Sale Action, it enables the permisionless swap of a source",
+        "asset for the destination asset, i.e. buying the destination asset using the source as the",
+        "payment currency.",
+        "",
+        "For example, the SwapMaster admin sets a USDC -> BTC Action. Any user can crank the Action to",
+        "swap USDC into BTC.",
+        "",
+        "A PDA of `swap_master`, `source_mint`, `destination_mint`, `nonce`, and `b\"action\"`",
+        "Note: If this the Default Action, the PDA is `swap_master` and `b\"default_action\"`, and all",
+        "fields related to the source use placeholder values."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This struct's own key: A PDA of `swap_master`, `source_mint`, `destination_mint`,",
+              "`source_oracle_type`, `destination_oracle_type`, `nonce`, and `b\"action\"`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "swapMaster",
+            "docs": [
+              "The SwapMaster that adminstrates this Action"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "source",
+            "docs": [
+              "Funds from this pool can be permisionlessly exchanged for the destination asset.",
+              "",
+              "The cannonical ATA of the SaleAction."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceMint",
+            "docs": [
+              "The mint for `source`. The admin picks this to determine the source asset for an Action."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "destination",
+            "docs": [
+              "Funds exchanged go to this pool. The admin picks this without any checks or restrictions,",
+              "except that it must be a valid token account for `destination_mint`."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "destinationMint",
+            "docs": [
+              "The mint for `destination`. The admin picks this to determine the destination asset",
+              "for an Action."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceOracle",
+            "docs": [
+              "The oracle used for pricing the source asset. Chosen by the admin. Pyth and Switchboard",
+              "oracles are allowed. The asset is unchecked, allowing, for example, using the SOL oracle to",
+              "price MSOL, if one wishes to do so.",
+              "",
+              "Does nothing if `source_oracle_type` is not `USE_REAL_ORACLE`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "destinationOracle",
+            "docs": [
+              "The oracle used for pricing the destination asset. Chosen by the admin. Pyth and Switchboard",
+              "oracles are allowed. The asset is unchecked, allowing, for example, using the SOL oracle to",
+              "price MSOL, if one wishes to do so.",
+              "",
+              "Does nothing if `destination_oracle_type` is not `USE_REAL_ORACLE`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "priceConfidenceThreshold",
+            "docs": [
+              "A percentage of the price. If confidence falls below this value when fetching Pyth prices,",
+              "fetching the price will fail.",
+              "",
+              "A percent, as u32: 100% = `u32::MAX`, 50% = `u32::MAX / 2`. etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "priceAllowedSlippage",
+            "docs": [
+              "When swapping assets, the value of source must equal dest within this slippage. For",
+              "example, if this is 1%, and source value = 100, then the price of the exchanged dest must",
+              "be at least (1-.01) * 100 = 99.",
+              "",
+              "A percent, as u32: 100% = `u32::MAX`, 50% = `u32::MAX / 2`. etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "priceMaxAge",
+            "docs": [
+              "When fetching pyth/internal prices, will fail if price is older than this, in seconds"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "priceMinAge",
+            "docs": [
+              "If using the internal price Oracle, the admin cannot update the price again after updating",
+              "it, in seconds. If not using the internal Oracle, does nothing.",
+              "",
+              "May be zero, but this allows the admin to clear the entire price history in one slot, which",
+              "may not be advisable."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "sourceOracleId",
+            "docs": [
+              "0 = PYTH, 1 = SWITCHBOARD"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "destinationOracleId",
+            "docs": [
+              "0 = PYTH, 1 = SWITCHBOARD"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "sourceDecimals",
+            "docs": [
+              "Decimals of the source Mint"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "destinationDecimals",
+            "docs": [
+              "Decimals of the destination Mint"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "sourceOracleType",
+            "docs": [
+              "Get price from external Oracle, or internal OracleCache for source. See",
+              "`USE_REAL_ORACLE` and `USE_SELF_ORACLE`."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "destinationOracleType",
+            "docs": [
+              "Get price from external Oracle, or internal OracleCache for destination. See",
+              "`USE_REAL_ORACLE` and `USE_SELF_ORACLE`."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "nonce",
+            "docs": [
+              "Used to derive this PDA. Generally, there is only one Action for a given asset pair, and",
+              "this value is zero. Projects with complex distribution needs may want to support multiple",
+              "Actions. When doing so, it is suggested to start this value from zero and increase",
+              "monotonically, e.g. 0, 1, 2, 3, 4, etc."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "isDefault",
+            "docs": [
+              "Is this a Default Action? If `IS_DEFAULT`, the PDA derivation is different from other",
+              "Actions, and fields related to source are placeholders. See `NOT_DEFAULT` and `IS_DEFAULT`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "actionCache",
+            "docs": [
+              "Caches data between setup and cleanup ixes"
+            ],
+            "type": {
+              "defined": "ActionCache"
+            }
+          },
+          {
+            "name": "sourceOracleCache",
+            "docs": [
+              "If using an internal oracle, stores information about price"
+            ],
+            "type": {
+              "defined": "OracleCache"
+            }
+          },
+          {
+            "name": "destinationOracleCache",
+            "docs": [
+              "If using an internal oracle, stores information about price"
+            ],
+            "type": {
+              "defined": "OracleCache"
+            }
+          },
+          {
+            "name": "inFlightClpVault",
+            "docs": [
+              "If this Action serves an Armada clp vault that tracks in-flight fees, this is that",
+              "clp_vault's key. The Clp_vault will specify this Action as the flight_admin, and the PDA",
+              "will sign to reduce in-flight fees whenever a Sale Action executes.",
+              "",
+              "The key of this Action itself if unused"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapMaster",
+      "docs": [
+        "## Summary",
+        "",
+        "The SwapMaster governs all of an organization's external integrations: depositing assets into",
+        "CLP Vaults, or exchanging one asset for another. Typically, organizations will demux assets to",
+        "Actions and Routes managed under this campaign, but this feature can also be used independently",
+        "of Demuxer's main features.",
+        "",
+        "### When used for CLP Routes:",
+        "",
+        "The SwapMaster helps manage the piping of assets into Concentrated Liquidity Pool Vaults (CLP",
+        "Vaults) on PsyFi.",
+        "",
+        "For example, a project wants to re-invest 50% of earned USDC into an ETH/BTC CLP Vault. First,",
+        "the SwapMaster Admin creates a Route for USDC -> ETH/BTC CLP Vault. The Demux admin sets the",
+        "USDC source of that Route to earn to earn 50% of demuxed USDC.",
+        "",
+        "Now, any user can crank the demuxer USDC pool to send USDC to this ATA. Any user can use the",
+        "`ext_swap_setup` and `ext_swap_cleanup` ixes to create a tx where that USDC is swapped for",
+        "ETH/BTC (Note that the ETH/BTC also goes to an ATA owned by the Route). The ETH/BTC can now",
+        "be deposited into the CLP Vault by any user using `deposit_to_clp` (Note that the LP tokens also",
+        "go to an ATA owned by the Route)",
+        "",
+        "### When used for Sale Actions:",
+        "",
+        "The SwapMaster allows the adminstrator to designate an asset pair A and B where A should be",
+        "exchanged (i.e., sold) for B using any external trade platform.",
+        "",
+        "For example, a project wants to convert 50% of earned USDC fees into BTC. First, the SwapMaster",
+        "Admin creates an Action for USDC -> BTC. The Demux admin sets the USDC source of that Action to",
+        "earn to earn 50% of demuxed USDC.",
+        "",
+        "Now, any user can crank the demuxer USDC pool to send USDC to this ATA. Any user can use the",
+        "`ext_sale_setup` and `ext_sale_cleanup` ixes to create a tx where that USDC is swapped for BTC",
+        "(Note that earned BTC goes to an arbitrary account specified by the SwapMaster admin)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The SwapMaster's own key. A PDA of `admin`, `nonce`, and  `b\"swapper\"`.",
+              "",
+              "All Routes and Actions are PDAs derived from this key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "docs": [
+              "Has authority to create new Actions"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "demuxer",
+            "docs": [
+              "The Demuxer attached to this SaleMaster (optional). Completely unchecked, the admin may send",
+              "any key here."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nonce",
+            "docs": [
+              "Ensures each SwapMaster is unique per-program, the admin can pick this arbitrarily."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "activeRoutes",
+            "docs": [
+              "Number of active Routes the admin has configured"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "activeActions",
+            "docs": [
+              "Number of active Actions the admin has configured, other than the default action (if enabled)."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "defaultActionState",
+            "docs": [
+              "Indicates if a \"default\" Action has been set up. If enabled, any asset (that has a valid",
+              "Oracle) can be exchanged via a default Buy-and-Send Action for this organization's",
+              "\"preferred asset\".",
+              "",
+              "See `DEFAULT_ACTION_DISABLED` (0) and `DEFAULT_ACTION_ENABLED` (1)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding1",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "preferredAssetMint",
+            "docs": [
+              "If `default_action_state` is `DEFAULT_ACTION_ENABLED`, this is the preferred asset that the",
+              "default Action allows. That is, any asset this SwapMaster has accumulated may be exchanged",
+              "for the preferred asset.",
+              "",
+              "Organizations will typically set this to enable campaigns to buy their own token using their",
+              "accumulated fees, or to exchange all earned volatile assets into a stable asset like USDC"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "preferredAssetOracle",
+            "docs": [
+              "If `default_action_state` is `DEFAULT_ACTION_ENABLED`, this is the Oracle for the preferred",
+              "asset. Pubkey default if an internal Oracle is used."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                512
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeState",
+      "docs": [
+        "Unique per-program. The Program Owner uses this account to administrate the crank fee."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The fee state's own key. A PDA derived from just `b\"feestate\"`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "globalFeeAdmin",
+            "docs": [
+              "Can modify `crank_fee`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "globalFeeWallet",
+            "docs": [
+              "The base wallet for all crank fees. When cranking an asset, fees go to the ATA of this",
+              "wallet, and that ATA must already be initialized. All SOL fees also go to this wallet."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "crankAssetFee",
+            "docs": [
+              "Whenever a crank is executed, this % is taken as a fee to the global fee admin. The cannonical",
+              "ATA of the `global_fee_wallet` is always the destination of this fee.",
+              "",
+              "A %, as u32, e.g. 100% = `u32::MAX`, 50% = `u32:MAX / 2`, etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "crankFlatSolFee",
+            "docs": [
+              "Whenever a crank is executed, this amount of SOL, in native decimals, is taken as a fee to",
+              "the global fee admin."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                23
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Strategy",
+      "docs": [
+        "Controls distribution parameters for one asset."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This strategy's key. A PDA of `demuxer` and `mint`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "Each strategy is per-mint, i.e. only one distribution campaign exists per asset."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "demuxer",
+            "docs": [
+              "The Demuxer that owns this Strategy"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pool",
+            "docs": [
+              "The cannonical ATA, owned by the demuxer, derived for the mint."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "distWeights",
+            "docs": [
+              "Destinations for assets to be demuxed, along with the portion of the assets to be sent.",
+              "* Note: Sorted by pubkey after `start_strategy`, when the Strategy is made active.",
+              "May be unsorted when the strategy is `STRATEGY_STATE_INACTIVE`."
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "DistWeight"
+                },
+                64
+              ]
+            }
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "active",
+            "docs": [
+              "See `STRATEGY_STATE_ACTIVE` and `STRATEGY_STATE_INACTIVE`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "nextWeightIndex",
+            "docs": [
+              "The next empty index in the dist_weights array, when adding weights.",
+              "* Note: once the strategy is started, the array is sorted, and this value is no longer the",
+              "next index, but may be used to get the number (length) of initialized dist_weights."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "flags",
+            "docs": [
+              "Single-bit feature flags, one bit for each byte in 0b00000000",
+              "* 1 = THROTTLE_WINDOW_ACTIVE",
+              "* 2, 4, 8, 16, 32 = Reserved for future use",
+              "",
+              "Only the demux admin can edit flags and related settings."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "startTime",
+            "docs": [
+              "Timestamp of when the strategy was made active. If the Strategy was edited, then",
+              "re-activated, this is the time when it was most recently made active."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "throttleAmount",
+            "docs": [
+              "If flag `THROTTLE_WINDOW_ACTIVE`, the amount of assets that can be demuxed in one interval,",
+              "in native decimals."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "throttleResetInterval",
+            "docs": [
+              "If flag `THROTTLE_WINDOW_ACTIVE`, the amount of time that must pass before the throttle",
+              "accumulator resets back to zero, in seconds"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "padding1",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "throttleCache",
+            "docs": [
+              "If flag `THROTTLE_WINDOW_ACTIVE`, caches various information about the current throttle window"
+            ],
+            "type": {
+              "defined": "ThrottleCache"
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ReduceFlightFeesArgs",
+      "docs": [
+        "Args for the reduce_flight_fees CPI in the CLP Vault program"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reduceA",
+            "type": "u64"
+          },
+          {
+            "name": "reduceB",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DefaultDistWeight",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "destinationWallet",
+            "docs": [
+              "Unlike `DistWeight`, this is the wallet from which an ATA will be derived.",
+              "",
+              "The cannonical ATA for this address is the actual valid destination."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "distRatio",
+            "docs": [
+              "A %, as u32, e.g. 100% = u32::MAX, 50% = u32:MAX / 2, etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeStateCache",
+      "docs": [
+        "Due to stack size issues when loading many zero_copy accounts, the global fee's wallet and fee",
+        "structure at the time this Demuxer is inited are cached on the Demuxer. When the Crank fee",
+        "updates, any user can permisionlessly force this cache to update using `propogate_crank_fee``."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "globalFeeWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "crankAssetFee",
+            "type": "u32"
+          },
+          {
+            "name": "crankFlatSolFee",
+            "type": "u32"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                24
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouteCache",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "swapExecutor",
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceAmtInitial",
+            "docs": [
+              "Source tokens in the source account when the setup ix executed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "destAmtInitialA",
+            "docs": [
+              "Source tokens in the dest_a account when the setup ix executed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "destAmtInitialB",
+            "docs": [
+              "Source tokens in the dest_b account when the setup ix executed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "clpRatio",
+            "docs": [
+              "Ratio of asset A:B, as %, if depositing to earn one LP. E.g., if a deposit that wants to",
+              "mint 1 LP would require 400 token A and 600 token B, then this value is A/B:",
+              "400/600 = 66.66%",
+              "",
+              "Note that the ratio is either A:B or B:A, depending on the state of `clp_ratio_invert`",
+              "",
+              "A %, as u32, e.g. 100% = u32::MAX, 50% = u32::MAX / 2, etc"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "clpRatioInvert",
+            "docs": [
+              "0 = `clp_ratio` is A:B, 1 = `clp_ratio` is B:A. This ensures the asset ratio is never",
+              "greater than 100%."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "state",
+            "docs": [
+              "Sanity checks the consumption of cache data"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                2
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleCache",
+      "docs": [
+        "If this Action uses an external Oracle (Pyth, Switchboard), does nothing.",
+        "",
+        "If this Action uses an internal Oracle, stores information about the asset's price."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stdDev",
+            "docs": [
+              "Standard deviation of prices, which is roughly related to volatility. Txes will fail if the",
+              "std dev is less than the max allowed confidence, which forces assets to stablize in terms of",
+              "volatility before a sale can be executed.",
+              "",
+              "In other words, the oracle admin must report several consecutive similar prices (so the std",
+              "dev is low), or raise the max allowed confidence.",
+              "",
+              "For purposes of computing std dev, prices of $0 are ignored."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "exponent",
+            "docs": [
+              "Prices inherit the asset's decimals. Always negative."
+            ],
+            "type": "i32"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "prices",
+            "docs": [
+              "A historical record of set prices, in order of time. The newest price is always index 0, the",
+              "oldest is always at the end"
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "CachedPrice"
+                },
+                16
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CachedPrice",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeSet",
+            "docs": [
+              "Time a price was set, using the on-chain Clock"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "price",
+            "docs": [
+              "Price of the assset, in `exponent` decimals"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ActionCache",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "saleExecutor",
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceAmtInitial",
+            "docs": [
+              "Source tokens in the source account when the setup ix executed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "destAmtInitial",
+            "docs": [
+              "Source tokens in the dest account when the setup ix executed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "state",
+            "docs": [
+              "Sanity checks the consumption of cache data"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DistWeight",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "destination",
+            "type": "publicKey"
+          },
+          {
+            "name": "distRatio",
+            "docs": [
+              "A %, as u32, e.g. 100% = u32::MAX, 50% = u32:MAX / 2, etc."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ThrottleCache",
+      "docs": [
+        "Caches information about the current throttle interval, if flag `THROTTLE_WINDOW_ACTIVE` is",
+        "enabled.",
+        "",
+        "An new interval begins when `crank_pool` is called and the current cache is expired (e.g.,",
+        "`throttle_reset_interval` is 10 seconds, it is currently t=1000, and `start_time` is t=90 or",
+        "less). Assets cranked until the end of the interval are added to the accumulator, and cranks",
+        "fail if accumulator would exceed `throttle_amount`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startTime",
+            "docs": [
+              "Unix timestamp when the first `crank_pool` occuring in this interval."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "accumulator",
+            "docs": [
+              "Amount of asset successfully cranked in this interval so far, in native decimals."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleProvider",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PYTH"
+          },
+          {
+            "name": "SWITCHBOARD"
+          },
+          {
+            "name": "INTERNAL"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CrankFeeTooHigh",
+      "msg": "Exceeded max global crank fee allowed."
+    },
+    {
+      "code": 6001,
+      "name": "StrategyAlreadyActive",
+      "msg": "Can only edit inactive strategies."
+    },
+    {
+      "code": 6002,
+      "name": "PoolNotOwnedByDemuxer",
+      "msg": "The Demuxer PDA must own all asset pools, derive an ATA using the demuxer key."
+    },
+    {
+      "code": 6003,
+      "name": "StrategyWrongTokenMint",
+      "msg": "An ATA passed to the Strategy does not use the same mint as the Strategy."
+    },
+    {
+      "code": 6004,
+      "name": "TooManyWeights",
+      "msg": "Too many weights, Demuxer doesn't support this many weights yet."
+    },
+    {
+      "code": 6005,
+      "name": "NotEnoughDistRatios",
+      "msg": "The number of weights passed does not match the number of ratios"
+    },
+    {
+      "code": 6006,
+      "name": "DefaultStrategyInactive",
+      "msg": "The default strategy is inactive, and no active Strategy exists for this asset."
+    },
+    {
+      "code": 6007,
+      "name": "StrategyHasDuplicates",
+      "msg": "Strategy has duplicate weights, cannot be started."
+    },
+    {
+      "code": 6008,
+      "name": "StrategyWeightsBadDistTotal",
+      "msg": "Weights for a pool add to less than 100 percent, check distribution ratios."
+    },
+    {
+      "code": 6009,
+      "name": "StrategyWeightsDistOverflow",
+      "msg": "Weights for a pool add to over 100 percent, check distribution ratios."
+    },
+    {
+      "code": 6010,
+      "name": "StrategyNotActive",
+      "msg": "The Strategy provided is not active."
+    },
+    {
+      "code": 6011,
+      "name": "WrongClpVault",
+      "msg": "Wrong Mints for the given CLP vault."
+    },
+    {
+      "code": 6012,
+      "name": "WeightNotFound",
+      "msg": "Weight not found on this strategy, or a token account supplied has no Weight."
+    },
+    {
+      "code": 6013,
+      "name": "SwapSaleSetupNotFirst",
+      "msg": "External Swap or Sale Setup must be the first IX in the TX."
+    },
+    {
+      "code": 6014,
+      "name": "CrankMathOverflow",
+      "msg": "Crank math overflow, contact the global admin."
+    },
+    {
+      "code": 6015,
+      "name": "BadGlobalFeePool",
+      "msg": "Bad global fee pool, must be an initialized ATA of the global_fee_wallet."
+    },
+    {
+      "code": 6016,
+      "name": "SwapSaleRevokeIxNotFound",
+      "msg": "The External Swap or Sale Cleanup ix must be the last IX in the TX."
+    },
+    {
+      "code": 6017,
+      "name": "IxForbidden",
+      "msg": "An IX in this TX is not allowed. Allowed: Compute, Jupiter, Psy CLP Vault."
+    },
+    {
+      "code": 6018,
+      "name": "SwapSaleMathOverflow",
+      "msg": "Swap or Sale math overflow, contact the global admin."
+    },
+    {
+      "code": 6019,
+      "name": "SwapRatioDoesNotMatch",
+      "msg": "Swap ratio does not match the CLP Vault."
+    },
+    {
+      "code": 6020,
+      "name": "SwapOracleCheckFailed",
+      "msg": "Swap disallowed due to oracle price. Try a smaller order, or try again later."
+    },
+    {
+      "code": 6021,
+      "name": "CacheStateViolation",
+      "msg": "Failed cache state sanity check."
+    },
+    {
+      "code": 6022,
+      "name": "ClpCacheTooOld",
+      "msg": "Clp Cache is too old, refresh the CLP vault."
+    },
+    {
+      "code": 6023,
+      "name": "OracleRefresedTooSoon",
+      "msg": "You must wait until the minimum price age has elapsed to update the Oracle."
+    },
+    {
+      "code": 6024,
+      "name": "ActionUsingExternalOracle",
+      "msg": "This Action is not using an internal Oracle."
+    },
+    {
+      "code": 6025,
+      "name": "CacheExecutorViolation",
+      "msg": "The user signing the cleanup ix is not the assigned executor."
+    },
+    {
+      "code": 6026,
+      "name": "OracleNumberOverflow",
+      "msg": "Number overflow in oracle math, contact the global admin."
+    },
+    {
+      "code": 6027,
+      "name": "PythOracleMustHaveNegativeExpo",
+      "msg": "Pyth oracle must have negative expo"
+    },
+    {
+      "code": 6028,
+      "name": "PythPriceWasNoneOrNegative",
+      "msg": "Pyth Price negative, or None"
+    },
+    {
+      "code": 6029,
+      "name": "AccountMustBeOwnedByOracleProgram",
+      "msg": "Oracle program does not own oracle"
+    },
+    {
+      "code": 6030,
+      "name": "OraclePriceExpired",
+      "msg": "Last available Oracle price is too old, or an invalid time was provided."
+    },
+    {
+      "code": 6031,
+      "name": "OracleBadConfidence",
+      "msg": "Price exceeds allowed confidence."
+    },
+    {
+      "code": 6032,
+      "name": "ExceededMaxAllowedInterval",
+      "msg": "Exceeded the amount of asset that can be cranked in this interval."
+    },
+    {
+      "code": 6033,
+      "name": "StrategyBadDiscrim",
+      "msg": "Strategy has the wrong account discriminator."
+    },
+    {
+      "code": 6034,
+      "name": "DefaultOraclesListFull",
+      "msg": "Default Oracle list would be full with the given accounts appended."
+    },
+    {
+      "code": 6035,
+      "name": "BadSourceActionSetup",
+      "msg": "Bad Source: the source account must be the canonical ATA of the Action."
+    },
+    {
+      "code": 6036,
+      "name": "BadSourceOracle",
+      "msg": "Bad/No Default Oracle for asset. Set up Action to chose one, or contact the program admin."
+    },
+    {
+      "code": 6037,
+      "name": "DefaultActionValidationFailed",
+      "msg": "The asset you are attempting to exchange for is not the preferred asset."
+    }
+  ]
+}

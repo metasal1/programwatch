@@ -1,0 +1,146 @@
+{
+  "version": "0.1.0",
+  "name": "transfer_funds",
+  "instructions": [
+    {
+      "name": "completeTransferPayment",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fromAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "payment",
+          "type": {
+            "defined": "Payment"
+          }
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "Payment",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "string"
+          },
+          {
+            "name": "payInToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "payOutToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "payInAmount",
+            "type": "u64"
+          },
+          {
+            "name": "payOutAmount",
+            "type": "u64"
+          },
+          {
+            "name": "merchant",
+            "type": "publicKey"
+          },
+          {
+            "name": "expiry",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "PaymentCompleted",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "payInToken",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "payOutToken",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "payInAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "payOutAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "feeCollected",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "merchant",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "payer",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PaymentExpired",
+      "msg": "The payment has expired."
+    },
+    {
+      "code": 6001,
+      "name": "SwapFailed",
+      "msg": "Swap failed."
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds in payer's output token account."
+    }
+  ]
+}

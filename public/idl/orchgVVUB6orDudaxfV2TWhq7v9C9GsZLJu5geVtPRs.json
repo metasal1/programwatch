@@ -1,0 +1,642 @@
+{
+  "address": "orchgVVUB6orDudaxfV2TWhq7v9C9GsZLJu5geVtPRs",
+  "metadata": {
+    "name": "market_manager",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "docs": [
+    "Market manager for loopscale",
+    "stores oracle information for each mint, checks for default, and liquidates"
+  ],
+  "instructions": [
+    {
+      "name": "initialize_market_information",
+      "docs": [
+        "Initilalize an oracle information account"
+      ],
+      "discriminator": [
+        50,
+        3,
+        0,
+        5,
+        239,
+        32,
+        115,
+        231
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market_engine",
+          "signer": true
+        },
+        {
+          "name": "market_manager",
+          "writable": true
+        },
+        {
+          "name": "market_information",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "MarketInformationInitArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "update_market_information",
+      "docs": [
+        "Update an oracle information account"
+      ],
+      "discriminator": [
+        186,
+        195,
+        82,
+        187,
+        196,
+        199,
+        135,
+        158
+      ],
+      "accounts": [
+        {
+          "name": "market_engine",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market_information",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "MarketInformationUpdateArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "verify_loan_and_liquidate",
+      "docs": [
+        "Verify loan and liquidate"
+      ],
+      "discriminator": [
+        50,
+        114,
+        233,
+        135,
+        199,
+        75,
+        202,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "liquidator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "market_manager"
+        },
+        {
+          "name": "liquidation_manager",
+          "writable": true
+        },
+        {
+          "name": "lockbox_assets"
+        },
+        {
+          "name": "order_ledgers"
+        },
+        {
+          "name": "lender",
+          "writable": true
+        },
+        {
+          "name": "order",
+          "writable": true
+        },
+        {
+          "name": "loan_vault",
+          "writable": true
+        },
+        {
+          "name": "lockbox"
+        },
+        {
+          "name": "principal_mint"
+        },
+        {
+          "name": "collateral_mint"
+        },
+        {
+          "name": "principal_recipient",
+          "writable": true
+        },
+        {
+          "name": "collateral_recipient",
+          "writable": true
+        },
+        {
+          "name": "loan_vault_escrow_account"
+        },
+        {
+          "name": "loan_vault_escrow_collateral_ta",
+          "writable": true
+        },
+        {
+          "name": "loan_vault_escrow_principal_ta"
+        },
+        {
+          "name": "liquidator_principal_ta",
+          "writable": true
+        },
+        {
+          "name": "abf_event_authority"
+        },
+        {
+          "name": "abf_program"
+        },
+        {
+          "name": "liquidate_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "token22_program"
+        },
+        {
+          "name": "system_program"
+        },
+        {
+          "name": "event_authority"
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "liquidation_type",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MarketInformation",
+      "discriminator": [
+        194,
+        154,
+        190,
+        99,
+        64,
+        111,
+        37,
+        205
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidOracleAccount",
+      "msg": "Invalid Oracle account."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidLegacyPythAccount",
+      "msg": "Invalid Legacy Pyth account."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidPriceExpo",
+      "msg": "Invalid price exponent."
+    },
+    {
+      "code": 6003,
+      "name": "StalePythPrice",
+      "msg": "Stale Pyth price."
+    },
+    {
+      "code": 6004,
+      "name": "PriceUncertainityExceeded",
+      "msg": "Price uncertainilty is more than max uncertainity."
+    },
+    {
+      "code": 6005,
+      "name": "NegativePrice",
+      "msg": "Price cannot be negative."
+    },
+    {
+      "code": 6006,
+      "name": "PriceOverflow",
+      "msg": "Price overflow."
+    },
+    {
+      "code": 6007,
+      "name": "MissingMarketInformationAccount",
+      "msg": "Missing Oracle Information account in remaining accounts."
+    },
+    {
+      "code": 6008,
+      "name": "MissingOracleAccount",
+      "msg": "Missing Oracle account in remaining accounts."
+    },
+    {
+      "code": 6009,
+      "name": "InvalidSeeds",
+      "msg": "Invalid seeds provided."
+    },
+    {
+      "code": 6010,
+      "name": "InvalidLoanVault",
+      "msg": "Invalid loan vault."
+    },
+    {
+      "code": 6011,
+      "name": "LoanNotInDefault",
+      "msg": "Loan not in default"
+    },
+    {
+      "code": 6012,
+      "name": "OrderStatusMismatch",
+      "msg": "Order status must be filled"
+    },
+    {
+      "code": 6013,
+      "name": "LSTOracleInvalid",
+      "msg": "LST Oracle invalid"
+    },
+    {
+      "code": 6014,
+      "name": "LSTOraclePriceNotFound",
+      "msg": "Could not get price per LST"
+    },
+    {
+      "code": 6015,
+      "name": "StaleLSTPrice",
+      "msg": "Stale LST price."
+    },
+    {
+      "code": 6016,
+      "name": "InvalidDecimal",
+      "msg": "value could not be converted to Decimal."
+    },
+    {
+      "code": 6017,
+      "name": "InvalidConversionOracleQuote",
+      "msg": "Invalid quote mint for conversion oracle."
+    },
+    {
+      "code": 6018,
+      "name": "MissingConversionRate",
+      "msg": "Missing conversion rate"
+    },
+    {
+      "code": 6019,
+      "name": "NotEnoughRemainingAccounts",
+      "msg": "Not enough remaining accounts passed in. Each lockbox asset requires at least 2 remaining accounts."
+    },
+    {
+      "code": 6020,
+      "name": "InvalidQuoteMintForMeteoraVault",
+      "msg": "Invalid quote mint for vault oracle. Must be the same as vault base token."
+    },
+    {
+      "code": 6021,
+      "name": "InvalidBaseMintForMeteoraVault",
+      "msg": "Invalid base mint for vault oracle. Must be the same as vault LP token."
+    },
+    {
+      "code": 6022,
+      "name": "InvalidDecimalsForMeteoraVault",
+      "msg": "Invalid decimals for vault oracle. Must be the same as vault LP token."
+    },
+    {
+      "code": 6023,
+      "name": "MeteoraVaultTotalAmountErr",
+      "msg": "Could not calculate total amount for meteroa vault."
+    },
+    {
+      "code": 6024,
+      "name": "InvalidExtraAccounts",
+      "msg": "Not enough extra accounts."
+    },
+    {
+      "code": 6025,
+      "name": "InvalidSwitchboardAccountOwner",
+      "msg": "Invalid switchboard account owner."
+    },
+    {
+      "code": 6026,
+      "name": "InvalidSwitchboardAccount",
+      "msg": "Invalid switchboard account"
+    },
+    {
+      "code": 6027,
+      "name": "InvalidOrcaAccountOwner",
+      "msg": "Invalid orca account owner"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidOrcaPosition",
+      "msg": "Invalid orca position"
+    },
+    {
+      "code": 6029,
+      "name": "InvalidOrcaWhirlpool",
+      "msg": "Invalid orca whirlpool"
+    },
+    {
+      "code": 6030,
+      "name": "InvalidOrcaTickArray",
+      "msg": "Invalid orca tick array"
+    },
+    {
+      "code": 6031,
+      "name": "PositionDoesNotMatchWhirlpool",
+      "msg": "Position does not match whirlpool"
+    },
+    {
+      "code": 6032,
+      "name": "PositionDoesNotMatchMint",
+      "msg": "Position does not match mint"
+    },
+    {
+      "code": 6033,
+      "name": "TickArrayDoesNotMatchWhirlpool",
+      "msg": "Tick array does not match whirlpool"
+    },
+    {
+      "code": 6034,
+      "name": "MintDoesNotMatchWhirlpool",
+      "msg": "Mint does not match whirlpool"
+    },
+    {
+      "code": 6035,
+      "name": "InvalidPythAccount",
+      "msg": "Invalid Pyth account."
+    },
+    {
+      "code": 6036,
+      "name": "InvalidLtvData",
+      "msg": "Invalid LTV data."
+    },
+    {
+      "code": 6037,
+      "name": "LtvDataNotFound",
+      "msg": "Ltv data not found."
+    },
+    {
+      "code": 6038,
+      "name": "InvalidMintType",
+      "msg": "Invalid mint type for oracle."
+    }
+  ],
+  "types": [
+    {
+      "name": "LtvData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "principal_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "ltv",
+            "type": "u64"
+          },
+          {
+            "name": "liquidation_threshold",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketInformation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vault",
+            "docs": [
+              "Market vault key"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "base_mint",
+            "docs": [
+              "Base mint for which the oracle is providing prices."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_mint",
+            "docs": [
+              "Denomination in which the price is provided."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "mint_type",
+            "docs": [
+              "mint type"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "oracle_account",
+            "docs": [
+              "Oracle account that provides the price."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle_type",
+            "docs": [
+              "Oracle type."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "max_uncertainity",
+            "docs": [
+              "Max price uncertainity in cbps.",
+              "This is (conf / price).ceil() * 10_000 * 100"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "max_age",
+            "docs": [
+              "Max age of the price in seconds."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "docs": [
+              "mint decimals"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "ltv_data",
+            "docs": [
+              "ltv and liquidation threshold pairs for each principal"
+            ],
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LtvData"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketInformationInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vault",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint_type",
+            "type": "u8"
+          },
+          {
+            "name": "base_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle_type",
+            "type": "u8"
+          },
+          {
+            "name": "max_uncertainity",
+            "type": "u64"
+          },
+          {
+            "name": "max_age",
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "ltv_data",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "LtvData"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketInformationUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint_type",
+            "type": "u8"
+          },
+          {
+            "name": "oracle_account",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "max_uncertainity",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "max_age",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "decimals",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "oracle_type",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "ltv_data",
+            "type": {
+              "option": {
+                "vec": {
+                  "defined": {
+                    "name": "LtvData"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

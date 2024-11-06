@@ -1,0 +1,548 @@
+{
+  "version": "0.1.0",
+  "name": "expedition",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Instruction which initializes the GlobalState account for the staking information"
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeRewardState",
+      "docs": [
+        "Instruction which initializes the RewardState account"
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewardState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ctnpDistributed",
+          "type": "u64"
+        },
+        {
+          "name": "ctnpOnExpedition",
+          "type": "u64"
+        },
+        {
+          "name": "rewardStop",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "docs": [
+        "Instruction which allows a user to stake a Nyan for a _stake_duration_"
+      ],
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nyanMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nyanToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nyanMintMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakeDuration",
+          "type": {
+            "defined": "StakeDuration"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "docs": [
+        "Instruction which allows a user to unstake their Nyan before or after the",
+        "_stake_duration_ has passed. If the user unstakes before their mission has ended then",
+        "they receive 0 rewards."
+      ],
+      "accounts": [
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "receiverNyanTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverNyanMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstakeWithNewTokenAccount",
+      "docs": [
+        "Created this instruction to tackle a issue which few user were facing when the user used MagicEden v1 contract  and closes the token account.",
+        "MagicEden v1 contract changes the authority of ATA and assign to new purchaser wallet so when user closes the token account after staking.",
+        "We are not able to fetch same token as that was associated with some different wallet",
+        "Generally its recommended not to change authority of ATA of a token account to other. Its was corrected in new MagicEden v2 contract.",
+        "Will be removed after checking it is not being used anymore."
+      ],
+      "accounts": [
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "receiverNyanTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverNyanMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oldTokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK Not dangerous as we don't read and write from this account"
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addMetadata",
+      "docs": [
+        "Instruction to create and add Nyan rarity metadata for a Nyan NFT"
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rarity",
+          "type": {
+            "defined": "NyanRarity"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StakeNyanMetadata",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "receiverNyanTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "receiverNyanMintAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "endTime",
+            "type": "i64"
+          },
+          {
+            "name": "duration",
+            "type": {
+              "defined": "StakeDuration"
+            }
+          },
+          {
+            "name": "stakeAccountMetadataBump",
+            "type": "u8"
+          },
+          {
+            "name": "stakedNyanType",
+            "type": {
+              "defined": "NyanRarity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PendingRewards",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "pendingRewards",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlobalData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          },
+          {
+            "name": "totalNyanStaked",
+            "type": "u64"
+          },
+          {
+            "name": "nyanStaked7Days",
+            "type": "u64"
+          },
+          {
+            "name": "nyanStaked14Days",
+            "type": "u64"
+          },
+          {
+            "name": "nyanStaked30Days",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalCtnpDistributed",
+            "type": "u64"
+          },
+          {
+            "name": "totalCtnpOnExpedition",
+            "type": "u64"
+          },
+          {
+            "name": "rewardStopAt",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ValidNyanMintMeta",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rarity",
+            "type": {
+              "defined": "NyanRarity"
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "isValidMint",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "StakeDuration",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Seven"
+          },
+          {
+            "name": "Fourteen"
+          },
+          {
+            "name": "Thirty"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NyanRarity",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Common"
+          },
+          {
+            "name": "Uncommon"
+          },
+          {
+            "name": "Rare"
+          },
+          {
+            "name": "UltraRare"
+          },
+          {
+            "name": "Legendary"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "You are not authorized to call this action."
+    },
+    {
+      "code": 6001,
+      "name": "DurationOverflow",
+      "msg": "Duration caused overflow"
+    },
+    {
+      "code": 6002,
+      "name": "NotUnlockedYet",
+      "msg": "Token hasn't unlocked yet"
+    },
+    {
+      "code": 6003,
+      "name": "TokenAmountError",
+      "msg": "Either the token account passed is not a NFT or user does'nt holds this token"
+    },
+    {
+      "code": 6004,
+      "name": "TokenOwnerError",
+      "msg": "Token account passed isn't hold by owner"
+    },
+    {
+      "code": 6005,
+      "name": "TokenMintError",
+      "msg": "Token account passed and Mint passed aren't related"
+    },
+    {
+      "code": 6006,
+      "name": "NyanMetadataAuthority",
+      "msg": "The passed account authority does'nt match with main authority of nyan metadata protocol"
+    },
+    {
+      "code": 6007,
+      "name": "GlobalStateAlreadyInitialized",
+      "msg": "Global State already initialized"
+    },
+    {
+      "code": 6008,
+      "name": "NotAValidMint",
+      "msg": "The mint trying to update is not valid"
+    },
+    {
+      "code": 6009,
+      "name": "NotValid",
+      "msg": "The mint passed is not valid"
+    },
+    {
+      "code": 6010,
+      "name": "MintMismatch",
+      "msg": "The token account and mint passed aren't related"
+    },
+    {
+      "code": 6011,
+      "name": "TokenOwnerMismatch",
+      "msg": "The owner of the token account passed and the signer does'nt match"
+    },
+    {
+      "code": 6012,
+      "name": "AtaDoesnotMatch",
+      "msg": "The ATA passed and ATA saved inside PDA doesn't match"
+    },
+    {
+      "code": 6013,
+      "name": "StakerKeyMismatch",
+      "msg": "The Staker Reward Owner and Staker key does'nt Match"
+    },
+    {
+      "code": 6014,
+      "name": "LimitReached",
+      "msg": "The staking reward limit has been reached can't stake"
+    }
+  ]
+}

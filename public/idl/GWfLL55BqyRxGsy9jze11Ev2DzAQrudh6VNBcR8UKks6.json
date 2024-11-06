@@ -1,0 +1,1989 @@
+{
+  "version": "0.1.0",
+  "name": "otsea",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize program"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "revenueVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blacklist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeValidator",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "allocateBlacklist",
+      "docs": [
+        "Increase/Decrease blacklist account size"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blacklist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "len",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "createBuyOrder",
+      "docs": [
+        "Initiate the creation of a buy order"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "buyTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorSolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blacklist",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "order",
+          "type": {
+            "defined": "NewOrder"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createSellOrder",
+      "docs": [
+        "Initiate the creation of a sell order"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "validator",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Signer for order fee validation"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sellTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blacklist",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "order",
+          "type": {
+            "defined": "NewOrder"
+          }
+        },
+        {
+          "name": "feeType",
+          "type": {
+            "defined": "FeeType"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initLockups",
+      "docs": [
+        "Initialize lockups of trader"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "lockups",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapSolForTokens",
+      "docs": [
+        "Swap SOL for tokens (interacts with sell order)"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "[Mint] of the trade token."
+          ]
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorSolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partnerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "orderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "revenueVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "traderSolTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "traderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockups",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "blacklist",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "trade",
+          "type": {
+            "defined": "Trade"
+          }
+        },
+        {
+          "name": "allowLockUp",
+          "type": "bool"
+        },
+        {
+          "name": "expectedLockUpPeriod",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "swapTokensForSol",
+      "docs": [
+        "Swap tokens for SOL (interacts with buy order)"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "revenueVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "traderSolTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "traderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "partnerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "blacklist",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "trade",
+          "type": {
+            "defined": "Trade"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimLockUp",
+      "docs": [
+        "Claim lock-up"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "[Mint] of the trade token."
+          ]
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockups",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u64"
+        },
+        {
+          "name": "lockupId",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updatePrice",
+      "docs": [
+        "Update the price of an order"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u64"
+        },
+        {
+          "name": "expectedRemainingInput",
+          "type": "u64"
+        },
+        {
+          "name": "newRemainingOutput",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateWhitelist",
+      "docs": [
+        "Update an order's whitelist"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u64"
+        },
+        {
+          "name": "whitelist",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "operation",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateOrderLockUp",
+      "docs": [
+        "Update a sell order to enforce or remove a lock-up when traded with"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u64"
+        },
+        {
+          "name": "enforce",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "cancelOrder",
+      "docs": [
+        "Cancel a order"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setFee",
+      "docs": [
+        "Set the fish and whale, partner fees"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newFishFee",
+          "type": "u8"
+        },
+        {
+          "name": "newWhaleFee",
+          "type": "u8"
+        },
+        {
+          "name": "newPartnerFee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "updatePartner",
+      "docs": [
+        "Add, remove or update a partner's details"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "partner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "partnerAccount",
+          "type": "publicKey"
+        },
+        {
+          "name": "isLockupOverrideEnabled",
+          "type": "bool"
+        },
+        {
+          "name": "isVip",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateLockUpOverride",
+      "docs": [
+        "Add/remove a lock-up override for a token, only the partner and the owner can make this change"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "partner",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "enforce",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "setLockUpPeriod",
+      "docs": [
+        "Set the lockup period for orders using a lock-up or for tokens that have enforced a lock-up override"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "time",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "blacklistAccount",
+      "docs": [
+        "Add/remove an account from the blacklist"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blacklist",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "accountPk",
+          "type": "publicKey"
+        },
+        {
+          "name": "operation",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "withdrawRevenue",
+      "docs": [
+        "Withdraw revenue from vault"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetSolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "revenueVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setValidator",
+      "docs": [
+        "Set new validator"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "otsea",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newValidator",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "OTSea",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "docs": [
+              "Admin"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "feeValidator",
+            "docs": [
+              "Signer for fee validation"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "fishFee",
+            "docs": [
+              "Fish fee"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "whaleFee",
+            "docs": [
+              "Whale fee"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "partnerFee",
+            "docs": [
+              "Partner fee"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "lockUpPeriod",
+            "docs": [
+              "Lock up period"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "nextOrderId",
+            "docs": [
+              "Total orders"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "revenueVaultBump",
+            "docs": [
+              "Revenue vault bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "blacklistBump",
+            "docs": [
+              "Blacklist bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "docs": [
+              "padding, Unused bytes for future upgrades."
+            ],
+            "type": {
+              "array": [
+                "u64",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Blacklist",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxLength",
+            "docs": [
+              "Blacklist max length"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "blacklist",
+            "docs": [
+              "Blacklist"
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Order",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "orderType",
+            "type": {
+              "defined": "OrderType"
+            }
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "State"
+            }
+          },
+          {
+            "name": "feeType",
+            "type": {
+              "defined": "FeeType"
+            }
+          },
+          {
+            "name": "isAon",
+            "type": "bool"
+          },
+          {
+            "name": "isHidden",
+            "type": "bool"
+          },
+          {
+            "name": "withLockUp",
+            "type": "bool"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelist",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalInput",
+            "type": "u64"
+          },
+          {
+            "name": "inputTransacted",
+            "type": "u64"
+          },
+          {
+            "name": "totalOutput",
+            "type": "u64"
+          },
+          {
+            "name": "outputTransacted",
+            "type": "u64"
+          },
+          {
+            "name": "totalLockedUp",
+            "type": "u64"
+          },
+          {
+            "name": "unlockedTransacted",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "docs": [
+              "padding, Unused bytes for future upgrades."
+            ],
+            "type": {
+              "array": [
+                "u64",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Whitelist",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "whitelist",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Partner",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "publicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "isLockupOverrideEnabled",
+            "type": "bool"
+          },
+          {
+            "name": "isVip",
+            "type": "bool"
+          },
+          {
+            "name": "padding",
+            "docs": [
+              "padding, Unused bytes for future upgrades."
+            ],
+            "type": {
+              "array": [
+                "u64",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Lockups",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "list",
+            "type": {
+              "vec": {
+                "defined": "LockUp"
+              }
+            }
+          },
+          {
+            "name": "nextLockupId",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NewOrder",
+      "docs": [
+        "NewOrder struct"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isAon",
+            "type": "bool"
+          },
+          {
+            "name": "withLockUp",
+            "type": "bool"
+          },
+          {
+            "name": "isHidden",
+            "type": "bool"
+          },
+          {
+            "name": "totalInput",
+            "type": "u64"
+          },
+          {
+            "name": "totalOutput",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Trade",
+      "docs": [
+        "Trade struct"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "amountToSwap",
+            "type": "u64"
+          },
+          {
+            "name": "totalOutput",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LockUp",
+      "docs": [
+        "Lockup struct"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lockupId",
+            "type": "u64"
+          },
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "unlockAt",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawn",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "State",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Fulfilled"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Buy"
+          },
+          {
+            "name": "Sell"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Fish"
+          },
+          {
+            "name": "Whale"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "FeesUpdated",
+      "fields": [
+        {
+          "name": "fishFee",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "whaleFee",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "partnerFee",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PartnerUpdated",
+      "fields": [
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "isLockupOverrideEnabled",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "isVip",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LockUpOverrideUpdated",
+      "fields": [
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "enforced",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LockupPeriodUpdated",
+      "fields": [
+        {
+          "name": "time",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BlacklistUpdated",
+      "fields": [
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "operation",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BuyOrderCreated",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newOrder",
+          "type": {
+            "defined": "NewOrder"
+          },
+          "index": false
+        },
+        {
+          "name": "tokenDecimals",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SellOrderCreated",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newOrder",
+          "type": {
+            "defined": "NewOrder"
+          },
+          "index": false
+        },
+        {
+          "name": "actualTotalInput",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "actualTotalOutput",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "feeType",
+          "type": {
+            "defined": "FeeType"
+          },
+          "index": false
+        },
+        {
+          "name": "decimals",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SwappedSOLForTokens",
+      "fields": [
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "trade",
+          "type": {
+            "defined": "Trade"
+          },
+          "index": false
+        },
+        {
+          "name": "received",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "claimable",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SwappedTokensForSOL",
+      "fields": [
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "trade",
+          "type": {
+            "defined": "Trade"
+          },
+          "index": false
+        },
+        {
+          "name": "received",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "feeType",
+          "type": {
+            "defined": "FeeType"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Traded",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "swapped",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "received",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LockUpClaimed",
+      "fields": [
+        {
+          "name": "lockupId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "receiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "OrderPriceUpdated",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "newTotalOutput",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "OrderLockUpUpdated",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "enforced",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "OrderWhitelistUpUpdated",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "list",
+          "type": {
+            "vec": "publicKey"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CancelledOrder",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RevenueTransferred",
+      "fields": [
+        {
+          "name": "sol",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PartnerFeePaid",
+      "fields": [
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "partnerPk",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "sol",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LockedUp",
+      "fields": [
+        {
+          "name": "lockupId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "unlockAt",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "withdrawn",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnlockDateNotReached",
+      "msg": "Unlock date not reached."
+    },
+    {
+      "code": 6001,
+      "name": "LockUpNotAllowed",
+      "msg": "Lock up not allowed."
+    },
+    {
+      "code": 6002,
+      "name": "LockupNotInitialized",
+      "msg": "Lockups not intialized yet."
+    },
+    {
+      "code": 6003,
+      "name": "OrderBlacklisted",
+      "msg": "Order blacklisted."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidTradeOrderType",
+      "msg": "Invalid trade order type."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidAmount",
+      "msg": "Invalid amount."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidAddress",
+      "msg": "Invalid address."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidLockupTime",
+      "msg": "Invalid lockup time."
+    },
+    {
+      "code": 6008,
+      "name": "InvalidAddressAtIndex",
+      "msg": "Invalid address at index."
+    },
+    {
+      "code": 6009,
+      "name": "Unauthorized",
+      "msg": "Unauthorized."
+    },
+    {
+      "code": 6010,
+      "name": "ExpectationMismatch",
+      "msg": "Expectation mismatch."
+    },
+    {
+      "code": 6011,
+      "name": "WhitelistMaxLengthReached",
+      "msg": "Whitelist length reached to max limit."
+    },
+    {
+      "code": 6012,
+      "name": "InvalidFee",
+      "msg": "Invalid fee."
+    },
+    {
+      "code": 6013,
+      "name": "NotAvailable",
+      "msg": "Not available."
+    },
+    {
+      "code": 6014,
+      "name": "InvalidPurchase",
+      "msg": "Invalid purchase."
+    },
+    {
+      "code": 6015,
+      "name": "Unchanged",
+      "msg": "Unchanged."
+    },
+    {
+      "code": 6016,
+      "name": "InvalidOrderId",
+      "msg": "Invalid order id."
+    },
+    {
+      "code": 6017,
+      "name": "AccountInBlacklist",
+      "msg": "Account in blacklist."
+    },
+    {
+      "code": 6018,
+      "name": "CreatorInBlacklist",
+      "msg": "Creator in blacklist."
+    },
+    {
+      "code": 6019,
+      "name": "BlacklistMaxLengthReached",
+      "msg": "The length of blacklist reached to max limit."
+    },
+    {
+      "code": 6020,
+      "name": "InvalidOrderWhitelist",
+      "msg": "Invalid order's whitelist account."
+    },
+    {
+      "code": 6021,
+      "name": "InvalidBlacklistSize",
+      "msg": "Invalid blacklist size."
+    }
+  ]
+}

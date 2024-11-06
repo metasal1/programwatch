@@ -1,0 +1,567 @@
+{
+  "version": "0.1.0",
+  "name": "mtncontract",
+  "instructions": [
+    {
+      "name": "initMerchant",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "merchant",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "merchant"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receivingToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeDiscountCampaign",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "qualifierMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchant",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initDiscountCampaign",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "campaign"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "discount"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Merchant",
+                "path": "merchant"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "token :: Mint",
+                "path": "qualifier_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "qualifierMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchant",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignPercent",
+          "type": "u64"
+        },
+        {
+          "name": "campaignMaxBaseUnits",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initCampaign",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "campaign"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "token :: Mint",
+                "path": "campaign_token_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "campaignTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaignTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "campaign-token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "merchant",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignPercent",
+          "type": "u64"
+        },
+        {
+          "name": "campaignMaxBaseUnits",
+          "type": "u64"
+        },
+        {
+          "name": "qualifierQuantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "fundCampaignTokenAccount",
+      "accounts": [
+        {
+          "name": "campaignOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaignOwnerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaignTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "baseUnits",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "drainCampaignTokenAccount",
+      "accounts": [
+        {
+          "name": "campaignOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaignOwnerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaignTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaignTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "baseUnits",
+          "type": "u64"
+        },
+        {
+          "name": "campaignBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "reward",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerPayTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerQualifierTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchantPayTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchant",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaignTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "payUnits",
+          "type": "u64"
+        },
+        {
+          "name": "rewardUnits",
+          "type": "u64"
+        },
+        {
+          "name": "campaignBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Merchant",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "receivingWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "receivingTokenPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "discounts",
+            "type": {
+              "array": [
+                "publicKey",
+                5
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Campaign",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "campaignPercent",
+            "type": "u64"
+          },
+          {
+            "name": "campaignType",
+            "type": {
+              "defined": "CampaignType"
+            }
+          },
+          {
+            "name": "campaignMaxBaseUnits",
+            "type": "u64"
+          },
+          {
+            "name": "campaignTokenMintPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "campaignTokenAccountPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "qualifierType",
+            "type": {
+              "defined": "QualifierType"
+            }
+          },
+          {
+            "name": "qualifierQuantity",
+            "type": "u64"
+          },
+          {
+            "name": "qualifierPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "merchantPubkey",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CampaignType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "SPONSORED"
+          },
+          {
+            "name": "REWARD"
+          },
+          {
+            "name": "DISCOUNT"
+          }
+        ]
+      }
+    },
+    {
+      "name": "QualifierType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TOKEN"
+          },
+          {
+            "name": "COLLECTION"
+          },
+          {
+            "name": "ANY"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "E000",
+      "msg": "this is an important task"
+    },
+    {
+      "code": 6001,
+      "name": "E001",
+      "msg": "Cannot have more than five active discounts"
+    },
+    {
+      "code": 6002,
+      "name": "E002",
+      "msg": "need"
+    },
+    {
+      "code": 6003,
+      "name": "E003",
+      "msg": "yeet1"
+    },
+    {
+      "code": 6004,
+      "name": "E004",
+      "msg": "yeet3"
+    },
+    {
+      "code": 6005,
+      "name": "E005",
+      "msg": "yeet4"
+    },
+    {
+      "code": 6006,
+      "name": "E006",
+      "msg": "yeet5"
+    },
+    {
+      "code": 6007,
+      "name": "E007",
+      "msg": "yikes"
+    }
+  ]
+}

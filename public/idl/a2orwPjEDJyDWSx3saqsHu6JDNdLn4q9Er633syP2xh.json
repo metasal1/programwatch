@@ -1,0 +1,545 @@
+{
+  "version": "0.1.0",
+  "name": "organization_wallet",
+  "instructions": [
+    {
+      "name": "initializeOrganizationWalletV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "organizationWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "organization",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeOrganizationWalletArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setTransactionsV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organizationWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletProposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "choiceTransaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "SetTransactionsArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "executeTransactionV0",
+      "accounts": [
+        {
+          "name": "organizationWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "choiceTransaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refund",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateOrganizationWalletV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "organizationWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "organization",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateOrganizationWalletArgsV0"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "OrganizationWalletV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "index",
+            "type": "u16"
+          },
+          {
+            "name": "organization",
+            "type": "publicKey"
+          },
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposalConfigs",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "walletBumpSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WalletProposalV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "organizationWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "numTransactionsByChoice",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChoiceTransactionV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "walletProposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "organizationWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "choiceIndex",
+            "type": "u16"
+          },
+          {
+            "name": "allowExecutionOffset",
+            "type": "u32"
+          },
+          {
+            "name": "disableExecutionOffset",
+            "type": "u32"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "transaction",
+            "type": {
+              "defined": "CompiledTransactionV0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrganizationWalletPropoalV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "organizationWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "accounts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "transactionsByChoice",
+            "type": {
+              "vec": {
+                "vec": {
+                  "defined": "CompiledTransactionV0"
+                }
+              }
+            }
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeOrganizationWalletArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "proposalConfigs",
+            "docs": [
+              "List of valid proposal configs to execute on this wallet"
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "index",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CompiledTransactionArgV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numRwSigners",
+            "type": "u8"
+          },
+          {
+            "name": "numRoSigners",
+            "type": "u8"
+          },
+          {
+            "name": "numRw",
+            "type": "u8"
+          },
+          {
+            "name": "instructions",
+            "docs": [
+              "Accounts will come from remaining accounts, which allows for lookup tables",
+              "and such to reduce size of txn call here"
+            ],
+            "type": {
+              "vec": {
+                "defined": "CompiledInstructionV0"
+              }
+            }
+          },
+          {
+            "name": "signerSeeds",
+            "type": {
+              "vec": {
+                "vec": "bytes"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetTransactionsArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "choiceIndex",
+            "type": "u16"
+          },
+          {
+            "name": "transactionIndex",
+            "type": "u16"
+          },
+          {
+            "name": "allowExecutionOffset",
+            "type": "u32"
+          },
+          {
+            "name": "disableExecutionOffset",
+            "type": "u32"
+          },
+          {
+            "name": "transaction",
+            "type": {
+              "defined": "CompiledTransactionArgV0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateOrganizationWalletArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "proposalConfigs",
+            "type": {
+              "option": {
+                "vec": "publicKey"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CompiledInstructionV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programIdIndex",
+            "docs": [
+              "Index into the transaction keys array indicating the program account that executes this instruction."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "accounts",
+            "docs": [
+              "Ordered indices into the transaction keys array indicating which accounts to pass to the program."
+            ],
+            "type": "bytes"
+          },
+          {
+            "name": "data",
+            "docs": [
+              "The program input data."
+            ],
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CompiledTransactionV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numRwSigners",
+            "type": "u8"
+          },
+          {
+            "name": "numRoSigners",
+            "type": "u8"
+          },
+          {
+            "name": "numRw",
+            "type": "u8"
+          },
+          {
+            "name": "accounts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "instructions",
+            "type": {
+              "vec": {
+                "defined": "CompiledInstructionV0"
+              }
+            }
+          },
+          {
+            "name": "signerSeeds",
+            "docs": [
+              "Additional signer seeds. Should include bump. Useful for things like initializing a mint where",
+              "you cannot pass a keypair.",
+              "Note that these seeds will be prefixed with \"custom\", org_wallet.index",
+              "and the bump you pass and account should be consistent with this. But to save space",
+              "in the instruction, they should be ommitted here. See tests for examples"
+            ],
+            "type": {
+              "vec": {
+                "vec": "bytes"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidDataIncrease",
+      "msg": "The realloc increase was too large"
+    },
+    {
+      "code": 6001,
+      "name": "InstructionSerializeFailed"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidSigner",
+      "msg": "Account passed that should be a signer"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidWritable",
+      "msg": "Writable setting on account is invalid"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidAccount",
+      "msg": "Invalid account key for index"
+    },
+    {
+      "code": 6005,
+      "name": "TransactionAlreadyExecuted",
+      "msg": "Transactiion has already been executed"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidTransactionIndex"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidProposalState"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidOrganization"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidProposalConfig"
+    }
+  ]
+}

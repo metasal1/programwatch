@@ -1,0 +1,1535 @@
+{
+  "version": "0.1.0",
+  "name": "vayoo_contracts",
+  "instructions": [
+    {
+      "name": "createGlobalState",
+      "docs": [
+        "* Create global state account\n     * This account holds all of the global platform variables\n     *\n     * Should only be called by the super owner"
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initializeContract",
+      "docs": [
+        "* Initialize/Create the contract\n     *\n     * Should only be called by the super owner"
+      ],
+      "accounts": [
+        {
+          "name": "contractAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVaultCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "contractName",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "endingTime",
+          "type": "u64"
+        },
+        {
+          "name": "limitingAmplitude",
+          "type": "u64"
+        },
+        {
+          "name": "feedType",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initializeUser",
+      "docs": [
+        "* Initialize the User State Account for the contract\n     *\n     * Should only be called by the user whose state is getting initialised\n     *\n     * One state per contract"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "depositCollateral",
+      "docs": [
+        "* Deposit Collateral (USDC) from user -> vault"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateral",
+      "docs": [
+        "* Withdraw Collateral (USDC) from vault -> user"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mintLContractMm",
+      "docs": [
+        "* Mint lcontract, for MM purposes\n     *\n     * This function takes in collateral\n     * locks 2 * limiting amplitude * nb of tokens for minting - (free -> locked)\n     * mints the required contracts"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mmLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mmLockedScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "burnLContractMm",
+      "docs": [
+        "* Burn lcontract, for MM purposes\n     *\n     * This function takes in lcontract,\n     * unlocks 2 * limiting amplitude * nb of tokens for minting - (locked -> free)\n     * burns the required contracts"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mmLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mmLockedScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "longUser",
+      "docs": [
+        "* Long Contract"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimit",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "closeLongUser",
+      "docs": [
+        "* Close Long Contract"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimit",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "shortUser",
+      "docs": [
+        "* Short Contract"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimit",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "closeShortUser",
+      "docs": [
+        "* Close Short Contract"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimit",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "triggerSettleMode",
+      "docs": [
+        "* Trigger Settle Mode\n     *\n     * Can be called by anyone, checks whether current time > maturity time.\n     * If so, trigger settling mode on the contract state\n     *"
+      ],
+      "accounts": [
+        {
+          "name": "contractAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "adminSettle",
+      "docs": [
+        "* Admin settle shorts and mm\n     *\n     * Can be called by superuser only (for now)\n     *"
+      ],
+      "accounts": [
+        {
+          "name": "contractAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLockedScontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVaultCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "userSettleLong",
+      "docs": [
+        "* User settle long\n     *\n     * Can be called by user only\n     *"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFreeCollateralAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVaultCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mmSettleLong",
+      "docs": [
+        "s\n     * MM settle long\n     *\n     * Can be called by MM only\n     *"
+      ],
+      "accounts": [
+        {
+          "name": "userAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mmCollateralWalletAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mmLcontractAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVaultCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lcontractMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "adminSetsAmplitude",
+      "docs": [
+        "* Withdraw Collateral (USDC) from vault -> user"
+      ],
+      "accounts": [
+        {
+          "name": "contractAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amplitudeTest",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "adminTriggersSettleMode",
+      "accounts": [
+        {
+          "name": "contractAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "testSettlementPrice",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ContractState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "escrowVaultCollateral",
+            "type": "publicKey"
+          },
+          {
+            "name": "isHalted",
+            "type": "bool"
+          },
+          {
+            "name": "isHaltedDeposit",
+            "type": "bool"
+          },
+          {
+            "name": "isHaltedTrading",
+            "type": "bool"
+          },
+          {
+            "name": "isSettling",
+            "type": "bool"
+          },
+          {
+            "name": "collateralMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "lcontractMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "scontractMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracleFeedType",
+            "type": "u8"
+          },
+          {
+            "name": "oracleFeedKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "oraclePriceMultiplier",
+            "type": "u64"
+          },
+          {
+            "name": "limitingAmplitude",
+            "type": "u64"
+          },
+          {
+            "name": "startingPrice",
+            "type": "u64"
+          },
+          {
+            "name": "startingTime",
+            "type": "u64"
+          },
+          {
+            "name": "endingPrice",
+            "type": "u64"
+          },
+          {
+            "name": "endingTime",
+            "type": "u64"
+          },
+          {
+            "name": "capProduct",
+            "type": "u64"
+          },
+          {
+            "name": "currentTvlUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "currentTvlUnderlying",
+            "type": "u64"
+          },
+          {
+            "name": "globalCurrentLockedUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "globalCurrentIssuedLcontract",
+            "type": "u64"
+          },
+          {
+            "name": "testMode",
+            "type": "u64"
+          },
+          {
+            "name": "bandsShift",
+            "type": "u64"
+          },
+          {
+            "name": "vayooPrecisions",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u64",
+                10
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump/nonce for the global state pda"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "paused",
+            "docs": [
+              "Is contract paused"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "totalTvlUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "docs": [
+              "extra space"
+            ],
+            "type": {
+              "array": [
+                "u64",
+                15
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "contractAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "ishalted",
+            "type": "bool"
+          },
+          {
+            "name": "issettled",
+            "type": "bool"
+          },
+          {
+            "name": "contractPositionNet",
+            "type": "i64"
+          },
+          {
+            "name": "usdcCollateralLockedTotal",
+            "type": "u64"
+          },
+          {
+            "name": "usdcCollateralLockedAsMm",
+            "type": "u64"
+          },
+          {
+            "name": "lcontractMintedAsMm",
+            "type": "u64"
+          },
+          {
+            "name": "lcontractBoughtAsUser",
+            "type": "u64"
+          },
+          {
+            "name": "scontractSoldAsUser",
+            "type": "u64"
+          },
+          {
+            "name": "usdcCollateralLockedAsUser",
+            "type": "u64"
+          },
+          {
+            "name": "usdcCollateralSpentAsUser",
+            "type": "u64"
+          },
+          {
+            "name": "usdcDeposited",
+            "type": "u64"
+          },
+          {
+            "name": "usdcWithdrawn",
+            "type": "u64"
+          },
+          {
+            "name": "usdcFree",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u64",
+                14
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "FeedType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pyth"
+          },
+          {
+            "name": "Switchboard"
+          },
+          {
+            "name": "Unknown"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "You are not authorized to perform this action."
+    },
+    {
+      "code": 6001,
+      "name": "Invalid",
+      "msg": "InvalidInstruction"
+    },
+    {
+      "code": 6002,
+      "name": "ReInitialize",
+      "msg": "The config has already been initialized."
+    },
+    {
+      "code": 6003,
+      "name": "UnInitialize",
+      "msg": "The config has not been initialized."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidArgument",
+      "msg": "Argument is invalid."
+    },
+    {
+      "code": 6005,
+      "name": "Overflow",
+      "msg": "An overflow occurs."
+    },
+    {
+      "code": 6006,
+      "name": "PythError",
+      "msg": "Pyth has an internal error."
+    },
+    {
+      "code": 6007,
+      "name": "PythOffline",
+      "msg": "Pyth price oracle is offline."
+    },
+    {
+      "code": 6008,
+      "name": "TryToSerializePriceAccount",
+      "msg": "Program should not try to serialize a price account."
+    },
+    {
+      "code": 6009,
+      "name": "ContractEnded",
+      "msg": "Contract has Ended Already"
+    },
+    {
+      "code": 6010,
+      "name": "ContractHalted",
+      "msg": "Contract has been halted for trading and depositing"
+    },
+    {
+      "code": 6011,
+      "name": "ContractDepositHalted",
+      "msg": "Contract has been halted for depositing"
+    },
+    {
+      "code": 6012,
+      "name": "ContractTradingHalted",
+      "msg": "Contract has been halted for trading"
+    },
+    {
+      "code": 6013,
+      "name": "ClosePositionBiggerThanOpened",
+      "msg": "Trying to close a bigger position than what you have opened"
+    },
+    {
+      "code": 6014,
+      "name": "MaturityNotReached",
+      "msg": "Maturity Time not reached"
+    },
+    {
+      "code": 6015,
+      "name": "AlreadySettling",
+      "msg": "Already In Settle Mode"
+    },
+    {
+      "code": 6016,
+      "name": "ShortLeaveUnhealthy",
+      "msg": "Leaves Vault Unhealthy short"
+    },
+    {
+      "code": 6017,
+      "name": "CloseShortBeforeLong",
+      "msg": "Need to close short before opening long"
+    },
+    {
+      "code": 6018,
+      "name": "CloseLongBeforeShort",
+      "msg": "Need to close short before opening long"
+    },
+    {
+      "code": 6019,
+      "name": "PlatformUnhealthy",
+      "msg": "Action leaves the platform unhealthy"
+    },
+    {
+      "code": 6020,
+      "name": "NotSettling",
+      "msg": "Contract not in settling mode"
+    },
+    {
+      "code": 6021,
+      "name": "IsSettling",
+      "msg": "Contract is in settling mode"
+    },
+    {
+      "code": 6022,
+      "name": "ErrorAccounting",
+      "msg": "Error in internal accounting"
+    },
+    {
+      "code": 6023,
+      "name": "LeakInFAccount",
+      "msg": "LeakInFreeAccountUser"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidFeedType",
+      "msg": "Invalid Feed Type"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidSwitchboardAccount",
+      "msg": "Not a valid Switchboard account"
+    },
+    {
+      "code": 6026,
+      "name": "StaleFeed",
+      "msg": "Switchboard feed has not been updated in 5 minutes"
+    },
+    {
+      "code": 6027,
+      "name": "ConfidenceIntervalExceeded",
+      "msg": "Switchboard feed exceeded provided confidence interval"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidOraclefeed",
+      "msg": "Invalid Feed"
+    },
+    {
+      "code": 6029,
+      "name": "NoTestInProd",
+      "msg": "Cant be used in prod mode"
+    }
+  ]
+}

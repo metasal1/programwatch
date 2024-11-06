@@ -1,0 +1,897 @@
+{
+  "version": "0.0.3",
+  "name": "bridge_escrow",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Sets the authority and creates a token mint which would be used to",
+        "send acknowledgements to the counterparty chain. The token doesnt have",
+        "any value is just used to transfer messages."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "escrowAndStoreIntent",
+      "docs": [
+        "Escrows the user funds on the source chain",
+        "",
+        "The funds are stored in token account owned by the auctioneer state PDA. Right now",
+        "all the deposits are present in a single pool. But we would want to deposit the funds",
+        "in seperate account so that we dont touch the funds of other users."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneerState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "intent",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newIntent",
+          "type": {
+            "defined": "IntentPayload"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateAuctionData",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "intent",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "intentId",
+          "type": "string"
+        },
+        {
+          "name": "amountOut",
+          "type": "string"
+        },
+        {
+          "name": "winnerSolver",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "onReceiveTransfer",
+      "docs": [
+        "The memo should contain the token mint address, amount and solver address",
+        "seperated by commas. Right now this method can only be called by the",
+        "auctioneer.",
+        "",
+        "TODO: Modify the method such that the method can only be called by",
+        "the solana-ibc bridge contract. This would then remove the trust factor",
+        "from the auctioneer."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneerState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solverTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "program is calling the method."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "intent",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "intentId",
+          "type": "string"
+        },
+        {
+          "name": "memo",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "sendFundsToUser",
+      "accounts": [
+        {
+          "name": "intent",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "auctioneerState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "solver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenIn",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenOut",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneerTokenInAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "solverTokenInAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "solverTokenOutAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenOutAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ibcProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "feeCollector",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "intentId",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "sendFundsToUserCrossChain",
+      "accounts": [
+        {
+          "name": "auctioneerState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "solver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenIn",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenOut",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneerTokenInAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "solverTokenInAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "solverTokenOutAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenOutAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ibcProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "feeCollector",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "intentId",
+          "type": "string"
+        },
+        {
+          "name": "amountOut",
+          "type": "u64"
+        },
+        {
+          "name": "solverOut",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "userCancelIntent",
+      "docs": [
+        "If the intent has not been solved, then the funds can be withdrawn by",
+        "the user after the timeout period has passed.",
+        "",
+        "For the cross chain intents, a message is sent to the source chain to unlock",
+        "the funds."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneerState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "intent",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenIn",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "intentId",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Auctioneer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Intent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "intentId",
+            "type": "string"
+          },
+          {
+            "name": "userIn",
+            "type": "publicKey"
+          },
+          {
+            "name": "userOut",
+            "type": "string"
+          },
+          {
+            "name": "tokenIn",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountIn",
+            "type": "u64"
+          },
+          {
+            "name": "tokenOut",
+            "type": "string"
+          },
+          {
+            "name": "amountOut",
+            "type": "string"
+          },
+          {
+            "name": "winnerSolver",
+            "type": "string"
+          },
+          {
+            "name": "creationTimestampInSec",
+            "type": "u64"
+          },
+          {
+            "name": "timeoutTimestampInSec",
+            "type": "u64"
+          },
+          {
+            "name": "singleDomain",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "IntentPayload",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "intentId",
+            "type": "string"
+          },
+          {
+            "name": "userIn",
+            "type": "publicKey"
+          },
+          {
+            "name": "userOut",
+            "type": "string"
+          },
+          {
+            "name": "tokenIn",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountIn",
+            "type": "u64"
+          },
+          {
+            "name": "tokenOut",
+            "type": "string"
+          },
+          {
+            "name": "amountOut",
+            "type": "string"
+          },
+          {
+            "name": "timeoutTimestampInSec",
+            "type": "u64"
+          },
+          {
+            "name": "singleDomain",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Event",
+      "docs": [
+        "Events that can be emitted by the program.",
+        "",
+        "The events are logged in their borsh-serialised form.",
+        "",
+        "The events names are similar to the function names that emit them",
+        "to remain the consistency."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "EscrowFunds",
+            "fields": [
+              {
+                "defined": "EscrowFunds"
+              }
+            ]
+          },
+          {
+            "name": "StoreIntent",
+            "fields": [
+              {
+                "defined": "StoreIntent"
+              }
+            ]
+          },
+          {
+            "name": "OnReceiveTransfer",
+            "fields": [
+              {
+                "defined": "OnReceiveTransfer"
+              }
+            ]
+          },
+          {
+            "name": "SendFundsToUser",
+            "fields": [
+              {
+                "defined": "SendFundsToUser"
+              }
+            ]
+          },
+          {
+            "name": "OnTimeout",
+            "fields": [
+              {
+                "defined": "OnTimeout"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "You are not authorized to perform this action."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidBridgeContract",
+      "msg": "The provided bridge contract is invalid."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTokenAddress",
+      "msg": "Invalid token address in the memo."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidSolverAddress",
+      "msg": "Invalid solver address in the memo."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidAmount",
+      "msg": "Invalid amount in the memo."
+    },
+    {
+      "code": 6005,
+      "name": "TransferFailed",
+      "msg": "Token transfer failed."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidDenom",
+      "msg": "Denom is not DUMMY token"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTimeout",
+      "msg": "Timeout is lesser than the current time"
+    },
+    {
+      "code": 6008,
+      "name": "IntentNotTimedOut",
+      "msg": "Intent hasnt timed out yet"
+    },
+    {
+      "code": 6009,
+      "name": "AccountsNotPresent",
+      "msg": "Solana ibc accounts not present"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidSolverOutAddress",
+      "msg": "Invalid solver out address"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidHashedFullDenom",
+      "msg": "Invalid hashed full denom"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidEventFormat",
+      "msg": "Invalid Event format. Check logs for more"
+    },
+    {
+      "code": 6013,
+      "name": "BadPublickey",
+      "msg": "Unable to parse public key from string"
+    },
+    {
+      "code": 6014,
+      "name": "IntentAlreadyExists",
+      "msg": "Intent already exists."
+    },
+    {
+      "code": 6015,
+      "name": "WinnerSolverMustBeEmpty",
+      "msg": "WinnerSolver must be an empty string."
+    },
+    {
+      "code": 6016,
+      "name": "SrcUserNotSender",
+      "msg": "Source user does not match the sender."
+    },
+    {
+      "code": 6017,
+      "name": "InvalidWithdrawFlag",
+      "msg": "Invalid withdraw flag format."
+    },
+    {
+      "code": 6018,
+      "name": "IntentDoesNotExist",
+      "msg": "Intent does not exist."
+    },
+    {
+      "code": 6019,
+      "name": "IntentMismatchFromUser",
+      "msg": "Intent mismatch: 'from' address does not match expected intent.dstUser."
+    },
+    {
+      "code": 6020,
+      "name": "IntentMismatchFromSolver",
+      "msg": "Intent mismatch: 'from' address does not match expected intent.winnerSolver."
+    },
+    {
+      "code": 6021,
+      "name": "IntentMismatchToUser",
+      "msg": "Intent mismatch: 'to' address does not match expected intent.dstUser."
+    },
+    {
+      "code": 6022,
+      "name": "InsufficientAmount",
+      "msg": "Insufficient amount provided."
+    },
+    {
+      "code": 6023,
+      "name": "InvalidMemoFormat",
+      "msg": "Invalid Memo format"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidTokenOut",
+      "msg": "Invalid token out"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidAmountOut",
+      "msg": "Auctioneer cannot update an amountOut less than current amountOut"
+    },
+    {
+      "code": 6026,
+      "name": "TokenInNotMint",
+      "msg": "new_intent.token_in != ctx.accounts.user_token_account.mint"
+    },
+    {
+      "code": 6027,
+      "name": "SrcUserNotUserIn",
+      "msg": "new_intent.user_in != ctx.accounts.user_token_account.owner"
+    },
+    {
+      "code": 6028,
+      "name": "MisMatchUserIn",
+      "msg": "user_token_account.owner != intent.user_in"
+    },
+    {
+      "code": 6029,
+      "name": "MismatchTokenIn",
+      "msg": "user_token_account.mint != intent.token_in"
+    },
+    {
+      "code": 6030,
+      "name": "InvalidFeeCollector",
+      "msg": "fee_collector != accounts.fee_collector.as_ref().unwrap().key"
+    },
+    {
+      "code": 6031,
+      "name": "UserInNotIntentUserIn",
+      "msg": "User in (signer) is not intent.user_in"
+    }
+  ]
+}

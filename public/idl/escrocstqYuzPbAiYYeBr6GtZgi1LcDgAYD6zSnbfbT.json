@@ -1,0 +1,213 @@
+{
+  "version": "0.1.0",
+  "name": "solana_escrow",
+  "instructions": [
+    {
+      "name": "createEscrow",
+      "accounts": [
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipient",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : no check necessary"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowLamports",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawLamports",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawInterval",
+          "type": {
+            "defined": "TimeInterval"
+          }
+        },
+        {
+          "name": "withdrawIntervalStep",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateEscrow",
+      "accounts": [
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowLamports",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawLamports",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawInterval",
+          "type": {
+            "defined": "TimeInterval"
+          }
+        },
+        {
+          "name": "withdrawIntervalStep",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawEscrow",
+      "accounts": [
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deleteEscrow",
+      "accounts": [
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EscrowAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "recipient",
+            "type": "publicKey"
+          },
+          {
+            "name": "lamports",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawLamports",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawInterval",
+            "type": {
+              "defined": "TimeInterval"
+            }
+          },
+          {
+            "name": "withdrawIntervalStep",
+            "type": "u64"
+          },
+          {
+            "name": "createdAtTs",
+            "type": "u64"
+          },
+          {
+            "name": "lastWithdrawalTs",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TimeInterval",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Second"
+          },
+          {
+            "name": "Minute"
+          },
+          {
+            "name": "Hour"
+          },
+          {
+            "name": "Day"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WithdrawEscrowAccountInsufficientLamports",
+      "msg": "escrow account must have enough lamports to honor the withdrawal and must also cover rent"
+    },
+    {
+      "code": 6001,
+      "name": "WithdrawEscrowAccountInvalidWithdrawalTimeInterval",
+      "msg": "withdrawals can't occur before the defined time interval from the last withdrawal"
+    }
+  ]
+}

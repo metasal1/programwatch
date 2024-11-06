@@ -1,0 +1,337 @@
+{
+  "version": "0.1.0",
+  "name": "easy_mint",
+  "instructions": [
+    {
+      "name": "createMintDefinition",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "programFee",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mintDefinition",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "memorable_word"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MintDefinition",
+                "path": "mint_definition"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mintMetadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "memorableWord",
+          "type": "string"
+        },
+        {
+          "name": "payToAccount",
+          "type": "publicKey"
+        },
+        {
+          "name": "priceMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "expirationDate",
+          "type": "u64"
+        },
+        {
+          "name": "mintName",
+          "type": "string"
+        },
+        {
+          "name": "mintSymbol",
+          "type": "string"
+        },
+        {
+          "name": "mintUri",
+          "type": "string"
+        },
+        {
+          "name": "basisPoints",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "updateMintPrice",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintDefinition",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "priceMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateMintExpiryDate",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintDefinition",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "expirationDate",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pleaseMintToken",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "programFee",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "fee"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mintDefinition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payWithMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payFromTokenAcct",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payToAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payToTokenAcct",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipientWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MintDefinition",
+                "path": "mint_definition"
+              }
+            ]
+          }
+        },
+        {
+          "name": "deliveryTokenAcct",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MintDefinition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "payToAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "priceMint",
+            "type": {
+              "array": [
+                "publicKey",
+                5
+              ]
+            }
+          },
+          {
+            "name": "price",
+            "type": {
+              "array": [
+                "u64",
+                5
+              ]
+            }
+          },
+          {
+            "name": "expirationDate",
+            "type": "u64"
+          },
+          {
+            "name": "memorableWord",
+            "type": "string"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u64",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidPriceMint",
+      "msg": "Invalid price mint"
+    },
+    {
+      "code": 6001,
+      "name": "MaxMintPrices",
+      "msg": "Maximum number of mint pricing reached"
+    }
+  ]
+}

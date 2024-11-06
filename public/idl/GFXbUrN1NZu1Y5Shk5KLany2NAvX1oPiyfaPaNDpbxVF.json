@@ -1,0 +1,191 @@
+{
+  "version": "0.1.0",
+  "name": "gofx_burn",
+  "instructions": [
+    {
+      "name": "createAccounts",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK this will be the authority"
+          ]
+        },
+        {
+          "name": "gofxBurnSigner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gofxMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gofxAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnTokens",
+      "accounts": [
+        {
+          "name": "gofxMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gofxBurnSigner",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapUsdcToGofx",
+      "accounts": [
+        {
+          "name": "gofxBurnSigner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccountInMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountIn",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountOut",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "jupiterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GofxBurnState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "totalGofxBurnt",
+            "type": "u64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "OverflowError",
+      "msg": "Overflow"
+    },
+    {
+      "code": 6001,
+      "name": "JupiterInstructionSourceTokenAccountMismatch",
+      "msg": "Source token account passed into jupiter instruction mismatched"
+    },
+    {
+      "code": 6002,
+      "name": "JupiterInstructionDestinationTokenAccountMismatch",
+      "msg": "Destination token account passed into jupiter instruction mismatched"
+    },
+    {
+      "code": 6003,
+      "name": "OnlyGOFXBuringAllowed",
+      "msg": "Only $GOFX tokens are allowed to burn!"
+    },
+    {
+      "code": 6004,
+      "name": "TokenAccountAuthorityMismatch",
+      "msg": "Token Account authority mismatch!"
+    },
+    {
+      "code": 6005,
+      "name": "OnlySwapToGOFXAllowed",
+      "msg": "Only Swap to $GOFX tokens are allowed"
+    }
+  ]
+}

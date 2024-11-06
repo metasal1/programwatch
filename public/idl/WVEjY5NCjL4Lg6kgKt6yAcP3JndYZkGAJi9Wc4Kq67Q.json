@@ -1,0 +1,526 @@
+{
+  "version": "0.8.2",
+  "name": "everwave_market",
+  "instructions": [
+    {
+      "name": "createAuction",
+      "accounts": [
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "askAmount",
+          "type": "u64"
+        },
+        {
+          "name": "endTs",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "cancelAuction",
+      "accounts": [
+        {
+          "name": "auctioneerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "bidAuction",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimAuction",
+      "accounts": [
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auctioneer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "defundAuction",
+      "accounts": [
+        {
+          "name": "claimer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createSale",
+      "accounts": [
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sellerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sale",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "askAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelSale",
+      "accounts": [
+        {
+          "name": "sellerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sale",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "executeSale",
+      "accounts": [
+        {
+          "name": "collectionAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "buyerMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionMarkPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sale",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Auction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "docs": [
+              "NFT"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "auctioneer",
+            "docs": [
+              "auctioneer wallet key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "paymentMint",
+            "docs": [
+              "SOL or SPL token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "decimals",
+            "docs": [
+              "decimals for web3 client"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "askAmount",
+            "docs": [
+              "initial price"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "lastBidder",
+            "docs": [
+              "last bidder"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bidAmount",
+            "docs": [
+              "last bid price"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "endTs",
+            "docs": [
+              "end timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "createdTs",
+            "docs": [
+              "created timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "updatedTs",
+            "docs": [
+              "updated timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "optMint",
+            "docs": [
+              "optional NFT"
+            ],
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Sale",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "docs": [
+              "NFT"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "seller",
+            "docs": [
+              "seller wallet key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "paymentMint",
+            "docs": [
+              "SOL or SPL token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "decimals",
+            "docs": [
+              "decimals for web3 client"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "askAmount",
+            "docs": [
+              "ask price"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "createdTs",
+            "docs": [
+              "created timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          },
+          {
+            "name": "maxSupply",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CollectionInvalid",
+      "msg": "The NFT is not in Everwave collection"
+    },
+    {
+      "code": 6001,
+      "name": "AuctionEnded",
+      "msg": "Auction has ended"
+    },
+    {
+      "code": 6002,
+      "name": "AuctionNotEnded",
+      "msg": "Auction has not ended yet"
+    },
+    {
+      "code": 6003,
+      "name": "AuctionLowBidAmount",
+      "msg": "You should bid at a higher price"
+    }
+  ]
+}

@@ -1,0 +1,850 @@
+{
+  "version": "0.1.0",
+  "name": "track",
+  "instructions": [
+    {
+      "name": "createTrackV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "CreateTrackArgsV0"
+                },
+                "path": "args.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "trackConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackConfigV0",
+                "path": "track_config.authority"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "TrackConfigV0",
+                "path": "track_config.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateTrackArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createTrackConfigV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "trackConfig",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "CreateTrackConfigArgsV0"
+                },
+                "path": "args.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateTrackConfigArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createPrizeV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track.authority"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "TrackV0",
+                "path": "track.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "prize",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "prize"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "TrackV0",
+                "path": "track.prize_count"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeStateV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track.authority"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "TrackV0",
+                "path": "track.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "state",
+          "type": {
+            "defined": "TrackStateV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submitEntryV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track.authority"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "TrackV0",
+                "path": "track.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "trackConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "submission",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "submission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "SubmitEntryArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "selectWinnerV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track.authority"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "TrackV0",
+                "path": "track.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "trackConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "submission",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prize",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "payoutPrizePool",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "winner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "winnerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "submission",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "submission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SubmissionV0",
+                "path": "submission.track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SubmissionV0",
+                "path": "submission.authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "prize",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "prize"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "PrizeV0",
+                "path": "prize.track"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "PrizeV0",
+                "path": "prize.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateTrackV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "track"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "TrackV0",
+                "path": "track.authority"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "TrackV0",
+                "path": "track.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateTrackV0Args"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PrizeV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u16"
+          },
+          {
+            "name": "track",
+            "type": "publicKey"
+          },
+          {
+            "name": "isDeleted",
+            "type": "bool"
+          },
+          {
+            "name": "submissionWinner",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrackV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": {
+              "defined": "TrackStateV0"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "judger",
+            "type": "publicKey"
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "prizeCount",
+            "type": "u16"
+          },
+          {
+            "name": "submissionCount",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrackConfigV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "maxSubmissionTime",
+            "type": "i64"
+          },
+          {
+            "name": "maxSubmissionCount",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxJudgingTime",
+            "type": "i64"
+          },
+          {
+            "name": "opensAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SubmissionV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "track",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateTrackArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "judger",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SubmitEntryArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateTrackConfigArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "maxSubmissionTime",
+            "type": "i64"
+          },
+          {
+            "name": "maxSubmissionCount",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxJudgingTime",
+            "type": "i64"
+          },
+          {
+            "name": "opensAt",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateTrackV0Args",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "judger",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "config",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "state",
+            "type": {
+              "option": {
+                "defined": "TrackStateV0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrackStateV0",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Draft"
+          },
+          {
+            "name": "Live"
+          },
+          {
+            "name": "OpenForSubmissions",
+            "fields": [
+              {
+                "name": "ts",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "Judging",
+            "fields": [
+              {
+                "name": "ts",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "Judged",
+            "fields": [
+              {
+                "name": "ts",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "Closed"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow!"
+    },
+    {
+      "code": 6001,
+      "name": "TrackSharesInvalid",
+      "msg": "Track Shares must add up to 100"
+    }
+  ]
+}

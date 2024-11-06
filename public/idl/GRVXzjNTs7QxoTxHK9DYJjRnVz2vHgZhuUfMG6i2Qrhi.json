@@ -1,0 +1,385 @@
+{
+  "version": "0.1.0",
+  "name": "strt_vault",
+  "instructions": [
+    {
+      "name": "initTopPerformances",
+      "accounts": [
+        {
+          "name": "topPerformances",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "cranker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateFundPerformance",
+      "accounts": [
+        {
+          "name": "topPerformances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cranker",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "streetCache",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fundMint",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundSeed",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "initStakePool",
+      "accounts": [
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "depositStake",
+      "accounts": [
+        {
+          "name": "depositor",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "depositorStrtAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositorXstrtAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolStrtAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawStake",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ownerStrtAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerXstrtAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolStrtAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakePoolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawAmount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StreetCache",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fundSeed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "userKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "investCost",
+            "type": "u64"
+          },
+          {
+            "name": "streetCacheSeed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "serumTotalValue",
+            "type": {
+              "defined": "TotalValue"
+            }
+          },
+          {
+            "name": "protocolTotalValue",
+            "type": {
+              "defined": "TotalValue"
+            }
+          },
+          {
+            "name": "lastDeposit",
+            "type": "u64"
+          },
+          {
+            "name": "serumLightenup",
+            "type": {
+              "array": [
+                "u64",
+                20
+              ]
+            }
+          },
+          {
+            "name": "mangoPerpMarketLightenup",
+            "type": {
+              "array": [
+                "i64",
+                15
+              ]
+            }
+          },
+          {
+            "name": "mangoSpotMarketLightenup",
+            "type": {
+              "array": [
+                "u64",
+                15
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TopPerformances",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "perfs",
+            "type": {
+              "vec": {
+                "defined": "Performance"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TotalValue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdate",
+            "type": "u64"
+          },
+          {
+            "name": "fundTokenTotalSupply",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Performance",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fundKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "positive",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidStreetCache",
+      "msg": "Provided StreetCache is invalid"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidFundMint",
+      "msg": "Provided FundMint is invalid"
+    },
+    {
+      "code": 6002,
+      "name": "StreetCacheOutdated",
+      "msg": "Total value in street cache is outdated"
+    },
+    {
+      "code": 6003,
+      "name": "FundTokenTotalSupplyChanged",
+      "msg": "Fund token total supply have changed"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidStakePoolMint",
+      "msg": "Provided StakePoolMint is invalid"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidStakePoolSTRTATA",
+      "msg": "Provided StakePoolSTRTATA is invalid"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidDepositorSTRTATA",
+      "msg": "Provided DepositorSTRTATA is invalid"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidOwnerXSTRTATA",
+      "msg": "Provided OwnerXSTRTATA is invalid"
+    }
+  ]
+}

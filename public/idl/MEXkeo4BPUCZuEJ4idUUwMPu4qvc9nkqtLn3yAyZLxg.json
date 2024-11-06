@@ -1,0 +1,1914 @@
+{
+  "version": "0.1.0",
+  "name": "swissborg_mex_proxy",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialise the proxy state",
+        "",
+        "### Access control",
+        "- Deployer",
+        "",
+        "### Parameters",
+        "- `admin` - The admin address",
+        "- `manager` - The manager address",
+        "- `treasurer` - The treasurer address",
+        "- `trader` - The trader address"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "deployer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "publicKey"
+        },
+        {
+          "name": "manager",
+          "type": "publicKey"
+        },
+        {
+          "name": "treasurer",
+          "type": "publicKey"
+        },
+        {
+          "name": "trader",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "docs": [
+        "Deposit funds in the proxy",
+        "",
+        "### Access control",
+        "- Treasurer",
+        "",
+        "### Parameters",
+        "- `amount` - The amount to deposit",
+        "- `native` - True if it's a native SOL deposit, false if it's an SPL deposit"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxyAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasurerAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "native",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "docs": [
+        "Withdraw funds from the proxy",
+        "",
+        "### Access control",
+        "- Treasurer",
+        "",
+        "### Parameters",
+        "- `amount` - The amount to withdraw",
+        "- 'native' - True if it's a SOL Withdraw, false if it's an SPL Withdraw"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxyAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasurerAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "native",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "pauseProxy",
+      "docs": [
+        "Pause all trading activities",
+        "",
+        "### Access control",
+        "- Manager"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpauseProxy",
+      "docs": [
+        "Resume all trading activities",
+        "",
+        "### Access control",
+        "- Manager"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setAdmin",
+      "docs": [
+        "Set a new admin",
+        "",
+        "### Access control",
+        "- Admin"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oldAdmin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newAdmin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setManager",
+      "docs": [
+        "Set a new manager",
+        "",
+        "### Access control",
+        "- Admin",
+        "",
+        "### Parameters",
+        "- `new_manager` - The pubkey of the new manager"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newManager",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setTreasurer",
+      "docs": [
+        "Set a new treasurer",
+        "",
+        "### Access control",
+        "- Admin",
+        "",
+        "### Parameters",
+        "- `new_treasurer` - The pubkey of the new treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTreasurer",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setTrader",
+      "docs": [
+        "Set a new trader",
+        "",
+        "### Access control",
+        "- Admin",
+        "",
+        "### Parameters",
+        "- `new_trader` - The pubkey of the new trader"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTrader",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "swapPhoenix",
+      "docs": [
+        "Send an IOC order to phoenix",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts needed to send an IOC order on phoenix:",
+        "{ discriminator, order_packet }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "phoenixProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "phoenixMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountProxyBase",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountProxyQuote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountPhoenixVaultBase",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountPhoenixVaultQuote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapRaydium",
+      "docs": [
+        "Perform a swap on raydium clmm",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts needed to perform a swap on raydium clmm:",
+        "{ discriminator, amount, other_amount_threshold, sqrt_price_limit, is_base_input }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "raydiumProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ammConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "observationState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram2022",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "memoProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inputVaultMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputVaultMint",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapRaydiumAmm",
+      "docs": [
+        "Perform a swap on raydium amm",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts needed to perform a swap on raydium amm:",
+        "{ discriminator, amount_in, min_amount_out }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "raydiumAmmProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ammId",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ammAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ammOpenOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ammTargetOrders",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "poolCoinTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolPcTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "serumMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumBids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumAsks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumEventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumCoinVaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumPcVaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumVaultSigner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userSourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapWhirlpool",
+      "docs": [
+        "Perform a swap on whirlpool",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts neeeded to perform a swap on whirlpool:",
+        "{ discriminator, amount, other_amount_threshold, sqrt_price_limit,",
+        "amount_specified_is_input, a_to_b }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "whirlpoolsProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapOpenbookV2",
+      "docs": [
+        "Send an IOC order to openbook v2",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts needed to send an IOC order on phoenix:",
+        "{ discriminator, side, price_lots, max_base_lots, max_quote_lots_including_fees",
+        "client_order_id, order_type, expiry_timestamp, self_trade_behaviour, limit }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "openbookV2ProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketId",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketBaseVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketQuoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventHeap",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userBaseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracleA",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "oracleB",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "openOrdersAdmin",
+          "isMut": false,
+          "isSigner": true,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapMeteora",
+      "docs": [
+        "Perform a swap on meteora",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts needed to perform a swap on meteora:",
+        "{ discriminator, amount_in, min_amount_out }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "meteoraProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lbPair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "binArrayBitmapExtension",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserveX",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserveY",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenIn",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenOut",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenXMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenYMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hostFeeIn",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenXProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenYProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bin0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bin1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bin2",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapLifinity",
+      "docs": [
+        "Perform a swap on lifinity",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `data_accounts` - A buffer containing the data_accounts needed to perform a swap on lifinity:",
+        "{ discriminator, amount_in, minimum_amount_out }"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lifinityProgramId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "amm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracleMainAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracleSubAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oraclePcAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapRoute",
+      "docs": [
+        "Execute a bundle of swap atomically",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `route` - A structure containing the data_accounts needed to execute the bundle:",
+        "{ route_plan, amount_in, min_amount_out }"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "routePlan",
+          "type": {
+            "defined": "RoutePlan"
+          }
+        }
+      ]
+    },
+    {
+      "name": "whitelistMarket",
+      "docs": [
+        "Whitelist a new market",
+        "",
+        "### Access control",
+        "- Admin"
+      ],
+      "accounts": [
+        {
+          "name": "programAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "removeMarket",
+      "docs": [
+        "Remove a market from whitelist",
+        "",
+        "### Access control",
+        "- Manager"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pauseMarket",
+      "docs": [
+        "Pause trading activities on a specific Phoenix market",
+        "",
+        "### Access control",
+        "- Treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpauseMarket",
+      "docs": [
+        "Resume trading activities on a specific Phoenix market",
+        "",
+        "### Access control",
+        "- Treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "wrap",
+      "docs": [
+        "Wrap SOL to wSOL",
+        "",
+        "### Access control",
+        "- Treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxyAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "docs": [
+        "This structure stores information about a whitelisted market"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "isPaused",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Proxy",
+      "docs": [
+        "This strucuture stores the main information about the proxy such as the addresses that have privileged access right"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "manager",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasurer",
+            "type": "publicKey"
+          },
+          {
+            "name": "trader",
+            "type": "publicKey"
+          },
+          {
+            "name": "isPaused",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "SwapEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "marketId",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountIn",
+            "type": {
+              "defined": "AmountExchanged"
+            }
+          },
+          {
+            "name": "amountOut",
+            "type": {
+              "defined": "AmountExchanged"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AmountExchanged",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IndexedPercent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "index",
+            "docs": [
+              "index in the list"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "percent",
+            "docs": [
+              "percent to use"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Swap",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "docs": [
+              "use to track orders"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dex",
+            "docs": [
+              "dex and args to use"
+            ],
+            "type": {
+              "defined": "Dex"
+            }
+          },
+          {
+            "name": "inputs",
+            "docs": [
+              "list of percent of amount at a given index in the list to use as input amount"
+            ],
+            "type": {
+              "vec": {
+                "defined": "IndexedPercent"
+              }
+            }
+          },
+          {
+            "name": "outputIndex",
+            "docs": [
+              "index where to write the output amount"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IndexedAmount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "index",
+            "docs": [
+              "index in the list"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "amount to use"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoutePlan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "swaps",
+            "type": {
+              "vec": {
+                "defined": "Swap"
+              }
+            }
+          },
+          {
+            "name": "inputAmounts",
+            "type": {
+              "vec": {
+                "defined": "IndexedAmount"
+              }
+            }
+          },
+          {
+            "name": "minOutputAmounts",
+            "type": {
+              "vec": {
+                "defined": "IndexedAmount"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Dex",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Lifinity",
+            "fields": []
+          },
+          {
+            "name": "MeteoraDlmm",
+            "fields": [
+              {
+                "name": "remainingAccountsCount",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "OpenbookV2",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              },
+              {
+                "name": "quoteLotSize",
+                "type": "i64"
+              },
+              {
+                "name": "baseLotSize",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "PhoenixV1",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              },
+              {
+                "name": "quoteLotSize",
+                "type": "u64"
+              },
+              {
+                "name": "baseLotSize",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "RaydiumAmmV4",
+            "fields": []
+          },
+          {
+            "name": "RaydiumClmm",
+            "fields": [
+              {
+                "name": "remainingAccountsCount",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "RaydiumCpmm",
+            "fields": []
+          },
+          {
+            "name": "Whirlpool",
+            "fields": [
+              {
+                "name": "aToB",
+                "type": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlaceOrderType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Limit"
+          },
+          {
+            "name": "ImmediateOrCancel"
+          },
+          {
+            "name": "PostOnly"
+          },
+          {
+            "name": "Market"
+          },
+          {
+            "name": "PostOnlySlide"
+          },
+          {
+            "name": "FillOrKill"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderPacket",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PostOnly"
+          },
+          {
+            "name": "Limit"
+          },
+          {
+            "name": "ImmediateOrCancel",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              },
+              {
+                "name": "priceInTicks",
+                "type": {
+                  "option": "u64"
+                }
+              },
+              {
+                "name": "numBaseLots",
+                "type": "u64"
+              },
+              {
+                "name": "numQuoteLots",
+                "type": "u64"
+              },
+              {
+                "name": "minBaseLotsToFill",
+                "type": "u64"
+              },
+              {
+                "name": "minQuoteLotsToFill",
+                "type": "u64"
+              },
+              {
+                "name": "selfTradeBehavior",
+                "type": "u8"
+              },
+              {
+                "name": "matchLimit",
+                "type": {
+                  "option": "u64"
+                }
+              },
+              {
+                "name": "clientOrderId",
+                "type": "u128"
+              },
+              {
+                "name": "useOnlyDepositedFunds",
+                "type": "bool"
+              },
+              {
+                "name": "lastValidSlot",
+                "type": {
+                  "option": "u64"
+                }
+              },
+              {
+                "name": "lastValidUnixTimestampInSeconds",
+                "type": {
+                  "option": "u64"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Side",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bid"
+          },
+          {
+            "name": "Ask"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "DepositEvent",
+      "fields": [
+        {
+          "name": "from",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "to",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawEvent",
+      "fields": [
+        {
+          "name": "from",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "to",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SwapRouteEvent",
+      "fields": [
+        {
+          "name": "swapEvents",
+          "type": {
+            "vec": {
+              "defined": "SwapEvent"
+            }
+          },
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotAdmin",
+      "msg": "Signer must be the admin"
+    },
+    {
+      "code": 6001,
+      "name": "NotManager",
+      "msg": "Signer must be the manager"
+    },
+    {
+      "code": 6002,
+      "name": "NotTreasurer",
+      "msg": "Signer must be the treasurer"
+    },
+    {
+      "code": 6003,
+      "name": "NotTrader",
+      "msg": "Signer must be the trader"
+    },
+    {
+      "code": 6004,
+      "name": "SameAdmin",
+      "msg": "Signer must be different from the current admin"
+    },
+    {
+      "code": 6005,
+      "name": "ProxyIsPaused",
+      "msg": "The proxy is paused"
+    },
+    {
+      "code": 6006,
+      "name": "MarketDoesNotExist",
+      "msg": "The market does not exist"
+    },
+    {
+      "code": 6007,
+      "name": "IncorrectMarket",
+      "msg": "The market is incorrect"
+    },
+    {
+      "code": 6008,
+      "name": "MarketIsPaused",
+      "msg": "The market is paused"
+    },
+    {
+      "code": 6009,
+      "name": "WrongProxyATA",
+      "msg": "ATA must be owned by Proxy"
+    },
+    {
+      "code": 6010,
+      "name": "NotNative",
+      "msg": "The mint is not wsol"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidDiscriminator",
+      "msg": "The discriminator is invalid"
+    },
+    {
+      "code": 6012,
+      "name": "WrongOwner",
+      "msg": "The owner is incorrect"
+    },
+    {
+      "code": 6013,
+      "name": "IncorrectNumberOfAccounts",
+      "msg": "Incorrect number of accounts"
+    },
+    {
+      "code": 6014,
+      "name": "AmountOutBelowMinimum",
+      "msg": "The amount out is below the minimum amount out"
+    }
+  ]
+}

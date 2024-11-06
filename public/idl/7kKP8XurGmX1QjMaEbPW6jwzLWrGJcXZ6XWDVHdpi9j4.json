@@ -1,0 +1,632 @@
+{
+  "version": "0.0.1",
+  "name": "solcraft_program",
+  "instructions": [
+    {
+      "name": "resetStats",
+      "accounts": [
+        {
+          "name": "backendWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakeStats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stats",
+          "type": {
+            "defined": "StakeResetStats"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the staked NFT"
+          ]
+        },
+        {
+          "name": "token",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account owned by the user, derived from 'mint' which is the staked NFT"
+          ]
+        },
+        {
+          "name": "tokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "backendWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakeToken",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account owned by the program, derived from 'mint'"
+          ]
+        },
+        {
+          "name": "stakeTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that stores useful information about the stake"
+          ]
+        },
+        {
+          "name": "stakeIntervalAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that stores the interval constraint between stakes"
+          ]
+        },
+        {
+          "name": "stakeStats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstruction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenAuthRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakeTokenBump",
+          "type": "u8"
+        },
+        {
+          "name": "interval",
+          "type": "u32"
+        },
+        {
+          "name": "rewards",
+          "type": {
+            "defined": "StakeRewardsFound"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to be staked"
+          ]
+        },
+        {
+          "name": "token",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "backend",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that stores useful information about the stake"
+          ]
+        },
+        {
+          "name": "stakeIntervalAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that stores the interval constraint between stakes"
+          ]
+        },
+        {
+          "name": "stakeStats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstruction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenAuthRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "StakeParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unlock",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the staked NFT"
+          ]
+        },
+        {
+          "name": "token",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "backendWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that stores useful information about the stake"
+          ]
+        },
+        {
+          "name": "stakeIntervalAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that stores the interval constraint between stakes"
+          ]
+        },
+        {
+          "name": "stakeStats",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstruction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenAuthRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "interval",
+          "type": "u32"
+        },
+        {
+          "name": "rewards",
+          "type": {
+            "defined": "StakeRewardsFound"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StakeAccountInterval",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "interval",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "StakeAccountData"
+            }
+          },
+          {
+            "name": "token",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total",
+            "type": "u64"
+          },
+          {
+            "name": "current",
+            "type": "u16"
+          },
+          {
+            "name": "rewards",
+            "type": {
+              "defined": "StakeRewardsTotal"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "StakeAccountData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "started",
+            "type": "u32"
+          },
+          {
+            "name": "foragingTime",
+            "type": "u32"
+          },
+          {
+            "name": "restingTime",
+            "type": "u32"
+          },
+          {
+            "name": "missions",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "foragingTime",
+            "type": "u32"
+          },
+          {
+            "name": "restingTime",
+            "type": "u32"
+          },
+          {
+            "name": "missions",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeRewardsTotal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "drgn",
+            "type": "u32"
+          },
+          {
+            "name": "corn",
+            "type": "u32"
+          },
+          {
+            "name": "prick",
+            "type": "u32"
+          },
+          {
+            "name": "holly",
+            "type": "u32"
+          },
+          {
+            "name": "magm",
+            "type": "u32"
+          },
+          {
+            "name": "pineh",
+            "type": "u32"
+          },
+          {
+            "name": "scorp",
+            "type": "u32"
+          },
+          {
+            "name": "hare",
+            "type": "u32"
+          },
+          {
+            "name": "mice",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeRewardsFound",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "drgn",
+            "type": "u8"
+          },
+          {
+            "name": "corn",
+            "type": "u8"
+          },
+          {
+            "name": "prick",
+            "type": "u8"
+          },
+          {
+            "name": "holly",
+            "type": "u8"
+          },
+          {
+            "name": "magm",
+            "type": "u8"
+          },
+          {
+            "name": "pineh",
+            "type": "u8"
+          },
+          {
+            "name": "scorp",
+            "type": "u8"
+          },
+          {
+            "name": "hare",
+            "type": "u8"
+          },
+          {
+            "name": "mice",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeResetStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total",
+            "type": "u64"
+          },
+          {
+            "name": "current",
+            "type": "u16"
+          },
+          {
+            "name": "rewards",
+            "type": {
+              "defined": "StakeRewardsTotal"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotOwnerOfNFT",
+      "msg": "NFT belongs to another user"
+    },
+    {
+      "code": 6001,
+      "name": "StakeNotReady",
+      "msg": "You can't unstake before the due time"
+    },
+    {
+      "code": 6002,
+      "name": "RespectMyAuthority",
+      "msg": "Only the backend wallet is allowed to call this transaction"
+    },
+    {
+      "code": 6003,
+      "name": "IntervalNotOver",
+      "msg": "The stake interval is not over yet"
+    }
+  ]
+}

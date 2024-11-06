@@ -1,0 +1,1788 @@
+{
+  "version": "0.1.0",
+  "name": "jungle",
+  "instructions": [
+    {
+      "name": "initializeJungle",
+      "docs": [
+        "Initializes the jungle"
+      ],
+      "accounts": [
+        {
+          "name": "jungleKey",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The unique identifier.",
+            "Allows reusing this program for other projects without redeploying"
+          ]
+        },
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet owning the jungle"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumps",
+          "type": {
+            "defined": "InitializeJungleBumps"
+          }
+        },
+        {
+          "name": "maximumWeeklyMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "weeklyMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "maximumHoldingsMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "holdingsMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "start",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "setJungle",
+      "docs": [
+        "Sets the jungle parameters"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The wallet that owns the jungle"
+          ]
+        },
+        {
+          "name": "newOwner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The wallet that will own the jungle"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "maximumWeeklyMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "weeklyMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "maximumHoldingsMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "holdingsMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "start",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "initDummy",
+      "docs": [
+        "New Dummy Animal"
+      ],
+      "accounts": [
+        {
+          "name": "dummyMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The dummy animal mint"
+          ]
+        },
+        {
+          "name": "dummyAnimal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The dummy animal"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet owning the jungle"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "addRewardToken",
+      "docs": [
+        "Add Reward Token"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority for the transfer of the reward token"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint of the reward token"
+          ]
+        },
+        {
+          "name": "rewardsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will hold the reward token"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet that owns the jungle"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program for interacting with the token."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumps",
+          "type": "u8"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "value",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateRewardToken",
+      "docs": [
+        "Update Reward Token"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint of the reward token"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The wallet that owns the jungle"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "value",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initStaker",
+      "docs": [
+        "Init Staker"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The jungle state"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet owning the jungle"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumps",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initTransactionBatch",
+      "docs": [
+        "Init Transaction Batch"
+      ],
+      "accounts": [
+        {
+          "name": "transactionBatch",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet owning the jungle"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeAnimal",
+      "docs": [
+        "Stake an animal"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The jungle state"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "animal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The created staking account",
+            "Doesn't use jungle.key as one token can only be staked once"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The owner of the token being staked"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The mint of the token being staked"
+          ]
+        },
+        {
+          "name": "stakerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user account that holds the NFT"
+          ]
+        },
+        {
+          "name": "depositAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will hold the token being staked",
+            "Doesn't use jungle.key as one token can only be staked once"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program for interacting with the token"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bumps",
+          "type": {
+            "defined": "StakeAnimalBumps"
+          }
+        },
+        {
+          "name": "emissionsPerDay",
+          "type": "u64"
+        },
+        {
+          "name": "faction",
+          "type": "u64"
+        },
+        {
+          "name": "rulesAccPresent",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "unstakeAnimal",
+      "docs": [
+        "Unstake a staked animal"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "animal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staking account"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The owner of the animal"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The mint of the staked token"
+          ]
+        },
+        {
+          "name": "stakerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will hold the unstaked token"
+          ]
+        },
+        {
+          "name": "depositAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that holds the staked token"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program for interacting with the token."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        },
+        {
+          "name": "rulesAccPresent",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "claimStaking",
+      "docs": [
+        "Claim staking rewards"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The jungle state"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "animal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staking account"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The transaction batch account to update",
+            "The owner of the staked token"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "bulkClaim",
+      "docs": [
+        "Bulk Claim"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The jungle state"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "animal1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "animal2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The transaction batch account to update",
+            "The owner of the staked token"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapPoints",
+      "docs": [
+        "Withdraw rewards from the vault"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will hold the exhibition token"
+          ]
+        },
+        {
+          "name": "ownerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The old staking rewards account"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "transactionBatch",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The transaction batch account to update"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The wallet that will own the jungle"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program for interacting with the token."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "burnPoints",
+      "docs": [
+        "Burn points from the vault"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The wallet that will own the jungle"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transferPoints",
+      "docs": [
+        "Burn points from the vault",
+        "Transfer Point to someone"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "receiverStakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The receiver staker info account"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The wallet that will own the jungle"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "rewardPoints",
+      "docs": [
+        "Reward Point to staker"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The wallet that will own the jungle"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The authority to give rewards"
+          ]
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Clock account used to know the time"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "forceUnstake",
+      "docs": [
+        "Unstake a staked animal"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The account holding staking tokens, staking rewards and community funds"
+          ]
+        },
+        {
+          "name": "animal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staking account"
+          ]
+        },
+        {
+          "name": "stakerInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The staker info account"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The owner of the animal"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The owner of the animal"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The mint of the staked token"
+          ]
+        },
+        {
+          "name": "stakerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will hold the unstaked token"
+          ]
+        },
+        {
+          "name": "depositAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that holds the staked token"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program for interacting with the token."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        },
+        {
+          "name": "rulesAccPresent",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "initAdmin",
+      "docs": [
+        "Initialize admin"
+      ],
+      "accounts": [
+        {
+          "name": "jungle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Jungle"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet that will own the jungle"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Admin",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "jungleKey",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Jungle",
+      "docs": [
+        "The global state of the program"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The identifier"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "The owner of the program"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bumps",
+            "docs": [
+              "The bump used to generate PDAs"
+            ],
+            "type": {
+              "defined": "InitializeJungleBumps"
+            }
+          },
+          {
+            "name": "escrow",
+            "docs": [
+              "The PDA owning the community fund"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardTokens",
+            "docs": [
+              "Array of rewards tokens mint"
+            ],
+            "type": {
+              "vec": {
+                "defined": "Reward"
+              }
+            }
+          },
+          {
+            "name": "animalsStaked",
+            "docs": [
+              "The total animals currently staked."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maximumWeeklyMultiplier",
+            "type": "u64"
+          },
+          {
+            "name": "weeklyMultiplier",
+            "type": "u64"
+          },
+          {
+            "name": "maximumHoldingsMultiplier",
+            "type": "u64"
+          },
+          {
+            "name": "holdingsMultiplier",
+            "type": "u64"
+          },
+          {
+            "name": "start",
+            "docs": [
+              "The time the staking starts (in seconds since 1970)"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Animal",
+      "docs": [
+        "The staking account linked to the NFT"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumps",
+            "docs": [
+              "Bump used to create this PDA"
+            ],
+            "type": {
+              "defined": "StakeAnimalBumps"
+            }
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "The mint of the NFT"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "staker",
+            "docs": [
+              "Owner of the animal"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "emissionsPerDay",
+            "docs": [
+              "How rare the animal is"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "faction",
+            "docs": [
+              "The wallet to which fees are given"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "lastClaim",
+            "docs": [
+              "Last time the owner claimed rewards"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "stakedAt",
+            "docs": [
+              "Last time the owner claimed rewards"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakerInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumps",
+            "docs": [
+              "Bumps used to create this PDA"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "staker",
+            "docs": [
+              "Staker Account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "holdings",
+            "docs": [
+              "Number of animals staked"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokens",
+            "docs": [
+              "Pending Rewards"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionBatch",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "staker",
+            "docs": [
+              "Authority to change"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "transactions",
+            "docs": [
+              "Transaction History"
+            ],
+            "type": {
+              "vec": {
+                "defined": "Transaction"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorizationDataLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payload",
+            "type": {
+              "vec": {
+                "defined": "TaggedPayload"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaggedPayload",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "payload",
+            "type": {
+              "defined": "PayloadTypeLocal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SeedsVecLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "docs": [
+              "The vector of derivation seeds."
+            ],
+            "type": {
+              "vec": "bytes"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofInfoLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proof",
+            "docs": [
+              "The merkle proof."
+            ],
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeJungleBumps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "jungle",
+            "type": "u8"
+          },
+          {
+            "name": "escrow",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reward",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumps",
+            "docs": [
+              "Bumps used to create associated token account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "Mint of the reward token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "account",
+            "docs": [
+              "The account associated to the reward token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "decimals",
+            "docs": [
+              "Decimal points of the reward token"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "value",
+            "docs": [
+              "Points -> Token Worth"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeAnimalBumps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "animal",
+            "type": "u8"
+          },
+          {
+            "name": "deposit",
+            "type": "u8"
+          },
+          {
+            "name": "stakerInfo",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Transaction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayloadTypeLocal",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pubkey",
+            "fields": [
+              "publicKey"
+            ]
+          },
+          {
+            "name": "Seeds",
+            "fields": [
+              {
+                "defined": "SeedsVecLocal"
+              }
+            ]
+          },
+          {
+            "name": "MerkleProof",
+            "fields": [
+              {
+                "defined": "ProofInfoLocal"
+              }
+            ]
+          },
+          {
+            "name": "Number",
+            "fields": [
+              "u64"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAllowLists",
+      "msg": "Invalid allowlists!"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMetadata",
+      "msg": "Invalid Metadata"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidCreators",
+      "msg": "Invalid Creators"
+    },
+    {
+      "code": 6003,
+      "name": "BadRuleset",
+      "msg": "Bad Ruleset"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidPermission",
+      "msg": "You do not have rights to perform this action!"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidMultiplier",
+      "msg": "Invalid multiplier, must be greater than 10000"
+    },
+    {
+      "code": 6006,
+      "name": "TooEarly",
+      "msg": "Too early to stake"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidProof",
+      "msg": "Merkle proof is invalid"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidStaker",
+      "msg": "Invalid Staker"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidStakerInfo",
+      "msg": "Invalid Staker Info"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidTransactionBatch",
+      "msg": "Invalid Transaction Batch"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidRewardsCoin",
+      "msg": "Invalid mint or rewards_account given. Mint & RewardsAccount must be the same as the one in the jungle"
+    },
+    {
+      "code": 6012,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient balance"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidTransactionIndex",
+      "msg": "Invalid Transaction Index"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidTransactionAmount",
+      "msg": "Invalid Transaction Amount"
+    },
+    {
+      "code": 6015,
+      "name": "CannotTransferToSelf",
+      "msg": "Cannot transfer to yourself"
+    },
+    {
+      "code": 6016,
+      "name": "ValidationFailed",
+      "msg": "Validation failed"
+    }
+  ]
+}

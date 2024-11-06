@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check } from 'lucide-react'
+import { Copy, Check, Package } from 'lucide-react'
 import {
     Table,
     TableBody,
@@ -18,7 +18,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import ProgramDataModal from './ProgramDataModal';
 import SecurityModal from './SecurityModal';
 
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
@@ -32,6 +31,7 @@ interface Program {
     error_messages: string
     mutable: boolean | null
     idl: string | null
+    idl_address: string | null
     deployed: string | null
     verified: boolean | null
 }
@@ -91,6 +91,10 @@ export default function Programs() {
         await navigator.clipboard.writeText(text);
         setCopiedAddress(text);
         setTimeout(() => setCopiedAddress(null), 2000);
+    };
+
+    const handleOpen = (idlAddress: string) => {
+        window.open(`/idl/${idlAddress}.json`, '_blank');
     };
 
     const CopyableAddress = ({ address }: { address: string }) => (
@@ -169,11 +173,9 @@ export default function Programs() {
                             <TableHead>Version</TableHead>
                             <TableHead>Address</TableHead>
                             <TableHead>Derived Address</TableHead>
-                            <TableHead>Instructions</TableHead>
-                            <TableHead>Accounts</TableHead>
-                            <TableHead>Errors</TableHead>
-                            <TableHead>Inspect</TableHead>
-                            <TableHead>Security</TableHead>
+                            <TableHead>Verified</TableHead>
+                            <TableHead>Upgradable</TableHead>
+                            <TableHead>IDL</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -195,11 +197,10 @@ export default function Programs() {
                                         <CopyableAddress address={getDerivedAddress(program.program_address)} />
                                     )}
                                 </TableCell>
-                                <TableCell>{program.instructions_referenced}</TableCell>
-                                <TableCell>{program.accounts_used}</TableCell>
-                                <TableCell>{program.error_messages}</TableCell>
+                                <TableCell>{program.verified ? 'Yes' : 'No'}</TableCell>
+                                <TableCell>{program.mutable ? 'Yes' : 'No'}</TableCell>
                                 <TableCell>
-                                    {program.program_address && <ProgramDataModal programAddress={program.program_address} />}
+                                    {program.idl ? <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" /> : ''}
                                 </TableCell>
                                 <TableCell>
                                     {program.program_address && <SecurityModal programAddress={program.program_address} />}

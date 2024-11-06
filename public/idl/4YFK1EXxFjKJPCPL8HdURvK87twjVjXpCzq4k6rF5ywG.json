@@ -1,0 +1,678 @@
+{
+  "version": "0.1.0",
+  "name": "gigapoll_contract",
+  "constants": [
+    {
+      "name": "AUTH_PDA_SEED",
+      "type": "string",
+      "value": "\"auth_pda_seed\""
+    },
+    {
+      "name": "VAULT_PDA_SEED",
+      "type": "string",
+      "value": "\"vault_pda_seed\""
+    },
+    {
+      "name": "CONFIG_PDA_SEED",
+      "type": "string",
+      "value": "\"config_pda_seed\""
+    },
+    {
+      "name": "CRANK_PUBKEY",
+      "type": "string",
+      "value": "\"H1Ytd5F65ptXs2jEiGQAQQsNHdYRwvL5TusHkc6GT7ad\""
+    },
+    {
+      "name": "FEE_RECEIVER",
+      "type": "string",
+      "value": "\"H1Ytd5F65ptXs2jEiGQAQQsNHdYRwvL5TusHkc6GT7ad\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerAccounts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "crankClosePoll",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "poll",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pollBallots",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerAccounts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPoll",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poll",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ballots",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerAccounts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "prompt",
+          "type": "string"
+        },
+        {
+          "name": "answerA",
+          "type": "string"
+        },
+        {
+          "name": "answerB",
+          "type": "string"
+        },
+        {
+          "name": "answerC",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "answerD",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "durationSeconds",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "votePoll",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "poll",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pollBallots",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerAccounts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "answer",
+          "type": {
+            "defined": "AnswerOptions"
+          }
+        },
+        {
+          "name": "amountGigs",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimGigs",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "playerAccounts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "miscPlayerEvent",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerAccounts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "event",
+          "type": {
+            "defined": "PlayerEventTypes"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "playerAccounts",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Poll",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pollUid",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "prompt",
+            "type": "string"
+          },
+          {
+            "name": "answerA",
+            "type": "string"
+          },
+          {
+            "name": "answerB",
+            "type": "string"
+          },
+          {
+            "name": "answerC",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "answerD",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "answerAVotes",
+            "type": "u64"
+          },
+          {
+            "name": "answerBVotes",
+            "type": "u64"
+          },
+          {
+            "name": "answerCVotes",
+            "type": "u64"
+          },
+          {
+            "name": "answerDVotes",
+            "type": "u64"
+          },
+          {
+            "name": "endTimestampUnix",
+            "type": "u64"
+          },
+          {
+            "name": "ballotsAddress",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "PollBallots",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ballots",
+            "type": {
+              "array": [
+                {
+                  "defined": "Ballot"
+                },
+                256
+              ]
+            }
+          },
+          {
+            "name": "numBallots",
+            "type": {
+              "defined": "usize"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerAccounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "playerAccounts",
+            "type": {
+              "array": [
+                {
+                  "defined": "PlayerAccount"
+                },
+                256
+              ]
+            }
+          },
+          {
+            "name": "numPlayers",
+            "type": {
+              "defined": "usize"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Ballot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "playerUid",
+            "type": "u64"
+          },
+          {
+            "name": "aVotes",
+            "type": "u64"
+          },
+          {
+            "name": "bVotes",
+            "type": "u64"
+          },
+          {
+            "name": "cVotes",
+            "type": "u64"
+          },
+          {
+            "name": "dVotes",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "claimableGigs",
+            "type": "u64"
+          },
+          {
+            "name": "experience",
+            "type": "u64"
+          },
+          {
+            "name": "skillTree",
+            "type": {
+              "defined": "SkillTree"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SkillTree",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "luckBox",
+            "type": "u64"
+          },
+          {
+            "name": "speaker",
+            "type": "u64"
+          },
+          {
+            "name": "voter",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "u64"
+          },
+          {
+            "name": "prophet",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AnswerOptions",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "AnswerA"
+          },
+          {
+            "name": "AnswerB"
+          },
+          {
+            "name": "AnswerC"
+          },
+          {
+            "name": "AnswerD"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PurchasePerkEventData",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Creator"
+          },
+          {
+            "name": "LuckBox"
+          },
+          {
+            "name": "Voter"
+          },
+          {
+            "name": "Speaker"
+          },
+          {
+            "name": "Prophet"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerEventTypes",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PurchasePerk",
+            "fields": [
+              {
+                "defined": "PurchasePerkEventData"
+              }
+            ]
+          },
+          {
+            "name": "ResetPerks"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GigaRankActions",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Create"
+          },
+          {
+            "name": "Vote"
+          },
+          {
+            "name": "Win"
+          },
+          {
+            "name": "Volume"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CustomError",
+      "msg": "Custom error message"
+    },
+    {
+      "code": 6001,
+      "name": "PromptTooLong",
+      "msg": "Prompt too long"
+    },
+    {
+      "code": 6002,
+      "name": "AnswerTooLong",
+      "msg": "Answer too long"
+    },
+    {
+      "code": 6003,
+      "name": "PollIsClosed",
+      "msg": "Poll is closed"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidAnswer",
+      "msg": "Invalid Answer"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidCrankAddress",
+      "msg": "Invalid Cranks Address"
+    },
+    {
+      "code": 6006,
+      "name": "TooEarlyToClose",
+      "msg": "Too early to close poll"
+    },
+    {
+      "code": 6007,
+      "name": "PlayerUidNotFound",
+      "msg": "Player UID not found"
+    },
+    {
+      "code": 6008,
+      "name": "NoAvailablePerkPoints",
+      "msg": "No available perk points"
+    },
+    {
+      "code": 6009,
+      "name": "PerkAlreadyMaxxed",
+      "msg": "Perk already maxxed"
+    }
+  ]
+}

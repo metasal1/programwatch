@@ -1,0 +1,1318 @@
+{
+  "version": "1.0.0",
+  "name": "staking",
+  "instructions": [
+    {
+      "name": "initConfig",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "configAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "globalConfig",
+          "type": {
+            "defined": "GlobalConfig"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateGovernanceAuthority",
+      "accounts": [
+        {
+          "name": "governanceSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateFreeze",
+      "accounts": [
+        {
+          "name": "governanceSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "freeze",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "createStakeAccount",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccountPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "stake_metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stakeAccountCustody",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "custody"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "custodyAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "authority"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "voterRecord",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "voter_weight"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "publicKey"
+        },
+        {
+          "name": "lock",
+          "type": {
+            "defined": "VestingSchedule"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createPosition",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccountPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "stake_metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stakeAccountCustody",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "custody"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "targetAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "targetWithParameters",
+          "type": {
+            "defined": "TargetWithParameters"
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closePosition",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccountPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "stake_metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stakeAccountCustody",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "custody"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "targetAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "targetWithParameters",
+          "type": {
+            "defined": "TargetWithParameters"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawStake",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountPositions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountMetadata",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "stake_metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stakeAccountCustody",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "custody"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "custodyAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "authority"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateVoterWeight",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "stakeAccountPositions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccountMetadata",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "stake_metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "stakeAccountCustody",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "custody"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "voterRecord",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "voter_weight"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "stake_account_positions"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "governanceTarget",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "target"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "voting"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "action",
+          "type": {
+            "defined": "VoterWeightAction"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateMaxVoterWeight",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "maxVoterRecord",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "max_voter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createTarget",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "governanceSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "targetAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": {
+            "defined": "Target"
+          }
+        }
+      ]
+    },
+    {
+      "name": "advanceClock",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "seconds",
+          "type": "i64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "governanceAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "pythTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "pythGovernanceRealm",
+            "type": "publicKey"
+          },
+          {
+            "name": "unlockingDuration",
+            "type": "u8"
+          },
+          {
+            "name": "epochDuration",
+            "type": "u64"
+          },
+          {
+            "name": "freeze",
+            "type": "bool"
+          },
+          {
+            "name": "mockClockTime",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaxVoterWeightRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "governingTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "maxVoterWeight",
+            "type": "u64"
+          },
+          {
+            "name": "maxVoterWeightExpiry",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PositionData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "positions",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    200
+                  ]
+                },
+                100
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeAccountMetadataV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "metadataBump",
+            "type": "u8"
+          },
+          {
+            "name": "custodyBump",
+            "type": "u8"
+          },
+          {
+            "name": "authorityBump",
+            "type": "u8"
+          },
+          {
+            "name": "voterBump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "lock",
+            "type": {
+              "defined": "VestingSchedule"
+            }
+          },
+          {
+            "name": "nextIndex",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TargetMetadata",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "lastUpdateAt",
+            "type": "u64"
+          },
+          {
+            "name": "prevEpochLocked",
+            "type": "u64"
+          },
+          {
+            "name": "locked",
+            "type": "u64"
+          },
+          {
+            "name": "deltaLocked",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoterWeightRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "governingTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "governingTokenOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "voterWeight",
+            "type": "u64"
+          },
+          {
+            "name": "voterWeightExpiry",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "weightAction",
+            "type": {
+              "option": {
+                "defined": "VoterWeightAction"
+              }
+            }
+          },
+          {
+            "name": "weightActionTarget",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Position",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "activationEpoch",
+            "type": "u64"
+          },
+          {
+            "name": "unlockingStart",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "targetWithParameters",
+            "type": {
+              "defined": "TargetWithParameters"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DataOperation",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Add",
+            "fields": [
+              {
+                "defined": "Position"
+              }
+            ]
+          },
+          {
+            "name": "Modify",
+            "fields": [
+              {
+                "defined": "Position"
+              }
+            ]
+          },
+          {
+            "name": "Delete"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Target",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "VOTING"
+          },
+          {
+            "name": "STAKING",
+            "fields": [
+              {
+                "name": "product",
+                "type": "publicKey"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "TargetWithParameters",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "VOTING"
+          },
+          {
+            "name": "STAKING",
+            "fields": [
+              {
+                "name": "product",
+                "type": "publicKey"
+              },
+              {
+                "name": "publisher",
+                "type": {
+                  "defined": "Publisher"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Publisher",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "DEFAULT"
+          },
+          {
+            "name": "SOME",
+            "fields": [
+              {
+                "name": "address",
+                "type": "publicKey"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "PositionState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "UNLOCKED"
+          },
+          {
+            "name": "LOCKING"
+          },
+          {
+            "name": "LOCKED"
+          },
+          {
+            "name": "PREUNLOCKING"
+          },
+          {
+            "name": "UNLOCKING"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingSchedule",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "FullyVested"
+          },
+          {
+            "name": "PeriodicVesting",
+            "fields": [
+              {
+                "name": "initial_balance",
+                "type": "u64"
+              },
+              {
+                "name": "start_date",
+                "type": "i64"
+              },
+              {
+                "name": "period_duration",
+                "type": "u64"
+              },
+              {
+                "name": "num_periods",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoterWeightAction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "CastVote"
+          },
+          {
+            "name": "CommentProposal"
+          },
+          {
+            "name": "CreateGovernance"
+          },
+          {
+            "name": "CreateProposal"
+          },
+          {
+            "name": "SignOffProposal"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TooMuchExposureToProduct",
+      "msg": "Too much exposure to product"
+    },
+    {
+      "code": 6001,
+      "name": "TooMuchExposureToGovernance",
+      "msg": "Too much exposure to governance"
+    },
+    {
+      "code": 6002,
+      "name": "TokensNotYetVested",
+      "msg": "Tokens not yet vested"
+    },
+    {
+      "code": 6003,
+      "name": "RiskLimitExceeded",
+      "msg": "Risk limit exceeded"
+    },
+    {
+      "code": 6004,
+      "name": "TooManyPositions",
+      "msg": "Number of position limit reached"
+    },
+    {
+      "code": 6005,
+      "name": "PositionNotInUse",
+      "msg": "Position not in use"
+    },
+    {
+      "code": 6006,
+      "name": "CreatePositionWithZero",
+      "msg": "New position needs to have positive balance"
+    },
+    {
+      "code": 6007,
+      "name": "ClosePositionWithZero",
+      "msg": "Closing a position of 0 is not allowed"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidPosition",
+      "msg": "Invalid product/publisher pair"
+    },
+    {
+      "code": 6009,
+      "name": "AmountBiggerThanPosition",
+      "msg": "Amount to unlock bigger than position"
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyUnlocking",
+      "msg": "Position already unlocking"
+    },
+    {
+      "code": 6011,
+      "name": "ZeroEpochDuration",
+      "msg": "Epoch duration is 0"
+    },
+    {
+      "code": 6012,
+      "name": "WithdrawToUnauthorizedAccount",
+      "msg": "Owner needs to own destination account"
+    },
+    {
+      "code": 6013,
+      "name": "InsufficientWithdrawableBalance",
+      "msg": "Insufficient balance to cover the withdrawal"
+    },
+    {
+      "code": 6014,
+      "name": "WrongTarget",
+      "msg": "Target in position doesn't match target in instruction data"
+    },
+    {
+      "code": 6015,
+      "name": "GenericOverflow",
+      "msg": "An arithmetic operation unexpectedly overflowed"
+    },
+    {
+      "code": 6016,
+      "name": "NegativeBalance",
+      "msg": "Locked balance must be positive"
+    },
+    {
+      "code": 6017,
+      "name": "Frozen",
+      "msg": "Protocol is frozen"
+    },
+    {
+      "code": 6018,
+      "name": "DebuggingOnly",
+      "msg": "Not allowed when not debugging"
+    },
+    {
+      "code": 6019,
+      "name": "ProposalTooLong",
+      "msg": "Proposal too long"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidVotingEpoch",
+      "msg": "Voting epoch is either too old or hasn't started"
+    },
+    {
+      "code": 6021,
+      "name": "ProposalNotActive",
+      "msg": "Voting hasn't started"
+    },
+    {
+      "code": 6022,
+      "name": "NoRemainingAccount",
+      "msg": "Extra governance account required"
+    },
+    {
+      "code": 6023,
+      "name": "Unauthorized",
+      "msg": "Unauthorized caller"
+    },
+    {
+      "code": 6024,
+      "name": "AccountUpgradeFailed",
+      "msg": "Precondition to upgrade account violated"
+    },
+    {
+      "code": 6025,
+      "name": "NotImplemented",
+      "msg": "Not implemented"
+    },
+    {
+      "code": 6026,
+      "name": "PositionSerDe",
+      "msg": "Error deserializing position"
+    },
+    {
+      "code": 6027,
+      "name": "PositionOutOfBounds",
+      "msg": "Position out of bounds"
+    },
+    {
+      "code": 6028,
+      "name": "Other",
+      "msg": "Other"
+    }
+  ]
+}

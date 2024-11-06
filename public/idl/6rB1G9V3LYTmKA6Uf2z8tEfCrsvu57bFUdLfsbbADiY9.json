@@ -1,0 +1,823 @@
+{
+  "version": "0.1.0",
+  "name": "fruitypools",
+  "instructions": [
+    {
+      "name": "protocol",
+      "accounts": [
+        {
+          "name": "live",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "status",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "initPool",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "apy",
+          "type": "u64"
+        },
+        {
+          "name": "usdcLimit",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updatePool",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "usdcLimit",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "displayApy",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "displayDecimals",
+          "type": {
+            "option": "u8"
+          }
+        }
+      ]
+    },
+    {
+      "name": "applyYield",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "supply",
+          "type": "u64"
+        },
+        {
+          "name": "factor",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositForLpTokens",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fromUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "msigUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "usdcToMsig",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "msigAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "requestWithdrawal",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdraws",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "daily",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "wdid",
+          "type": "u64"
+        },
+        {
+          "name": "end",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "lock",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "completeWithdrawal",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdraws",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "daily",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userUsdc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolUsdc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "wdid",
+          "type": "u64"
+        },
+        {
+          "name": "end",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "reverseWithdrawal",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdraws",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "daily",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "status",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "wdid",
+          "type": "u64"
+        },
+        {
+          "name": "end",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "unclaimedWithdrawals",
+      "accounts": [
+        {
+          "name": "oldDaily",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newDaily",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "lastDate",
+          "type": "string"
+        },
+        {
+          "name": "newDate",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "closePool",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "poolid",
+          "type": "u64"
+        },
+        {
+          "name": "toggle",
+          "type": "bool"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Status",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "live",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolid",
+            "type": "u64"
+          },
+          {
+            "name": "fruityRatio",
+            "type": "u64"
+          },
+          {
+            "name": "fruityDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "displayApy",
+            "type": "u64"
+          },
+          {
+            "name": "displayDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          },
+          {
+            "name": "pendingWithdrawals",
+            "type": "u64"
+          },
+          {
+            "name": "unclaimedWithdrawals",
+            "type": "u64"
+          },
+          {
+            "name": "totalUsdcEarned",
+            "type": "u64"
+          },
+          {
+            "name": "poolClosed",
+            "type": "bool"
+          },
+          {
+            "name": "usdcLimit",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Withdraws",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "latestWdid",
+            "type": "u64"
+          },
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          },
+          {
+            "name": "pendingWdids",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Withdrawal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolid",
+            "type": "u64"
+          },
+          {
+            "name": "wdid",
+            "type": "u64"
+          },
+          {
+            "name": "usdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "usdcFee",
+            "type": "u64"
+          },
+          {
+            "name": "lpAmount",
+            "type": "u64"
+          },
+          {
+            "name": "pending",
+            "type": "bool"
+          },
+          {
+            "name": "complete",
+            "type": "bool"
+          },
+          {
+            "name": "reversed",
+            "type": "bool"
+          },
+          {
+            "name": "requestedAt",
+            "type": "i64"
+          },
+          {
+            "name": "dueBy",
+            "type": "i64"
+          },
+          {
+            "name": "completedAt",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Daily",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poolid",
+            "type": "u64"
+          },
+          {
+            "name": "date",
+            "type": "string"
+          },
+          {
+            "name": "pendingUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ProtocolNotLive",
+      "msg": "ProtocolNotLive"
+    },
+    {
+      "code": 6001,
+      "name": "AdminFunctionOnly",
+      "msg": "Admin Function Only"
+    },
+    {
+      "code": 6002,
+      "name": "PoolNotInitialized",
+      "msg": "Pool Not Initialized"
+    },
+    {
+      "code": 6003,
+      "name": "PoolAlreadyInitialized",
+      "msg": "Pool Already Initialized"
+    },
+    {
+      "code": 6004,
+      "name": "MaxPendingWithdrawalsReached",
+      "msg": "Max Pending Withdrawals Reached"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidLockPeriod",
+      "msg": "Invalid Lock Period"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidAmount",
+      "msg": "Invalid Amount"
+    },
+    {
+      "code": 6007,
+      "name": "WithdrawalAlreadyProcessed",
+      "msg": "Withdrawal Already Processed"
+    },
+    {
+      "code": 6008,
+      "name": "WithdrawalNotReady",
+      "msg": "Withdrawal Not Ready"
+    },
+    {
+      "code": 6009,
+      "name": "FactorCannotBeZero",
+      "msg": "Factor Cannot Be Zero"
+    },
+    {
+      "code": 6010,
+      "name": "PoolClosed",
+      "msg": "Pool Closed"
+    },
+    {
+      "code": 6011,
+      "name": "NothingToUpdate",
+      "msg": "Nothing To Update"
+    },
+    {
+      "code": 6012,
+      "name": "WithdrawalIDsNotSequential",
+      "msg": "Withdrawal ID should be sequential"
+    },
+    {
+      "code": 6013,
+      "name": "WouldExceedHardCap",
+      "msg": "Deposit would breach max pool size"
+    }
+  ]
+}

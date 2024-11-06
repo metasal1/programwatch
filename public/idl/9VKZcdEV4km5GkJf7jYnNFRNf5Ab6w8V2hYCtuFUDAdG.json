@@ -1,0 +1,556 @@
+{
+  "address": "9VKZcdEV4km5GkJf7jYnNFRNf5Ab6w8V2hYCtuFUDAdG",
+  "metadata": {
+    "name": "pregame_contract",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "master",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  115,
+                  116,
+                  101,
+                  114
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "make_bet",
+      "discriminator": [
+        133,
+        244,
+        84,
+        216,
+        179,
+        96,
+        110,
+        149
+      ],
+      "accounts": [
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "from",
+          "writable": true
+        },
+        {
+          "name": "bet",
+          "writable": true
+        },
+        {
+          "name": "master",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  115,
+                  116,
+                  101,
+                  114
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "master_recipient",
+          "writable": true
+        },
+        {
+          "name": "general_holder",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "wager",
+          "type": "u64"
+        },
+        {
+          "name": "odds",
+          "type": "i32"
+        },
+        {
+          "name": "win_team",
+          "type": "u32"
+        },
+        {
+          "name": "loose_team",
+          "type": "u32"
+        },
+        {
+          "name": "fixture_id",
+          "type": "u32"
+        },
+        {
+          "name": "blinks",
+          "type": "string"
+        },
+        {
+          "name": "win_team_name",
+          "type": "string"
+        },
+        {
+          "name": "loose_team_name",
+          "type": "string"
+        },
+        {
+          "name": "starting_at",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "place_bet",
+      "discriminator": [
+        222,
+        62,
+        67,
+        220,
+        63,
+        166,
+        126,
+        33
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "bet",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "bet_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "from",
+          "writable": true
+        },
+        {
+          "name": "opposer",
+          "writable": true
+        },
+        {
+          "name": "general_holder",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "_bet_id",
+          "type": "u32"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settle_opposer",
+      "discriminator": [
+        26,
+        57,
+        219,
+        151,
+        45,
+        246,
+        54,
+        83
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "opposer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  111,
+                  112,
+                  112,
+                  111,
+                  115,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "bet_id"
+              },
+              {
+                "kind": "account",
+                "path": "opposer.id",
+                "account": "Opposer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bet",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "bet_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "_bet_id",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "update_bet",
+      "discriminator": [
+        198,
+        86,
+        110,
+        99,
+        122,
+        242,
+        136,
+        221
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "bet",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "bet_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "_bet_id",
+          "type": "u32"
+        },
+        {
+          "name": "result",
+          "type": "bool"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Bet",
+      "discriminator": [
+        147,
+        23,
+        35,
+        59,
+        15,
+        75,
+        155,
+        32
+      ]
+    },
+    {
+      "name": "Master",
+      "discriminator": [
+        168,
+        213,
+        193,
+        12,
+        77,
+        162,
+        58,
+        235
+      ]
+    },
+    {
+      "name": "Opposer",
+      "discriminator": [
+        209,
+        62,
+        144,
+        103,
+        180,
+        175,
+        173,
+        49
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MaximumWagerMet",
+      "msg": "Maximum wager already met."
+    },
+    {
+      "code": 6001,
+      "name": "ExceedsWagerPossible",
+      "msg": "Exceeds possible wager amount."
+    },
+    {
+      "code": 6002,
+      "name": "BetClosed",
+      "msg": "Bet is closed"
+    },
+    {
+      "code": 6003,
+      "name": "CannotWagerTwice",
+      "msg": "You can not wager twice."
+    },
+    {
+      "code": 6004,
+      "name": "NeedToEnd",
+      "msg": "Bet needs to end before settling"
+    },
+    {
+      "code": 6005,
+      "name": "OpposerNotFound",
+      "msg": "Opposer not found"
+    }
+  ],
+  "types": [
+    {
+      "name": "Bet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u32"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "total_opposing_wager",
+            "type": "u64"
+          },
+          {
+            "name": "fixture_id",
+            "type": "u32"
+          },
+          {
+            "name": "odds",
+            "type": "i32"
+          },
+          {
+            "name": "potential_payout",
+            "type": "u64"
+          },
+          {
+            "name": "follower_bet",
+            "type": "f64"
+          },
+          {
+            "name": "is_running",
+            "type": "bool"
+          },
+          {
+            "name": "is_won",
+            "type": "bool"
+          },
+          {
+            "name": "win_team",
+            "type": "u32"
+          },
+          {
+            "name": "loose_team",
+            "type": "u32"
+          },
+          {
+            "name": "win_team_name",
+            "type": "string"
+          },
+          {
+            "name": "loose_team_name",
+            "type": "string"
+          },
+          {
+            "name": "opposers",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "blinks",
+            "type": "string"
+          },
+          {
+            "name": "starting_at",
+            "type": "string"
+          },
+          {
+            "name": "opposer_count",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Master",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "last_id",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Opposer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u32"
+          },
+          {
+            "name": "bet_id",
+            "type": "u32"
+          },
+          {
+            "name": "address",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "is_settled",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ]
+}

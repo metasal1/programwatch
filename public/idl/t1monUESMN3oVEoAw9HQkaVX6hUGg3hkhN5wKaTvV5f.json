@@ -1,0 +1,153 @@
+{
+  "version": "1.0.0",
+  "name": "program_authority_timelock",
+  "instructions": [
+    {
+      "name": "commit",
+      "accounts": [
+        {
+          "name": "currentAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "new_authority"
+              },
+              {
+                "kind": "arg",
+                "type": "i64",
+                "path": "timestamp"
+              }
+            ]
+          }
+        },
+        {
+          "name": "programAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "UpgradeableLoaderState",
+                "path": "program_account"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bpf_upgradable_loader"
+            }
+          }
+        },
+        {
+          "name": "bpfUpgradableLoader",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "timestamp",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "transfer",
+      "accounts": [
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "new_authority"
+              },
+              {
+                "kind": "arg",
+                "type": "i64",
+                "path": "timestamp"
+              }
+            ]
+          }
+        },
+        {
+          "name": "programAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "UpgradeableLoaderState",
+                "path": "program_account"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bpf_upgradable_loader"
+            }
+          }
+        },
+        {
+          "name": "bpfUpgradableLoader",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "timestamp",
+          "type": "i64"
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TimestampTooEarly",
+      "msg": "Timestamp too early"
+    },
+    {
+      "code": 6001,
+      "name": "TimestampTooLate",
+      "msg": "Timestamp too late"
+    }
+  ]
+}

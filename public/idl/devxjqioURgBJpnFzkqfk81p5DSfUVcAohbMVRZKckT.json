@@ -1,0 +1,779 @@
+{
+  "version": "0.1.0",
+  "name": "lilypad_program",
+  "instructions": [
+    {
+      "name": "createProject",
+      "docs": [
+        "Create Project with provided details",
+        "",
+        "# Arguments",
+        "* `name` - Name of the project",
+        "* `price` - Price of the NFT in smallest units of PSOL (1 PSOL = 10^9 UNITs)",
+        "* `publish_date` - Date of the project creation",
+        "* `creator_pubkey` - Public Key of the creator",
+        "* `payout_address` - Public Key to receive the revenue of the project",
+        "* `min_lst_lock_period` - Lock-in period for the NFTs minted from this project",
+        "* `total_nfts` - Total number of NFTs to be minted from this project",
+        "",
+        "# Accounts",
+        "0. `[writable]` Project Account (seeds = [b\"project\", collection.as_bytes()])",
+        "1. `[writable]` MPL Core Candy Machine",
+        "2. `[writable]` Core Collection Account",
+        "3. `[writable]` Whitelist Core Collection Account [For Pathfinders use only]",
+        "4. `[signer]` Initializer Account",
+        "5. `[]` System Program"
+      ],
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Project Account (seeds = [b\"project\".as_ref(), collection.key().as_ref()])"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "project"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "collection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mplCoreCandyMachine",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "MPL Core Accounts"
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "publishDate",
+          "type": "i64"
+        },
+        {
+          "name": "creatorPubkey",
+          "type": "publicKey"
+        },
+        {
+          "name": "payoutAddress",
+          "type": "publicKey"
+        },
+        {
+          "name": "minLstLockPeriod",
+          "type": "u8"
+        },
+        {
+          "name": "totalNfts",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mintNft",
+      "docs": [
+        "Mint an NFT",
+        "",
+        "# Accounts",
+        "0. `[writable]` LNFT Account (seeds = [b\"lnft\", asset.key().as_ref()])",
+        "1. `[writable]` LNFT PSOL Account (seeds = [b\"lnft_wallet\", asset.key().as_ref()])",
+        "2. `[signer]` Initializer Account",
+        "3. `[signer]` Asset Account",
+        "4. `[writable]` Collection Account",
+        "5. `[signer]` Authority Account",
+        "6. `[writable]` PSOL Token Account",
+        "7. `[writable]` PSOL Mint Account",
+        "8. `[writable]` Project Account",
+        "9. `[writable]` MPL Core Candy Machine",
+        "10. `[writable]` Candy Guard Account",
+        "11. `[writable]` Candy Machine Authority PDA",
+        "12. `[writable]` Authority PDA Account",
+        "13. `[writable]` Phaselabs Wallet Account",
+        "14. `[writable]` Pathfinders Wallet Account",
+        "15. `[writable]` MPL Core Program",
+        "16. `[]` System Program",
+        "17. `[]` Token Program",
+        "18. `[]` Candy Machine Program",
+        "19. `[]` Candy Guard Program",
+        "20. `[]` Instructions sysvar account",
+        "21. `[]` SlotHashes sysvar cluster data"
+      ],
+      "accounts": [
+        {
+          "name": "mintRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "LNFT Account (seeds = [b\"lnft\".as_ref(), asset.key().as_ref()])"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mint_record"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lstVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "LNFT PSOL Token Account (seeds = [b\"lnft_wallet\".as_ref(), asset.key().as_ref()])"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "lst_vault"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "asset"
+              }
+            ]
+          }
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Initializer Account (signer)"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Asset Account (signer)"
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "collection account (writable)"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "isOptional": true,
+          "docs": [
+            "Authority Account (signer)"
+          ]
+        },
+        {
+          "name": "psolAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PSOL Token Account (writable)"
+          ]
+        },
+        {
+          "name": "psolMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "PSOL Mint Account"
+          ]
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Project Account (writable)"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "project"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "collection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy Machine Account"
+          ]
+        },
+        {
+          "name": "candyGuard",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Candy Guard Account"
+          ]
+        },
+        {
+          "name": "candyMachineAuthorityPda",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy Machine authority account (writable)"
+          ]
+        },
+        {
+          "name": "authorityPda",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Authority PDA (signer)"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "candy_machine"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "candy_machine"
+              }
+            ]
+          }
+        },
+        {
+          "name": "phaselabs",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Phaselabs Wallet Account (writable)"
+          ]
+        },
+        {
+          "name": "pathfinders",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Pathfinders Wallet Account (writable)"
+          ]
+        },
+        {
+          "name": "allowlistPda",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Allowlist PDA"
+          ]
+        },
+        {
+          "name": "mintCounterPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Mint Counter PDA"
+          ]
+        },
+        {
+          "name": "wlCoreCollection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "WL Core Collection"
+          ]
+        },
+        {
+          "name": "wlAsset",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "WL Asset"
+          ]
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "MPL Core Program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System Program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        },
+        {
+          "name": "candyMachineProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Candy Machine Program"
+          ]
+        },
+        {
+          "name": "candyGuardProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Candy Guard Program"
+          ]
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Instructions sysvar account"
+          ]
+        },
+        {
+          "name": "recentSlothashes",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SlotHashes sysvar cluster data"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "stage",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "dissolveNft",
+      "docs": [
+        "Dissolve an NFT and get the PSOL back",
+        "",
+        "# Accounts",
+        "0. `[writable]` LNFT Account (seeds = [b\"lnft\", asset.key().as_ref()])",
+        "1. `[writable]` LNFT PSOL Account (seeds = [b\"lnft_wallet\", asset.key().as_ref()])",
+        "2. `[signer]` Initializer Account",
+        "3. `[signer]` Asset Account",
+        "4. `[writable]` Collection Account",
+        "5. `[signer]` Authority Account",
+        "6. `[writable]` PSOL Token Account",
+        "7. `[writable]` PSOL Mint Account",
+        "8. `[writable]` Project Account",
+        "9. `[writable]` MPL Core Candy Machine",
+        "10. `[writable]` Candy Guard Account",
+        "11. `[writable]` Candy Machine Authority PDA",
+        "12. `[writable]` Authority PDA Account",
+        "13. `[writable]` Phaselabs Wallet Account",
+        "14. `[writable]` Pathfinders Wallet Account",
+        "15. `[writable]` MPL Core Program",
+        "16. `[]` System Program",
+        "17. `[]` Token Program",
+        "18. `[]` Log Wrapper",
+        "19. `[]` MPL Core Program"
+      ],
+      "accounts": [
+        {
+          "name": "mintRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "LNFT Account (seeds = [b\"lnft\".as_ref(), nft_to_dissolve.key().as_ref()])"
+          ]
+        },
+        {
+          "name": "lnftPsolAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "LNFT PSOL Token Account (seeds = [b\"lnft_wallet\".as_ref(), nft_to_dissolve.key().as_ref()])"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "lst_vault"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "nft_to_dissolve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy Machine Account"
+          ]
+        },
+        {
+          "name": "lstVault",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "lst_vault"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "nft_to_dissolve"
+              }
+            ]
+          }
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Initializer Account (signer)"
+          ]
+        },
+        {
+          "name": "nftToDissolve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "NFT to dissolve Account (Writable)"
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Collection Account"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "isOptional": true,
+          "docs": [
+            "Authority Account (signer)"
+          ]
+        },
+        {
+          "name": "psolAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PSOL Token Account (writable)"
+          ]
+        },
+        {
+          "name": "psolMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PSOL Mint Account"
+          ]
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Project Account (writable)"
+          ]
+        },
+        {
+          "name": "phaselabs",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Phaselabs wallet"
+          ]
+        },
+        {
+          "name": "pathfinders",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Pathfinders wallet"
+          ]
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Core Program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System Program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "The SPL Noop program."
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Project",
+      "docs": [
+        "PROJECT",
+        "This account represents a project on-chain; it contains all the necessary info to execute mint/dissolve instructions"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "docs": [
+              "String representation of a Project Name"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Creator Public Key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "payoutAddress",
+            "docs": [
+              "Payout Address Public Key for the project's revenue"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "candyMachine",
+            "docs": [
+              "Public Key of the collection's candy machine"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "docs": [
+              "Public Key of the collection NFT on-chain to verify if an NFT is part of the collection or not"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nftsMinted",
+            "docs": [
+              "Minted NFTs Count"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "nftsDissolved",
+            "docs": [
+              "Dissolved NFTs Count"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "price",
+            "docs": [
+              "Price for minting an NFT of this collection in PSOL in UNITs (1 PSOL = 10^9 UNITs)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "minLstLockPeriod",
+            "docs": [
+              "Lock-in period (in months)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "publishDate",
+            "docs": [
+              "Date to count for dissolve lock-in period"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "totalNfts",
+            "docs": [
+              "Total NFTs"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintRecord",
+      "docs": [
+        "MintRecord",
+        "This account is used to hold the PSOL of the NFTs minted from a collection which is refunded to the user when the NFT is dissolved"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "project",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientPathSOL",
+      "msg": "Insufficient PathSOL"
+    },
+    {
+      "code": 6001,
+      "name": "NFTNotInCollection",
+      "msg": "Invalid NFT - NFT not in collection - Either already minted or not in collection"
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientSOL",
+      "msg": "Insufficient SOL - Insufficient SOL for fees"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidLockInPeriod",
+      "msg": "Invalid Lock-In Period - Lock-In Period must be one of the following: 3, 6, 9, 12, 24"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidStage",
+      "msg": "Invalid Stage - The only allowed stages are: public, wallet, core"
+    },
+    {
+      "code": 6005,
+      "name": "NFTLocked",
+      "msg": "NFT Locked - NFT is still in lock-in period"
+    },
+    {
+      "code": 6006,
+      "name": "CandyMachineNotFinished",
+      "msg": "Candy Machine Not Finished - Either all NFTs are not minted or candy machine is not finished"
+    },
+    {
+      "code": 6007,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    }
+  ]
+}

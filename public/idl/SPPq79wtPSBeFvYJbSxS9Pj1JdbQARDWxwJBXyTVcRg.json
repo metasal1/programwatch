@@ -1,0 +1,941 @@
+{
+  "version": "0.1.0",
+  "name": "solora_pyth_price",
+  "instructions": [
+    {
+      "name": "createEventConfig",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "currencyMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "intervalSeconds",
+          "type": "u32"
+        },
+        {
+          "name": "nextEventStart",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "updateEventConfig",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventConfig",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "intervalSeconds",
+          "type": "u32"
+        },
+        {
+          "name": "nextEventStart",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "createEvent",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "currencyMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lockThread",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "settleThread",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clockwork",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeBps",
+          "type": "u32"
+        },
+        {
+          "name": "initialLiquidity",
+          "type": "u64"
+        },
+        {
+          "name": "feeBurnBps",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "setLockPrice",
+      "accounts": [
+        {
+          "name": "eventConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createOrder",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome",
+          "type": {
+            "defined": "Outcome"
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settleOrder",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "order",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settleEvent",
+      "accounts": [
+        {
+          "name": "eventConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythFeed",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settleExpiredEvent",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeAccounts",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "event",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockThread",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "settleThread",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clockwork",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EventConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Owner of the configuration"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pythFeed",
+            "docs": [
+              "Pyth price feed account to fetch prices from"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "currencyMint",
+            "docs": [
+              "SPL token mint or native mint for SOL for the pool bets"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "intervalSeconds",
+            "docs": [
+              "Number of seconds between start/lock/settle"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "nextEventStart",
+            "docs": [
+              "Unix timestamp of the next time an event should start for this config"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Event",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "eventConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "lockThread",
+            "docs": [
+              "Clockwork thread that will perform the lock price update"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "settleThread",
+            "docs": [
+              "Clockwork thread that will perform the settle event update"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "feeAccount",
+            "docs": [
+              "Account to receive fees"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "feeBps",
+            "docs": [
+              "Fee rate in bps"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "startTime",
+            "docs": [
+              "Timestamp of when the event is open to orders"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "lockTime",
+            "docs": [
+              "Timestamp of when the event is closed to new orders (start of waiting period)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "waitPeriod",
+            "docs": [
+              "Seconds to wait after locking and before closing"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "lockPrice",
+            "docs": [
+              "Price of the pyth feed at the time of lock"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "settlePrice",
+            "docs": [
+              "Price of the pyth feed at the time of settlement"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "outcome",
+            "docs": [
+              "Outcome of the event or 0 if not yet resolved"
+            ],
+            "type": {
+              "defined": "Outcome"
+            }
+          },
+          {
+            "name": "upAmount",
+            "docs": [
+              "Store up and down bet amounts"
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "downAmount",
+            "type": "u128"
+          },
+          {
+            "name": "upCount",
+            "docs": [
+              "Store counts for UI"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "downCount",
+            "type": "u32"
+          },
+          {
+            "name": "priceDecimals",
+            "docs": [
+              "Number of decimals to consider for price changes"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "ordersSettled",
+            "docs": [
+              "Number of orders settled. Once it reaches the up_count + down_count it's safe to close the event"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "feeBurnBps",
+            "docs": [
+              "Amount in bps to burn from the fees received"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Order",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "event",
+            "type": "publicKey"
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "defined": "Outcome"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Outcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undrawn"
+          },
+          {
+            "name": "Invalid"
+          },
+          {
+            "name": "Up"
+          },
+          {
+            "name": "Down"
+          },
+          {
+            "name": "Same"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UtilError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidPDATransferSource"
+          },
+          {
+            "name": "InvalidPDATransferDestination"
+          },
+          {
+            "name": "PublicKeyMismatch"
+          },
+          {
+            "name": "IncorrectOwner"
+          },
+          {
+            "name": "UninitializedAccount"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "EventCreated",
+      "fields": [
+        {
+          "name": "eventConfig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "event",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pythFeed",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "priceDecimals",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "feeBps",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "feeBurnBps",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "feeAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "startTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "lockTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "waitPeriod",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "currencyMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "upAmount",
+          "type": "u128",
+          "index": false
+        },
+        {
+          "name": "downAmount",
+          "type": "u128",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventLocked",
+      "fields": [
+        {
+          "name": "eventConfig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "event",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "lockPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "upAmount",
+          "type": "u128",
+          "index": false
+        },
+        {
+          "name": "downAmount",
+          "type": "u128",
+          "index": false
+        },
+        {
+          "name": "upCount",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "downCount",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "outcome",
+          "type": {
+            "defined": "Outcome"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventSettled",
+      "fields": [
+        {
+          "name": "eventConfig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "event",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "settlePrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "outcome",
+          "type": {
+            "defined": "Outcome"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventSettled",
+      "fields": [
+        {
+          "name": "eventConfig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "event",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "settlePrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "outcome",
+          "type": {
+            "defined": "Outcome"
+          },
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "EventSettled",
+      "msg": "Event has already been settled"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidOutcome",
+      "msg": "An invalid outcome was chosen"
+    },
+    {
+      "code": 6002,
+      "name": "OverflowError",
+      "msg": "Overflow error"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidExpiry",
+      "msg": "The expiry date has passed"
+    },
+    {
+      "code": 6004,
+      "name": "OrderExpired",
+      "msg": "The order has expired"
+    },
+    {
+      "code": 6005,
+      "name": "EventNotSettled",
+      "msg": "Event has not been settled"
+    },
+    {
+      "code": 6006,
+      "name": "FillNotFound",
+      "msg": "A fill was not found for this user"
+    },
+    {
+      "code": 6007,
+      "name": "FillAlreadySettled",
+      "msg": "The fill has already been settled"
+    },
+    {
+      "code": 6008,
+      "name": "OrderFilled",
+      "msg": "The order has already been filled"
+    },
+    {
+      "code": 6009,
+      "name": "AmountLargerThanRemainingAsk",
+      "msg": "The amount to remove is more than remaining ask"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidFillAuthority",
+      "msg": "The fill authority does not match"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidLockTime",
+      "msg": "Invalid lock time"
+    },
+    {
+      "code": 6012,
+      "name": "EventLocked",
+      "msg": "Event has been locked"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidMint",
+      "msg": "Invalid token mint"
+    },
+    {
+      "code": 6014,
+      "name": "EventNotLocked",
+      "msg": "The event has not been locked yet"
+    },
+    {
+      "code": 6015,
+      "name": "LockPriceSet",
+      "msg": "The lock price has already been set"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidPrice",
+      "msg": "Invalid price"
+    },
+    {
+      "code": 6017,
+      "name": "LockPriceNotSet",
+      "msg": "The lock price has not been set"
+    },
+    {
+      "code": 6018,
+      "name": "EventInWaitingPeriod",
+      "msg": "The event is still in the waiting period"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidInterval",
+      "msg": "Invalid interval"
+    },
+    {
+      "code": 6020,
+      "name": "EventNotStarted",
+      "msg": "The event has not started"
+    },
+    {
+      "code": 6021,
+      "name": "EventNotExpired",
+      "msg": "The event has not expired"
+    },
+    {
+      "code": 6022,
+      "name": "ZeroAmount",
+      "msg": "Zero amount"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidFee",
+      "msg": "Invalid fee"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidFeeBurn",
+      "msg": "Invalid fee burn"
+    }
+  ]
+}

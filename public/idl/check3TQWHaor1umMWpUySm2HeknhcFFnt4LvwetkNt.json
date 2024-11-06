@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "name": "check_balances",
+  "instructions": [
+    {
+      "name": "checkBalances",
+      "accounts": [
+        {
+          "name": "solAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lamportsDelta",
+          "type": "i64"
+        },
+        {
+          "name": "tokensDelta",
+          "type": "i64"
+        },
+        {
+          "name": "ixs",
+          "type": {
+            "vec": {
+              "defined": "ProxyCompiledInstruction"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ProxyCompiledInstruction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programIdIndex",
+            "type": "u8"
+          },
+          {
+            "name": "accounts",
+            "type": "bytes"
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "LamportDeltasNotEqual",
+      "msg": "Lamport deltas do not match"
+    },
+    {
+      "code": 6001,
+      "name": "TokenDeltasNotEqual",
+      "msg": "Token amount deltas do not match"
+    },
+    {
+      "code": 6002,
+      "name": "DeltaOverflow",
+      "msg": "Delta i64 overflow"
+    },
+    {
+      "code": 6003,
+      "name": "CantReloadAccount",
+      "msg": "Could not reload token account"
+    }
+  ]
+}

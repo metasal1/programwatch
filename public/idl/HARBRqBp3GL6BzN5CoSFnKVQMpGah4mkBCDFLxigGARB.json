@@ -1,0 +1,265 @@
+{
+  "version": "0.1.0",
+  "name": "harbor",
+  "instructions": [
+    {
+      "name": "arbgate",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "toCheck",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "openArb",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeArb",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "jitoTipAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buybackAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buybackAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minprofit",
+          "type": "u8"
+        },
+        {
+          "name": "jitoTipProfitPercentage",
+          "type": "u16"
+        },
+        {
+          "name": "solCoef",
+          "type": "f64"
+        },
+        {
+          "name": "maxJitoTip",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "wrapSol",
+      "accounts": [
+        {
+          "name": "userSolAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userWsolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unwrapSol",
+      "accounts": [
+        {
+          "name": "userSolAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userWsolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "raygun",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ArbAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NoProfit",
+      "msg": "No Profit at the end. Reverting..."
+    },
+    {
+      "code": 6001,
+      "name": "NotEnoughProfit",
+      "msg": "The profit does not exceed the user-defined minimum profit. Reverting..."
+    },
+    {
+      "code": 6002,
+      "name": "NotEnoughArb",
+      "msg": "You do not have the required ARB balance to make this transaction."
+    },
+    {
+      "code": 6003,
+      "name": "IncorrectJitoTipAccount",
+      "msg": "An incorrect Jito tip account was provided."
+    }
+  ]
+}

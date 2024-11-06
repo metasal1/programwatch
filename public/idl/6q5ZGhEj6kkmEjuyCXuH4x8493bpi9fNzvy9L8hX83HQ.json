@@ -1,0 +1,3472 @@
+{
+  "version": "0.1.0",
+  "name": "aver_core",
+  "instructions": [
+    {
+      "name": "initMarket",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marketStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracleFeed",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initMarketArgs",
+          "type": {
+            "defined": "InitMarketArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "supplementInitMarket",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbook",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "supplementInitMarketArgs",
+          "type": {
+            "defined": "SupplementInitMarketArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "changeMarketStatus",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "marketStatus",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateMarketTimes",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newTradingCeaseTime",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "newInPlayStartTime",
+          "type": {
+            "option": "i64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateMarketState",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateUserMarketState",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "placeOrder",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderbook",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "placeOrderArgs",
+          "type": {
+            "defined": "PlaceOrderArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancelOrder",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderbook",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cancelOrderArgs",
+          "type": {
+            "defined": "CancelOrderArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "neutralizeOutcomePosition",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderbook",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcomeId",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initUserMarket",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "host",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "numberOfOrders",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "updateUserMarketOrders",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newNumberOfOrders",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "initUserHostLifetime",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "host",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initReferrer",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "host",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initHost",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "host",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "referrerFeeRateOfferedBps",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "crankInPlayQueue",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbook",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTarget",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reinitForInPlay",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcomeIds",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "consumeEvents",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderbook",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTarget",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxIterations",
+          "type": "u64"
+        },
+        {
+          "name": "outcomeId",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "cancelAllOrders",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcomeIds",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeAaob",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inPlayQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetLamportsAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcomeIds",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeUserMarket",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeMarket",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetLamportsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "averQuoteTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sweepFees",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "averQuoteTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thirdPartyTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "hostCollectRevenueShare",
+      "accounts": [
+        {
+          "name": "host",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thirdPartyTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thirdPartyVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hostTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "referrerCollectRevenueShare",
+      "accounts": [
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thirdPartyTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thirdPartyVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "attemptResolve",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracleFeed",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resolveMarket",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "resolutionAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "winningOutcome",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "host",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTarget",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "voidMarket",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateUserSelfExclusion",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newSelfExclusionTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "updateMarketBalance",
+      "accounts": [
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payerQuoteTokenAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancelOrdersOom",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "host",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateNftPfpDisplayName",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userHostLifetime",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftPfp",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "displayName",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateMarketAuthority",
+      "accounts": [
+        {
+          "name": "marketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "newMarketAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Host",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "creationDate",
+            "type": "i64"
+          },
+          {
+            "name": "lastWithdrawal",
+            "type": "i64"
+          },
+          {
+            "name": "lastBalanceUpdate",
+            "type": "i64"
+          },
+          {
+            "name": "hostRevenueShareUncollected",
+            "type": "u64"
+          },
+          {
+            "name": "hostRevenueShareCollected",
+            "type": "u64"
+          },
+          {
+            "name": "hostFeeRateBps",
+            "type": "u64"
+          },
+          {
+            "name": "referrerFeeRateOfferedBps",
+            "type": "u64"
+          },
+          {
+            "name": "lastReferrerTermsChange",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InPlayQueue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "numberOfOrders",
+            "type": "u16"
+          },
+          {
+            "name": "maxNumberOfOrders",
+            "type": "u16"
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "vec": {
+                "defined": "InPlayQueueNode"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "marketStatus",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfWinners",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfUmas",
+            "type": "u8"
+          },
+          {
+            "name": "vaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "inPlayStartTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "tradingCeaseTime",
+            "type": "i64"
+          },
+          {
+            "name": "winningOutcome",
+            "type": "u8"
+          },
+          {
+            "name": "maxQuoteTokensIn",
+            "type": "u64"
+          },
+          {
+            "name": "maxQuoteTokensInPermissionCapped",
+            "type": "u64"
+          },
+          {
+            "name": "crankerReward",
+            "type": "u64"
+          },
+          {
+            "name": "matchedCount",
+            "type": "u64"
+          },
+          {
+            "name": "averAccumulatedFees",
+            "type": "u64"
+          },
+          {
+            "name": "thirdPartyAccumulatedFees",
+            "type": "u64"
+          },
+          {
+            "name": "openInterest",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawableQuoteTokenBalance",
+            "type": "u64"
+          },
+          {
+            "name": "permissionedMarketFlag",
+            "type": "bool"
+          },
+          {
+            "name": "goingInPlayFlag",
+            "type": "bool"
+          },
+          {
+            "name": "activeImmediately",
+            "type": "bool"
+          },
+          {
+            "name": "quoteTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "quoteVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketStore",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracleFeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeTierCollectionBpsRates",
+            "type": {
+              "array": [
+                "u64",
+                7
+              ]
+            }
+          },
+          {
+            "name": "marketName",
+            "type": "string"
+          },
+          {
+            "name": "outcomeNames",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "category",
+            "type": "u16"
+          },
+          {
+            "name": "subCategory",
+            "type": "u16"
+          },
+          {
+            "name": "series",
+            "type": "u16"
+          },
+          {
+            "name": "event",
+            "type": "u16"
+          },
+          {
+            "name": "marketStatus",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfWinners",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfUmas",
+            "type": "u8"
+          },
+          {
+            "name": "vaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "roundingFormat",
+            "type": "u8"
+          },
+          {
+            "name": "inPlayStartTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "tradingCeaseTime",
+            "type": "i64"
+          },
+          {
+            "name": "winningOutcome",
+            "type": "u8"
+          },
+          {
+            "name": "maxQuoteTokensIn",
+            "type": "u64"
+          },
+          {
+            "name": "maxQuoteTokensInPermissionCapped",
+            "type": "u64"
+          },
+          {
+            "name": "crankerReward",
+            "type": "u64"
+          },
+          {
+            "name": "matchedCount",
+            "type": "u64"
+          },
+          {
+            "name": "averAccumulatedFees",
+            "type": "u64"
+          },
+          {
+            "name": "thirdPartyAccumulatedFees",
+            "type": "u64"
+          },
+          {
+            "name": "openInterest",
+            "type": "u64"
+          },
+          {
+            "name": "stableQuoteTokenBalance",
+            "type": "u64"
+          },
+          {
+            "name": "permissionedMarketFlag",
+            "type": "bool"
+          },
+          {
+            "name": "goingInPlayFlag",
+            "type": "bool"
+          },
+          {
+            "name": "activeImmediately",
+            "type": "bool"
+          },
+          {
+            "name": "quoteTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "quoteVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketStore",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracleFeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "inPlayQueue",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeTierCollectionBpsRates",
+            "type": {
+              "array": [
+                "u64",
+                7
+              ]
+            }
+          },
+          {
+            "name": "marketName",
+            "type": "string"
+          },
+          {
+            "name": "outcomeNames",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketStoreV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "minOrderbookBaseSize",
+            "type": "u64"
+          },
+          {
+            "name": "minNewOrderBaseSize",
+            "type": "u64"
+          },
+          {
+            "name": "minNewOrderQuoteSize",
+            "type": "u64"
+          },
+          {
+            "name": "orderbookAccounts",
+            "type": {
+              "vec": {
+                "defined": "OrderbookAccounts"
+              }
+            }
+          },
+          {
+            "name": "initCounter",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketStore",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "minOrderbookBaseSize",
+            "type": "u64"
+          },
+          {
+            "name": "minNewOrderBaseSize",
+            "type": "u64"
+          },
+          {
+            "name": "minNewOrderQuoteSize",
+            "type": "u64"
+          },
+          {
+            "name": "orderbookAccounts",
+            "type": {
+              "vec": {
+                "defined": "OrderbookAccounts"
+              }
+            }
+          },
+          {
+            "name": "initCounter",
+            "type": "u8"
+          },
+          {
+            "name": "reInitCounter",
+            "type": "u8"
+          },
+          {
+            "name": "orderIdCounter",
+            "type": "u64"
+          },
+          {
+            "name": "inPlayDelaySeconds",
+            "type": {
+              "option": "u8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Referrer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "host",
+            "type": "publicKey"
+          },
+          {
+            "name": "creationDate",
+            "type": "i64"
+          },
+          {
+            "name": "lastBalanceUpdate",
+            "type": "i64"
+          },
+          {
+            "name": "lastWithdrawal",
+            "type": "i64"
+          },
+          {
+            "name": "lastReferral",
+            "type": "i64"
+          },
+          {
+            "name": "numberUsersReferred",
+            "type": "u64"
+          },
+          {
+            "name": "referrerRevenueShareCollected",
+            "type": "u64"
+          },
+          {
+            "name": "referrerFeeRateBps",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserHostLifetime",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "host",
+            "type": "publicKey"
+          },
+          {
+            "name": "userQuoteTokenAta",
+            "type": "publicKey"
+          },
+          {
+            "name": "referrer",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "referrerRevenueShareUncollected",
+            "type": "u64"
+          },
+          {
+            "name": "referralRevenueShareTotalGenerated",
+            "type": "u64"
+          },
+          {
+            "name": "referrerFeeRateBps",
+            "type": "u64"
+          },
+          {
+            "name": "lastFeeTierCheck",
+            "type": {
+              "defined": "FeeTier"
+            }
+          },
+          {
+            "name": "isSelfExcludedUntil",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "creationDate",
+            "type": "i64"
+          },
+          {
+            "name": "lastBalanceUpdate",
+            "type": "i64"
+          },
+          {
+            "name": "totalMarketsTraded",
+            "type": "u16"
+          },
+          {
+            "name": "totalQuoteVolumeTraded",
+            "type": "u64"
+          },
+          {
+            "name": "totalBaseVolumeTraded",
+            "type": "u64"
+          },
+          {
+            "name": "totalFeesPaid",
+            "type": "u64"
+          },
+          {
+            "name": "cumulativePnl",
+            "type": "i64"
+          },
+          {
+            "name": "cumulativeInvest",
+            "type": "u64"
+          },
+          {
+            "name": "displayName",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "nftPfp",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserMarketV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "userVerificationAccount",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "userHostLifetime",
+            "type": "publicKey"
+          },
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfOrders",
+            "type": "u32"
+          },
+          {
+            "name": "maxNumberOfOrders",
+            "type": "u32"
+          },
+          {
+            "name": "netQuoteTokensIn",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedMakerQuoteVolume",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedMakerBaseVolume",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedTakerQuoteVolume",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedTakerBaseVolume",
+            "type": "u64"
+          },
+          {
+            "name": "outcomePositions",
+            "type": {
+              "vec": {
+                "defined": "OutcomePosition"
+              }
+            }
+          },
+          {
+            "name": "orders",
+            "type": {
+              "vec": {
+                "defined": "OrderV0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserMarket",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "userVerificationAccount",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "userHostLifetime",
+            "type": "publicKey"
+          },
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfOrders",
+            "type": "u32"
+          },
+          {
+            "name": "maxNumberOfOrders",
+            "type": "u32"
+          },
+          {
+            "name": "netQuoteTokensIn",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedMakerQuoteVolume",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedMakerBaseVolume",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedTakerQuoteVolume",
+            "type": "u64"
+          },
+          {
+            "name": "accumulatedTakerBaseVolume",
+            "type": "u64"
+          },
+          {
+            "name": "outcomePositions",
+            "type": {
+              "vec": {
+                "defined": "OutcomePosition"
+              }
+            }
+          },
+          {
+            "name": "orders",
+            "type": {
+              "vec": {
+                "defined": "Order"
+              }
+            }
+          },
+          {
+            "name": "inPlayOrders",
+            "type": {
+              "vec": {
+                "defined": "InPlayOrder"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CancelOrderArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "outcomeId",
+            "type": "u8"
+          },
+          {
+            "name": "aaobOrderId",
+            "type": {
+              "option": "u128"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InPlayQueueNode",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "userAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "queueingFinished",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitMarketArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numberOfOutcomes",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfWinners",
+            "type": "u8"
+          },
+          {
+            "name": "vaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "permissionedMarketFlag",
+            "type": "bool"
+          },
+          {
+            "name": "minOrderbookBaseSize",
+            "type": "u64"
+          },
+          {
+            "name": "minNewOrderBaseSize",
+            "type": "u64"
+          },
+          {
+            "name": "minNewOrderQuoteSize",
+            "type": "u64"
+          },
+          {
+            "name": "maxQuoteTokensIn",
+            "type": "u64"
+          },
+          {
+            "name": "maxQuoteTokensInPermissionCapped",
+            "type": "u64"
+          },
+          {
+            "name": "crankerReward",
+            "type": "u64"
+          },
+          {
+            "name": "feeTierCollectionBpsRates",
+            "type": {
+              "array": [
+                "u64",
+                7
+              ]
+            }
+          },
+          {
+            "name": "marketName",
+            "type": "string"
+          },
+          {
+            "name": "activeImmediately",
+            "type": "bool"
+          },
+          {
+            "name": "tradingCeaseTime",
+            "type": "i64"
+          },
+          {
+            "name": "roundingFormat",
+            "type": "u8"
+          },
+          {
+            "name": "category",
+            "type": "u16"
+          },
+          {
+            "name": "subCategory",
+            "type": "u16"
+          },
+          {
+            "name": "series",
+            "type": "u16"
+          },
+          {
+            "name": "event",
+            "type": "u16"
+          },
+          {
+            "name": "goingInPlayFlag",
+            "type": "bool"
+          },
+          {
+            "name": "inPlayStartTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "inPlayDelaySeconds",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxInPlayCrankOrders",
+            "type": {
+              "option": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderbookAccounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderbook",
+            "type": "publicKey"
+          },
+          {
+            "name": "eventQueue",
+            "type": "publicKey"
+          },
+          {
+            "name": "bids",
+            "type": "publicKey"
+          },
+          {
+            "name": "asks",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlaceOrderArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "outcomeId",
+            "type": "u8"
+          },
+          {
+            "name": "side",
+            "type": "u8"
+          },
+          {
+            "name": "limitPrice",
+            "type": "u64"
+          },
+          {
+            "name": "sizeFormat",
+            "type": "u8"
+          },
+          {
+            "name": "size",
+            "type": "u64"
+          },
+          {
+            "name": "orderType",
+            "type": "u8"
+          },
+          {
+            "name": "selfTradeBehavior",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SupplementInitMarketArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "outcomeId",
+            "type": "u8"
+          },
+          {
+            "name": "outcomeNames",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "eventCapacity",
+            "type": "u8"
+          },
+          {
+            "name": "nodesCapacity",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OutcomePosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "free",
+            "type": "u64"
+          },
+          {
+            "name": "locked",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u128"
+          },
+          {
+            "name": "outcomeId",
+            "type": "u8"
+          },
+          {
+            "name": "baseQty",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnlockCancelOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "umaQuoteTokenChange",
+            "type": "u64"
+          },
+          {
+            "name": "umaQuoteTokenChangeSign",
+            "type": "i8"
+          },
+          {
+            "name": "umaOutcomeChange",
+            "type": "u64"
+          },
+          {
+            "name": "umaOutcomeChangeSign",
+            "type": "i8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LockPlaceOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "qtyToTransfer",
+            "type": "u64"
+          },
+          {
+            "name": "matchedQuoteQty",
+            "type": "u64"
+          },
+          {
+            "name": "matchedBaseQty",
+            "type": "u64"
+          },
+          {
+            "name": "postedQuoteQty",
+            "type": "u64"
+          },
+          {
+            "name": "umaQuoteTokenChange",
+            "type": "u64"
+          },
+          {
+            "name": "umaQuoteTokenChangeSign",
+            "type": "i8"
+          },
+          {
+            "name": "umaOutcomeChange",
+            "type": "u64"
+          },
+          {
+            "name": "umaOutcomeChangeSign",
+            "type": "i8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Order",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "aaobOrderId",
+            "type": "u128"
+          },
+          {
+            "name": "outcomeId",
+            "type": "u8"
+          },
+          {
+            "name": "baseQty",
+            "type": "u64"
+          },
+          {
+            "name": "isPreEvent",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InPlayOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "orderId",
+            "type": "u64"
+          },
+          {
+            "name": "outcomeId",
+            "type": "u8"
+          },
+          {
+            "name": "side",
+            "type": "u8"
+          },
+          {
+            "name": "limitPrice",
+            "type": "u64"
+          },
+          {
+            "name": "sizeFormat",
+            "type": "u8"
+          },
+          {
+            "name": "size",
+            "type": "u64"
+          },
+          {
+            "name": "orderType",
+            "type": "u8"
+          },
+          {
+            "name": "selfTradeBehavior",
+            "type": "u8"
+          },
+          {
+            "name": "feeTier",
+            "type": {
+              "defined": "FeeTier"
+            }
+          },
+          {
+            "name": "totalQuoteQty",
+            "type": "u64"
+          },
+          {
+            "name": "totalBaseQty",
+            "type": "u64"
+          },
+          {
+            "name": "postOnly",
+            "type": "bool"
+          },
+          {
+            "name": "postAllowed",
+            "type": "bool"
+          },
+          {
+            "name": "neutralize",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AccountTag",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Market"
+          },
+          {
+            "name": "EventQueue"
+          },
+          {
+            "name": "Bids"
+          },
+          {
+            "name": "Asks"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TooManyWinners"
+          },
+          {
+            "name": "InvalidQuoteTokenMint"
+          },
+          {
+            "name": "UserSelfExcluded"
+          },
+          {
+            "name": "UncollectedFees"
+          },
+          {
+            "name": "InvalidAccountOwner"
+          },
+          {
+            "name": "MarketVaultNotEmpty"
+          },
+          {
+            "name": "InvalidWinningOutcome"
+          },
+          {
+            "name": "MarketStoreOrderbookAccountsError"
+          },
+          {
+            "name": "InvalidAverQuoteATA"
+          },
+          {
+            "name": "IncorrectNumberOfOutcomes"
+          },
+          {
+            "name": "InvalidAccountLength"
+          },
+          {
+            "name": "InvalidMarketAuthority"
+          },
+          {
+            "name": "InvalidThirdPartyTokenVault"
+          },
+          {
+            "name": "InvalidUserAuthority"
+          },
+          {
+            "name": "InvalidVaultAccount"
+          },
+          {
+            "name": "InvalidSweepAuthority"
+          },
+          {
+            "name": "InvalidMarketStatus"
+          },
+          {
+            "name": "MarketNotInPlay"
+          },
+          {
+            "name": "MaxWinnersExceeded"
+          },
+          {
+            "name": "MaxOutcomesExceeded"
+          },
+          {
+            "name": "TradeSizeTooLow"
+          },
+          {
+            "name": "CreateMarketAOBError"
+          },
+          {
+            "name": "PlaceOrderAOBError"
+          },
+          {
+            "name": "CancelOrderAOBError"
+          },
+          {
+            "name": "ConsumeEventsAOBError"
+          },
+          {
+            "name": "InsufficientFunds"
+          },
+          {
+            "name": "FailedToInitTokenBalances"
+          },
+          {
+            "name": "InvalidOrderIndex"
+          },
+          {
+            "name": "InvalidOutcomeIndex"
+          },
+          {
+            "name": "UserAccountFull"
+          },
+          {
+            "name": "OrderNotFound"
+          },
+          {
+            "name": "NotEnoughFreeOutcomePositions"
+          },
+          {
+            "name": "NotEnoughLockedOutcomePositions"
+          },
+          {
+            "name": "IncorrectAverMarketInUserMarket"
+          },
+          {
+            "name": "IncorrectPDA"
+          },
+          {
+            "name": "TransactionAborted"
+          },
+          {
+            "name": "VaultAmountNotCorrect"
+          },
+          {
+            "name": "WithdrawAmountTooHigh"
+          },
+          {
+            "name": "SerumAccountsDontMatchForOutcome"
+          },
+          {
+            "name": "SerumAccountsIncorrectlyRelated"
+          },
+          {
+            "name": "OutcomePositionAmountError"
+          },
+          {
+            "name": "NoOp"
+          },
+          {
+            "name": "MarketUMAsNeedSettlement"
+          },
+          {
+            "name": "OutcomeOutsideOutcomeSpace"
+          },
+          {
+            "name": "IncorrectOrderTypeForMarketOrder"
+          },
+          {
+            "name": "DuplicateOrderbooksError"
+          },
+          {
+            "name": "SelfExclusionTimeInThePast"
+          },
+          {
+            "name": "InPlayStartTimeInThePast"
+          },
+          {
+            "name": "TradingCeaseTimeInThePast"
+          },
+          {
+            "name": "NoOracleForMarket"
+          },
+          {
+            "name": "EventQueueZero"
+          },
+          {
+            "name": "ReferrerAccountError"
+          },
+          {
+            "name": "MissingUserAccount"
+          },
+          {
+            "name": "BaseSizeTooSmall"
+          },
+          {
+            "name": "QuoteSizeTooSmall"
+          },
+          {
+            "name": "InvalidOrderIdForIndex"
+          },
+          {
+            "name": "InvalidOutcomeIdForIndex"
+          },
+          {
+            "name": "MakerTakerRateIssue"
+          },
+          {
+            "name": "IncorrectMarketBalancesAfterConsumeEvents"
+          },
+          {
+            "name": "CloseMarketAOBError"
+          },
+          {
+            "name": "UserAccountStillActive"
+          },
+          {
+            "name": "OrdersPendingForOutcome"
+          },
+          {
+            "name": "UserMustCollectWinnings"
+          },
+          {
+            "name": "UserMustCollectAvailableDeposits"
+          },
+          {
+            "name": "IncorrectOutcomeNames"
+          },
+          {
+            "name": "FreeOutcomePositionsRemain"
+          },
+          {
+            "name": "UserHasNoWinnings"
+          },
+          {
+            "name": "EventQueueNotEmpty"
+          },
+          {
+            "name": "InvalidAutoCollectClose"
+          },
+          {
+            "name": "InvalidUMAConfiguration"
+          },
+          {
+            "name": "UserPermissioningError"
+          },
+          {
+            "name": "QuoteTokenLimitExceeded"
+          },
+          {
+            "name": "LimitPriceError"
+          },
+          {
+            "name": "SideError"
+          },
+          {
+            "name": "PriceError"
+          },
+          {
+            "name": "SelfExclusionTimeError"
+          },
+          {
+            "name": "IncorrectBps"
+          },
+          {
+            "name": "TradingCeaseTimePassed"
+          },
+          {
+            "name": "GoingInPlayTimePassed"
+          },
+          {
+            "name": "InvalidUserQuoteATA"
+          },
+          {
+            "name": "IncorrectNewNumberOfOrdersError"
+          },
+          {
+            "name": "NewOrdersLessThanActiveOrdersError"
+          },
+          {
+            "name": "StateVersionError"
+          },
+          {
+            "name": "InvalidAnchorDiscriminator"
+          },
+          {
+            "name": "AccountAlreadyLatestVersion"
+          },
+          {
+            "name": "InvalidMarketInMarketStore"
+          },
+          {
+            "name": "OldUMACancelOrderError"
+          },
+          {
+            "name": "InvalidMarketInPlayQueue"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Initialized"
+          },
+          {
+            "name": "ActivePreEvent"
+          },
+          {
+            "name": "ActiveInPlay"
+          },
+          {
+            "name": "HaltedPreEvent"
+          },
+          {
+            "name": "HaltedInPlay"
+          },
+          {
+            "name": "TradingCeased"
+          },
+          {
+            "name": "CeasedCrankedClosed"
+          },
+          {
+            "name": "Resolved"
+          },
+          {
+            "name": "Voided"
+          },
+          {
+            "name": "InPlayTransition"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundingType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Probability"
+          },
+          {
+            "name": "Decimal"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeTier",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Base"
+          },
+          {
+            "name": "Aver1"
+          },
+          {
+            "name": "Aver2"
+          },
+          {
+            "name": "Aver3"
+          },
+          {
+            "name": "Aver4"
+          },
+          {
+            "name": "Aver5"
+          },
+          {
+            "name": "ZeroFees"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketEvent",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InitMarket"
+          },
+          {
+            "name": "InitUserMarket"
+          },
+          {
+            "name": "InitHost"
+          },
+          {
+            "name": "InitReferrer"
+          },
+          {
+            "name": "InitUserHostLifetime"
+          },
+          {
+            "name": "ProtocolFeesSwept"
+          },
+          {
+            "name": "ThirdPartyFeesSwept"
+          },
+          {
+            "name": "HostCollectRevenueShare"
+          },
+          {
+            "name": "ReferrerCollectRevenueShare"
+          },
+          {
+            "name": "Deposit"
+          },
+          {
+            "name": "Withdraw"
+          },
+          {
+            "name": "PlaceOrder"
+          },
+          {
+            "name": "NeutralizeOutcomePosition"
+          },
+          {
+            "name": "CancelOrder"
+          },
+          {
+            "name": "TakerFill"
+          },
+          {
+            "name": "MakerFill"
+          },
+          {
+            "name": "Out"
+          },
+          {
+            "name": "CollectWinnings"
+          },
+          {
+            "name": "CloseUserAccount"
+          },
+          {
+            "name": "MarketVoided"
+          },
+          {
+            "name": "UpdateMarketTimes"
+          },
+          {
+            "name": "ChangeMarketStatus"
+          },
+          {
+            "name": "ManualResolution"
+          },
+          {
+            "name": "AttemptResolution"
+          },
+          {
+            "name": "CloseAaob"
+          },
+          {
+            "name": "CloseMarket"
+          },
+          {
+            "name": "ConsumeEventsCranker"
+          },
+          {
+            "name": "CollectCloseCranker"
+          },
+          {
+            "name": "UpdateUserSelfExclusionTime"
+          },
+          {
+            "name": "InPlayPlaceOrder"
+          },
+          {
+            "name": "OutAlreadyRemoved"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Limit"
+          },
+          {
+            "name": "ImmediateOrCancel"
+          },
+          {
+            "name": "FillOrKill"
+          },
+          {
+            "name": "PostOnly"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SizeFormat",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Payout"
+          },
+          {
+            "name": "Stake"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "TransactionEvent",
+      "fields": [
+        {
+          "name": "transactionType",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "marketPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "hostPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userHostLifetimePubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userWalletPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userMarketPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "outcomeId",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "programLamportsChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "programLamportsChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "walletQuoteTokenChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "walletQuoteTokenChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "umaQuoteTokenChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "umaQuoteTokenChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "umaOutcomeChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "umaOutcomeChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "pnlChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "pnlChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "feesPaid",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rebatesReceived",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "side",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "sizeFormat",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "sizePayout",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "sizeStake",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "price",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "orderType",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "makerFlag",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "StopMarketEvent",
+      "fields": [
+        {
+          "name": "transactionType",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "marketPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userWalletPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "numberOfUmas",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "vaultBalance",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "openInterest",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "withdrawableBalance",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "averAccumulatedFees",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "thirdPartyAccumulatedFees",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CancelOrderEvent",
+      "fields": [
+        {
+          "name": "transactionType",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "outcomeId",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "walletQuoteTokenChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "walletQuoteTokenChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "umaQuoteTokenChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "umaQuoteTokenChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "umaOutcomeChangeSign",
+          "type": "i8",
+          "index": false
+        },
+        {
+          "name": "umaOutcomeChange",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "side",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "sizePayout",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "price",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "orderId",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BestBidAskEvent",
+      "fields": [
+        {
+          "name": "marketPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "outcomeId",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "bestBidPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "bestAskPrice",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,702 @@
+{
+  "version": "0.1.0",
+  "name": "emission_distributor",
+  "instructions": [
+    {
+      "name": "initializeEmissionDistributorV0",
+      "accounts": [
+        {
+          "name": "rndrMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "circuitBreaker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "circuitBreakerProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "emissionSchedule",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "emissionDistributor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "freezeAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeEmissionDistributorArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "distributeEmissionsV0",
+      "accounts": [
+        {
+          "name": "emissionDistributor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "emissionSchedule",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "emissionScheduleReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "circuitBreaker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "circuitBreakerProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rndrMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateEmissionDistributorV0",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "emissionDistributor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rndrMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateEmissionDistributorArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateEmissionScheduleV0",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "schedule",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateEmissionScheduleArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "manualMintV0",
+      "accounts": [
+        {
+          "name": "emissionDistributor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "circuitBreaker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "circuitBreakerProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recipientAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rndrMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ManualMintArgsV0"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EmissionDistributorV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "manualMintAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "rndrMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "emissionSchedule",
+            "type": "publicKey"
+          },
+          {
+            "name": "distributionEscrows",
+            "type": {
+              "vec": {
+                "defined": "EscrowDistribution"
+              }
+            }
+          },
+          {
+            "name": "space",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmissionScheduleV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochId",
+            "type": "u64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "rndrMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "currentEpochBeganAt",
+            "type": "i64"
+          },
+          {
+            "name": "epochDurationSec",
+            "type": "i64"
+          },
+          {
+            "name": "emissionSchedule",
+            "type": {
+              "vec": {
+                "defined": "EmissionScheduleItem"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "space",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmissionScheduleReceiptV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochId",
+            "type": "u64"
+          },
+          {
+            "name": "epochStartedAt",
+            "type": "i64"
+          },
+          {
+            "name": "epochEndedAt",
+            "type": "i64"
+          },
+          {
+            "name": "numEpochsAdvanced",
+            "type": "u64"
+          },
+          {
+            "name": "totalMinted",
+            "type": "u64"
+          },
+          {
+            "name": "totalBurnRewardsMinted",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "space",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "WindowedCircuitBreakerConfigV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "windowSizeSeconds",
+            "type": "u64"
+          },
+          {
+            "name": "thresholdType",
+            "type": {
+              "defined": "ThresholdType"
+            }
+          },
+          {
+            "name": "threshold",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeEmissionDistributorArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "manualEmissionAuthority",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "distributionAccounts",
+            "type": {
+              "vec": {
+                "defined": "EscrowDistribution"
+              }
+            }
+          },
+          {
+            "name": "emissionSchedule",
+            "type": {
+              "vec": {
+                "defined": "EmissionScheduleItem"
+              }
+            }
+          },
+          {
+            "name": "mintCircuitBreakerConfig",
+            "type": {
+              "defined": "WindowedCircuitBreakerConfigV0"
+            }
+          },
+          {
+            "name": "epochDurationSec",
+            "type": "i64"
+          },
+          {
+            "name": "currentEpochBeganAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ManualMintArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateEmissionDistributorArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "distributionEscrows",
+            "type": {
+              "option": {
+                "vec": {
+                  "defined": "EscrowDistribution"
+                }
+              }
+            }
+          },
+          {
+            "name": "emissionSchedule",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "manualMintAuthority",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "authority",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateEmissionScheduleArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "emissionSchedule",
+            "type": {
+              "option": {
+                "vec": {
+                  "defined": "EmissionScheduleItem"
+                }
+              }
+            }
+          },
+          {
+            "name": "epochDurationSecs",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "currentEpochBeganAt",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EmissionScheduleItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startUnixTime",
+            "type": "i64"
+          },
+          {
+            "name": "emissionsPerEpoch",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EscrowDistribution",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "account",
+            "type": "publicKey"
+          },
+          {
+            "name": "kind",
+            "type": {
+              "defined": "DistributionKind"
+            }
+          },
+          {
+            "name": "percent",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ThresholdType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Percent"
+          },
+          {
+            "name": "Absolute"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DistributionKind",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Foundation",
+            "fields": [
+              {
+                "defined": "FoundationKind"
+              }
+            ]
+          },
+          {
+            "name": "Network",
+            "fields": [
+              {
+                "defined": "NetworkKind"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "NetworkKind",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NodeOperators"
+          },
+          {
+            "name": "LiquidityPools"
+          },
+          {
+            "name": "Artists"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FoundationKind",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ComputeClientOnboardingRewards"
+          },
+          {
+            "name": "UpgradeRewards"
+          },
+          {
+            "name": "Proper"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BumpNotAvailable",
+      "msg": "Bump couldn't be found"
+    },
+    {
+      "code": 6001,
+      "name": "MissingEmissionScheduleItem",
+      "msg": "No emission schedule found"
+    },
+    {
+      "code": 6002,
+      "name": "MissingRewardsAccountInfo",
+      "msg": "No rewards account found"
+    },
+    {
+      "code": 6003,
+      "name": "PercentagesDontAddUp",
+      "msg": "Percentages don't add up to 100"
+    },
+    {
+      "code": 6004,
+      "name": "DuplicateDistributionKinds",
+      "msg": "Distribution kinds must be unique"
+    },
+    {
+      "code": 6005,
+      "name": "MintAddressMismatch",
+      "msg": "Mint address mismatch"
+    },
+    {
+      "code": 6006,
+      "name": "AccountsMismatch",
+      "msg": "Accounts don't match escrow"
+    },
+    {
+      "code": 6007,
+      "name": "ArithmeticError",
+      "msg": "Arithmetic error"
+    },
+    {
+      "code": 6008,
+      "name": "NoEmissionsToDistribute",
+      "msg": "No outstanding emissions to distribute"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidEmissionSchedule",
+      "msg": "Invalid emission schedule"
+    },
+    {
+      "code": 6010,
+      "name": "NoBurnRewardsAlloc",
+      "msg": "No burn rewards allocation found"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidEpochDuration",
+      "msg": "Epoch duration must be > 0 seconds"
+    }
+  ]
+}

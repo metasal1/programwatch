@@ -11,8 +11,23 @@ interface Stats {
     hasIdlCount: number;
 }
 
+interface OwnerStat {
+    owner: string;
+    programCount: number;
+    executableCount: number;
+    verifiedCount: number;
+    mutableCount: number;
+    hasIdlCount: number;
+}
+
+interface ApiResponse {
+    success: boolean;
+    stats: Stats;
+    ownerStats: OwnerStat[];
+}
+
 export function StatisticsDashboard() {
-    const [stats, setStats] = useState<Stats | null>(null);
+    const [data, setData] = useState<ApiResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -22,7 +37,7 @@ export function StatisticsDashboard() {
                 const data = await response.json();
 
                 if (data.success) {
-                    setStats(data.stats);
+                    setData(data);
                 } else {
                     setError('Failed to load statistics');
                 }
@@ -36,20 +51,75 @@ export function StatisticsDashboard() {
     }, []);
 
     if (error) {
-        return <div className="text-red-500">{error}</div>;
+        return (
+            <div className="rounded-lg bg-destructive/15 p-4 text-destructive">
+                {error}
+            </div>
+        );
     }
 
-    if (!stats) {
-        return <div className="animate-pulse">Loading statistics...</div>;
+    if (!data) {
+        return (
+            <div className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    {[...Array(5)].map((_, i) => (
+                        <div key={i} className="h-32 rounded-lg bg-muted animate-pulse" />
+                    ))}
+                </div>
+                <div className="rounded-lg bg-muted h-64 animate-pulse" />
+            </div>
+        );
     }
+
+    const formatOwnerName = (owner: string) => {
+        // Shorten the owner name for display
+        return owner.slice(0, 12) + '...' + owner.slice(-4);
+    };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <StatisticsCard title="Total Programs" value={stats.totalCount} />
-            <StatisticsCard title="Executable Programs" value={stats.executableCount} />
-            <StatisticsCard title="Verified Programs" value={stats.verifiedCount} />
-            <StatisticsCard title="Mutable Programs" value={stats.mutableCount} />
-            <StatisticsCard title="Programs with IDL" value={stats.hasIdlCount} />
+        <div className="space-y-8">
+            <div>
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <StatisticsCard title="Total Programs" value={data.stats.totalCount} />
+                    <StatisticsCard title="Executable Programs" value={data.stats.executableCount} />
+                    <StatisticsCard title="Verified Programs" value={data.stats.verifiedCount} />
+                    <StatisticsCard title="Mutable Programs" value={data.stats.mutableCount} />
+                    <StatisticsCard title="Programs with IDL" value={data.stats.hasIdlCount} />
+                </div>
+            </div>
+            <div className="rounded-lg border bg-card">
+                <div className="overflow-x-auto">
+                    <table className="w-full min-w-[800px]">
+                        <thead>
+                            <tr className="border-b bg-muted/50">
+                                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Owner</th>
+                                <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Programs</th>
+                                <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Executable</th>
+                                <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Verified</th>
+                                <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Upgradeable</th>
+                                <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Has IDL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.ownerStats.map((owner, index) => (
+                                <tr
+                                    key={owner.owner}
+                                    className="border-b transition-colors hover:bg-muted/50"
+                                >
+                                    <td className="p-4 align-middle font-mono text-sm">
+                                        {formatOwnerName(owner.owner)}
+                                    </td>
+                                    <td className="p-4 text-right align-middle">{owner.programCount.toLocaleString()}</td>
+                                    <td className="p-4 text-right align-middle">{owner.executableCount.toLocaleString()}</td>
+                                    <td className="p-4 text-right align-middle">{owner.verifiedCount.toLocaleString()}</td>
+                                    <td className="p-4 text-right align-middle">{owner.mutableCount.toLocaleString()}</td>
+                                    <td className="p-4 text-right align-middle">{owner.hasIdlCount.toLocaleString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
-} 
+}

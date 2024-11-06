@@ -1,0 +1,2349 @@
+{
+  "version": "0.1.0",
+  "name": "staking",
+  "instructions": [
+    {
+      "name": "addPoolToGroup",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority of the delegation group"
+          ]
+        },
+        {
+          "name": "delegationGroup",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "delegationPool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addRewardPool",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Pays init fee, generally same as authority"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority of the corresponding `delegation_pool`"
+          ]
+        },
+        {
+          "name": "delegationPool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Delegation pool to add the RewardPool into"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimRewards",
+      "accounts": [
+        {
+          "name": "claimBase",
+          "accounts": [
+            {
+              "name": "owner",
+              "isMut": true,
+              "isSigner": true,
+              "docs": [
+                "Owns the corresponding `staker`"
+              ]
+            },
+            {
+              "name": "stakePool",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Stake pool that the delegation pool is paired with."
+              ]
+            },
+            {
+              "name": "delegationPool",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Note: Owns the reward vaults and signs the transfer tx"
+              ]
+            },
+            {
+              "name": "staker",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "The owner's staking account"
+              ]
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeStakePool",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent"
+          ]
+        },
+        {
+          "name": "stakeMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL Token Mint of the underlying token to be deposited for staking"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An SPL token Account for staging A tokens"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeStakePoolParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeStaker",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of the `Staker` account, which may differ from the `payer` staking."
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createDelegationGroup",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The StakePool authority must sign to create a DelegationPool"
+          ]
+        },
+        {
+          "name": "groupAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Adminstrator of the delegation pool"
+          ]
+        },
+        {
+          "name": "delegationGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Stake pool that this delegation pool is paired with"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initializeDelegationPool",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Adminstrator of the delegation pool"
+          ]
+        },
+        {
+          "name": "oracleData",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "This oracle's `OracleAccountData` from the `sb_on_demand` program. MUST be initialized.",
+            "",
+            "Note: After this ix runs, remember to reciprocally register this `delegation_pool` in the",
+            "oracle's account on the sb_on_demand program",
+            "",
+            "program performs essentially NO VALIDATION that this is the correct account, belongs to this",
+            "oracle, etc"
+          ]
+        },
+        {
+          "name": "delegationPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Stake pool that this delegation pool is paired with"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "instantUnstake",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Owns the Staker acc"
+          ]
+        },
+        {
+          "name": "tokenDest",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "WARN: Completely unchecked!"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault of the StakePool that is the source of the tokens"
+          ]
+        },
+        {
+          "name": "stakeMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint for vault tokens"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "StakePool that owner is unstaking from"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InstantUnstakeParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of the Staker account, which may differ from the `payer` account staking."
+          ]
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token Account to transfer stake_mint from, to be deposited into the vault"
+          ]
+        },
+        {
+          "name": "stakeMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault of the StakePool token will be transfer to"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "StakePool owning the vault that will receive the deposit"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "StakeParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "delegate",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Owns the corresponding `staker`"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Stake pool that the delegation pool is paired with"
+          ]
+        },
+        {
+          "name": "delegationPool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Delegation pool that the staker's `delegateUserState` corresponds to"
+          ]
+        },
+        {
+          "name": "delegationGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The owner's staking account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "DelegateParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "undelegate",
+      "accounts": [
+        {
+          "name": "claimBase",
+          "accounts": [
+            {
+              "name": "owner",
+              "isMut": true,
+              "isSigner": true,
+              "docs": [
+                "Owns the corresponding `staker`"
+              ]
+            },
+            {
+              "name": "stakePool",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Stake pool that the delegation pool is paired with."
+              ]
+            },
+            {
+              "name": "delegationPool",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Note: Owns the reward vaults and signs the transfer tx"
+              ]
+            },
+            {
+              "name": "staker",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "The owner's staking account"
+              ]
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "delegationGroup",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UndelegateParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Owns the Staker acc"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "StakePool that owner is unstaking from"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UnstakeParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenDest",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "WARN: Completely unchecked!"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault of the StakePool that is the source of the tokens"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "StakePool that owner is withdrawing from"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "WithdrawParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "grant",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of the Staker account, which may differ from the `payer` account staking."
+          ]
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token Account to transfer stake_mint from, to be deposited into the vault"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault of the StakePool token will be transfer to"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "StakePool owning the vault that will receive the deposit"
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "GrantParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "advanceEpoch",
+      "accounts": [
+        {
+          "name": "delegationPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "queueEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "queue",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "delegationGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracleData",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "This oracle's `OracleAccountData` from the `sb_on_demand` program.",
+            ""
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateDelinquency",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority of the delegation group"
+          ]
+        },
+        {
+          "name": "delegationGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "delegationPool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UpdateDelinquencyParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createRegistrar",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registrar",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The voting registrar. There can only be a single registrar per governance realm and",
+            "governing mint."
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "An spl-governance realm",
+            "",
+            "- realm is owned by the governance_program_id",
+            "- realm_governing_token_mint must be the community or council mint",
+            "- realm_authority is realm.authority"
+          ]
+        },
+        {
+          "name": "governanceProgramId",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program id of the spl-governance program the realm belongs to.",
+            ""
+          ]
+        },
+        {
+          "name": "realmGoverningTokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Either the realm community mint or the council mint."
+          ]
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "registerRegistrar",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakePool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createVoterWeightRecord",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of VoterWeightRecord, must also be `governing_token_owner` of the token owner record",
+            ""
+          ]
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Registrar for the applicable realm"
+          ]
+        },
+        {
+          "name": "stakePool",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "StakePool the VoterWeightRecord will be associated with."
+          ]
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Staker the corresponds to this owner"
+          ]
+        },
+        {
+          "name": "voterWeightRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateWeightRecord",
+      "docs": [
+        "Must be called immediately before voting, in the same tx.",
+        "",
+        "Technically permisionless, any user may call this to update (and therefore read) another",
+        "Staker's voting power on-chain."
+      ],
+      "accounts": [
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voterWeightRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "editOracleData",
+      "docs": [
+        "Devnet only, panics if program built without devnet flag."
+      ],
+      "accounts": [
+        {
+          "name": "oracleData",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "EditOracleDataParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "writeOracleData",
+      "docs": [
+        "Devnet only, panics if program built without devnet flag."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "oracleData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u16"
+        },
+        {
+          "name": "params",
+          "type": {
+            "defined": "WriteOracleDataParams"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DelegationGroup",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "The authority that can",
+              "* Add DelegationPools to the group",
+              "* Activate or Deactivate DelegationPools on the group"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakePool",
+            "docs": [
+              "The StakePool the DelegationGroup"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "finalizedTotalDelegation",
+            "type": "u64"
+          },
+          {
+            "name": "currentTotalDelegation",
+            "docs": [
+              "Total amount delegated across all pools in this group for the current epoch",
+              "* In XSWITCH, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "nextTotalDelegation",
+            "docs": [
+              "Amount that will be delegated next epoch. When delegation changes mid-epoch, it stays",
+              "effective until the next epoch: this is the balance that will be effective when the epoch",
+              "shifts to the next epoch",
+              "* In XSWITCH, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "currentEpoch",
+            "docs": [
+              "Caches the last cranked epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "lastEpochTotalReward",
+            "docs": [
+              "Cache's the amount of tokens in the Switchboard Queue's reward escrow"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "reserved4",
+            "type": {
+              "array": [
+                "u8",
+                15
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DelegationPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This struct's own key. A PDA of \"Delegation\", authority, oracle, stake_pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Pubkey that can make updates to this delegation pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "delegationGroup",
+            "docs": [
+              "Pubkey of the DelegationGroup the pool belongs to."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakePool",
+            "docs": [
+              "StakePool this delegation pool is associated with"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeMint",
+            "docs": [
+              "Caches stake_pool's `stake_mint`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "oracleData",
+            "docs": [
+              "This oracle's `OracleAccountData` from the `sb_on_demand` program.",
+              "* Note: Each delegation pool supports just one OracleAccountData and vice-versa."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardPools",
+            "docs": [
+              "List of reward pools, in the order they were added. NOT sorted.",
+              "* Note: The reward_pools never change order, and are never removed"
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "RewardPool"
+                },
+                16
+              ]
+            }
+          },
+          {
+            "name": "finalizedTotalDelegation",
+            "docs": [
+              "The amount of delegation that was in the epoch prior"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "currentTotalDelegation",
+            "docs": [
+              "Amount delegated in this epoch",
+              "* In XSWITCH, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "nextTotalDelegation",
+            "docs": [
+              "Amount that will be delegated next epoch. When delegation changes mid-epoch, it stays",
+              "effective until the next epoch: this is the balance that will be effective when the epoch",
+              "shifts to the next epoch",
+              "* In XSWITCH, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "currentEpoch",
+            "docs": [
+              "Caches the last cranked epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bumpSeed",
+            "docs": [
+              "Bump for this account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "activePools",
+            "docs": [
+              "Number of non-default (e.g., active) reward pools in `reward_pools`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "deliquency",
+            "docs": [
+              "`GOOD_STANDING` or `DELINQUENT`, all other values are invalid."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding1",
+            "type": {
+              "array": [
+                "u8",
+                13
+              ]
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                512
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleStatsAccountData",
+      "docs": [
+        "Mocks the `OracleStatsAccountData` account at `sb_on_demand/oracle_stats_impl.rs`. Cannot be instantiated",
+        "outside of devnet",
+        "",
+        "Data the staking program doesn't need is ignored.",
+        "",
+        "Note: this account is not imported from sb_on_demand to avoid a circular dependency."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "finalizedEpoch",
+            "docs": [
+              "The last epoch that has completed. cleared after registered with the",
+              "staking program."
+            ],
+            "type": {
+              "defined": "OracleEpochInfo"
+            }
+          },
+          {
+            "name": "currentEpoch",
+            "docs": [
+              "The current epoch info being used by the oracle. for stake. Will moved",
+              "to finalized_epoch as soon as the epoch is over."
+            ],
+            "type": {
+              "defined": "OracleEpochInfo"
+            }
+          },
+          {
+            "name": "megaSlotInfo",
+            "type": {
+              "defined": "MegaSlotInfo"
+            }
+          },
+          {
+            "name": "lastTransferSlot",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "padding1",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "ebuf",
+            "docs": [
+              "Reserved."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1024
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Registrar",
+      "docs": [
+        "Instance of a voting rights distributor."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "governanceProgramId",
+            "docs": [
+              "Governance program ID"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "realm",
+            "docs": [
+              "Realm instance Registrar belongs to"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "realmGoverningTokenMint",
+            "docs": [
+              "Governing token mint for Realm instance"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "realmAuthority",
+            "docs": [
+              "Authority for the realm config"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "placeholder",
+            "type": "u64"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakePool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "This struct's own key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Pubkey that can make updates to StakePool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "docs": [
+              "Token Account to store the staked SPL Token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeMint",
+            "docs": [
+              "Mint of the token being staked. Should always be the SWITCH token in this case"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "registrar",
+            "docs": [
+              "(Optional) If this stake pool uses governance, the registrar is added with",
+              "`create_registrar` followed by `register_registrar` and stores information related to the",
+              "realm.",
+              "",
+              "Pubkey default if unused."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "totalStake",
+            "docs": [
+              "Total amount of `stake_mint` staked",
+              "* In SWITCH, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bumpSeed",
+            "docs": [
+              "Bump seed for this account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "stakeMintDecimals",
+            "docs": [
+              "Decimals of `stake_mint`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                14
+              ]
+            }
+          },
+          {
+            "name": "reserve0",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          },
+          {
+            "name": "reserve1",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "reserve2",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "reserve3",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Staker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "docs": [
+              "Pubkey that owns the staked tokens",
+              "",
+              "If governance is enabled, this is also the voter authority, i.e. the `governing_token_owner`",
+              "of the token owner record"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakePool",
+            "docs": [
+              "StakePool this Staker account is associated with"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amountStaked",
+            "docs": [
+              "The amount of stake that have been normally Staked (and vested tokens once the",
+              "VestingEntries have been resolved)",
+              "* In SWITCH, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "unlockReceipts",
+            "type": {
+              "array": [
+                {
+                  "defined": "UnlockReceipt"
+                },
+                16
+              ]
+            }
+          },
+          {
+            "name": "delegations",
+            "docs": [
+              "A list of user's delegations to oracle Delegation Pools. NOT sorted. When a slot is empty,",
+              "the delegation pool is pubkey default"
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "DelegateUserState"
+                },
+                13
+              ]
+            }
+          },
+          {
+            "name": "nextDelegation",
+            "docs": [
+              "Next available slot in `delegations`."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "vestingEntries",
+            "type": {
+              "array": [
+                {
+                  "defined": "VestingEntry"
+                },
+                16
+              ]
+            }
+          },
+          {
+            "name": "voterState",
+            "type": {
+              "defined": "VoterState"
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DelegateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "delegateAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EditOracleDataParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochIdFinished",
+            "type": "u64"
+          },
+          {
+            "name": "slashScoreFinished",
+            "type": "u64"
+          },
+          {
+            "name": "rewardScoreFinished",
+            "type": "u64"
+          },
+          {
+            "name": "stakeScoreFinished",
+            "type": "u64"
+          },
+          {
+            "name": "epochIdCurrent",
+            "type": "u64"
+          },
+          {
+            "name": "slashScoreCurrrent",
+            "type": "u64"
+          },
+          {
+            "name": "rewardScoreCurrent",
+            "type": "u64"
+          },
+          {
+            "name": "stakeScoreCurrent",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WriteOracleDataParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochIdFinished",
+            "type": "u64"
+          },
+          {
+            "name": "slashScoreFinished",
+            "type": "u64"
+          },
+          {
+            "name": "rewardScoreFinished",
+            "type": "u64"
+          },
+          {
+            "name": "stakeScoreFinished",
+            "type": "u64"
+          },
+          {
+            "name": "epochIdCurrent",
+            "type": "u64"
+          },
+          {
+            "name": "slashScoreCurrrent",
+            "type": "u64"
+          },
+          {
+            "name": "rewardScoreCurrent",
+            "type": "u64"
+          },
+          {
+            "name": "stakeScoreCurrent",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GrantParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "vestingKind",
+            "type": {
+              "defined": "VestingKind"
+            }
+          },
+          {
+            "name": "startTs",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "periods",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeStakePoolParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InstantUnstakeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UndelegateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "delegateAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnstakeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateDelinquencyParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "deliquency",
+            "docs": [
+              "`GOOD_STANDING` or `DELINQUENT`"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawParams",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ClaimedReward",
+      "docs": [
+        "Represents a reward earned from a RewardPool."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "claimedAmount",
+            "docs": [
+              "Rewards per epoch for the amount staked",
+              "* In reward_vault currency, in native decimal (see the corresponding reward_pool)",
+              "* WARN: do not use directly, use `claimed_amount_u128` to access and use `store_u128` to",
+              "mutate the internal value."
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DelegateUserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "delegationPool",
+            "docs": [
+              "The corresponding `delegation_pool`, sets when inserted and never changes (unless this",
+              "entire state is cleared/emptied)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "claimedRewards",
+            "docs": [
+              "List of rewards earned in reward pools, in the same order as the corresponding",
+              "delegation_pool's reward_pools",
+              "* Note: The reward_pools never change order, and are never removed, thus neither do the",
+              "corresponding claimed rewards"
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "ClaimedReward"
+                },
+                16
+              ]
+            }
+          },
+          {
+            "name": "delegated",
+            "docs": [
+              "Delegation currently, if `delegation_change_epoch` has not elapsed",
+              "* WARN: Typically, use `rewardable_delegation` to read the user's effective delegation. Don't use",
+              "this field unless you are sure you want it."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "delegationAfterNextEpoch",
+            "docs": [
+              "When the delegation is unlocked, it remains in effect until the next epoch",
+              "(delegation_change_epoch). This is amount of delegation that will be in effect at that epoch.",
+              "* Note if `epoch_now` is after `delegation_change_epoch`, then this is the users's current",
+              "effective delegation",
+              "* WARN: Typically, use `rewardable_delegation` to read the user's effective delegation. Don't use",
+              "this field unless you are sure you want it."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "delegationChangeEpoch",
+            "docs": [
+              "After this epoch, the rewardable delegation becomes `delegation_after_next_epoch`.",
+              "* Note: The amount `delegated` will become `delegation_after_next_epoch` after this account",
+              "is next cranked, but there is no guarantee if/when this will occur."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "delegationPrevious",
+            "docs": [
+              "The previous amount of delegation, prior to the latest change.",
+              "This is necessary to track the user's claim amount following the epoch where their",
+              "delegation amount changed."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "previousEpochChange",
+            "docs": [
+              "This tracks what was previously `delegation_change_epoch`. The two epochs of delegation",
+              "change history are required to determine which delegation amount is finalized and rewardable."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleEpochInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "reserved1",
+            "type": "u64"
+          },
+          {
+            "name": "slotEnd",
+            "type": "u64"
+          },
+          {
+            "name": "slashScore",
+            "type": "u64"
+          },
+          {
+            "name": "rewardScore",
+            "type": "u64"
+          },
+          {
+            "name": "stakeScore",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MegaSlotInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reserved1",
+            "type": "u64"
+          },
+          {
+            "name": "slotEnd",
+            "type": "u64"
+          },
+          {
+            "name": "perfGoal",
+            "type": "i64"
+          },
+          {
+            "name": "currentSignatureCount",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsPerEffectiveStake",
+            "docs": [
+              "Rewards per epoch for the amount staked",
+              "* In arbitrary reward stake",
+              "* WARN: do not use directly, use `rewards_per_effective_stake_u128` to access and use",
+              "`store_u128` to mutate the internal value."
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "lastAmount",
+            "docs": [
+              "Amount of rewards last recorded",
+              "* In reward_vault currency, in native decimals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "rewardVaultDecimals",
+            "docs": [
+              "Decimals of the reward_vault currency"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnlockReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amountUnlocking",
+            "docs": [
+              "The amount of stake_mint that is being unlocked"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "unlockTs",
+            "docs": [
+              "The timestamp at which the unlock is complete and the staker may Withdraw"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoterState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "registrar",
+            "docs": [
+              "Caches the registrar of the `stake_pool`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "voterWeightRecord",
+            "docs": [
+              "Weight record derived for this `owner`, `registrar`, and `stake_pool`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vesting",
+            "docs": [
+              "The vesting information for this entry"
+            ],
+            "type": {
+              "defined": "Vesting"
+            }
+          },
+          {
+            "name": "amountStillDeposited",
+            "docs": [
+              "The amount of $COIN still locked up by this entry"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "amountOriginallyDeposited",
+            "docs": [
+              "The amount of $COIN originally locked up at the start of this entry"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vesting",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startTs",
+            "type": "i64"
+          },
+          {
+            "name": "endTs",
+            "type": "i64"
+          },
+          {
+            "name": "kind",
+            "docs": [
+              "The type of vesting lockup"
+            ],
+            "type": {
+              "defined": "VestingKind"
+            }
+          },
+          {
+            "name": "padding0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingKind",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "None"
+          },
+          {
+            "name": "Cliff"
+          },
+          {
+            "name": "Monthly"
+          },
+          {
+            "name": "Quarterly"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BadBumpKey",
+      "msg": "Bad bump key, the requested key doesn't exist"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAuthority",
+      "msg": "Invalid StakePool authority"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidStakePoolVault",
+      "msg": "StakePool vault is invalid"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidStakerOwner",
+      "msg": "Staker owner is invalid"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidStakePool",
+      "msg": "StakePool is invalid"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidStakeMint",
+      "msg": "Mint is invalid for StakePool"
+    },
+    {
+      "code": 6006,
+      "name": "RewardPoolsFull",
+      "msg": "No room for more reward pools in this delegation pool"
+    },
+    {
+      "code": 6007,
+      "name": "DuplicateRewardPool",
+      "msg": "Duplicate reward pool: this vault is already in the list"
+    },
+    {
+      "code": 6008,
+      "name": "RewardNotFound",
+      "msg": "Reward not found: this reward doesn't exist"
+    },
+    {
+      "code": 6009,
+      "name": "UnlockReceiptsFull",
+      "msg": "UnlockReceipts are full"
+    },
+    {
+      "code": 6010,
+      "name": "NotEnoughAvailableStake",
+      "msg": "Not enough available stake to perform the action"
+    },
+    {
+      "code": 6011,
+      "name": "MathError",
+      "msg": "Generic Math or overflow error"
+    },
+    {
+      "code": 6012,
+      "name": "DelegationsFull",
+      "msg": "Delegations are full"
+    },
+    {
+      "code": 6013,
+      "name": "DelegationNotFound",
+      "msg": "Delegations not found in the staker list"
+    },
+    {
+      "code": 6014,
+      "name": "MissingRewardPoolIndex",
+      "msg": "A required reward pool was not provided in remaining accounts"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidRewardPool",
+      "msg": "A reward pool supplied in remaining accounts was invalid"
+    },
+    {
+      "code": 6016,
+      "name": "VestingEntriesFull",
+      "msg": "Staker vesting_entries are full"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidVestingPeriod",
+      "msg": "Vesting seconds not even with period"
+    },
+    {
+      "code": 6018,
+      "name": "NotEnoughDelegatable",
+      "msg": "not enough delegatable"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidRealmAuthority",
+      "msg": "Invalid realm authority"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidRegistrar",
+      "msg": "Registrar is invalid"
+    },
+    {
+      "code": 6021,
+      "name": "StakePoolRegistrarMismatch",
+      "msg": "Registrar must match StakePool registrar"
+    },
+    {
+      "code": 6022,
+      "name": "CpiForbidden",
+      "msg": "This ix cannot be called by CPI"
+    },
+    {
+      "code": 6023,
+      "name": "DelegationPoolInUse",
+      "msg": "DelegationPool is already in use"
+    }
+  ]
+}

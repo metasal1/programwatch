@@ -1,0 +1,234 @@
+{
+  "version": "0.1.0",
+  "name": "competition_app",
+  "instructions": [
+    {
+      "name": "createCompetition",
+      "accounts": [
+        {
+          "name": "competition",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "nftAddress",
+          "type": "string"
+        },
+        {
+          "name": "featured",
+          "type": "bool"
+        },
+        {
+          "name": "noOfTickets",
+          "type": "u16"
+        },
+        {
+          "name": "pricePerTicket",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "buyTickets",
+      "accounts": [
+        {
+          "name": "competition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "noOfTickets",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "closeCompetition",
+      "accounts": [
+        {
+          "name": "competition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Competition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "nftAddress",
+            "type": "string"
+          },
+          {
+            "name": "featured",
+            "type": "bool"
+          },
+          {
+            "name": "noOfTickets",
+            "type": "u16"
+          },
+          {
+            "name": "pricePerTicket",
+            "type": "u64"
+          },
+          {
+            "name": "ticketsSold",
+            "type": "u16"
+          },
+          {
+            "name": "tickets",
+            "type": {
+              "vec": {
+                "defined": "Ticket"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Ticket",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "number",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TicketOverflow",
+      "msg": "Maximum number of tickets is 250"
+    },
+    {
+      "code": 6001,
+      "name": "TooLittleTickets",
+      "msg": "Minimum number of tickets is 10"
+    },
+    {
+      "code": 6002,
+      "name": "NameOverflow",
+      "msg": "Maximum characters for competition name is 50"
+    },
+    {
+      "code": 6003,
+      "name": "NameBlankError",
+      "msg": "Competition name cannot be blank"
+    },
+    {
+      "code": 6004,
+      "name": "DescriptionOverflow",
+      "msg": "Maximum characters for competition description is 200"
+    },
+    {
+      "code": 6005,
+      "name": "DescriptionBlankError",
+      "msg": "Competition description cannot be blank"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidPrice",
+      "msg": "Price cannot be zero"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTicketNumberError",
+      "msg": "Number of tickets wanted is more than the number of tickets available"
+    },
+    {
+      "code": 6008,
+      "name": "NoMoreTicketsError",
+      "msg": "Tickets have been sold out"
+    },
+    {
+      "code": 6009,
+      "name": "TooManyTicketsWantedError",
+      "msg": "Can't buy more than 10 tickets in bulk"
+    },
+    {
+      "code": 6010,
+      "name": "NoTicketWantedError",
+      "msg": "Number of tickets must be more than 0"
+    },
+    {
+      "code": 6011,
+      "name": "NoCreatorPermissionsError",
+      "msg": "No authority to create a competition found"
+    },
+    {
+      "code": 6012,
+      "name": "WrongCreatorError",
+      "msg": "Incorrect creator address found"
+    }
+  ]
+}

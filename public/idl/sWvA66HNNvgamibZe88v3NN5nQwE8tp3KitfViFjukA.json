@@ -1,0 +1,151 @@
+{
+  "version": "0.1.0",
+  "name": "swap_validator",
+  "instructions": [
+    {
+      "name": "preSwap",
+      "accounts": [
+        {
+          "name": "preSwapState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "source",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nonce",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "postSwap",
+      "accounts": [
+        {
+          "name": "preSwapState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "maxToSend",
+          "type": "u64"
+        },
+        {
+          "name": "minToReceive",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PreSwapState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "source",
+            "type": "publicKey"
+          },
+          {
+            "name": "destination",
+            "type": "publicKey"
+          },
+          {
+            "name": "nonce",
+            "type": "publicKey"
+          },
+          {
+            "name": "sourceAmount",
+            "type": "u64"
+          },
+          {
+            "name": "destinationAmount",
+            "type": "u64"
+          },
+          {
+            "name": "sourceAccountState",
+            "type": "bytes"
+          },
+          {
+            "name": "destinationAccountState",
+            "type": "bytes"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidInputTokenAmountSent",
+      "msg": "Invalid input token amount sent"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidOutputTokenAmountReceived",
+      "msg": "Invalid output token amount received"
+    },
+    {
+      "code": 6002,
+      "name": "UnexpectedWritableUserAccount",
+      "msg": "Unexpected writable user account"
+    },
+    {
+      "code": 6003,
+      "name": "UnexpectedUserTokenAccountUpdate",
+      "msg": "Unexpected update to user token account"
+    }
+  ]
+}

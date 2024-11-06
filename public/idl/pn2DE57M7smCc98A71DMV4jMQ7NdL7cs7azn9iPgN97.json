@@ -1,0 +1,825 @@
+{
+  "version": "0.1.0",
+  "name": "mesh_staking",
+  "instructions": [
+    {
+      "name": "claim",
+      "docs": [
+        "Claims all pending rewards accumulated on $MESH & $indexMESH.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction."
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "accounts": [
+            {
+              "name": "user",
+              "isMut": true,
+              "isSigner": true,
+              "docs": [
+                "User that is performing the action."
+              ]
+            },
+            {
+              "name": "userInfo",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Init userInfo PDA, if it's the first time stake by user, else just load mutably."
+              ]
+            },
+            {
+              "name": "globalState",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Update the global state of reward accumulation."
+              ]
+            },
+            {
+              "name": "fundsController",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Transfer reward SOLs to the user/"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "The program used to create the userInfo state account."
+              ]
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeUserInfo",
+      "docs": [
+        "Closes the UserInfo PDA in order to get the rent SOL back from the user.",
+        "Not closing by default in order to maintain user claimed history for analytics.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User who had paid for userInfo PDA."
+          ]
+        },
+        {
+          "name": "userInfo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "UserInfo PDA that has to be closed."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "Initializes the program by creating PDAs for global state & fund controller along with storing mint keys.",
+        "Only deployer instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `governance` - Pubkey responsible for executing governance-only instructions.",
+        "* `mesh_mint` - Pubkey of the $MESH SPL token.",
+        "* `index_mesh_mint` - Pubkey of the $indexMESH SPL token.",
+        "* `weightage` - Weight of $indexMESH used for its reward calculation."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only deployer can invoke the init and pay rent for it."
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA to store global_state"
+          ]
+        },
+        {
+          "name": "fundsController",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA to control funds"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to create global_state & funds_controller PDA."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "governance",
+          "type": "publicKey"
+        },
+        {
+          "name": "meshMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "indexMeshMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "weightage",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "migrateFunds",
+      "docs": [
+        "Migrates reward SOLs to the new version of the staking program.",
+        "Only governance instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `amount` - The amount of SOL to be migrated."
+      ],
+      "accounts": [
+        {
+          "name": "governance",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only governance can execute and pay for the instruction."
+          ]
+        },
+        {
+          "name": "newVersion",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Global state PDA."
+          ]
+        },
+        {
+          "name": "fundsController",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Transfer reward SOLs to new version."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pendingRewards",
+      "docs": [
+        "Readonly instruction for calculating pending rewards of a specific user.",
+        "The PDAs are not mutable in this instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `user` - The user for which pending rewards are fetched."
+      ],
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Global state PDA to read globally accumulated reward."
+          ]
+        },
+        {
+          "name": "userInfo",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "User info PDA to read user accumulated reward."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        }
+      ],
+      "returns": {
+        "defined": "RewardStruct"
+      }
+    },
+    {
+      "name": "stake",
+      "docs": [
+        "Stakes user $MESH or $indexMESH tokens, along with pending reward calculation and distribution.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `amount` - The amount of tokens the user wants to stake."
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "accounts": [
+            {
+              "name": "user",
+              "isMut": true,
+              "isSigner": true,
+              "docs": [
+                "User that is performing the action."
+              ]
+            },
+            {
+              "name": "userInfo",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Init userInfo PDA, if it's the first time stake by user, else just load mutably."
+              ]
+            },
+            {
+              "name": "globalState",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Update the global state of reward accumulation."
+              ]
+            },
+            {
+              "name": "fundsController",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Transfer reward SOLs to the user/"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "The program used to create the userInfo state account."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint address of $MESH or $indexMESH."
+          ]
+        },
+        {
+          "name": "mintVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "ATA of fundsConrtoller to hold mint."
+          ]
+        },
+        {
+          "name": "userMintTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "ATA of user that is holding mint."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to transfer token from user ATA to vault."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "docs": [
+        "Unstakes user $MESH or $indexMESH tokens, along with pending reward calculation and distribution.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `amount` - The amount of tokens the user wants to unstake.",
+        "* `is_emergency` - A boolean flag indicating whether to disable fees and only unstake in case of emergency."
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "accounts": [
+            {
+              "name": "user",
+              "isMut": true,
+              "isSigner": true,
+              "docs": [
+                "User that is performing the action."
+              ]
+            },
+            {
+              "name": "userInfo",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Init userInfo PDA, if it's the first time stake by user, else just load mutably."
+              ]
+            },
+            {
+              "name": "globalState",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Update the global state of reward accumulation."
+              ]
+            },
+            {
+              "name": "fundsController",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Transfer reward SOLs to the user/"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "The program used to create the userInfo state account."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint address of $MESH or $indexMESH."
+          ]
+        },
+        {
+          "name": "mintVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "ATA of fundsConrtoller that is holding mint."
+          ]
+        },
+        {
+          "name": "userMintTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "ATA of user which will receive mint."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to transfer token from vault to user ATA."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "isEmergency",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateGovernance",
+      "docs": [
+        "Updates the governance pubkey.",
+        "Only governance instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `new_governance` - Pubkey of the new governance account."
+      ],
+      "accounts": [
+        {
+          "name": "governance",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only governance can execute and pay for the instruction."
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Global state PDA to store new governance."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "newGovernance",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updatePeriodEnd",
+      "docs": [
+        "Updates the reward period end state. Useful if there's a need to distribute the same reward for the next cycle.",
+        "Only governance instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `distribution_time` - The new duration up to which the reward will be distributed."
+      ],
+      "accounts": [
+        {
+          "name": "governance",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only governance can execute and pay for the instruction."
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Global state PDA to store the updated period_end_time."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "distributionTime",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateRewards",
+      "docs": [
+        "Updates distribution rewards. Used to change rewards after the rewards cycle ending or within the same cycle.",
+        "Only governance instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `reward` - The amount of SOL to be distributed.",
+        "* `distribution_time` - The duration up to which the reward will be distributed."
+      ],
+      "accounts": [
+        {
+          "name": "governance",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only governance can execute and pay for the instruction."
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Global state PDA to store updated reward and distribution_time."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "reward",
+          "type": "u64"
+        },
+        {
+          "name": "distributionTime",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateWeightage",
+      "docs": [
+        "Updates the weightage of $indexMESH for reward calculation.",
+        "Only governance instruction.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `weightage` - The new weightage of $indexMESH for reward calculation."
+      ],
+      "accounts": [
+        {
+          "name": "governance",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only governance can execute and pay for the instruction."
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Global state PDA to store updated weightage."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "weightage",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "docs": [
+        "PDA to store globally used state"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "governance",
+            "docs": [
+              "Pubkey responsible for executing governance-only instructions."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "meshMint",
+            "docs": [
+              "Pubkey of $MESH SPL token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "indexMeshMint",
+            "docs": [
+              "Pubkey of $indexMESH SPL token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reward",
+            "docs": [
+              "Amount of SOL that will be distributed in the current cycle."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "distributionTime",
+            "docs": [
+              "Timeframe of the current cycle in seconds."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "globalAccRewardMesh",
+            "docs": [
+              "Global state for maintaining reward calculation per unit of $MESH."
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "globalAccRewardIndexMesh",
+            "docs": [
+              "Global state for maintaining reward calculation per unit of $indexMESH"
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "totalStakedMesh",
+            "docs": [
+              "Total amount of $MESH staked by users."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalStakedIndexMesh",
+            "docs": [
+              "Total amount of $indexMESH staked by users."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "weightage",
+            "docs": [
+              "Weight of $indexMESH used for its reward calculation.",
+              "Note: the weightage is in ($MESH/$indexMESH), e.g., 0.5 means 0.5 $MESH is equivalent to 1 $indexMESH."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdatedTime",
+            "docs": [
+              "Unix timestamp when the last time reward was calculated."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "periodEndTime",
+            "docs": [
+              "Unix timestamp when the current reward distribution cycle will end."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalDistributedReward",
+            "docs": [
+              "The sum of total SOLs that have been distributed as a reward up till now."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfo",
+      "docs": [
+        "PDA to store user-specific state."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "accRewardMesh",
+            "docs": [
+              "User state for maintaining reward calculation per unit of $MESH."
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "accRewardIndexMesh",
+            "docs": [
+              "User state for maintaining reward calculation per unit of $indexMESH."
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "stakedMesh",
+            "docs": [
+              "Amount of $MESH staked by user."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "stakedIndexMesh",
+            "docs": [
+              "Amount of $indexMESH staked by user."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalClaimedReward",
+            "docs": [
+              "The sum of total reward SOLs that have been claimed by the user up till now."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FundsController",
+      "docs": [
+        "PDA to hold the ownership of reward SOLs, staked $MESH, and $indexMESH."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "RewardStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "meshReward",
+            "type": "u64"
+          },
+          {
+            "name": "indexMeshReward",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AmountGreaterThanStakedAmount",
+      "msg": "Amount greater than staked amount"
+    },
+    {
+      "code": 6001,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidDeployer",
+      "msg": "Caller not deployer"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidGovernance",
+      "msg": "Caller not governance"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
+    },
+    {
+      "code": 6005,
+      "name": "RewardDistributionPeriodHasExpired",
+      "msg": "Reward distribution period has expired"
+    },
+    {
+      "code": 6006,
+      "name": "RewardIsNotSet",
+      "msg": "Reward is not set"
+    },
+    {
+      "code": 6007,
+      "name": "StakedNotZero",
+      "msg": "User have staked amount"
+    },
+    {
+      "code": 6008,
+      "name": "ZeroInput",
+      "msg": "Zero Input"
+    }
+  ]
+}

@@ -1,0 +1,576 @@
+{
+  "version": "0.1.0",
+  "name": "dapp",
+  "instructions": [
+    {
+      "name": "initializeEscrow",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializerDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerCustodialTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initializerAmount",
+          "type": "u64"
+        },
+        {
+          "name": "totalContractLengthMs",
+          "type": "i64"
+        },
+        {
+          "name": "totalNumOfPayments",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "approve",
+      "accounts": [
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerMainTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializerDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerCustodialTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWalletAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelEscrowTaker",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "takerCustodialTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWalletAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelEscrowInitializer",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pdaDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWalletAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "receive",
+      "accounts": [
+        {
+          "name": "takerMainTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerCustodialTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "depositer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "depositerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowPdaDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pay",
+      "accounts": [
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializerDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerCustodialTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dappWalletAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EscrowAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializerKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "takerKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "initializerDepositTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "takerCustodialTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "initializerAmount",
+            "type": "u64"
+          },
+          {
+            "name": "takenAmount",
+            "type": "u64"
+          },
+          {
+            "name": "escrowState",
+            "type": "u8"
+          },
+          {
+            "name": "totalNumOfPayments",
+            "type": "u64"
+          },
+          {
+            "name": "currNumOfPayments",
+            "type": "u64"
+          },
+          {
+            "name": "totalContractLengthMs",
+            "type": "i64"
+          },
+          {
+            "name": "timeIntervalPerPayment",
+            "type": "i64"
+          },
+          {
+            "name": "nextPayDate",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "lastPayDate",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "payAmount",
+            "type": "u64"
+          },
+          {
+            "name": "txTotalFees",
+            "type": "u64"
+          },
+          {
+            "name": "txFeesTaken",
+            "type": "u64"
+          },
+          {
+            "name": "txFeeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "cancellationFeeInitializer",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "EscrowState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Initialized"
+          },
+          {
+            "name": "Approved"
+          },
+          {
+            "name": "PaidInFull"
+          },
+          {
+            "name": "WithdrawnInFull"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "EarlyPayPeriodError",
+      "msg": "Pay date must be greater than the 'next_pay_date' current unix timestamp."
+    },
+    {
+      "code": 6001,
+      "name": "ZeroPaymentsRemaining",
+      "msg": "Contract has no remaining payments to be made. Payment could not be processed."
+    },
+    {
+      "code": 6002,
+      "name": "UnknownNextPayDate",
+      "msg": "Next pay period not specified in escrow account. Payment could not be processed."
+    },
+    {
+      "code": 6003,
+      "name": "UnknownLastPayDate",
+      "msg": "Last pay date not specified in escrow account. Payment could not be processed"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidState",
+      "msg": "Invalid state. You are trying to execute a function ahead of current state."
+    },
+    {
+      "code": 6005,
+      "name": "WrongDappWallet",
+      "msg": "Wrong DaPP Wallet. You provided the wrong DaPP wallet address."
+    },
+    {
+      "code": 6006,
+      "name": "UnknownUserNotInitializer",
+      "msg": "Unknown user referenced as initializer."
+    },
+    {
+      "code": 6007,
+      "name": "UnknownUserNotTaker",
+      "msg": "Unknown user referenced as taker."
+    },
+    {
+      "code": 6008,
+      "name": "TokenAccountNotOwnedByInitializer",
+      "msg": "Specified token account not owned by Initializer."
+    },
+    {
+      "code": 6009,
+      "name": "TokenAccountNotOwnedByTaker",
+      "msg": "Specified token account not owned by Taker."
+    },
+    {
+      "code": 6010,
+      "name": "TokenAccountNotOwnedByPDA",
+      "msg": "Specified token account not owned by PDA."
+    },
+    {
+      "code": 6011,
+      "name": "TokenAccountMismatchEscrow",
+      "msg": "Provided token account does not match account in escrow."
+    },
+    {
+      "code": 6012,
+      "name": "InsufficientFundsInitializerTokenAccount",
+      "msg": "Initial Deposit Token Account has less funds than specified escrow amount. Amount within token account must match initial escrow amount."
+    },
+    {
+      "code": 6013,
+      "name": "OverlyFundedInitializerTokenAccount",
+      "msg": "Initial Deposit Token Account has more funds than specified escrow amount. Amount within token account must match initial escrow amount."
+    },
+    {
+      "code": 6014,
+      "name": "UnfundedInitializerTokenAccount",
+      "msg": "Initial Deposit Token Account has zero funds. Amount within token account must match initial escrow amount."
+    },
+    {
+      "code": 6015,
+      "name": "InitializerIdenticalToTaker",
+      "msg": "Illegal initialization. Initializer and taker cannot be identical."
+    },
+    {
+      "code": 6016,
+      "name": "RemainingFundsLessThanPayment",
+      "msg": "Unanticipated error: Funds in escrow are less than payment amount"
+    },
+    {
+      "code": 6017,
+      "name": "MismatchTokenProgramPubkey",
+      "msg": "Pubkey to token program does not match."
+    },
+    {
+      "code": 6018,
+      "name": "InvalidContractLength",
+      "msg": "Contract length must be non-negative"
+    },
+    {
+      "code": 6019,
+      "name": "NegativeNumberOfPayments",
+      "msg": "Number of payments must be positive"
+    },
+    {
+      "code": 6020,
+      "name": "InsufficientNumberOfPayments",
+      "msg": "Number of payments must exceed number of Tokens to send"
+    },
+    {
+      "code": 6021,
+      "name": "NegativeFeeCalculatedError",
+      "msg": "Negative Fee Calculated. Calculated negative fee on Pay"
+    }
+  ]
+}

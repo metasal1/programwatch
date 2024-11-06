@@ -1,0 +1,325 @@
+{
+  "version": "0.1.0",
+  "name": "distributor",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "distributorState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "marker_mint"
+              },
+              {
+                "kind": "arg",
+                "type": "u64",
+                "path": "share_size"
+              },
+              {
+                "kind": "arg",
+                "type": "u64",
+                "path": "number_of_shares"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "DistributorState",
+                "path": "distributor_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "markerMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributorAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "shareSize",
+          "type": "u64"
+        },
+        {
+          "name": "numberOfShares",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "distributorState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "DistributorState",
+                "path": "distributor_state.marker_mint"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "DistributorState",
+                "path": "distributor_state.share_size"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "DistributorState",
+                "path": "distributor_state.number_of_shares"
+              }
+            ]
+          },
+          "relations": [
+            "mint",
+            "vault"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "DistributorState",
+                "path": "distributor_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "distribute",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "distributorAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "distributorState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "DistributorState",
+                "path": "distributor_state.marker_mint"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "DistributorState",
+                "path": "distributor_state.share_size"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "DistributorState",
+                "path": "distributor_state.number_of_shares"
+              }
+            ]
+          },
+          "relations": [
+            "distributor_authority",
+            "mint",
+            "vault"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "DistributorState",
+                "path": "distributor_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DistributorState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "markerMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "distributorAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "shareSize",
+            "type": "u64"
+          },
+          {
+            "name": "numberOfShares",
+            "type": "u64"
+          },
+          {
+            "name": "distributorStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "vaultBump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidParameters"
+    },
+    {
+      "code": 6001,
+      "name": "ThresholdNotMet"
+    },
+    {
+      "code": 6002,
+      "name": "MissingRemainingAccounts"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAssociatedTokenAccount"
+    }
+  ]
+}

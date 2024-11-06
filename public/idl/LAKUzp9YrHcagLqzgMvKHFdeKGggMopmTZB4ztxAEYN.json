@@ -1,0 +1,659 @@
+{
+  "version": "0.1.0",
+  "name": "raffle_refund",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mainSigningAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeRefundPool",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mainSigningAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundPoolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "configBump",
+          "type": "u8"
+        },
+        {
+          "name": "poolName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateKey",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mainSigningAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "configBump",
+          "type": "u8"
+        },
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateRefundPool",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        },
+        {
+          "name": "enable",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "addSupply",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "supplyProvider",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundPoolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "supplyProviderTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawSupply",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundPoolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initializeUserRefund",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userRefund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateUserRefund",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundPool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userRefund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        },
+        {
+          "name": "userRefundBump",
+          "type": "u8"
+        },
+        {
+          "name": "enable",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "refund",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "refundPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userRefund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundPoolTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolName",
+          "type": "string"
+        },
+        {
+          "name": "refundPoolBump",
+          "type": "u8"
+        },
+        {
+          "name": "userRefundBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RaffleRefundConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "mainSigningAuthority",
+            "docs": [
+              "program main signing authority"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RefundPoolConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "signingAuthority",
+            "docs": [
+              "signing authority"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "enable",
+            "type": "bool"
+          },
+          {
+            "name": "currentBalance",
+            "type": "u64"
+          },
+          {
+            "name": "totalSupplyAddedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalSupplyWithdrawAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefundCreated",
+            "type": "u32"
+          },
+          {
+            "name": "totalRefundClaimed",
+            "type": "u32"
+          },
+          {
+            "name": "totalRefundCreatedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefundClaimedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserRefundAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "enable",
+            "type": "bool"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "isRefunded",
+            "type": "bool"
+          },
+          {
+            "name": "refundedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMainSigningAuthority",
+      "msg": "Invalid main signing authority"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidSigningAuthority",
+      "msg": "Invalid signing authority"
+    },
+    {
+      "code": 6002,
+      "name": "ValueIsZero",
+      "msg": "Value is zero"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidSupply",
+      "msg": "Invalid supply"
+    },
+    {
+      "code": 6004,
+      "name": "RefundPoolIsDisable",
+      "msg": "Refund pool is disable"
+    },
+    {
+      "code": 6005,
+      "name": "UserRefundIsDisable",
+      "msg": "User refund is disable"
+    },
+    {
+      "code": 6006,
+      "name": "AlreadyRefunded",
+      "msg": "Already refunded"
+    }
+  ]
+}

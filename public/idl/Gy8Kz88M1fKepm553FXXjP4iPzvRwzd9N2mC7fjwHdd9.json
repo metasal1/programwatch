@@ -1,0 +1,711 @@
+{
+  "version": "0.1.0",
+  "name": "self_staking_program",
+  "instructions": [
+    {
+      "name": "initDeployProgram",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clientConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "whitelist",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "emissions",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "rarity",
+          "type": "u64"
+        },
+        {
+          "name": "lockup",
+          "type": "u64"
+        },
+        {
+          "name": "rarityMultipliers",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "lockupDurations",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "initToken",
+          "type": "u64"
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenName",
+          "type": "string"
+        },
+        {
+          "name": "tokenSupply",
+          "type": "u64"
+        },
+        {
+          "name": "tokenImage",
+          "type": "string"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        },
+        {
+          "name": "collectionDescription",
+          "type": "string"
+        },
+        {
+          "name": "baseFontName",
+          "type": "string"
+        },
+        {
+          "name": "baseTextColor",
+          "type": "string"
+        },
+        {
+          "name": "headerFontName",
+          "type": "string"
+        },
+        {
+          "name": "headerFontColor",
+          "type": "string"
+        },
+        {
+          "name": "backgroundImage",
+          "type": "string"
+        },
+        {
+          "name": "backgroundColor",
+          "type": "string"
+        },
+        {
+          "name": "buttonFontName",
+          "type": "string"
+        },
+        {
+          "name": "buttonColorScheme",
+          "type": "string"
+        },
+        {
+          "name": "buttonFontSize",
+          "type": "string"
+        },
+        {
+          "name": "buttonFontColor",
+          "type": "string"
+        },
+        {
+          "name": "buttonVariant",
+          "type": "string"
+        },
+        {
+          "name": "buttonShape",
+          "type": "string"
+        },
+        {
+          "name": "progressColorScheme",
+          "type": "string"
+        },
+        {
+          "name": "progressShape",
+          "type": "string"
+        },
+        {
+          "name": "progressSize",
+          "type": "string"
+        },
+        {
+          "name": "progressAnimation",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "processDeployProgram",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clientConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakingId",
+          "type": "publicKey"
+        },
+        {
+          "name": "initToken",
+          "type": "u64"
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenName",
+          "type": "string"
+        },
+        {
+          "name": "tokenSupply",
+          "type": "u64"
+        },
+        {
+          "name": "status",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateClient",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clientConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenImage",
+          "type": "string"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        },
+        {
+          "name": "collectionDescription",
+          "type": "string"
+        },
+        {
+          "name": "baseFontName",
+          "type": "string"
+        },
+        {
+          "name": "baseTextColor",
+          "type": "string"
+        },
+        {
+          "name": "headerFontName",
+          "type": "string"
+        },
+        {
+          "name": "headerFontColor",
+          "type": "string"
+        },
+        {
+          "name": "backgroundImage",
+          "type": "string"
+        },
+        {
+          "name": "backgroundColor",
+          "type": "string"
+        },
+        {
+          "name": "buttonFontName",
+          "type": "string"
+        },
+        {
+          "name": "buttonColorScheme",
+          "type": "string"
+        },
+        {
+          "name": "buttonFontSize",
+          "type": "string"
+        },
+        {
+          "name": "buttonFontColor",
+          "type": "string"
+        },
+        {
+          "name": "buttonVariant",
+          "type": "string"
+        },
+        {
+          "name": "buttonShape",
+          "type": "string"
+        },
+        {
+          "name": "progressColorScheme",
+          "type": "string"
+        },
+        {
+          "name": "progressShape",
+          "type": "string"
+        },
+        {
+          "name": "progressSize",
+          "type": "string"
+        },
+        {
+          "name": "progressAnimation",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initUpdateDeployProgram",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clientConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "whitelist",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "emissions",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "rarity",
+          "type": "u64"
+        },
+        {
+          "name": "lockup",
+          "type": "u64"
+        },
+        {
+          "name": "stakingId",
+          "type": "publicKey"
+        },
+        {
+          "name": "initToken",
+          "type": "u64"
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenName",
+          "type": "string"
+        },
+        {
+          "name": "tokenSupply",
+          "type": "u64"
+        },
+        {
+          "name": "status",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "processUpdateDeployProgram",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clientConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "whitelist",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "emissions",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "rarity",
+          "type": "u64"
+        },
+        {
+          "name": "lockup",
+          "type": "u64"
+        },
+        {
+          "name": "stakingId",
+          "type": "publicKey"
+        },
+        {
+          "name": "initToken",
+          "type": "u64"
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenName",
+          "type": "string"
+        },
+        {
+          "name": "tokenSupply",
+          "type": "u64"
+        },
+        {
+          "name": "status",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ProgramConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelist",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "emissions",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "rarity",
+            "type": "u64"
+          },
+          {
+            "name": "lockup",
+            "type": "u64"
+          },
+          {
+            "name": "rarityMultipliers",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "lockupDurations",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "initToken",
+            "type": "u64"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenName",
+            "type": "string"
+          },
+          {
+            "name": "tokenSupply",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": "u64"
+          },
+          {
+            "name": "stakingId",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClientConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenImage",
+            "type": "string"
+          },
+          {
+            "name": "collectionName",
+            "type": "string"
+          },
+          {
+            "name": "collectionDescription",
+            "type": "string"
+          },
+          {
+            "name": "baseFontName",
+            "type": "string"
+          },
+          {
+            "name": "baseTextColor",
+            "type": "string"
+          },
+          {
+            "name": "headerFontName",
+            "type": "string"
+          },
+          {
+            "name": "headerFontColor",
+            "type": "string"
+          },
+          {
+            "name": "backgroundImage",
+            "type": "string"
+          },
+          {
+            "name": "backgroundColor",
+            "type": "string"
+          },
+          {
+            "name": "buttonFontName",
+            "type": "string"
+          },
+          {
+            "name": "buttonColorScheme",
+            "type": "string"
+          },
+          {
+            "name": "buttonFontSize",
+            "type": "string"
+          },
+          {
+            "name": "buttonFontColor",
+            "type": "string"
+          },
+          {
+            "name": "buttonVariant",
+            "type": "string"
+          },
+          {
+            "name": "buttonShape",
+            "type": "string"
+          },
+          {
+            "name": "progressColorScheme",
+            "type": "string"
+          },
+          {
+            "name": "progressShape",
+            "type": "string"
+          },
+          {
+            "name": "progressSize",
+            "type": "string"
+          },
+          {
+            "name": "progressAnimation",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedAccess",
+      "msg": "Unauthorized Access"
+    },
+    {
+      "code": 6001,
+      "name": "WrongDestination",
+      "msg": "Wrong Vault Destination"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidProgramType",
+      "msg": "Invalid Program Type"
+    }
+  ]
+}

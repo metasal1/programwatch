@@ -1,0 +1,379 @@
+{
+  "version": "0.1.0",
+  "name": "mullberry_treasury",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mullberryVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mullberryMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "proposeVote",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "voteType",
+          "type": {
+            "defined": "VoteTypes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "castBallot",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mullberryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "voteType",
+          "type": {
+            "defined": "VoteTypes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "execute",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mullberryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mullberryMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiverMullberryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverUsdcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeBallot",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mullberryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverMullberryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Ballot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "numTokens",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Election",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "voteType",
+            "type": {
+              "defined": "VoteTypes"
+            }
+          },
+          {
+            "name": "ballots",
+            "type": {
+              "vec": {
+                "defined": "Ballot"
+              }
+            }
+          },
+          {
+            "name": "authPda",
+            "type": "publicKey"
+          },
+          {
+            "name": "mullberryVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "usdcVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalVotes",
+            "type": "u64"
+          },
+          {
+            "name": "voteThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "founderAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "monthBeginTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "monthlyAllowanceLimit",
+            "type": "u64"
+          },
+          {
+            "name": "allowanceWithdrawnTotal",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "VoteTypes",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "WithdrawAllowance",
+            "fields": [
+              "u64"
+            ]
+          },
+          {
+            "name": "RaiseAllowance",
+            "fields": [
+              "u64"
+            ]
+          },
+          {
+            "name": "OneTimeWithdraw",
+            "fields": [
+              "u64"
+            ]
+          },
+          {
+            "name": "WithdrawGovTokens",
+            "fields": [
+              "u64"
+            ]
+          },
+          {
+            "name": "SetMintAuthority",
+            "fields": [
+              "publicKey"
+            ]
+          },
+          {
+            "name": "UpdateVoteThreshold",
+            "fields": [
+              "u64"
+            ]
+          },
+          {
+            "name": "UpdateFounderAddress",
+            "fields": [
+              "publicKey"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidCouncillor",
+      "msg": "InvalidCouncillor"
+    }
+  ]
+}

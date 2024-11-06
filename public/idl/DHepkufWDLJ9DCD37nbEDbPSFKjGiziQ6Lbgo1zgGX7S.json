@@ -1,0 +1,1007 @@
+{
+  "version": "0.1.0",
+  "name": "postbox",
+  "constants": [
+    {
+      "name": "POSTBOX_GROW_CHILDREN_BY",
+      "type": "u32",
+      "value": "1"
+    },
+    {
+      "name": "FEE_NEW_POSTBOX",
+      "type": "u64",
+      "value": "100_000"
+    },
+    {
+      "name": "FEE_NEW_PERSONAL_BOX",
+      "type": "u64",
+      "value": "50_000"
+    },
+    {
+      "name": "FEE_POST",
+      "type": "u64",
+      "value": "50_000"
+    },
+    {
+      "name": "FEE_VOTE",
+      "type": "u64",
+      "value": "50_000"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "postbox",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "postbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "target_account"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "target"
+              }
+            ]
+          }
+        },
+        {
+          "name": "moderatorMint",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "moderator"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              }
+            ]
+          }
+        },
+        {
+          "name": "targetAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": "string"
+        },
+        {
+          "name": "owners",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "desc",
+          "type": {
+            "option": {
+              "defined": "SettingsData"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "createPost",
+      "accounts": [
+        {
+          "name": "post",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "post"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "post_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postbox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poster",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "replyTo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "name": "postId",
+          "type": "u32"
+        },
+        {
+          "name": "settings",
+          "type": {
+            "vec": {
+              "defined": "SettingsData"
+            }
+          }
+        },
+        {
+          "name": "additionalAccountOffsets",
+          "type": {
+            "vec": {
+              "defined": "AdditionalAccountIndices"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "deleteOwnPost",
+      "accounts": [
+        {
+          "name": "post",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "post"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "post_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postbox",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poster",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "postId",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "deletePostByModerator",
+      "accounts": [
+        {
+          "name": "post",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "post"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "post_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postbox",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poster",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "moderator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "moderatorTokenAta",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "postId",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "vote",
+      "accounts": [
+        {
+          "name": "post",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "post"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "post_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postbox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voter",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "postId",
+          "type": "u32"
+        },
+        {
+          "name": "upVote",
+          "type": "bool"
+        },
+        {
+          "name": "additionalAccountOffsets",
+          "type": {
+            "vec": {
+              "defined": "AdditionalAccountIndices"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "designateModerator",
+      "accounts": [
+        {
+          "name": "postbox",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "postbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "target_account"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "target"
+              }
+            ]
+          }
+        },
+        {
+          "name": "targetAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "moderatorMint",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "moderator"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newModerator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "moderatorAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "addOrUpdateSetting",
+      "accounts": [
+        {
+          "name": "postbox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "settingsData",
+          "type": {
+            "defined": "SettingsData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "editPost",
+      "accounts": [
+        {
+          "name": "post",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "post"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Postbox",
+                "path": "postbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "post_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "postbox",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poster",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "postId",
+          "type": "u32"
+        },
+        {
+          "name": "newData",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Postbox",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxChildId",
+            "type": "u32"
+          },
+          {
+            "name": "moderatorMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "vec": {
+                "defined": "SettingsData"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Post",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poster",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "name": "upVotes",
+            "type": "u16"
+          },
+          {
+            "name": "downVotes",
+            "type": "u16"
+          },
+          {
+            "name": "replyTo",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "settings",
+            "type": {
+              "vec": {
+                "defined": "SettingsData"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PostRestrictionRule",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TokenOwnership",
+            "fields": [
+              {
+                "name": "mint",
+                "type": "publicKey"
+              },
+              {
+                "name": "amount",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "NftOwnership",
+            "fields": [
+              {
+                "name": "collection_id",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "Null"
+          },
+          {
+            "name": "NftListAnyOwnership",
+            "fields": [
+              {
+                "name": "collection_ids",
+                "type": {
+                  "vec": "publicKey"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdditionalAccountIndices",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TokenOwnership",
+            "fields": [
+              {
+                "name": "token_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "NftOwnership",
+            "fields": [
+              {
+                "name": "token_idx",
+                "type": "u8"
+              },
+              {
+                "name": "meta_idx",
+                "type": "u8"
+              },
+              {
+                "name": "collection_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettingsType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Description"
+          },
+          {
+            "name": "OwnerInfo"
+          },
+          {
+            "name": "PostRestriction"
+          },
+          {
+            "name": "Null"
+          },
+          {
+            "name": "Images"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettingsData",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Description",
+            "fields": [
+              {
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "name": "desc",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "OwnerInfo",
+            "fields": [
+              {
+                "name": "owners",
+                "type": {
+                  "vec": "publicKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "PostRestriction",
+            "fields": [
+              {
+                "name": "post_restriction",
+                "type": {
+                  "defined": "PostRestrictionRule"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Null"
+          },
+          {
+            "name": "Images",
+            "fields": [
+              {
+                "name": "json",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "PostEvent",
+      "fields": [
+        {
+          "name": "posterPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postboxPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postId",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "data",
+          "type": "bytes",
+          "index": false
+        },
+        {
+          "name": "replyTo",
+          "type": {
+            "option": "publicKey"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DeleteEvent",
+      "fields": [
+        {
+          "name": "deleterPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postboxPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postId",
+          "type": "u32",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EditedEvent",
+      "fields": [
+        {
+          "name": "postboxPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "postId",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "oldData",
+          "type": "bytes",
+          "index": false
+        },
+        {
+          "name": "newData",
+          "type": "bytes",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotPersonalPostbox",
+      "msg": "If no target string, target account must be the signer"
+    },
+    {
+      "code": 6001,
+      "name": "BadDescriptionSetting",
+      "msg": "The description provided is not a description setting"
+    },
+    {
+      "code": 6100,
+      "name": "PostIdTooLarge",
+      "msg": "The provided post ID is too large an increase"
+    },
+    {
+      "code": 6101,
+      "name": "ReplyToNotPost",
+      "msg": "The reply-to account is not a Post account"
+    },
+    {
+      "code": 6102,
+      "name": "ReplyCannotRestrictReplies",
+      "msg": "Replies cannot have a further reply restriction"
+    },
+    {
+      "code": 6103,
+      "name": "PostInvalidSettingsType",
+      "msg": "Invalid setting type for post"
+    },
+    {
+      "code": 6200,
+      "name": "NotTokenAccount",
+      "msg": "The provided token account is not a token account"
+    },
+    {
+      "code": 6201,
+      "name": "MissingTokenRestriction",
+      "msg": "Missing the token required by the restriction"
+    },
+    {
+      "code": 6202,
+      "name": "InvalidMetadataKey",
+      "msg": "Account provided is not expected metadata key"
+    },
+    {
+      "code": 6203,
+      "name": "MetadataAccountInvalid",
+      "msg": "The provided account is not a metadata account"
+    },
+    {
+      "code": 6204,
+      "name": "NoCollectionOnMetadata",
+      "msg": "No collection set on the metadata"
+    },
+    {
+      "code": 6205,
+      "name": "MissingCollectionNftRestriction",
+      "msg": "Missing an NFT from the collection required by the restriction"
+    },
+    {
+      "code": 6206,
+      "name": "MalformedSetting",
+      "msg": "Cannot parse a setting"
+    },
+    {
+      "code": 6207,
+      "name": "InvalidRestrictionExtraAccounts",
+      "msg": "Extra account offsets invalid for this restriction type"
+    },
+    {
+      "code": 6208,
+      "name": "MissingRequiredOffsets",
+      "msg": "Must supply offsets when a post restriction applies"
+    },
+    {
+      "code": 6209,
+      "name": "TestError",
+      "msg": "We hit the test error"
+    }
+  ]
+}

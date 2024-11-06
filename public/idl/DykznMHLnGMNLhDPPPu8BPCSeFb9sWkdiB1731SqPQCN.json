@@ -1,0 +1,583 @@
+{
+  "version": "0.1.0",
+  "name": "boync_anchor_program",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "State of our auction program (up to you)"
+          ]
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account holding token being auctioned."
+          ]
+        },
+        {
+          "name": "biddersChest",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account which holds tokens bidded by biders"
+          ]
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint for SPL Token stored in treasu2ry."
+          ]
+        },
+        {
+          "name": "signerWithdrawWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Payer's SPL Token account wallet",
+            "(The wallet who will send the NFT being auctioned)"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "appIdx",
+          "type": "i64"
+        },
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "fp",
+          "type": "u64"
+        },
+        {
+          "name": "startAt",
+          "type": "i64"
+        },
+        {
+          "name": "endAt",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "end",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "biddersChest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidderChestBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "bid",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "biddersChest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ts",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "docs": [
+        "Bid"
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account which holds auctioned token(s)."
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint for SPL Token stored in treasury."
+          ]
+        },
+        {
+          "name": "winner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "winnerWithdrawWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Winner's SPL Token account wallet",
+            "(The wallet who will receive the auctioned token(s))"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BoyncAuction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "i64"
+          },
+          {
+            "name": "endAuctionAt",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectorMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "biddersChest",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokensSpent",
+            "type": "u64"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "AuctionState"
+            }
+          },
+          {
+            "name": "lastBidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoyncAuction2",
+      "docs": [
+        "* V2 \n * Users use SOL to bid. \n * [BA-Program-5uJBi4jN][MVP] Remove BOYNC token GATE"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "i64"
+          },
+          {
+            "name": "startAuctionAt",
+            "type": "i64"
+          },
+          {
+            "name": "endAuctionAt",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "biddersChest",
+            "type": "publicKey"
+          },
+          {
+            "name": "startingPrice",
+            "type": "u64"
+          },
+          {
+            "name": "nextBid",
+            "type": "u64"
+          },
+          {
+            "name": "claimed",
+            "type": "u8"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "AuctionState"
+            }
+          },
+          {
+            "name": "lastBidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoyncUserBid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "auction",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidValue",
+            "type": "u64"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AuctionState",
+      "docs": [
+        "* Boync Auction State"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Created"
+          },
+          {
+            "name": "Started"
+          },
+          {
+            "name": "Ended"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "BoyncBidEvent",
+      "fields": [
+        {
+          "name": "auctionPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidderPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "updatedBidValue",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "updatedEndTimestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ts",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "BoyncInitializeEvent",
+      "fields": [
+        {
+          "name": "auctionPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "BoyncEndEvent",
+      "fields": [
+        {
+          "name": "auctionPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "updatedEndTimestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "BoyncStartEvent",
+      "fields": [
+        {
+          "name": "auctionPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "updatedAuctionState",
+          "type": {
+            "defined": "AuctionState"
+          },
+          "index": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "BoyncClaimEvent",
+      "fields": [
+        {
+          "name": "auctionPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "claimed",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "index": true
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AuctionTransitionInvalid",
+      "msg": "Invalid auction state transition."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidState",
+      "msg": "Auction is not currently running."
+    },
+    {
+      "code": 6002,
+      "name": "AuctionNotStarted",
+      "msg": "Auction has not started yet"
+    },
+    {
+      "code": 6003,
+      "name": "AuctionEnded",
+      "msg": "Auction has ended"
+    },
+    {
+      "code": 6004,
+      "name": "AuctionActive",
+      "msg": "Auction has not ended yet"
+    },
+    {
+      "code": 6005,
+      "name": "AuctionClaimed",
+      "msg": "Auction has already been claimed!"
+    },
+    {
+      "code": 6006,
+      "name": "AuctionAuthorityBid",
+      "msg": "You can't bid on an auction you created!"
+    },
+    {
+      "code": 6007,
+      "name": "AuctionAlreadyLastBidder",
+      "msg": "You can't bid on an auction if you're already the last bidder!"
+    },
+    {
+      "code": 6008,
+      "name": "YouAreNotTheWinner",
+      "msg": "You Are not the winner"
+    },
+    {
+      "code": 6009,
+      "name": "YouAreNotTheAuthority",
+      "msg": "You Are not the authority"
+    },
+    {
+      "code": 6010,
+      "name": "BidTooSmall",
+      "msg": "Bid is too small."
+    },
+    {
+      "code": 6011,
+      "name": "InvalidAuthority",
+      "msg": "You are not the authority for this auction!"
+    }
+  ]
+}

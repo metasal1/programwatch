@@ -1,0 +1,192 @@
+{
+  "version": "0.1.0",
+  "name": "gdvesting",
+  "instructions": [
+    {
+      "name": "logVersion",
+      "accounts": [],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingContract",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gigsMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gigsVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "investor",
+          "type": "publicKey"
+        },
+        {
+          "name": "vestingRate",
+          "type": "u64"
+        },
+        {
+          "name": "totalAllocatedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "vestingStartTimestamp",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingContract",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gigsMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gigsVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverGigsAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VestingContract",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "investor",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "vestingStartTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "vestingRate",
+            "type": "u64"
+          },
+          {
+            "name": "claimedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalAllocatedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientAmount",
+      "msg": "Insufficient Proposal Amount."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAuthPda",
+      "msg": "Invalid Authorizer PDA."
+    },
+    {
+      "code": 6002,
+      "name": "VestingStartDateNotReached",
+      "msg": "Vesting Start Date Not Reached."
+    },
+    {
+      "code": 6003,
+      "name": "AmountMoreThanClaimable",
+      "msg": "Amount More Than Claimable."
+    }
+  ]
+}

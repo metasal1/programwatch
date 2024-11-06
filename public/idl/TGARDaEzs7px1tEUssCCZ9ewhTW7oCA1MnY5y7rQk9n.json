@@ -1,0 +1,991 @@
+{
+  "version": "0.2.1",
+  "name": "drop_guard",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Create a new drop guard account."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent for DropGuard PDA."
+          ]
+        },
+        {
+          "name": "dropGuard",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The DropGuard PDA holding guard configurations."
+          ]
+        },
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the drop guard PDA."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "phaseConfigs",
+          "type": {
+            "vec": "bytes"
+          }
+        },
+        {
+          "name": "updateAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent for DropGuard PDA.",
+            "May be credited or debited depending on realloc direction."
+          ]
+        },
+        {
+          "name": "dropGuard",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The DropGuard PDA holding config data."
+          ]
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The drop guard's current update authority.",
+            "",
+            "the update_authority passed into this instruction."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newPhaseConfigs",
+          "type": {
+            "option": {
+              "vec": "bytes"
+            }
+          }
+        },
+        {
+          "name": "phaseIndiciesToUpdate",
+          "type": {
+            "option": "bytes"
+          }
+        },
+        {
+          "name": "updateAuthority",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addPhases",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent for DropGuard PDA.",
+            "May be credited or debited depending on realloc direction."
+          ]
+        },
+        {
+          "name": "dropGuard",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The DropGuard PDA holding config data."
+          ]
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The drop guard's current update authority.",
+            "",
+            "the update_authority passed into this instruction."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newPhaseConfigs",
+          "type": {
+            "vec": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "name": "removePhases",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of rent for DropGuard PDA.",
+            "May be credited or debited depending on realloc direction."
+          ]
+        },
+        {
+          "name": "dropGuard",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The DropGuard PDA holding config data."
+          ]
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The drop guard's current update authority.",
+            "",
+            "the update_authority passed into this instruction."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "phaseIndicesToRemove",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "mint",
+      "docs": [
+        "Mint an NFT from the drop machine wrapped in the drop guard."
+      ],
+      "accounts": [
+        {
+          "name": "dropGuard",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The DropGuard PDA holding config data.",
+            ""
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of any SOL and SPL token payments enforced by guards."
+          ]
+        },
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The drop machine to mint from.",
+            ""
+          ]
+        },
+        {
+          "name": "treeDelegate",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumTreeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthorityRecordPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dropMachineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegum",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "TODO sorend: maybe import the program crates here for better type checking"
+          ]
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "recipientQuantities",
+          "type": "bytes"
+        },
+        {
+          "name": "urlSuffixes",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "nameOverrides",
+          "type": {
+            "option": {
+              "vec": "string"
+            }
+          }
+        },
+        {
+          "name": "symbolOverrides",
+          "type": {
+            "option": {
+              "vec": "string"
+            }
+          }
+        },
+        {
+          "name": "creatorOverrides",
+          "type": {
+            "option": {
+              "vec": {
+                "vec": {
+                  "defined": "DropGuardCreatorAdapter"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "sellerFeeBasisPointsOverrides",
+          "type": {
+            "option": {
+              "vec": "u16"
+            }
+          }
+        },
+        {
+          "name": "usesOverrides",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": "DropGuardUsesAdapter"
+              }
+            }
+          }
+        },
+        {
+          "name": "metadataMutabilityOverrides",
+          "type": {
+            "option": {
+              "vec": "bool"
+            }
+          }
+        },
+        {
+          "name": "phaseIndexToMintFrom",
+          "type": "u8"
+        },
+        {
+          "name": "indiciesOfGuardsToSatisfy",
+          "type": "bytes"
+        },
+        {
+          "name": "guardArgs",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "accounts": [
+        {
+          "name": "dropGuard",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The DropGuard PDA."
+          ]
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The drop guard's current update authority.",
+            "",
+            "the update_authority passed into this instruction."
+          ]
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DropGuard",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "base",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "updateAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "phaseInfo",
+            "type": {
+              "defined": "PhaseInfo"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CnftBurn",
+      "docs": [
+        "Guard that burns n CNFTs from a fixed set of t trees.",
+        "Currently only trees with 0-length proofs are supported."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "trees",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "n",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SolPayment",
+      "docs": [
+        "Guard that enforces a SOL payment to a pre-defined destination."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lamports",
+            "type": "u64"
+          },
+          {
+            "name": "destination",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ThirdPartySigner",
+      "docs": [
+        "Guard checks for a signature from a specified third-party address."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "signer",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenGate",
+      "docs": [
+        "Guard checking that recipient holds a pre-defined amount of some SPL token."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenPayment",
+      "docs": [
+        "Guard that enforces an SPL token payment to a pre-defined destination."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "destinationAta",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Whitelist",
+      "docs": [
+        "Guard that enforces that the minter was allocated to mint on a pre-defined, off-chain whitelist."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "extraWhitelistInfo",
+            "docs": [
+              "This struct needs at least one field for Solita, so we allocate 4 extra bytes for \"extra info\" which is not currently used"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MinterWhitelistAllocationTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numMinted",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropGuardCreatorAdapter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "verified",
+            "type": "u8"
+          },
+          {
+            "name": "share",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropGuardUsesAdapter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "remaining",
+            "type": "u64"
+          },
+          {
+            "name": "total",
+            "type": "u64"
+          },
+          {
+            "name": "useMethod",
+            "type": "u8"
+          },
+          {
+            "name": "isNone",
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                6
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PhaseConfig",
+      "docs": [
+        "PhaseConfig defines the active time period and guards of a phase"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The version number of this phase config. This number tells us how to interpret extra_info."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "startTimestamp",
+            "docs": [
+              "This \"Phase\" is active at or after `start_timestamp` until"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "endTimestamp",
+            "docs": [
+              "`end_timestamp` occurs. `end_timestamp` can be `None`, implying that the Phase is perpetually active"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "maxTotalMints",
+            "docs": [
+              "The maximum number of cNFTs which can be minted during this phase (globally, not per-wallet)"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "guards",
+            "type": {
+              "vec": {
+                "vec": {
+                  "defined": "GuardType"
+                }
+              }
+            }
+          },
+          {
+            "name": "extraInfo",
+            "docs": [
+              "Extra bytes which can be interpreted differently across versions."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PhaseState",
+      "docs": [
+        "PhaseState tracks the state for mints out of a specific phase of a drop"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The version number of the phase state instance. This number tells us how to interpret extra_info."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "numMintedSoFar",
+            "type": "u32"
+          },
+          {
+            "name": "extraInfo",
+            "docs": [
+              "Extra bytes which can be interpreted differently across versions."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PhaseInfo",
+      "docs": [
+        "PhaseInfo encapsulates all of the Phases for the DropGuard"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "phases",
+            "docs": [
+              "Phases are not required to be non-overlapping. Concurrent phases are permitted, which can enable interesting mechanics. All that is required is that each Phase is configured correctly."
+            ],
+            "type": {
+              "vec": {
+                "defined": "Phase"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Phase",
+      "docs": [
+        "A Phase is a period of time during which NFTs can be minted from a drop, if specific guards are satisfied"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The version number of this phase."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "config",
+            "type": {
+              "defined": "PhaseConfig"
+            }
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "PhaseState"
+            }
+          },
+          {
+            "name": "extraInfo",
+            "docs": [
+              "Extra bytes which can be interpreted differently across versions."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GuardType",
+      "docs": [
+        "Available guard types."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "CnftBurn",
+            "fields": [
+              {
+                "defined": "CnftBurn"
+              }
+            ]
+          },
+          {
+            "name": "SolPayment",
+            "fields": [
+              {
+                "defined": "SolPayment"
+              }
+            ]
+          },
+          {
+            "name": "ThirdPartySigner",
+            "fields": [
+              {
+                "defined": "ThirdPartySigner"
+              }
+            ]
+          },
+          {
+            "name": "TokenPayment",
+            "fields": [
+              {
+                "defined": "TokenPayment"
+              }
+            ]
+          },
+          {
+            "name": "TokenGate",
+            "fields": [
+              {
+                "defined": "TokenGate"
+              }
+            ]
+          },
+          {
+            "name": "Whitelist",
+            "fields": [
+              {
+                "defined": "Whitelist"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AccountUninitialized",
+      "msg": "Account is not initialized"
+    },
+    {
+      "code": 6001,
+      "name": "AfterEndDate",
+      "msg": "Phase has ended"
+    },
+    {
+      "code": 6002,
+      "name": "DuplicateCnftBurn",
+      "msg": "Duplicate CNFT burn guards on same trees"
+    },
+    {
+      "code": 6003,
+      "name": "DuplicateTokenGate",
+      "msg": "Duplicate token gates on same mint"
+    },
+    {
+      "code": 6004,
+      "name": "DuplicateTokenPayment",
+      "msg": "Duplicate token payments to same destination"
+    },
+    {
+      "code": 6005,
+      "name": "IntegerOverflow",
+      "msg": "Integer overflow"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidDowncast",
+      "msg": "Downcast to Guard failed"
+    },
+    {
+      "code": 6007,
+      "name": "MissingRemainingAccount",
+      "msg": "Missing expected remaining account"
+    },
+    {
+      "code": 6008,
+      "name": "NotEnoughSOL",
+      "msg": "Not enough SOL to pay for the mint"
+    },
+    {
+      "code": 6009,
+      "name": "NotEnoughTokens",
+      "msg": "Not enough tokens on the account"
+    },
+    {
+      "code": 6010,
+      "name": "NotYetLive",
+      "msg": "Phase is not yet live"
+    },
+    {
+      "code": 6011,
+      "name": "ReallocLimitExceeded",
+      "msg": "Exceeded account size increase limit"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidDisjunction",
+      "msg": "Cannot use guard in disjunction"
+    },
+    {
+      "code": 6013,
+      "name": "MissingThirdPartySignature",
+      "msg": "Third party did not sign for mint"
+    },
+    {
+      "code": 6014,
+      "name": "IncorrectAssociatedTokenAccount",
+      "msg": "Supplied associated token account is incorrect"
+    },
+    {
+      "code": 6015,
+      "name": "IncorrectWhitelistTrackerAccount",
+      "msg": "User whitelist tracker account mismatch"
+    },
+    {
+      "code": 6016,
+      "name": "InsufficientRemainingWhitelistAllocation",
+      "msg": "Insufficient remaining whitelist allocation"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidWhitelistAllocationAmount",
+      "msg": "Invalid Whitelist Allocation Amount"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidPhaseTimestampBounds",
+      "msg": "Start time must be lte end time"
+    },
+    {
+      "code": 6019,
+      "name": "PhaseMaxNumMintsNegative",
+      "msg": "Max mints must be positive"
+    },
+    {
+      "code": 6020,
+      "name": "PhaseIndicesMissing",
+      "msg": "Phase indices missing"
+    },
+    {
+      "code": 6021,
+      "name": "PhaseIndicesIncorrectLength",
+      "msg": "Phase indices incorect length"
+    },
+    {
+      "code": 6022,
+      "name": "PhaseMintLimitExceeded",
+      "msg": "Phase mint limit exceeded"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidPhaseConfigVersion",
+      "msg": "Invalid Phase Config Version"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidExtraInfoVersion",
+      "msg": "Invalid ExtraInfo for Version"
+    }
+  ]
+}

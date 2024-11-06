@@ -1,0 +1,490 @@
+{
+  "version": "0.1.0",
+  "name": "gateway_derive",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "derivedPass",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "derivedGatekeeper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivedGatekeeperAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gatewayProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sourceGkns",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "size",
+          "type": "u8"
+        },
+        {
+          "name": "gatekeeperBump",
+          "type": "u8"
+        },
+        {
+          "name": "properties",
+          "type": {
+            "defined": "DerivedPassProperties"
+          }
+        }
+      ]
+    },
+    {
+      "name": "issue",
+      "accounts": [
+        {
+          "name": "derivedPass",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatewayToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "derivedGatekeeper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivedGatekeeperAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gatewayProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeBumps",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "accounts": [
+        {
+          "name": "derivedPass",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatewayToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "derivedGatekeeper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivedGatekeeperAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gatewayProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeBumps",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "createFee",
+      "accounts": [
+        {
+          "name": "fee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatekeeperNetwork",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "issueAmount",
+          "type": "u64"
+        },
+        {
+          "name": "refreshAmount",
+          "type": "u64"
+        },
+        {
+          "name": "percentage",
+          "type": "u8"
+        },
+        {
+          "name": "feeType",
+          "type": "u8"
+        },
+        {
+          "name": "mint",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateFee",
+      "accounts": [
+        {
+          "name": "fee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatekeeperNetwork",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "issueAmount",
+          "type": "u64"
+        },
+        {
+          "name": "refreshAmount",
+          "type": "u64"
+        },
+        {
+          "name": "percentage",
+          "type": "u8"
+        },
+        {
+          "name": "feeType",
+          "type": "u8"
+        },
+        {
+          "name": "mint",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeFee",
+      "accounts": [
+        {
+          "name": "fee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatekeeperNetwork",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DerivedPass",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "gatekeeperBump",
+            "type": "u8"
+          },
+          {
+            "name": "sourceGkns",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "properties",
+            "type": {
+              "defined": "DerivedPassProperties"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fee",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "feeType",
+            "type": {
+              "defined": "FeeType"
+            }
+          },
+          {
+            "name": "percentage",
+            "type": "u8"
+          },
+          {
+            "name": "issueAmount",
+            "type": "u64"
+          },
+          {
+            "name": "refreshAmount",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DerivedPassProperties",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "expireDuration",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "expireOnUse",
+            "type": "bool"
+          },
+          {
+            "name": "refreshDisabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Action",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Issue"
+          },
+          {
+            "name": "Refresh"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "IssuerOnly"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MissingComponentPass",
+      "msg": "At least one component pass is missing"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidComponentPass",
+      "msg": "At least one of the passed-in component passes is invalid"
+    },
+    {
+      "code": 6002,
+      "name": "IssueError",
+      "msg": "An error occurred during pass issuance"
+    },
+    {
+      "code": 6003,
+      "name": "RefreshError",
+      "msg": "An error occurred during pass refresh"
+    },
+    {
+      "code": 6004,
+      "name": "RefreshDisabled",
+      "msg": "Attempt to refresh a pass whose refresh is disabled"
+    },
+    {
+      "code": 6005,
+      "name": "NonEmptyAccount",
+      "msg": "The passed account must be empty"
+    },
+    {
+      "code": 6006,
+      "name": "GatekeeperMismatch",
+      "msg": "A gatekeeper account was passed that does not match the associated component pass gatekeeper"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidFeeAccount",
+      "msg": "At least one of the passed-in fee accounts is invalid"
+    },
+    {
+      "code": 6008,
+      "name": "PaymentOverflow",
+      "msg": "An overflow error occurred during payment"
+    },
+    {
+      "code": 6009,
+      "name": "PaymentUnderflow",
+      "msg": "An underflow error occurred during payment"
+    },
+    {
+      "code": 6010,
+      "name": "IncorrectFeeBumpCount",
+      "msg": "The list of fee bumps must be equal to the number of component gateway tokens"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidFeatureAccount",
+      "msg": "The feature account does not match the gateway feature"
+    },
+    {
+      "code": 6012,
+      "name": "MissingExpireTime",
+      "msg": "Missing expire time on refresh"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidGatewayToken",
+      "msg": "Invalid gateway token"
+    }
+  ]
+}

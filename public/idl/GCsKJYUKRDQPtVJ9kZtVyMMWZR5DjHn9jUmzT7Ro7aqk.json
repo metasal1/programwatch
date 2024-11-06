@@ -1,0 +1,404 @@
+{
+  "version": "0.0.0",
+  "name": "hollowgamev1",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "roamersUsed",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ravagersUsed",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "verifiedCreator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "bumpRoa",
+          "type": "u8"
+        },
+        {
+          "name": "bumpRav",
+          "type": "u8"
+        },
+        {
+          "name": "bumpHist",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initDates",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "startDate",
+          "type": "i64"
+        },
+        {
+          "name": "endDate",
+          "type": "i64"
+        },
+        {
+          "name": "active",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "resetHp",
+          "type": "u16"
+        },
+        {
+          "name": "maxGames",
+          "type": "u16"
+        },
+        {
+          "name": "gameLength",
+          "type": "u16"
+        },
+        {
+          "name": "gameInter",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "attack",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "roamersUsed",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ravagersUsed",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "metadataProgramKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "creatorKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "bumpRav",
+            "type": "u8"
+          },
+          {
+            "name": "bumpRoa",
+            "type": "u8"
+          },
+          {
+            "name": "bumpHist",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SoldiersVec",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "soldiersUsed",
+            "type": {
+              "vec": {
+                "defined": "ExpendedSoldier"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "HistoryVec",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameHistory",
+            "type": {
+              "vec": {
+                "defined": "GameHistory"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startDate",
+            "type": "i64"
+          },
+          {
+            "name": "endDate",
+            "type": "i64"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "ravagerHitpoints",
+            "type": "u16"
+          },
+          {
+            "name": "roamerHitpoints",
+            "type": "u16"
+          },
+          {
+            "name": "resetHp",
+            "type": "u16"
+          },
+          {
+            "name": "maxGames",
+            "type": "u16"
+          },
+          {
+            "name": "gameLength",
+            "type": "u16"
+          },
+          {
+            "name": "gameInter",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ExpendedSoldier",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "soldierMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "expendedTs",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameHistory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ravagersHp",
+            "type": "u16"
+          },
+          {
+            "name": "roamersHp",
+            "type": "u16"
+          },
+          {
+            "name": "elapsedTime",
+            "type": "i64"
+          },
+          {
+            "name": "finalBlow",
+            "type": "publicKey"
+          },
+          {
+            "name": "hasTimeEnded",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "GameIsInactive",
+      "msg": "Game is inactive!"
+    },
+    {
+      "code": 301,
+      "name": "GameNotStarted",
+      "msg": "Game not started!"
+    },
+    {
+      "code": 302,
+      "name": "GameFinished",
+      "msg": "Game finished!"
+    },
+    {
+      "code": 303,
+      "name": "SoldierIsExpended",
+      "msg": "Soldier is expended!"
+    },
+    {
+      "code": 304,
+      "name": "SignerIsNotOwnerOfTokenAccount",
+      "msg": "Signer is not owner of NFT account!"
+    },
+    {
+      "code": 305,
+      "name": "AccountDoesNotHoldNft",
+      "msg": "This account does not hold an NFT!"
+    },
+    {
+      "code": 306,
+      "name": "MetadataAndTokenAccountMismatch",
+      "msg": "Metadata mint address does not match token account mint address!"
+    },
+    {
+      "code": 307,
+      "name": "NoVerifiedCreator",
+      "msg": "Could not find verified creator!"
+    },
+    {
+      "code": 308,
+      "name": "EmptyCreatorsArray",
+      "msg": "Metadata creators array is empty!"
+    },
+    {
+      "code": 309,
+      "name": "IncorrectMetadataOwner",
+      "msg": "Account does not have metadata account as owner!"
+    },
+    {
+      "code": 310,
+      "name": "IncorrectOwner",
+      "msg": "Account does not have correct owner!"
+    },
+    {
+      "code": 311,
+      "name": "UnauthorizedAction",
+      "msg": "Unauthorized action!"
+    },
+    {
+      "code": 312,
+      "name": "MaximumBattlesReached",
+      "msg": "Max battles reached!"
+    }
+  ]
+}

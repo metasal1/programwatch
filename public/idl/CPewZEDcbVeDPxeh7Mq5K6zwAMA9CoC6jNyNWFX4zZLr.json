@@ -1,0 +1,1601 @@
+{
+  "version": "1.0.1",
+  "name": "boson",
+  "instructions": [
+    {
+      "name": "initVault",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ctokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "client",
+          "type": "publicKey"
+        },
+        {
+          "name": "vaultInfoBump",
+          "type": "u8"
+        },
+        {
+          "name": "ctokenMintBump",
+          "type": "u8"
+        },
+        {
+          "name": "poolBump",
+          "type": "u8"
+        },
+        {
+          "name": "depositFee",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawFee",
+          "type": "u64"
+        },
+        {
+          "name": "interestFee",
+          "type": "u64"
+        },
+        {
+          "name": "protocolsMax",
+          "type": "u8"
+        },
+        {
+          "name": "cluster",
+          "type": "u8"
+        },
+        {
+          "name": "version",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "changeVaultInfo",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositFee",
+          "type": "u64"
+        },
+        {
+          "name": "withdrawFee",
+          "type": "u64"
+        },
+        {
+          "name": "interestFee",
+          "type": "u64"
+        },
+        {
+          "name": "newProtocolsMax",
+          "type": "u8"
+        },
+        {
+          "name": "newVersion",
+          "type": "u8"
+        },
+        {
+          "name": "userWithdrawsDisabled",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "setDistribution",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "locations",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        },
+        {
+          "name": "distribution",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "depositsDisabled",
+          "type": {
+            "vec": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "collectFees",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeCollectionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositPool",
+      "accounts": [
+        {
+          "name": "depositor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ctokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositorTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositorCTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawPool",
+      "accounts": [
+        {
+          "name": "withdrawer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ctokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawerCTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "atokenAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initWhirlpool",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "positionBump",
+          "type": "u8"
+        },
+        {
+          "name": "tickLowerIndex",
+          "type": "i32"
+        },
+        {
+          "name": "tickUpperIndex",
+          "type": "i32"
+        }
+      ]
+    },
+    {
+      "name": "getBalanceWhirlpool",
+      "accounts": [
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "rebalanceWhirlpool",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArrayLower",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArrayUpper",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tickLowerIndex",
+          "type": "i32"
+        },
+        {
+          "name": "tickUpperIndex",
+          "type": "i32"
+        },
+        {
+          "name": "slippage",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "collectWhirlpoolRewards",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardOwnerAccount0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardOwnerAccount1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardOwnerAccount2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deleteWhirlpool",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapWhirlpool",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "aToB",
+          "type": "bool"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transferCloseAccount",
+      "accounts": [
+        {
+          "name": "vaultCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fromTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawVault",
+      "accounts": [
+        {
+          "name": "withdrawer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ctokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawerCTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArrayLower",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArrayUpper",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aToBTickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bToATickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ctokenAmount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VaultInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "cluster",
+            "type": "u8"
+          },
+          {
+            "name": "vaultCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "client",
+            "type": "publicKey"
+          },
+          {
+            "name": "protocolsMax",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "ctokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "ctokenMintBump",
+            "type": "u8"
+          },
+          {
+            "name": "vaultInfoBump",
+            "type": "u8"
+          },
+          {
+            "name": "pool",
+            "type": {
+              "defined": "Pool"
+            }
+          },
+          {
+            "name": "protocols",
+            "type": {
+              "vec": {
+                "defined": "Protocol"
+              }
+            }
+          },
+          {
+            "name": "fees",
+            "type": {
+              "defined": "VaultFees"
+            }
+          },
+          {
+            "name": "userWithdrawsDisabled",
+            "type": "bool"
+          },
+          {
+            "name": "extraMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "perpetualSymbol",
+            "type": "publicKey"
+          },
+          {
+            "name": "mainPositionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "extraPositionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultExtraSpace",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "VaultFees",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "depositFee",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawFee",
+            "type": "u64"
+          },
+          {
+            "name": "interestFee",
+            "type": "u64"
+          },
+          {
+            "name": "balanceEstimate",
+            "type": "u64"
+          },
+          {
+            "name": "collectibleFee",
+            "type": "u64"
+          },
+          {
+            "name": "receivedFees",
+            "type": "u64"
+          },
+          {
+            "name": "feesExtraData",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LastUpdate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "stale",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "distribution",
+            "type": "u64"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdate",
+            "type": {
+              "defined": "LastUpdate"
+            }
+          },
+          {
+            "name": "poolExtraData",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Protocol",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "depositsDisabled",
+            "type": "bool"
+          },
+          {
+            "name": "distribution",
+            "type": "u64"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdate",
+            "type": {
+              "defined": "LastUpdate"
+            }
+          },
+          {
+            "name": "mainPositionBump",
+            "type": "u8"
+          },
+          {
+            "name": "mainPosition",
+            "type": "publicKey"
+          },
+          {
+            "name": "extraPosition",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "OverflowError",
+      "msg": "Overflow in arithmetic operation"
+    },
+    {
+      "code": 6001,
+      "name": "LocationStaleError",
+      "msg": "You need to refresh all the balances in one transaction"
+    },
+    {
+      "code": 6002,
+      "name": "LocationInsufficientFundsError",
+      "msg": "Location doesn't have that many tokens"
+    },
+    {
+      "code": 6003,
+      "name": "ProtocolUuidConversionError",
+      "msg": "Given uuid did not match a protocol in vault_info"
+    },
+    {
+      "code": 6004,
+      "name": "ProtocolDisabledError",
+      "msg": "Protocol is disabled"
+    },
+    {
+      "code": 6005,
+      "name": "ProtocolProgramMismatchError",
+      "msg": "Protocol program mismatch"
+    },
+    {
+      "code": 6006,
+      "name": "ProtocolAlreadyExists",
+      "msg": "Protocol already exists"
+    },
+    {
+      "code": 6007,
+      "name": "ProtocolDoesNotExist",
+      "msg": "Protocol does not exist"
+    },
+    {
+      "code": 6008,
+      "name": "ProtocolClusterInvalidError",
+      "msg": "Invalid cluster provided"
+    },
+    {
+      "code": 6009,
+      "name": "ProtocolMaximumError",
+      "msg": "Maximum number of protocols has been reached"
+    },
+    {
+      "code": 6010,
+      "name": "ProtocolHasBalanceError",
+      "msg": "Protocol still has balance"
+    },
+    {
+      "code": 6011,
+      "name": "ProtocolDistributionNotZeroError",
+      "msg": "Protocol distribution is not zero"
+    },
+    {
+      "code": 6012,
+      "name": "ProtocolMintDNEError",
+      "msg": "Protocol mint does not exist"
+    },
+    {
+      "code": 6013,
+      "name": "ProtocolCMintMismatchError",
+      "msg": "Protocol ctoken does not match"
+    },
+    {
+      "code": 6014,
+      "name": "ProtocolReserveMismatchError",
+      "msg": "Protocol reserve does not match"
+    },
+    {
+      "code": 6015,
+      "name": "ProtocolReserveLiqSupplyMismatchError",
+      "msg": "protocol reserve liquidity supply does not match"
+    },
+    {
+      "code": 6016,
+      "name": "ProtocolLendingMarketMismatchError",
+      "msg": "Protocol lending market does not match"
+    },
+    {
+      "code": 6017,
+      "name": "ProtocolLendingMarketAuthMismatchError",
+      "msg": "Protocol lending market auth does not match"
+    },
+    {
+      "code": 6018,
+      "name": "ProtocolOracleMismatchError",
+      "msg": "Protocol oracle does not match"
+    },
+    {
+      "code": 6019,
+      "name": "VaultCreatorOwnershipError",
+      "msg": "You are not the creator of this vault"
+    },
+    {
+      "code": 6020,
+      "name": "VaultInfoMintMismatchError",
+      "msg": "Mint != vault_info.mint"
+    },
+    {
+      "code": 6021,
+      "name": "VaultInfoctokenMintMismatchError",
+      "msg": "Accrue mint != vault_info.ctoken_mint"
+    },
+    {
+      "code": 6022,
+      "name": "TokenAccountOwnershipError",
+      "msg": "You don't own that mint account"
+    },
+    {
+      "code": 6023,
+      "name": "TokenAccountMintMismatchError",
+      "msg": "Mint does not match vault_info"
+    },
+    {
+      "code": 6024,
+      "name": "AccrueTokenAccountOwnershipError",
+      "msg": "You don't own that ctoken_mint account"
+    },
+    {
+      "code": 6025,
+      "name": "AccrueTokenAccountMintMismatchError",
+      "msg": "Mint does not match"
+    },
+    {
+      "code": 6026,
+      "name": "ClientAuthorityError",
+      "msg": "Client provided does not have authority over this vault"
+    },
+    {
+      "code": 6027,
+      "name": "SetDistributionLengthError",
+      "msg": "Array lengths were not expected"
+    },
+    {
+      "code": 6028,
+      "name": "SetDistributionSumError",
+      "msg": "Distribution does not sum to U64::MAX"
+    },
+    {
+      "code": 6029,
+      "name": "SetDistributionDuplicateUuidError",
+      "msg": "uuid was provided multiple times"
+    },
+    {
+      "code": 6030,
+      "name": "SetDistributionMissingPoolError",
+      "msg": "Location array is missing pool uuid"
+    },
+    {
+      "code": 6031,
+      "name": "DepositZeroError",
+      "msg": "You can't deposit 0 coins!"
+    },
+    {
+      "code": 6032,
+      "name": "DepositInsufficientFundsError",
+      "msg": "You don't have enough funds to deposit that much"
+    },
+    {
+      "code": 6033,
+      "name": "DepositMinimumError",
+      "msg": "You must deposit enough tokens so at least one new token is minted"
+    },
+    {
+      "code": 6034,
+      "name": "WithdrawZeroError",
+      "msg": "You can't withdraw 0 coins!"
+    },
+    {
+      "code": 6035,
+      "name": "WithdrawInsufficientFundsError",
+      "msg": "You don't have enough funds in the pool to withdraw that much"
+    },
+    {
+      "code": 6036,
+      "name": "UserDepositWithdrawDisabledError",
+      "msg": "You can't deposit or withdraw right now"
+    },
+    {
+      "code": 6037,
+      "name": "KillNoBalanceError",
+      "msg": "Kill can only be called if there is ctoken balance in the protocol"
+    },
+    {
+      "code": 6038,
+      "name": "InvalidSigner",
+      "msg": "The derived signer does not match that which was given."
+    },
+    {
+      "code": 6039,
+      "name": "ProtocolStaleError",
+      "msg": "You need to refresh all the balances in one transaction"
+    },
+    {
+      "code": 6040,
+      "name": "InvalidTimestampConversion",
+      "msg": "Invalid timestamp"
+    },
+    {
+      "code": 6041,
+      "name": "InvalidSqrtPriceLimitDirection",
+      "msg": "Provided SqrtPriceLimit not in the same direction as the swap."
+    },
+    {
+      "code": 6042,
+      "name": "NonMatchingLiquidity",
+      "msg": "Liquidity estimate should match on calculation"
+    },
+    {
+      "code": 6043,
+      "name": "MultiplicationOverflow",
+      "msg": "Multiplication overflow"
+    },
+    {
+      "code": 6044,
+      "name": "MultiplicationShiftRightOverflow",
+      "msg": "Multiplication with shift right overflow"
+    },
+    {
+      "code": 6045,
+      "name": "TokenMaxExceeded",
+      "msg": "Exceeded token max"
+    },
+    {
+      "code": 6046,
+      "name": "LiquidityZero",
+      "msg": "Liquidity amount must be greater than zero"
+    },
+    {
+      "code": 6047,
+      "name": "NotInRangeWhirlpoolPosition",
+      "msg": "Whirlpool position should be in range"
+    }
+  ]
+}

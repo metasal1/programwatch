@@ -1,0 +1,895 @@
+{
+  "version": "0.1.0",
+  "name": "global_offers",
+  "instructions": [
+    {
+      "name": "createCollection",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "collection"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "metaplex_collection"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "metaplex_creator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "counter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "counter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metaplexCollection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexCreator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "whitelistType",
+          "type": {
+            "defined": "WhitelistType"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "migrateCollection",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "oldCollectionOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newCollectionOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "oldCollection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "collection"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "metaplex_collection"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "metaplex_creator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "metaplexCollection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexCreator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "updateCollection",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": {
+            "option": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        },
+        {
+          "name": "authority",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "closeCollection",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "whitelistMint",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "whitelist"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attributes",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "deleteMint",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "whitelist"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "createBid",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attributes",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "isFiltered",
+          "type": "bool"
+        },
+        {
+          "name": "filetringType",
+          "type": {
+            "defined": "FilteringType"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "cancelBid",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "forceCancelBid",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "acceptBid",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sellerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "migrateBid",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attributes",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "isFiltered",
+          "type": "bool"
+        },
+        {
+          "name": "filetringType",
+          "type": {
+            "defined": "FilteringType"
+          }
+        }
+      ],
+      "returns": null
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Counter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionTotal",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionId",
+            "type": "u32"
+          },
+          {
+            "name": "activeBid",
+            "type": "u64"
+          },
+          {
+            "name": "volumeActiveBid",
+            "type": "u64"
+          },
+          {
+            "name": "totalWhitelisted",
+            "type": "u64"
+          },
+          {
+            "name": "totalVolume",
+            "type": "u64"
+          },
+          {
+            "name": "totalAccepted",
+            "type": "u64"
+          },
+          {
+            "name": "whitelistType",
+            "type": {
+              "defined": "WhitelistType"
+            }
+          },
+          {
+            "name": "isAttributeFilteringEnabled",
+            "type": "bool"
+          },
+          {
+            "name": "createdAt",
+            "type": "u64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u64",
+                12
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "isFiltered",
+            "type": "bool"
+          },
+          {
+            "name": "filetringType",
+            "type": {
+              "defined": "FilteringType"
+            }
+          },
+          {
+            "name": "attributes",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "u64"
+          },
+          {
+            "name": "takenAt",
+            "type": "u64"
+          },
+          {
+            "name": "deletedAt",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Whitelist",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionId",
+            "type": "u32"
+          },
+          {
+            "name": "attributes",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "WhitelistType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Creator"
+          },
+          {
+            "name": "Collection"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FilteringType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "And"
+          },
+          {
+            "name": "Or"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongAuthority",
+      "msg": "WrongAuthority"
+    },
+    {
+      "code": 6001,
+      "name": "CreatorOrCollectionNotDefault",
+      "msg": "Creator Or Collection Not Default"
+    },
+    {
+      "code": 6002,
+      "name": "CreatorOrCollectionMustBeSigner",
+      "msg": "Creator Or Collection Must Be Signer"
+    },
+    {
+      "code": 6003,
+      "name": "WrongCreatorOrCollection",
+      "msg": "Wrong Creator Or Creator"
+    },
+    {
+      "code": 6004,
+      "name": "WrongWhitelistAccount",
+      "msg": "Wrong Whitelist Account"
+    },
+    {
+      "code": 6005,
+      "name": "FailedSerializingAttributes",
+      "msg": "Failed Serializing Attributes"
+    },
+    {
+      "code": 6006,
+      "name": "PriceTooLow",
+      "msg": "PriceTooLow"
+    },
+    {
+      "code": 6007,
+      "name": "WrongTokenAmount",
+      "msg": "WrongTokenAmount"
+    },
+    {
+      "code": 6008,
+      "name": "WrongCollection",
+      "msg": "WrongCollection"
+    },
+    {
+      "code": 6009,
+      "name": "AttributeFilteringIsDisabled",
+      "msg": "AttributeFilteringIsDisabled"
+    },
+    {
+      "code": 6010,
+      "name": "AttributeMatchFailed",
+      "msg": "AttributeMatchFailed"
+    },
+    {
+      "code": 6011,
+      "name": "WrongStakingAccount",
+      "msg": "WrongStakingAccount"
+    },
+    {
+      "code": 6012,
+      "name": "NFTPossiblyStolen",
+      "msg": "NFT possibly stolen"
+    },
+    {
+      "code": 6013,
+      "name": "AlreadyMigrated",
+      "msg": "AlreadyMigrated"
+    }
+  ]
+}

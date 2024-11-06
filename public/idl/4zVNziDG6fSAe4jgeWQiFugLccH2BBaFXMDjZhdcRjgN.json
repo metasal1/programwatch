@@ -1,0 +1,208 @@
+{
+  "version": "0.1.0",
+  "name": "faraway_auth_program",
+  "instructions": [
+    {
+      "name": "issue",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "IssueParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "revoke",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "RevokeParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "VerifyParams"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "pubkey",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "IssueParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configId",
+            "type": "u8"
+          },
+          {
+            "name": "pubkey",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RevokeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configId",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VerifyParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configId",
+            "type": "u8"
+          },
+          {
+            "name": "hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "signature",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Signature",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configId",
+            "type": "u8"
+          },
+          {
+            "name": "signature",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  64
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidIssuer",
+      "msg": "Issuer is invalid"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidSignature",
+      "msg": "Signature is invalid"
+    },
+    {
+      "code": 6002,
+      "name": "SignatureRecoverError",
+      "msg": "Signature recover error"
+    }
+  ]
+}

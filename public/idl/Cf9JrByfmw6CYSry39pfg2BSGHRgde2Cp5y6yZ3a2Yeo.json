@@ -1,0 +1,861 @@
+{
+  "version": "0.1.0",
+  "name": "hh_parimutuel",
+  "instructions": [
+    {
+      "name": "initializeMarket",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The market account to initialize."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority for the two token accounts.",
+            ""
+          ]
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The creator for the market."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token that this market is denominated in."
+          ]
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Escrow for tokens on the yes side of the market."
+          ]
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Escrow for tokens on the no side of the market."
+          ]
+        },
+        {
+          "name": "feeAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The fee account which will receive market fees."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The SPL Token Program."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Sysvar rent."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeMarketParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeUserPosition",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The user depositing into the market."
+          ]
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The market to deposit into."
+          ]
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Escrow for tokens on the yes side of the market.",
+            "",
+            "account is checked by the constraint on the market account above. Writes",
+            "only occur via the token program, which performs necessary checks on",
+            "sufficient balance and matching token mints."
+          ]
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Escrow for tokens on the no side of the market.",
+            "",
+            "account is checked by the constraint on the market account above. Writes",
+            "only occur via the token program, which performs necessary checks on",
+            "sufficient balance and matching token mints."
+          ]
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's token account.",
+            "",
+            "the token program, which performs necessary checks on sufficient balance",
+            "and matching token mints."
+          ]
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [UserPosition] account for this user and market."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The SPL token program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "DepositParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateState",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "resolver",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UpdateStateParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The fee account that receives market fees."
+          ]
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's token account. We explicitly check the owner for this",
+            "account."
+          ]
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Escrow for tokens on the yes side of the market.",
+            "",
+            "account is checked by the constraint on the market account . Writes",
+            "only occur via the token program, which performs necessary checks on",
+            "sufficient balance and matching token mints."
+          ]
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Escrow for tokens on the no side of the market.",
+            "",
+            "account is checked by the constraint on the market account. Writes",
+            "only occur via the token program, which performs necessary checks on",
+            "sufficient balance and matching token mints."
+          ]
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's [UserPosition] account."
+          ]
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Market] to claim winnings for."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority for the market token accounts.",
+            ""
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The SPL Token program."
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The user claiming winnings."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The user withdrawing funds."
+          ]
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The yes token account for the market.",
+            "",
+            "account is checked by the constraint on the market account. Writes",
+            "only occur via the token program, which performs necessary checks on",
+            "sufficient balance and matching token mints."
+          ]
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The no token account for the market.",
+            "",
+            "account is checked by the constraint on the market account. Writes",
+            "only occur via the token program, which performs necessary checks on",
+            "sufficient balance and matching token mints."
+          ]
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's token account. We explicitly check the owner for this",
+            "account."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority for the market token accounts.",
+            ""
+          ]
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Market account."
+          ]
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's [UserPosition] account for this market."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The SPL Token Program."
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "docs": [
+        "The [Market] account."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "docs": [
+              "Creator of the market."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "resolver",
+            "docs": [
+              "Resolver for the market."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "docs": [
+              "The token this market is denominated in."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "yesTokenAccount",
+            "docs": [
+              "The token account to hold tokens placed on the yes side."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "noTokenAccount",
+            "docs": [
+              "The token account to hold tokens placed on the no side."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "yesAmount",
+            "docs": [
+              "The amount of tokens placed on the yes side."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "docs": [
+              "The amount of tokens placed on the no side."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "closeTs",
+            "docs": [
+              "The timestamp at which the market closes (i.e. does not accept new",
+              "funds)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "expiryTs",
+            "docs": [
+              "The timestamp at which the market can be resolved."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "outcomeTs",
+            "docs": [
+              "The timestamp of when a market has been set to an outcome. 0 if not set."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "resolutionDelay",
+            "docs": [
+              "The delay in seconds before the outcome is finalized."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "outcome",
+            "docs": [
+              "The outcome of the market."
+            ],
+            "type": {
+              "defined": "Outcome"
+            }
+          },
+          {
+            "name": "finalized",
+            "docs": [
+              "A flag checking whether the market is finalized."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "yesAccountBump",
+            "docs": [
+              "The bump seed for the yes token account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "noAccountBump",
+            "docs": [
+              "The bump seed for the no token account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "feeCutBps",
+            "docs": [
+              "The market fee in basis points."
+            ],
+            "type": {
+              "defined": "Bps"
+            }
+          },
+          {
+            "name": "feeAccount",
+            "docs": [
+              "The account which collects the market fee."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "The URI to the market's info (i.e. title, description)"
+            ],
+            "type": {
+              "defined": "UriResource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserPosition",
+      "docs": [
+        "Tracks the user's positions for a given market."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "docs": [
+              "The market for which we track positions."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "yesAmount",
+            "docs": [
+              "The amount the user has deposited into the yes side."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "docs": [
+              "The amount the user has deposited into the no side."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DepositParams",
+      "docs": [
+        "Parameters for the [Deposit] instruction."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "yesAmount",
+            "docs": [
+              "The amount to deposit on the yes side."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "docs": [
+              "The amount to deposit on the no side."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeMarketParams",
+      "docs": [
+        "Parameters for initializing a market."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "closeTs",
+            "docs": [
+              "Set the close time for this market."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "expiryTs",
+            "docs": [
+              "Sets the expiry time."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "resolutionDelay",
+            "docs": [
+              "Amount of seconds to wait until a resolution is final."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "resolver",
+            "docs": [
+              "The resolver for this market."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "The URI that leads to the market info."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "feeCutBps",
+            "docs": [
+              "Market fee."
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateStateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "outcome",
+            "type": {
+              "defined": "Outcome"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bps",
+      "docs": [
+        "Basis points.",
+        "",
+        "The value can range from `0` (0%) to `10000` (100%)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UriResource",
+      "docs": [
+        "A string URI."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "len",
+            "docs": [
+              "The length of the URI."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "The URI buffer."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Outcome",
+      "docs": [
+        "A possible market outcome."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Yes"
+          },
+          {
+            "name": "No"
+          },
+          {
+            "name": "Invalid"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMarketResource",
+      "msg": "Market resource is invalid."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidCloseTimestamp",
+      "msg": "Close timestamp must be greater than the present time."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidExpiryTimestamp",
+      "msg": "Expiry timestamp must be greater than the close timestamp."
+    },
+    {
+      "code": 6003,
+      "name": "NonCanonicalBumpSeed",
+      "msg": "Bump seed was non canonical."
+    },
+    {
+      "code": 6004,
+      "name": "Overflow",
+      "msg": "Numerical overflow occurred."
+    },
+    {
+      "code": 6005,
+      "name": "AlreadyFinalized",
+      "msg": "This market is already finalized."
+    },
+    {
+      "code": 6006,
+      "name": "MarketClosed",
+      "msg": "This market is closed for trading."
+    },
+    {
+      "code": 6007,
+      "name": "OverAllowedAmount",
+      "msg": "Attempted to add more than the allowed amount."
+    },
+    {
+      "code": 6008,
+      "name": "IncorrectYesEscrow",
+      "msg": "Token account does not match the market yes token account."
+    },
+    {
+      "code": 6009,
+      "name": "IncorrectNoEscrow",
+      "msg": "Token account does not match the market no token account."
+    },
+    {
+      "code": 6010,
+      "name": "IncorrectResolver",
+      "msg": "Resolver does not match the market resolver."
+    },
+    {
+      "code": 6011,
+      "name": "InvalidTransition",
+      "msg": "This status transition is not allowed."
+    },
+    {
+      "code": 6012,
+      "name": "MarketNotInvalid",
+      "msg": "Can only withdraw from an invalid market."
+    },
+    {
+      "code": 6013,
+      "name": "NotFinalized",
+      "msg": "This market is not finalized."
+    },
+    {
+      "code": 6014,
+      "name": "FeeTooHigh",
+      "msg": "The provided fee is too high."
+    },
+    {
+      "code": 6015,
+      "name": "InvalidProgramData",
+      "msg": "The provided program data is incorrect."
+    },
+    {
+      "code": 6016,
+      "name": "InvalidProgramAuthority",
+      "msg": "The provided program authority is incorrect."
+    },
+    {
+      "code": 6017,
+      "name": "AccountNotOwnedByCreator",
+      "msg": "The fee token account must be owned by the market creator."
+    },
+    {
+      "code": 6018,
+      "name": "UserAccountCannotBeMarketAccount",
+      "msg": "The user account must not be one of the market-owned accounts."
+    },
+    {
+      "code": 6019,
+      "name": "UserAccountIncorrectOwner",
+      "msg": "The user account must be owned by the signing user."
+    },
+    {
+      "code": 6020,
+      "name": "CannotClaim",
+      "msg": "Claim instruction can only be used on Yes/No finalized markets."
+    },
+    {
+      "code": 6021,
+      "name": "AssociatedTokenAccountRequired",
+      "msg": "Must use the associated token account of the fee wallet to collect fees."
+    },
+    {
+      "code": 6022,
+      "name": "CannotHaveNonzeroAmounts",
+      "msg": "Cannot have nonzero amounts."
+    }
+  ]
+}

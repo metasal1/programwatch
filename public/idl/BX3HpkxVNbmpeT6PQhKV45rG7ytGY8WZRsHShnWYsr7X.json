@@ -1,0 +1,2011 @@
+{
+  "version": "0.1.0",
+  "name": "sign_protocol_solana",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferOwnership",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newOwner",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setGlobalHook",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "pubkey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setPause",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "paused",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "register",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "schema",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "schema",
+          "type": {
+            "defined": "Schema"
+          }
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "registerBatch",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "schema1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema4",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema5",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "ids",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "schemas",
+          "type": {
+            "vec": {
+              "defined": "Schema"
+            }
+          }
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "attest",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "linkedAttestation",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "attestation",
+          "type": {
+            "defined": "Attestation"
+          }
+        },
+        {
+          "name": "indexingKey",
+          "type": "string"
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        },
+        {
+          "name": "extraData",
+          "type": "bytes"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "attestBatch",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation4",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation5",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "linkedAttestation1",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "linkedAttestation2",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "linkedAttestation3",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "linkedAttestation4",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "linkedAttestation5",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema1",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema2",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema3",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema4",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema5",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "ids",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "attestations",
+          "type": {
+            "vec": {
+              "defined": "Attestation"
+            }
+          }
+        },
+        {
+          "name": "indexingKeys",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        },
+        {
+          "name": "extraData",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "attestOffchain",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "delegateAttester",
+          "type": "publicKey"
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "attestOffchainBatch",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation4",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation5",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "ids",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "delegateAttester",
+          "type": "publicKey"
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "revoke",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "schema",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationId",
+          "type": "u64"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        },
+        {
+          "name": "extraData",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "revokeBatch",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation4",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation5",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema4",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "schema5",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationIds",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "reasons",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        },
+        {
+          "name": "extraData",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "revokeOffchain",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationId",
+          "type": "u64"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "revokeOffchainBatch",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attestation1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation4",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "attestation5",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hookStorage",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "hook",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the supplied Sysvar could be anything else.",
+            "The Instruction Sysvar has not been implemented",
+            "in the Anchor framework yet, so this is the safe approach."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationIds",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "reasons",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "delegateSignature",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedRegisterHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "schema",
+          "type": {
+            "defined": "Schema"
+          }
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedRegisterBatchHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "schemas",
+          "type": {
+            "vec": {
+              "defined": "Schema"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedAttestHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestation",
+          "type": {
+            "defined": "Attestation"
+          }
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedAttestBatchHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestations",
+          "type": {
+            "vec": {
+              "defined": "Attestation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedAttestOffchainHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationId",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedAttestOffchainBatchHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationIds",
+          "type": {
+            "vec": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedRevokeHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationId",
+          "type": "u64"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedRevokeBatchHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationIds",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "reasons",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedRevokeOffchainHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationId",
+          "type": "u64"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "getDelegatedRevokeOffchainBatchHash",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hash",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attestationIds",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "reasons",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "accounts": [
+        {
+          "name": "version",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "H",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Storage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "globalHook",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "V",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AttestationAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "schemaId",
+            "type": "u64"
+          },
+          {
+            "name": "linkedAttestationId",
+            "type": "u64"
+          },
+          {
+            "name": "attestTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "revokeTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "attester",
+            "type": "publicKey"
+          },
+          {
+            "name": "validUntil",
+            "type": "u64"
+          },
+          {
+            "name": "dataLocation",
+            "type": {
+              "defined": "DataLocation"
+            }
+          },
+          {
+            "name": "revoked",
+            "type": "bool"
+          },
+          {
+            "name": "recipients",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OffchainAttestationAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "attester",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SchemaAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "registrant",
+            "type": "publicKey"
+          },
+          {
+            "name": "revocable",
+            "type": "bool"
+          },
+          {
+            "name": "dataLocation",
+            "type": {
+              "defined": "DataLocation"
+            }
+          },
+          {
+            "name": "maxValidFor",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "data",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Attestation",
+      "docs": [
+        "@title Attestation",
+        "@notice This struct represents an on-chain attestation record. This record is not deleted after revocation.",
+        "",
+        "`id`: The ID of this Attestation.",
+        "`schemaId`: The `Schema` that this Attestation is based on. It must exist.",
+        "`linkedAttestationId`: Useful if the current Attestation references a previous Attestation. It can either be 0 or an",
+        "existing attestation ID.",
+        "`attestTimestamp`: When the attestation was made. This is automatically populated by `_attest(...)`.",
+        "`revokeTimestamp`: When the attestation was revoked. This is automatically populated by `_revoke(...)`.",
+        "`attester`: The attester. At this time, the attester must be the caller of `attest()`.",
+        "`validUntil`: The expiration timestamp of the Attestation. Must respect `Schema.maxValidFor`. 0 indicates no",
+        "expiration date.",
+        "`dataLocation`: Where `Attestation.data` is stored. See `DataLocation.DataLocation`.",
+        "`revoked`: If the Attestation has been revoked. It is possible to make a revoked Attestation.",
+        "`recipients`: The intended ABI-encoded recipients of this Attestation. This is of type `bytes` to support non-EVM",
+        "repicients.",
+        "`data`: The raw data of the Attestation based on `Schema.schema`. There is no enforcement here, however. Recommended",
+        "to use `abi.encode`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "schemaId",
+            "type": "u64"
+          },
+          {
+            "name": "linkedAttestationId",
+            "type": "u64"
+          },
+          {
+            "name": "attestTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "revokeTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "attester",
+            "type": "publicKey"
+          },
+          {
+            "name": "validUntil",
+            "type": "u64"
+          },
+          {
+            "name": "dataLocation",
+            "type": {
+              "defined": "DataLocation"
+            }
+          },
+          {
+            "name": "revoked",
+            "type": "bool"
+          },
+          {
+            "name": "recipients",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OffchainAttestation",
+      "docs": [
+        "@title OffchainAttestation",
+        "@notice This struct represents an off-chain attestation record. This record is not deleted after revocation.",
+        "",
+        "`attester`: The attester. At this time, the attester must be the caller of `attestOffchain()`.",
+        "`timestamp`: The `block.timestamp` of the function call."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "attester",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SchemaData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "Schema"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SchemaBatchData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "type": {
+              "vec": {
+                "defined": "Schema"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AttestationData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "Attestation"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AttestationBatchData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "type": {
+              "vec": {
+                "defined": "Attestation"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OffchainAttestationData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OffchainAttestationBatchData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RevokeData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RevokeBatchData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataType",
+            "type": "string"
+          },
+          {
+            "name": "ids",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "reasons",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Schema",
+      "docs": [
+        "@title Schema",
+        "@notice This struct represents an on-chain Schema that Attestations can conform to.",
+        "",
+        "`id`: The ID of this schema.",
+        "`registrant`: The address that registered this schema.",
+        "`revocable`: Whether Attestations that adopt this Schema can be revoked.",
+        "`dataLocation`: Where `Schema.data` is stored. See `DataLocation.DataLocation`.",
+        "`maxValidFor`: The maximum number of seconds that an Attestation can remain valid. 0 means Attestations can be valid",
+        "forever. This is enforced through `Attestation.validUntil`.",
+        "`hook`: The `ISPHook` that is called at the end of every function. 0 means there is no hook set. See",
+        "`ISPHook`.",
+        "`timestamp`: When the schema was registered. This is automatically populated by `_register(...)`.",
+        "`data`: The raw schema that `Attestation.data` should follow. Since there is no way to enforce this, it is a `string`",
+        "for easy readability."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "registrant",
+            "type": "publicKey"
+          },
+          {
+            "name": "revocable",
+            "type": "bool"
+          },
+          {
+            "name": "dataLocation",
+            "type": {
+              "defined": "DataLocation"
+            }
+          },
+          {
+            "name": "maxValidFor",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "data",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DataLocation",
+      "docs": [
+        "@notice This enum indicates where `Schema.data` and `Attestation.data` are stored."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ONCHAIN"
+          },
+          {
+            "name": "ARWEAVE"
+          },
+          {
+            "name": "IPFS"
+          },
+          {
+            "name": "CUSTOM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ISPError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Paused"
+          },
+          {
+            "name": "SchemaNonexistent"
+          },
+          {
+            "name": "SchemaWrongRegistrant"
+          },
+          {
+            "name": "AttestationIrrevocable"
+          },
+          {
+            "name": "AttestationNonexistent"
+          },
+          {
+            "name": "AttestationInvalidDuration"
+          },
+          {
+            "name": "AttestationAlreadyRevoked"
+          },
+          {
+            "name": "AttestationWrongAttester"
+          },
+          {
+            "name": "OffchainAttestationExists"
+          },
+          {
+            "name": "OffchainAttestationNonexistent"
+          },
+          {
+            "name": "OffchainAttestationAlreadyRevoked"
+          },
+          {
+            "name": "InvalidDelegateSignature"
+          },
+          {
+            "name": "LegacySPRequired"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "SchemaRegistered",
+      "fields": [
+        {
+          "name": "schemaId",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AttestationMade",
+      "fields": [
+        {
+          "name": "attestationId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "indexingKey",
+          "type": "string",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AttestationRevoked",
+      "fields": [
+        {
+          "name": "attestationId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "OffchainAttestationMade",
+      "fields": [
+        {
+          "name": "attestationId",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "OffchainAttestationRevoked",
+      "fields": [
+        {
+          "name": "attestationId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotOwner",
+      "msg": "NotOwner"
+    },
+    {
+      "code": 6001,
+      "name": "SchemaWrongRegistrant",
+      "msg": "SchemaWrongRegistrant"
+    },
+    {
+      "code": 6002,
+      "name": "SchemaExists",
+      "msg": "SchemaExists"
+    },
+    {
+      "code": 6003,
+      "name": "Paused",
+      "msg": "Paused"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidDelegateSignature",
+      "msg": "InvalidDelegateSignature"
+    },
+    {
+      "code": 6005,
+      "name": "AttestationWrongAttester",
+      "msg": "AttestationWrongAttester"
+    },
+    {
+      "code": 6006,
+      "name": "AttestationNonexistent",
+      "msg": "AttestationNonexistent"
+    },
+    {
+      "code": 6007,
+      "name": "AttestationExists",
+      "msg": "AttestationExists"
+    },
+    {
+      "code": 6008,
+      "name": "SchemaNonexistent",
+      "msg": "SchemaNonexistent"
+    },
+    {
+      "code": 6009,
+      "name": "AttestationInvalidDuration",
+      "msg": "AttestationInvalidDuration"
+    },
+    {
+      "code": 6010,
+      "name": "AttestationIrrevocable",
+      "msg": "AttestationIrrevocable"
+    },
+    {
+      "code": 6011,
+      "name": "AttestationAlreadyRevoked",
+      "msg": "AttestationAlreadyRevoked"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidHook",
+      "msg": "InvalidHook"
+    },
+    {
+      "code": 6013,
+      "name": "OffchainAttestationExists",
+      "msg": "OffchainAttestationExists"
+    },
+    {
+      "code": 6014,
+      "name": "OffchainAttestationNonexistent",
+      "msg": "OffchainAttestationNonexistent"
+    },
+    {
+      "code": 6015,
+      "name": "OffchainAttestationAlreadyRevoked",
+      "msg": "OffchainAttestationAlreadyRevoked"
+    }
+  ]
+}

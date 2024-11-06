@@ -1,0 +1,414 @@
+{
+  "version": "0.1.0",
+  "name": "seeds_program",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "validCreator",
+          "type": "publicKey"
+        },
+        {
+          "name": "irrigateTokenAddress",
+          "type": "publicKey"
+        },
+        {
+          "name": "perIrrigateLow",
+          "type": "u64"
+        },
+        {
+          "name": "perIrrigateHigh",
+          "type": "u64"
+        },
+        {
+          "name": "tierBoundaries",
+          "type": {
+            "array": [
+              "u64",
+              4
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "updatePhase",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newPhase",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "startTicketsPhase",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "tierTicketMintPubkeys",
+          "type": {
+            "array": [
+              "publicKey",
+              12
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "plant",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAssociatedAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "irrigate",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "irrigateTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "irrigateTokenFrom",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "getTicket",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tierTicketMintPubkey",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tierTicketTokenTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "itemIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "accounts": [
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializerUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "globalStateAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "seedNftMintAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "irrigatedValue",
+            "type": "u64"
+          },
+          {
+            "name": "numberOfIrrigation",
+            "type": "u16"
+          },
+          {
+            "name": "lastUpdateTime",
+            "type": "i64"
+          },
+          {
+            "name": "alreadyMintedItemTicket",
+            "type": {
+              "array": [
+                "bool",
+                4
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "seedNftName",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializer",
+            "type": "publicKey"
+          },
+          {
+            "name": "validCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "irrigateTokenAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "perIrrigateLow",
+            "type": "u64"
+          },
+          {
+            "name": "perIrrigateHigh",
+            "type": "u64"
+          },
+          {
+            "name": "totalSeedsPlanted",
+            "type": "u64"
+          },
+          {
+            "name": "totalIrrigateValue",
+            "type": "u64"
+          },
+          {
+            "name": "phase",
+            "type": "u8"
+          },
+          {
+            "name": "tierBoundaries",
+            "type": {
+              "array": [
+                "u64",
+                4
+              ]
+            }
+          },
+          {
+            "name": "tierTicketMintPubkeys",
+            "type": {
+              "array": [
+                "publicKey",
+                12
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMetadata",
+      "msg": "Invalid Metadata account for this NFT!"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidCreator",
+      "msg": "This NFT is not minted from the Seed candy machine!"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidPhase",
+      "msg": "Invalid Phase for this action!"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAmount",
+      "msg": "Invalid amount to irrigate!"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidTiming",
+      "msg": "Not enough time passed after the last irrigation!"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidTier",
+      "msg": "Invalid tier account passed!"
+    },
+    {
+      "code": 6006,
+      "name": "AlreadyMinted",
+      "msg": "This ticket is already minted!"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidIndex",
+      "msg": "Invalid item index!"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidName",
+      "msg": "Invalid NFT name!"
+    }
+  ]
+}

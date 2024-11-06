@@ -1,0 +1,795 @@
+{
+  "version": "0.1.0",
+  "name": "gdfractionalize",
+  "instructions": [
+    {
+      "name": "initializeCollection",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionLotMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rootHash",
+          "type": "publicKey"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "fractionalizationRatio",
+          "type": "u64"
+        },
+        {
+          "name": "royaltyPercentage",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "fractionalizeNft",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionLotMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverLotAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proofHashValues",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "proofHashSides",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "fractionalizePnft",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionLotMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverLotAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proofHashValues",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "proofHashSides",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "redeemNft",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionLotMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderLotAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "vaultIndex",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeemPnft",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionLotMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderLotAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additinonalAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "vaultIndex",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeRoyaltyPercentage",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "royaltyPercentage",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeRootHash",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rootHash",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "mintFractions",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionLotMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverLotAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "rootHash",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultStore",
+            "type": "publicKey"
+          },
+          {
+            "name": "fractionalizedCount",
+            "type": "u64"
+          },
+          {
+            "name": "fractionalizationRatio",
+            "type": "u64"
+          },
+          {
+            "name": "collectionAuthPda",
+            "type": "publicKey"
+          },
+          {
+            "name": "lotMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "royaltyPercentage",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OwnerState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultStore",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "activeVaults",
+            "type": "u64"
+          },
+          {
+            "name": "entries",
+            "type": {
+              "array": [
+                {
+                  "defined": "Vault"
+                },
+                1000
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdditionalPdaAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "multiplier",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Vault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isActive",
+            "type": "u64"
+          },
+          {
+            "name": "tokenAccount",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidTransactionType",
+      "msg": "InvalidTransactionType"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMetaplexMetadataPda",
+      "msg": "Invalid metaplex metadata pda."
+    },
+    {
+      "code": 6002,
+      "name": "VerifiedCreatorAddressMismatch",
+      "msg": "Verified creator address mismatch."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAccountOwner",
+      "msg": "Invalid account owner."
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientFeeFunds",
+      "msg": "Insufficient fee funds."
+    },
+    {
+      "code": 6005,
+      "name": "OrderNotFound",
+      "msg": "Order Not Found."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidAuthPda",
+      "msg": "Invalid Authorizer PDA."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidFeeRxAddress",
+      "msg": "Invalid fee receiver address"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidSigner",
+      "msg": "Invalid signer"
+    },
+    {
+      "code": 6009,
+      "name": "LiquidationCriteriaNotMet",
+      "msg": "Liquidation criteria not met"
+    },
+    {
+      "code": 6010,
+      "name": "PriceCrossesSpread",
+      "msg": "Price crosses spread."
+    },
+    {
+      "code": 6011,
+      "name": "BalanceTestFailed",
+      "msg": "Balance Test Failed."
+    },
+    {
+      "code": 6012,
+      "name": "InvalidVault",
+      "msg": "Invalid Vault."
+    },
+    {
+      "code": 6013,
+      "name": "InvalidProofs",
+      "msg": "Invalid Proofs."
+    },
+    {
+      "code": 6014,
+      "name": "InvalidRootHash",
+      "msg": "Invalid Root Hash."
+    },
+    {
+      "code": 6015,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    },
+    {
+      "code": 6016,
+      "name": "BadMetadata",
+      "msg": "Bad Metadata"
+    },
+    {
+      "code": 6017,
+      "name": "BadRuleset",
+      "msg": "Bad Rule set"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidCreator",
+      "msg": "Invalid creator"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidMarketAdmin",
+      "msg": "Invalid Market Admin"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidAdmin",
+      "msg": "Invalid admin"
+    }
+  ]
+}

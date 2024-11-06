@@ -1,0 +1,381 @@
+{
+  "version": "0.1.0",
+  "name": "gigarank",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateSetting",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "globalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "isActive",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "season",
+          "type": {
+            "option": "u8"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeUser",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "globalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addCounter",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "globalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "actionIdx",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateAction",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "actionIdx",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "resetCounter",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "globalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "counter",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "activeSeason",
+            "type": "u8"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "totalCounter",
+            "type": "u64"
+          },
+          {
+            "name": "reserved0",
+            "type": "u64"
+          },
+          {
+            "name": "reserved1",
+            "type": "u64"
+          },
+          {
+            "name": "reserved2",
+            "type": "u64"
+          },
+          {
+            "name": "reserved3",
+            "type": "u64"
+          },
+          {
+            "name": "reserved4",
+            "type": "u64"
+          },
+          {
+            "name": "reserved5",
+            "type": "u64"
+          },
+          {
+            "name": "reserved6",
+            "type": "u64"
+          },
+          {
+            "name": "reserved7",
+            "type": "u64"
+          },
+          {
+            "name": "actionCounters",
+            "type": {
+              "array": [
+                "u64",
+                20
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "counter",
+            "type": "u64"
+          },
+          {
+            "name": "season",
+            "type": "u8"
+          },
+          {
+            "name": "reserved0",
+            "type": "u64"
+          },
+          {
+            "name": "reserved1",
+            "type": "u64"
+          },
+          {
+            "name": "reserved2",
+            "type": "u64"
+          },
+          {
+            "name": "reserved3",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "GigaAction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "LimitBuy"
+          },
+          {
+            "name": "LimitSell"
+          },
+          {
+            "name": "MarketBuy"
+          },
+          {
+            "name": "MarketSell"
+          },
+          {
+            "name": "CancelBuy"
+          },
+          {
+            "name": "CancelSell"
+          },
+          {
+            "name": "ClaimBalance"
+          },
+          {
+            "name": "Fractionalize"
+          },
+          {
+            "name": "RedeemNft"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAccount",
+      "msg": "Invalid account"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidCounterAmount",
+      "msg": "Invalid counter amount"
+    },
+    {
+      "code": 6002,
+      "name": "NotActivated",
+      "msg": "Not activated"
+    },
+    {
+      "code": 6003,
+      "name": "NumericalOverflow",
+      "msg": "NumericalOverflow"
+    }
+  ]
+}

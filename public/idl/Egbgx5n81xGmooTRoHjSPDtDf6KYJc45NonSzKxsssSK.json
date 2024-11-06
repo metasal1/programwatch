@@ -1,0 +1,794 @@
+{
+  "address": "Egbgx5n81xGmooTRoHjSPDtDf6KYJc45NonSzKxsssSK",
+  "metadata": {
+    "name": "crosschain_wormhole_gateway",
+    "version": "1.0.0",
+    "spec": "0.1.0",
+    "description": "Catamto Wormhole Crosschain Gateway"
+  },
+  "instructions": [
+    {
+      "name": "consume",
+      "discriminator": [
+        65,
+        178,
+        141,
+        13,
+        95,
+        57,
+        76,
+        154
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "recipient_ata",
+          "writable": true
+        },
+        {
+          "name": "configuration"
+        },
+        {
+          "name": "wormhole_program"
+        },
+        {
+          "name": "wormhole_posted_message",
+          "docs": [
+            "Verified Wormhole message account. The Wormhole program verified",
+            "signatures and posted the account data here."
+          ]
+        },
+        {
+          "name": "foreign_emitter",
+          "docs": [
+            "Foreign emitter account. The posted message's `emitter_address` must",
+            "agree with the one we have registered for this message's `emitter_chain`",
+            "(chain ID)."
+          ]
+        },
+        {
+          "name": "wormhole_received_message",
+          "docs": [
+            "This account cannot be overwritten, and will prevent Wormhole message",
+            "replay with the same sequence."
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "vaa_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "discriminator": [
+        242,
+        35,
+        198,
+        137,
+        82,
+        225,
+        242,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "sender_ata",
+          "writable": true
+        },
+        {
+          "name": "configuration"
+        },
+        {
+          "name": "operator",
+          "writable": true
+        },
+        {
+          "name": "wormhole_program"
+        },
+        {
+          "name": "wormhole_bridge",
+          "writable": true
+        },
+        {
+          "name": "wormhole_fee_collector",
+          "writable": true
+        },
+        {
+          "name": "wormhole_emitter"
+        },
+        {
+          "name": "wormhole_sequence",
+          "writable": true
+        },
+        {
+          "name": "wormhole_message",
+          "docs": [
+            "account, which requires this program's signature."
+          ],
+          "writable": true
+        },
+        {
+          "name": "rent"
+        },
+        {
+          "name": "clock"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "chain",
+          "type": "u32"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "address",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "deregister_foreign_emitter",
+      "discriminator": [
+        156,
+        118,
+        180,
+        16,
+        198,
+        22,
+        170,
+        123
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "configuration"
+        },
+        {
+          "name": "foreign_emitter",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "chain",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "handshake",
+      "discriminator": [
+        175,
+        1,
+        29,
+        246,
+        246,
+        114,
+        144,
+        24
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "configuration",
+          "writable": true
+        },
+        {
+          "name": "wormhole_program"
+        },
+        {
+          "name": "wormhole_bridge",
+          "writable": true
+        },
+        {
+          "name": "wormhole_fee_collector",
+          "writable": true
+        },
+        {
+          "name": "wormhole_emitter",
+          "writable": true
+        },
+        {
+          "name": "wormhole_sequence",
+          "docs": [
+            "message is posted, so it needs to be an [UncheckedAccount]"
+          ],
+          "writable": true
+        },
+        {
+          "name": "wormhole_message",
+          "docs": [
+            "account, which requires this program's signature."
+          ],
+          "writable": true
+        },
+        {
+          "name": "rent"
+        },
+        {
+          "name": "clock"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "configuration",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "operator",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "register_foreign_emitter",
+      "discriminator": [
+        153,
+        72,
+        53,
+        142,
+        173,
+        69,
+        85,
+        174
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "configuration"
+        },
+        {
+          "name": "foreign_emitter",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "chain",
+          "type": "u16"
+        },
+        {
+          "name": "address",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_authority",
+      "discriminator": [
+        133,
+        250,
+        37,
+        21,
+        110,
+        163,
+        26,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "configuration",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "set_operator",
+      "discriminator": [
+        238,
+        153,
+        101,
+        169,
+        243,
+        131,
+        36,
+        1
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "configuration",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "operator",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "discriminator": [
+        183,
+        18,
+        70,
+        156,
+        148,
+        109,
+        161,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault",
+          "writable": true
+        },
+        {
+          "name": "recipient_ata",
+          "writable": true
+        },
+        {
+          "name": "configuration"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BridgeData",
+      "discriminator": [
+        44,
+        150,
+        210,
+        208,
+        130,
+        71,
+        35,
+        174
+      ]
+    },
+    {
+      "name": "Configuration",
+      "discriminator": [
+        192,
+        79,
+        172,
+        30,
+        21,
+        173,
+        25,
+        43
+      ]
+    },
+    {
+      "name": "Emitter",
+      "discriminator": [
+        4,
+        60,
+        118,
+        104,
+        34,
+        153,
+        156,
+        218
+      ]
+    },
+    {
+      "name": "ForeignEmitter",
+      "discriminator": [
+        209,
+        139,
+        241,
+        247,
+        96,
+        178,
+        159,
+        2
+      ]
+    },
+    {
+      "name": "ReceivedMessage",
+      "discriminator": [
+        8,
+        20,
+        37,
+        21,
+        175,
+        34,
+        29,
+        238
+      ]
+    },
+    {
+      "name": "SequenceTracker",
+      "discriminator": [
+        99,
+        2,
+        76,
+        112,
+        17,
+        90,
+        152,
+        113
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized account"
+    },
+    {
+      "code": 6001,
+      "name": "UnacceptableReference",
+      "msg": "Given reference is unsupported"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidMessage",
+      "msg": "Given message is invalid"
+    }
+  ],
+  "types": [
+    {
+      "name": "BridgeConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "guardian_set_expiration_time",
+            "docs": [
+              "Period for how long a guardian set is valid after it has been replaced by a new one.  This",
+              "guarantees that VAAs issued by that set can still be submitted for a certain period.  In",
+              "this period we still trust the old guardian set."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "fee",
+            "docs": [
+              "Amount of lamports that needs to be paid to the protocol to post a message"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BridgeData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "guardian_set_index",
+            "docs": [
+              "The current guardian set index, used to decide which signature sets to accept."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "last_lamports",
+            "docs": [
+              "Lamports in the collection account"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "config",
+            "docs": [
+              "Bridge configuration, which is set once upon initialization."
+            ],
+            "type": {
+              "defined": {
+                "name": "BridgeConfig"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Configuration",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "wormhole",
+            "type": {
+              "defined": {
+                "name": "Wormhole"
+              }
+            }
+          },
+          {
+            "name": "operator",
+            "type": {
+              "defined": {
+                "name": "Operator"
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "vault_bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Emitter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ForeignEmitter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "chain",
+            "type": "u16"
+          },
+          {
+            "name": "address",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Operator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReceivedMessage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wormhole_message_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SequenceTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sequence",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Wormhole",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bridge",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_collector",
+            "type": "pubkey"
+          },
+          {
+            "name": "sequence",
+            "type": "pubkey"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "SEED",
+      "type": "string",
+      "value": "\"anchor\""
+    }
+  ]
+}

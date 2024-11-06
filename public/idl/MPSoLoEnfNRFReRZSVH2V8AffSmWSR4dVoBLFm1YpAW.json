@@ -1,0 +1,2556 @@
+{
+  "address": "MPSoLoEnfNRFReRZSVH2V8AffSmWSR4dVoBLFm1YpAW",
+  "metadata": {
+    "name": "mp_sol_restaking",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "mpSOL restaking yield agregator - The best yield aggregator on Solana. Built for smart stakers who like money"
+  },
+  "instructions": [
+    {
+      "name": "attach_common_strategy_state",
+      "discriminator": [
+        56,
+        218,
+        73,
+        216,
+        2,
+        231,
+        166,
+        141
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "main_state"
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "vault_state"
+          ]
+        },
+        {
+          "name": "vault_state",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "common_strategy_state"
+        },
+        {
+          "name": "vault_strategy_relation_entry",
+          "docs": [
+            "account to be created"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  45,
+                  115,
+                  116,
+                  114,
+                  97,
+                  116,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "strategy_program_code"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configure_main_vault",
+      "discriminator": [
+        202,
+        251,
+        130,
+        150,
+        135,
+        244,
+        102,
+        232
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "main_state",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "values",
+          "type": {
+            "defined": {
+              "name": "ConfigureMainVaultValues"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "configure_secondary_vault",
+      "discriminator": [
+        52,
+        205,
+        12,
+        124,
+        11,
+        50,
+        216,
+        218
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "main_state"
+        },
+        {
+          "name": "lst_mint"
+        },
+        {
+          "name": "secondary_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "values",
+          "type": {
+            "defined": {
+              "name": "ConfigureSecondaryVaultValues"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_secondary_vault",
+      "discriminator": [
+        102,
+        18,
+        167,
+        145,
+        4,
+        214,
+        35,
+        246
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "main_state",
+          "writable": true
+        },
+        {
+          "name": "lst_mint"
+        },
+        {
+          "name": "vault_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vaults_ata_pda_auth",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  115,
+                  45,
+                  97,
+                  116,
+                  97,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_lst_account"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "get_lst_from_strat",
+      "discriminator": [
+        191,
+        211,
+        245,
+        177,
+        226,
+        248,
+        84,
+        185
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "vault_state",
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "vault_state",
+          "docs": [
+            "secondary-vault state"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vaults_ata_pda_auth",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  115,
+                  45,
+                  97,
+                  116,
+                  97,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_lst_account",
+          "writable": true
+        },
+        {
+          "name": "vault_strategy_relation_entry",
+          "docs": [
+            "vault->strat relation entry",
+            "if this account exists, the common_strategy_state was correctly attached to the system"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  45,
+                  115,
+                  116,
+                  114,
+                  97,
+                  116,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "common_strategy_state",
+          "docs": [
+            "must be the one mentioned in vault_strategy_relation_entry"
+          ],
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "vault_strat_withdraw_auth",
+          "docs": [
+            "for temp-ATA to move lst from strat back to the vault"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  115,
+                  116,
+                  95,
+                  119,
+                  105,
+                  116,
+                  104,
+                  100,
+                  114,
+                  97,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lst_withdraw_account",
+          "docs": [
+            "temp-ATA to move lst from strat back to the vault"
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_metadata",
+      "discriminator": [
+        226,
+        15,
+        9,
+        225,
+        77,
+        52,
+        247,
+        27
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "main_state"
+        },
+        {
+          "name": "mpsol_mint_pda_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  105,
+                  110,
+                  45,
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mpsol_mint",
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "metadata",
+          "docs": [
+            "note: metaplex uses a different way to compute PDAs than anchor",
+            "this should be PDA(\"metadata\",token_metadata_program,mint) program:token_metadata_program",
+            "yes, token_metadata_program is repeated in the PDA generation"
+          ],
+          "writable": true
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_metadata_program",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "main_state",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mpsol_mint_pda_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  105,
+                  110,
+                  45,
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mpsol_token_mint",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "operator_auth",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "remove_freeze_auth",
+      "discriminator": [
+        141,
+        21,
+        189,
+        59,
+        188,
+        23,
+        164,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "main_state"
+        },
+        {
+          "name": "mpsol_mint",
+          "writable": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "mpsol_mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  105,
+                  110,
+                  45,
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "set_next_withdraw_amount",
+      "discriminator": [
+        254,
+        168,
+        30,
+        56,
+        79,
+        179,
+        36,
+        120
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "operator_auth",
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "vault_strategy_relation_entry",
+          "docs": [
+            "vault->strat relation entry",
+            "if this account exists, the common_strategy_state was correctly attached to the system"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  45,
+                  115,
+                  116,
+                  114,
+                  97,
+                  116,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "common_strategy_state",
+          "docs": [
+            "must be the one mentioned in vault_strategy_relation_entry"
+          ],
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "vault_strat_withdraw_auth",
+          "docs": [
+            "for temp-ATA to move lst from strat back to the vault"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  115,
+                  116,
+                  95,
+                  119,
+                  105,
+                  116,
+                  104,
+                  100,
+                  114,
+                  97,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lst_withdraw_account",
+          "docs": [
+            "temp-ATA to move lst from strat back to the vault"
+          ],
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "lst_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "discriminator": [
+        206,
+        176,
+        202,
+        18,
+        200,
+        209,
+        179,
+        108
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "writable": true
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "vault_state"
+          ]
+        },
+        {
+          "name": "vault_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vaults_ata_pda_auth",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  115,
+                  45,
+                  97,
+                  116,
+                  97,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_lst_account",
+          "writable": true
+        },
+        {
+          "name": "depositor",
+          "signer": true
+        },
+        {
+          "name": "depositor_lst_account",
+          "writable": true
+        },
+        {
+          "name": "mpsol_mint",
+          "writable": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "mpsol_mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  105,
+                  110,
+                  45,
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "depositor_mpsol_account",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "lst_amount",
+          "type": "u64"
+        },
+        {
+          "name": "ref_code",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "ticket_claim",
+      "discriminator": [
+        66,
+        60,
+        0,
+        233,
+        251,
+        163,
+        110,
+        122
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "writable": true,
+          "relations": [
+            "ticket_account"
+          ]
+        },
+        {
+          "name": "beneficiary",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "ticket_account"
+          ]
+        },
+        {
+          "name": "ticket_account",
+          "writable": true
+        },
+        {
+          "name": "lst_mint"
+        },
+        {
+          "name": "beneficiary_lst_account",
+          "writable": true
+        },
+        {
+          "name": "vault_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vaults_ata_pda_auth",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  115,
+                  45,
+                  97,
+                  116,
+                  97,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_lst_account",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "withdraw_sol_value_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transfer_lst_to_strat",
+      "discriminator": [
+        228,
+        115,
+        228,
+        204,
+        23,
+        23,
+        250,
+        240
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "operator_auth",
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "vault_state",
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "vault_state",
+          "docs": [
+            "secondary-vault state"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vaults_ata_pda_auth",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  115,
+                  45,
+                  97,
+                  116,
+                  97,
+                  45,
+                  97,
+                  117,
+                  116,
+                  104
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_lst_account",
+          "writable": true
+        },
+        {
+          "name": "vault_strategy_relation_entry",
+          "docs": [
+            "vault->strat relation entry",
+            "if this account exists, the common_strategy_state was correctly attached to the system"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  45,
+                  115,
+                  116,
+                  114,
+                  97,
+                  116,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "strategy_program_code"
+        },
+        {
+          "name": "common_strategy_state",
+          "docs": [
+            "must be the one mentioned in vault_strategy_relation_entry"
+          ],
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "strategy_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "strategy_program_code"
+            }
+          }
+        },
+        {
+          "name": "strategy_deposit_account",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "lst_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "discriminator": [
+        90,
+        95,
+        107,
+        42,
+        205,
+        124,
+        50,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "writable": true
+        },
+        {
+          "name": "unstaker",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "unstaker_mpsol_account",
+          "writable": true
+        },
+        {
+          "name": "mpsol_mint",
+          "writable": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "new_ticket_account",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "mpsol_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "update_attached_strat_lst_amount",
+      "discriminator": [
+        190,
+        250,
+        156,
+        206,
+        33,
+        235,
+        97,
+        183
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "writable": true
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "vault_state"
+          ]
+        },
+        {
+          "name": "vault_state",
+          "docs": [
+            "secondary-vault state"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_strategy_relation_entry",
+          "docs": [
+            "vault->strat relation entry",
+            "if this account exists, the common_strategy_state was correctly attached to the system"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  45,
+                  115,
+                  116,
+                  114,
+                  97,
+                  116,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "common_strategy_state",
+          "docs": [
+            "must be the one mentioned in vault_strategy_relation_entry"
+          ],
+          "relations": [
+            "vault_strategy_relation_entry"
+          ]
+        },
+        {
+          "name": "strategy_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "strategy_deposit_account"
+        },
+        {
+          "name": "vault_strat_withdraw_auth",
+          "docs": [
+            "for temp-ATA to move lst from strat back to the vault"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  115,
+                  116,
+                  95,
+                  119,
+                  105,
+                  116,
+                  104,
+                  100,
+                  114,
+                  97,
+                  119,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "common_strategy_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lst_withdraw_account",
+          "docs": [
+            "temp-ATA to move lst from strat back to the vault"
+          ]
+        },
+        {
+          "name": "mpsol_mint",
+          "writable": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "mpsol_mint_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  105,
+                  110,
+                  45,
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury_mpsol_account",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_vault_ticket_target",
+      "discriminator": [
+        109,
+        92,
+        224,
+        248,
+        208,
+        218,
+        227,
+        184
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "writable": true
+        },
+        {
+          "name": "operator_auth",
+          "signer": true,
+          "relations": [
+            "main_state"
+          ]
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "secondary_state"
+          ]
+        },
+        {
+          "name": "secondary_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "new_ticket_target_sol_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "update_vault_token_sol_price",
+      "discriminator": [
+        91,
+        186,
+        93,
+        21,
+        47,
+        235,
+        7,
+        236
+      ],
+      "accounts": [
+        {
+          "name": "main_state",
+          "writable": true
+        },
+        {
+          "name": "lst_mint",
+          "relations": [
+            "secondary_state"
+          ]
+        },
+        {
+          "name": "secondary_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "main_state"
+              },
+              {
+                "kind": "account",
+                "path": "lst_mint"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MainVaultState",
+      "discriminator": [
+        162,
+        12,
+        31,
+        25,
+        129,
+        194,
+        124,
+        40
+      ]
+    },
+    {
+      "name": "SecondaryVaultState",
+      "discriminator": [
+        214,
+        177,
+        254,
+        97,
+        196,
+        222,
+        191,
+        199
+      ]
+    },
+    {
+      "name": "UnstakeTicket",
+      "discriminator": [
+        131,
+        84,
+        209,
+        38,
+        145,
+        157,
+        181,
+        127
+      ]
+    },
+    {
+      "name": "VaultStrategyRelationEntry",
+      "discriminator": [
+        161,
+        40,
+        119,
+        237,
+        160,
+        148,
+        124,
+        128
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "GetLstFromStratEvent",
+      "discriminator": [
+        67,
+        229,
+        235,
+        188,
+        45,
+        96,
+        236,
+        153
+      ]
+    },
+    {
+      "name": "StakeEvent",
+      "discriminator": [
+        226,
+        134,
+        188,
+        173,
+        19,
+        33,
+        75,
+        175
+      ]
+    },
+    {
+      "name": "TicketClaimEvent",
+      "discriminator": [
+        112,
+        108,
+        233,
+        231,
+        134,
+        45,
+        234,
+        213
+      ]
+    },
+    {
+      "name": "TransferLstToStratEvent",
+      "discriminator": [
+        117,
+        1,
+        135,
+        50,
+        219,
+        136,
+        11,
+        193
+      ]
+    },
+    {
+      "name": "UnstakeEvent",
+      "discriminator": [
+        162,
+        104,
+        137,
+        228,
+        81,
+        3,
+        79,
+        197
+      ]
+    },
+    {
+      "name": "UpdateAttachedStratLstAmountEvent",
+      "discriminator": [
+        150,
+        70,
+        44,
+        239,
+        41,
+        28,
+        206,
+        221
+      ]
+    },
+    {
+      "name": "UpdateVaultTokenSolPriceEvent",
+      "discriminator": [
+        22,
+        97,
+        179,
+        80,
+        95,
+        161,
+        200,
+        159
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidVaultIndex",
+      "msg": "Invalid vault index "
+    },
+    {
+      "code": 6001,
+      "name": "TokenSolPriceIsStale",
+      "msg": "token_sol_price is stale"
+    },
+    {
+      "code": 6002,
+      "name": "DepositAmountToSmall",
+      "msg": "Deposit amount too small"
+    },
+    {
+      "code": 6003,
+      "name": "WithdrawAmountTooSmall",
+      "msg": "Withdraw amount too small"
+    },
+    {
+      "code": 6004,
+      "name": "NotEnoughTokensInTheVault",
+      "msg": "not enough tokens in the vault"
+    },
+    {
+      "code": 6005,
+      "name": "VaultIndexHasDifferentVault",
+      "msg": "vault at index is not the vault sent in the instruction"
+    },
+    {
+      "code": 6006,
+      "name": "MaxWhitelistedVaultsReached",
+      "msg": "max whitelisted vaults reached"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidAddingVaultState",
+      "msg": "invalid adding vault state"
+    },
+    {
+      "code": 6008,
+      "name": "DepositExceedsVaultCap",
+      "msg": "Deposit exceeds vault cap"
+    },
+    {
+      "code": 6009,
+      "name": "IncorrectMarinadeStateAddress",
+      "msg": "Incorrect Marinade State Address"
+    },
+    {
+      "code": 6010,
+      "name": "AccountTypeIsNotStakePool",
+      "msg": "Spl Stake Pool State field AccountType != AccountTypeStakePool"
+    },
+    {
+      "code": 6011,
+      "name": "SplStakePoolStateAccountOwnerIsNotTheSplStakePoolProgram",
+      "msg": "Spl Stake Pool State account owner is not the Spl-Stake-Pool Program"
+    },
+    {
+      "code": 6012,
+      "name": "DepositsInThisVaultAreDisabled",
+      "msg": "Deposits in this vault are disabled"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidStoredLstPrice",
+      "msg": "Invalid Stored Lst Price"
+    },
+    {
+      "code": 6014,
+      "name": "UnstakeAmountTooSmall",
+      "msg": "Unstake amount too small"
+    },
+    {
+      "code": 6015,
+      "name": "NotEnoughSolValueInTicket",
+      "msg": "Not enough SOL value in ticket "
+    },
+    {
+      "code": 6016,
+      "name": "WithdrawAmountToSmall",
+      "msg": "Withdraw amount too small"
+    },
+    {
+      "code": 6017,
+      "name": "TicketIsNotDueYet",
+      "msg": "Ticket is not due yet"
+    },
+    {
+      "code": 6018,
+      "name": "NotEnoughLstInVault",
+      "msg": "Not Enough Lst in Vault"
+    },
+    {
+      "code": 6019,
+      "name": "MissingLstStateInRemainingAccounts",
+      "msg": "Missing Lst State in Remaining Accounts"
+    },
+    {
+      "code": 6020,
+      "name": "CantLeaveDustInTicket",
+      "msg": "Can't Leave Dust In Ticket, either remove all or leave a significant amount"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidTreasuryMpsolAccount",
+      "msg": "Invalid Treasury Mpsol Account"
+    },
+    {
+      "code": 6022,
+      "name": "PerformanceFeeTooHigh",
+      "msg": "Performance Fee Too High"
+    },
+    {
+      "code": 6023,
+      "name": "ErrDeserializingCommonStrategyState",
+      "msg": "Err deserializing common strategy state"
+    },
+    {
+      "code": 6024,
+      "name": "NewStrategyLstAmountShouldBeZero",
+      "msg": "new strategy lst amount should be 0"
+    },
+    {
+      "code": 6025,
+      "name": "AmountIsZero",
+      "msg": "amount is 0"
+    },
+    {
+      "code": 6026,
+      "name": "ExistingAmountIsZero",
+      "msg": "existing amount is 0"
+    },
+    {
+      "code": 6027,
+      "name": "MustWithdrawAllPendingLst",
+      "msg": "Must withdraw all pending lst"
+    },
+    {
+      "code": 6028,
+      "name": "WithdrawFeeTooHigh",
+      "msg": "Withdraw Fee Too High"
+    }
+  ],
+  "types": [
+    {
+      "name": "ConfigureMainVaultValues",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "unstake_ticket_waiting_hours",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "withdraw_fee_bp",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "performance_fee_bp",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "treasury_mpsol_account",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "new_admin_pubkey",
+            "type": {
+              "option": "pubkey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigureSecondaryVaultValues",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "deposits_disabled",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "token_deposit_cap",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GetLstFromStratEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault_strategy_relation_entry",
+            "type": "pubkey"
+          },
+          {
+            "name": "desired_amount",
+            "type": "u64"
+          },
+          {
+            "name": "existent_amount",
+            "type": "u64"
+          },
+          {
+            "name": "lst_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MainVaultState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "operator_auth",
+            "docs": [
+              "authority to set parameters, token_deposit_caps & whitelisted_strategies, normally a DAO-authorized bot acting on votes"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "withdraw_fee_bp",
+            "docs": [
+              "authority to move tokens in or out strategies, normally a DAO-authorized bot acting on votes"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "_reserved_space",
+            "docs": [
+              "reserved space for extensions"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                30
+              ]
+            }
+          },
+          {
+            "name": "mpsol_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury_mpsol_account",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "performance_fee_bp",
+            "type": "u16"
+          },
+          {
+            "name": "backing_sol_value",
+            "docs": [
+              "SOL-value backing the mpsol.supply",
+              "\"SOL-value\" is the estimation of the SOL backing all the LSTs stored in the vaults",
+              "A \"SOL-value\" of 100 SOL can be represented by some LST-amount, as long as `LST-amount * LST/SOL-price = SOL-value`",
+              "meaning if you have a SOL-value ticket of 100, you could withdraw 98.2 mSOL from the assets, or 92.1 JitoSOL, etc.",
+              "mpSOL_price = backing_sol_value/mpSOL.supply",
+              "When tokens are staked, backing_sol_value is incremented and mpSOL is minted: staking does not change mpSOL price.",
+              "When rewards are computed in the vaults, backing_sol_value is increased, increasing mpSOL/SOL price",
+              "invariant: sum(secondary_vault.vault_total_sol_value) = backing_sol_value + outstanding_tickets_sol_value"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "outstanding_tickets_sol_value",
+            "docs": [
+              "represents the sum of unstake-tickets created and not claimed yet",
+              "When an unstaking is requested, the mpSOL is burned and the SOL-value is moved to \"outstanding_tickets_sol_value\"",
+              "When a ticket is due and claimed (total or partially), the SOL-value is sent from a vault to the user",
+              "and then `outstanding_tickets_sol_value is` reduced",
+              "invariant: sum(secondary_vault.vault_total_sol_value) = backing_sol_value + outstanding_tickets_sol_value"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "unstake_ticket_waiting_hours",
+            "docs": [
+              "normally 48: number of hours for a ticket to be due"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SecondaryVaultState",
+      "docs": [
+        "vault-state address is PDA(main_state, token_mint)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lst_mint",
+            "docs": [
+              "the LST type stored in this vault"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_sol_price_p32",
+            "docs": [
+              "LST-token/SOL price with 32-bit precision, cache of last computation of LST-token/SOL price,",
+              "it is computed as `token_sol_price_p32 = LST-backing-lamports * 2^32 / LST-mint-supply`",
+              "it is used to compute vault.sol_value.",
+              "To obtain a human-readable price do: human_readable_price = token_sol_price_p32 / 2^32",
+              "invariant: token_sol_price_p32 >= 2^32, because the min value for 1 LST is 1 SOL"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "lst_sol_price_timestamp",
+            "docs": [
+              "last computation of token_sol_price, price is obtained ON-CHAIN, read from the LST token program state"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "vault_total_lst_amount",
+            "docs": [
+              "total lst amount backing this vault_total_sol_value",
+              "To compute SOL value of the entire vault use: vault_total_lst_amount * lst_token_sol_price",
+              "invariant: vault_total_token_amount = in_strategies_amount + locally_stored_amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "locally_stored_amount",
+            "docs": [
+              "token amount here (not in strategies)",
+              "invariant: vault_total_lst_amount = in_strategies_amount + locally_stored_amount",
+              "must eventually match vault_lst_ata (PDA ATA token account)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "in_strategies_amount",
+            "docs": [
+              "token amount sent to strategies (belongs to this vault, part of assets, but not in vault_token_account)",
+              "invariant: vault_total_lst_amount = in_strategies_amount + locally_stored_amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tickets_target_sol_amount",
+            "docs": [
+              "\"tickets_target_sol_amount\" is set by the ticket-fulfiller crank, so this vault removes tokens from strategies",
+              "increasing \"locally_stored_amount\" until it covers \"tickets_target_sol_amount\"",
+              "in order to compute how much tokens are free to send to strategies, you must use fn `available_for_strategies_amount()`",
+              "that subtracts this value from locally_stored_amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "deposits_disabled",
+            "docs": [
+              "if true: only-withdraw mode"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "token_deposit_cap",
+            "docs": [
+              "0 means no cap - measured in vault accepted tokens"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "depositor",
+            "type": "pubkey"
+          },
+          {
+            "name": "ref_code",
+            "type": "u32"
+          },
+          {
+            "name": "lst_amount",
+            "type": "u64"
+          },
+          {
+            "name": "deposited_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "depositor_lst_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "depositor_mpsol_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "mpsol_received",
+            "type": "u64"
+          },
+          {
+            "name": "main_vault_backing_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "mpsol_supply",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TicketClaimEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "ticket_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "beneficiary",
+            "type": "pubkey"
+          },
+          {
+            "name": "claimed_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "ticket_sol_value_remaining",
+            "type": "u64"
+          },
+          {
+            "name": "lst_amount_delivered",
+            "type": "u64"
+          },
+          {
+            "name": "ticket_due_timestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransferLstToStratEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault_strategy_relation_entry",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnstakeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "unstaker",
+            "type": "pubkey"
+          },
+          {
+            "name": "mpsol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "unstaker_mpsol_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "mpsol_burned",
+            "type": "u64"
+          },
+          {
+            "name": "ticket_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "ticket_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "ticket_due_timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "main_vault_backing_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "mpsol_supply",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnstakeTicket",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "beneficiary",
+            "docs": [
+              "auth that can withdraw the LSTs when due"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "ticket_sol_value",
+            "docs": [
+              "amount (lamports) this ticket is worth (set at unstake) -- can be updated on partial ticket withdraws"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ticket_due_timestamp",
+            "docs": [
+              "when this ticket is due (unix timestamp)"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateAttachedStratLstAmountEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "vault_strategy_relation_entry",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_lst_amount",
+            "type": "u64"
+          },
+          {
+            "name": "new_lst_amount",
+            "type": "u64"
+          },
+          {
+            "name": "lst_price_p32",
+            "type": "u64"
+          },
+          {
+            "name": "main_vault_backing_sol_value",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateVaultTokenSolPriceEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_amount",
+            "type": "u64"
+          },
+          {
+            "name": "old_price_p32",
+            "type": "u64"
+          },
+          {
+            "name": "old_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "new_price_p32",
+            "type": "u64"
+          },
+          {
+            "name": "new_sol_value",
+            "type": "u64"
+          },
+          {
+            "name": "main_vault_backing_sol_value",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultStrategyRelationEntry",
+      "docs": [
+        "state created when a CommonVaultStrategyState is attached to a secondary-vault",
+        "main_state + lst_mint + common_strategy_state => VaultStrategyRelationEntry PDA"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main_state",
+            "type": "pubkey"
+          },
+          {
+            "name": "lst_mint",
+            "docs": [
+              "main_state + lst_mint => secondary-vault PDA"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "common_strategy_state",
+            "docs": [
+              "Several common_strategy_state accounts can exist for a single strategy_program_code",
+              "Each common_strategy_state account has a common first part struct `CommonVaultStrategyState`",
+              "and it references A SPECIFIC LST mint & vault. Yields are computed in that lst.",
+              "PDAs:",
+              "this-program + main_state + lst_mint + common_strategy_state => VaultStrategyRelationEntry PDA",
+              "strategy_program_code + common_strategy_state + \"AUTH\" => strategy-Auth-PDA",
+              "associated-token-program + lst_mint + strategy-Auth-PDA => strategy-lst-ATA holding CommonVaultStrategyState.locally_stored_amount"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "strategy_program_code",
+            "docs": [
+              "strategy program code, owner of common_strategy_state"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "next_withdraw_lst_amount",
+            "docs": [
+              "target amount for the next withdraw",
+              "the strat should wind-down positions so this amount can be withdrawn",
+              "once withdrawn (call to strat-program) and in the same tx, set this value to zero"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tickets_target_sol_amount",
+            "docs": [
+              "\"tickets_target_sol_amount\" is set by the ticket-fulfiller crank, so the strat removes tokens from external-programs",
+              "increasing \"locally_stored_amount\" until it covers \"tickets_target_sol_amount\"",
+              "in order to compute how much tokens are free to send to external-programs, do: locally_stored_amount - lst_value(tickets_target_sol_amount)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "last_read_strat_lst_amount",
+            "docs": [
+              "last computation of lst-token amount in the strategy.",
+              "When the `common_strategy_state.strat_total_lst_amount` increases above `last_strat_lst_amount`, a profit is recorded",
+              "Incremented when depositing the LST token in the strategy",
+              "Reduced manually when removing LST tokens from the strategy",
+              "Incremented during strategy-amount-update, if the strategy generated yield in the form of more lst tokens"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "last_read_strat_lst_timestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "AUTHORITY_SEED",
+      "type": "bytes",
+      "value": "[97, 117, 116, 104, 111, 114, 105, 116, 121]"
+    },
+    {
+      "name": "MAIN_VAULT_MINT_AUTH_SEED",
+      "type": "bytes",
+      "value": "[109, 97, 105, 110, 45, 109, 105, 110, 116]"
+    },
+    {
+      "name": "MAX_PERFORMANCE_FEE_BP",
+      "type": "u16",
+      "value": "2500"
+    },
+    {
+      "name": "MAX_WHITELISTED_VAULTS",
+      "type": "u8",
+      "value": "64"
+    },
+    {
+      "name": "MAX_WHITELISTED_VAULT_STRATEGIES",
+      "type": "u8",
+      "value": "64"
+    },
+    {
+      "name": "MAX_WITHDRAW_FEE_BP",
+      "type": "u16",
+      "value": "100"
+    },
+    {
+      "name": "MIN_MOVEMENT_LAMPORTS",
+      "type": "u64",
+      "value": "1000000"
+    },
+    {
+      "name": "VAULTS_ATA_AUTH_SEED",
+      "type": "bytes",
+      "value": "[118, 97, 117, 108, 116, 115, 45, 97, 116, 97, 45, 97, 117, 116, 104]"
+    },
+    {
+      "name": "VAULT_STRAT_ENTRY_SEED",
+      "type": "bytes",
+      "value": "[118, 97, 117, 108, 116, 45, 115, 116, 114, 97, 116, 45, 101, 110, 116, 114, 121]"
+    },
+    {
+      "name": "VAULT_STRAT_WITHDRAW_ATA_AUTH_SEED",
+      "type": "bytes",
+      "value": "[108, 115, 116, 95, 119, 105, 116, 104, 100, 114, 97, 119, 95, 97, 117, 116, 104, 111, 114, 105, 116, 121]"
+    }
+  ]
+}

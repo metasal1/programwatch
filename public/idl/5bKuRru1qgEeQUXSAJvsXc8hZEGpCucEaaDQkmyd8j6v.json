@@ -1,0 +1,415 @@
+{
+  "version": "0.1.0",
+  "name": "switchboard_randomness_callback",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "programState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFunction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createUser",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "programState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboard",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardAttestationQueue",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFunction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequest",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "switchboardRequestEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "guess",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "switchboard",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardAttestationQueue",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFunction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequestEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "guess",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFunction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "enclaveSigner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "result",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrowDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboard",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardFunction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardRequestEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ProgramState",
+      "docs": [
+        "Represents the global state of the program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump seed."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Account authorized to make config changes."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "switchboardFunction",
+            "docs": [
+              "Switchboard Function pubkey."
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserState",
+      "docs": [
+        "Represents a users config.",
+        "PDA scheme enforces 1 user per authority."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump seed."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Account authorized to make config changes."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "switchboardRequest",
+            "docs": [
+              "Switchboard Function Request pubkey."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "guess",
+            "docs": [
+              "The current users guess."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "result",
+            "docs": [
+              "The Switchboard Function result."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "requestTimestamp",
+            "docs": [
+              "The timestamp when the current guess was placed."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "settledTimestamp",
+            "docs": [
+              "The timestamp when the request was settled."
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "UserGuessSettled",
+      "fields": [
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userWon",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "requestTimestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "settledTimestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority account"
+    },
+    {
+      "code": 6001,
+      "name": "RequestNotReady",
+      "msg": "Request not ready for a new guess"
+    },
+    {
+      "code": 6002,
+      "name": "RequestAlreadySettled",
+      "msg": "Request already settled"
+    },
+    {
+      "code": 6003,
+      "name": "RandomResultOutOfBounds",
+      "msg": "Random result is out-of-bounds"
+    }
+  ]
+}

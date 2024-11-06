@@ -1,0 +1,845 @@
+{
+  "version": "0.1.0",
+  "name": "vote_market",
+  "instructions": [
+    {
+      "name": "createConfig",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "allowedMints",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mints",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "claimFee",
+          "type": "u16"
+        },
+        {
+          "name": "scriptAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateAdmin",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateClaimFee",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "claimFee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "updateScriptAuthority",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "scriptAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateAllowedMints",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "allowedMints",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "allowedMints",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "increaseVoteBuy",
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "buyerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteBuy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "allowedMints",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch",
+          "type": "u32"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimVotePaymentSol",
+      "accounts": [
+        {
+          "name": "scriptAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK Checked by seed constraints"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK Not enough stack space to deserialize. Only used to check treasury seeds."
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteBuy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tempAtaSigner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK Will create and destroy ATA for this PDA signer in the instruction body."
+          ]
+        },
+        {
+          "name": "tempAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voteDelegate",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVote",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGaugeVoter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGaugeVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lockedVoterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "claimVotePayment",
+      "accounts": [
+        {
+          "name": "scriptAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sellerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK Checked by seed constraints"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK Not enough stack space to deserialize. Only used to check treasury seeds."
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteBuy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voteDelegate",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVote",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGaugeVoter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGaugeVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lockedVoterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "vote",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "scriptAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteDelegate",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "weight",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "commitVote",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "scriptAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVote",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "epochGauge",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "epochGaugeVoter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "epochGaugeVote",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK This will be initialized through a CPI"
+          ]
+        },
+        {
+          "name": "voteDelegate",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "setMaxAmount",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteBuy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "scriptAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch",
+          "type": "u32"
+        },
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "voteBuyRefund",
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "buyerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voteBuy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch",
+          "type": "u32"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VoteBuy",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gauge",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "The mint of the token used to buy votes. This must be included in",
+              "[AllowedMints::mints] for the gauge."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "maxAmount",
+            "docs": [
+              "This amount or the amount field, whichever is less, will be distributed"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "buyer",
+            "docs": [
+              "Anyone can create a vault for buying tokens. This is the creator",
+              "of the vault who is will be entitled to any incentives and is",
+              "allowed to add additional funds."
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteMarketConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "scriptAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "gaugemeister",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "claimFee",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AllowedMints",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mints",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CompletedEpoch",
+      "msg": "Cannot modify completed epochs"
+    },
+    {
+      "code": 6001,
+      "name": "EpochVotingNotCompleted",
+      "msg": "Epoch voting not completed"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidAllocatedVoteAmount",
+      "msg": "Allocated vote amount is greater than total vote amount"
+    },
+    {
+      "code": 6003,
+      "name": "EpochOverflow",
+      "msg": "Epoch overflow"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidMint",
+      "msg": "Invalid vote payment mint"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidBuyer",
+      "msg": "The initial buyer is the only reward receiver for this epoch"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidVotePower",
+      "msg": "Unable to calcualate vote power"
+    },
+    {
+      "code": 6007,
+      "name": "MaxVoteBuyAmountNotSet",
+      "msg": "Max vote buy amount not set"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidFee",
+      "msg": "Max fee is 10000"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidRefund",
+      "msg": "Nothing to refund"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidVoteBuyAmount",
+      "msg": "Invalid vote buy amount"
+    }
+  ]
+}

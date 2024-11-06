@@ -1,0 +1,367 @@
+{
+  "version": "0.1.0",
+  "name": "dutch_auction",
+  "instructions": [
+    {
+      "name": "initializeAuctionAccount",
+      "accounts": [
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "createAuction",
+      "accounts": [
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "duration",
+          "type": "u64"
+        },
+        {
+          "name": "startPrice",
+          "type": "u64"
+        },
+        {
+          "name": "reservePrice",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "bid",
+      "accounts": [
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amtBidTokens",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "refund",
+      "accounts": [
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DutchAuction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bidMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "receiver",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "accountFlags",
+            "type": "u64"
+          },
+          {
+            "name": "startTs",
+            "type": "u64"
+          },
+          {
+            "name": "endTs",
+            "type": "u64"
+          },
+          {
+            "name": "startPrice",
+            "type": "u64"
+          },
+          {
+            "name": "reservePrice",
+            "type": "u64"
+          },
+          {
+            "name": "amtNft",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AccountFlag",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Initialized"
+          },
+          {
+            "name": "InProgress"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "AuctionBid",
+      "fields": [
+        {
+          "name": "bidder",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amtBidTokens",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "endTs",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AuctionAlreadyInitialized",
+      "msg": "DutchAuctionError::AuctionAlreadyInitialized"
+    },
+    {
+      "code": 6001,
+      "name": "AuctionNotInitialized",
+      "msg": "DutchAuctionError::AuctionNotInitialized"
+    },
+    {
+      "code": 6002,
+      "name": "AnotherAuctionIsInProgress",
+      "msg": "DutchAuctionError::AnotherAuctionIsInProgress"
+    },
+    {
+      "code": 6003,
+      "name": "NoActiveAuction",
+      "msg": "DutchAuctionError::NoActiveAuction"
+    },
+    {
+      "code": 6004,
+      "name": "AuctionExpired",
+      "msg": "DutchAuctionError::AuctionExpired"
+    },
+    {
+      "code": 6005,
+      "name": "BidSizeNotExact",
+      "msg": "DutchAuctionError::BidSizeNotExact"
+    },
+    {
+      "code": 6006,
+      "name": "BidPriceBelowAcceptedMinimum",
+      "msg": "DutchAuctionError::BidPriceBelowAcceptedMinimum"
+    },
+    {
+      "code": 6007,
+      "name": "InstructionValidationFailed",
+      "msg": "DutchAuctionError::InstructionValidationFailed"
+    },
+    {
+      "code": 6008,
+      "name": "AuctionIsInProgress",
+      "msg": "DutchAuctionError::AuctionIsInProgress"
+    },
+    {
+      "code": 6009,
+      "name": "Unauthorized",
+      "msg": "DutchAuctionError::Unauthorized"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidValue",
+      "msg": "DutchAuctionError::InvalidValue"
+    },
+    {
+      "code": 6011,
+      "name": "DurationMustBeGreaterThanZero",
+      "msg": "DutchAuctionError::DurationMustBeGreaterThanZero"
+    },
+    {
+      "code": 6012,
+      "name": "ReservePriceMustBeGreaterThanZero",
+      "msg": "DutchAuctionError::ReservePriceMustBeGreaterThanZero"
+    },
+    {
+      "code": 6013,
+      "name": "StartPriceMustBeGreaterThanReservePrice",
+      "msg": "DutchAuctionError::StartPriceMustBeGreaterThanReservePrice"
+    }
+  ]
+}

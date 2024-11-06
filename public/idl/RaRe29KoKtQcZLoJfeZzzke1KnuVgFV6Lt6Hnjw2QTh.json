@@ -1,0 +1,1091 @@
+{
+  "version": "1.0.0",
+  "name": "hyperplane",
+  "instructions": [
+    {
+      "name": "swap",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapCurve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenFeesVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to collect fees into"
+          ]
+        },
+        {
+          "name": "sourceUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's source token account"
+          ]
+        },
+        {
+          "name": "destinationUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's destination token account"
+          ]
+        },
+        {
+          "name": "sourceTokenHostFeesAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Optional pool token fees account for front ends - if not present, all fees are sent to the trading fees account"
+          ]
+        },
+        {
+          "name": "sourceTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the source mint"
+          ]
+        },
+        {
+          "name": "destinationTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the destination mint"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amountIn",
+          "type": "u64"
+        },
+        {
+          "name": "minimumAmountOut",
+          "type": "u64"
+        }
+      ],
+      "returns": {
+        "defined": "event::Swap"
+      }
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapCurve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's token A token account"
+          ]
+        },
+        {
+          "name": "tokenBUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's token B token account"
+          ]
+        },
+        {
+          "name": "poolTokenUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's pool token account"
+          ]
+        },
+        {
+          "name": "poolTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the pool token mint"
+          ]
+        },
+        {
+          "name": "tokenATokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the source mint"
+          ]
+        },
+        {
+          "name": "tokenBTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the destination mint"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "poolTokenAmount",
+          "type": "u64"
+        },
+        {
+          "name": "maximumTokenAAmount",
+          "type": "u64"
+        },
+        {
+          "name": "maximumTokenBAmount",
+          "type": "u64"
+        }
+      ],
+      "returns": {
+        "defined": "event::Deposit"
+      }
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapCurve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAFeesVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to collect fees into"
+          ]
+        },
+        {
+          "name": "tokenBFeesVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to collect fees into"
+          ]
+        },
+        {
+          "name": "tokenAUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's token A token account"
+          ]
+        },
+        {
+          "name": "tokenBUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's token B token account"
+          ]
+        },
+        {
+          "name": "poolTokenUserAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Signer's pool token account"
+          ]
+        },
+        {
+          "name": "poolTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the pool token mint"
+          ]
+        },
+        {
+          "name": "tokenATokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the source mint"
+          ]
+        },
+        {
+          "name": "tokenBTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the destination mint"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "poolTokenAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minimumTokenAAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minimumTokenBAmount",
+          "type": "u64"
+        }
+      ],
+      "returns": {
+        "defined": "event::Withdraw"
+      }
+    },
+    {
+      "name": "withdrawFees",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feesMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feesVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Fee vault to withdraw from"
+          ]
+        },
+        {
+          "name": "adminFeesAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Admin's token account to withdraw fees to"
+          ]
+        },
+        {
+          "name": "feesTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program for the fee token mint"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "requestedPoolTokenAmount",
+          "type": "u64"
+        }
+      ],
+      "returns": {
+        "defined": "event::WithdrawFees"
+      }
+    },
+    {
+      "name": "updatePoolConfig",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mode",
+          "type": "u16"
+        },
+        {
+          "name": "value",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ],
+      "returns": {
+        "defined": "event::UpdatePoolConfig"
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SwapPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "docs": [
+              "Pool admin - account which initialised the pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "poolAuthority",
+            "docs": [
+              "Pool authority PDA - holds authority of the vaults"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "poolAuthorityBumpSeed",
+            "docs": [
+              "Bump seed used in pool authority program address"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokenAVault",
+            "docs": [
+              "Token A"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBVault",
+            "docs": [
+              "Token B"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "poolTokenMint",
+            "docs": [
+              "Pool tokens are issued when A or B tokens are deposited",
+              "Pool tokens can be withdrawn back to the original A or B token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAMint",
+            "docs": [
+              "Mint information for token A"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBMint",
+            "docs": [
+              "Mint information for token B"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAFeesVault",
+            "docs": [
+              "Trading token account to receive trading and / or withdrawal fees"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBFeesVault",
+            "docs": [
+              "Trading token account to receive trading and / or withdrawal fees"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "fees",
+            "docs": [
+              "All fee information"
+            ],
+            "type": {
+              "defined": "Fees"
+            }
+          },
+          {
+            "name": "curveType",
+            "docs": [
+              "Swap curve account type, to assist in deserializing the swap account and used by the SwapCurve, which",
+              "calculates swaps, deposits, and withdrawals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "swapCurve",
+            "docs": [
+              "The swap curve account address for this pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "withdrawalsOnly",
+            "docs": [
+              "The swap curve is in withdraw mode, and will only allow withdrawals"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokenAProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "defined": "SwapPoolPadding"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConstantPriceCurve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenBPrice",
+            "docs": [
+              "Amount of token A required to get 1 token B"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u64",
+                15
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConstantProductCurve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u64",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OffsetCurve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenBOffset",
+            "docs": [
+              "Amount to offset the token B liquidity account"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u64",
+                15
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "StableCurve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amp",
+            "docs": [
+              "Amplifier constant"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokenAFactor",
+            "docs": [
+              "Amount of token A required to get 1 token B"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tokenBFactor",
+            "docs": [
+              "Amount of token B required to get 1 token A"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u64",
+                13
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Fees",
+      "docs": [
+        "Encapsulates all fee information and calculations for swap operations"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tradeFeeNumerator",
+            "docs": [
+              "Trade fees are extra token amounts that are held inside the token",
+              "accounts during a trade, making the value of liquidity tokens rise.",
+              "Trade fee numerator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "tradeFeeDenominator",
+            "docs": [
+              "Trade fee denominator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ownerTradeFeeNumerator",
+            "docs": [
+              "Owner trading fees are extra token amounts that are held inside the token",
+              "accounts during a trade, with the equivalent in pool tokens minted to",
+              "the owner of the program.",
+              "Owner trade fee numerator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ownerTradeFeeDenominator",
+            "docs": [
+              "Owner trade fee denominator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ownerWithdrawFeeNumerator",
+            "docs": [
+              "Owner withdraw fees are extra liquidity pool token amounts that are",
+              "sent to the owner on every withdrawal.",
+              "Owner withdraw fee numerator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ownerWithdrawFeeDenominator",
+            "docs": [
+              "Owner withdraw fee denominator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "hostFeeNumerator",
+            "docs": [
+              "Host fees are a proportion of the owner trading fees, sent to an",
+              "extra account provided during the trade.",
+              "Host trading fee numerator"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "hostFeeDenominator",
+            "docs": [
+              "Host trading fee denominator"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapPoolPadding",
+      "docs": [
+        "Program states"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "inner",
+            "type": {
+              "array": [
+                "u64",
+                504
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CurveType",
+      "docs": [
+        "Curve types supported by the hyperplane program."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ConstantProduct"
+          },
+          {
+            "name": "ConstantPrice"
+          },
+          {
+            "name": "Offset"
+          },
+          {
+            "name": "Stable"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TradeDirection",
+      "docs": [
+        "The direction of a trade, since curves can be specialized to treat each",
+        "token differently (by adding offsets or weights)"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "AtoB"
+          },
+          {
+            "name": "BtoA"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AorB",
+      "docs": [
+        "Utility to represent either token A or token B"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "A"
+          },
+          {
+            "name": "B"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundDirection",
+      "docs": [
+        "The direction to round.  Used for pool token to trading token conversions to",
+        "avoid losing value on any deposit or withdrawal."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Floor"
+          },
+          {
+            "name": "Ceiling"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdatePoolConfigMode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WithdrawalsOnly"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdatePoolConfigValue",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bool",
+            "fields": [
+              "bool"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Deposit",
+      "fields": [
+        {
+          "name": "tokenAAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenBAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "poolTokenAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Withdraw",
+      "fields": [
+        {
+          "name": "tokenAAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenBAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "poolTokenAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenAFees",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenBFees",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Swap",
+      "fields": [
+        {
+          "name": "tokenInAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenOutAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "totalFees",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawFees",
+      "fields": [
+        {
+          "name": "withdrawAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdatePoolConfig",
+      "fields": [
+        {
+          "name": "mode",
+          "type": {
+            "defined": "UpdatePoolConfigMode"
+          },
+          "index": false
+        },
+        {
+          "name": "value",
+          "type": {
+            "defined": "UpdatePoolConfigValue"
+          },
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidProgramAddress",
+      "msg": "Invalid program address generated from bump seed and key"
+    },
+    {
+      "code": 6001,
+      "name": "EmptySupply",
+      "msg": "Input token account empty"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectSwapAccount",
+      "msg": "Address of the provided swap token account is incorrect"
+    },
+    {
+      "code": 6003,
+      "name": "IncorrectPoolMint",
+      "msg": "Address of the provided pool token mint is incorrect"
+    },
+    {
+      "code": 6004,
+      "name": "CalculationFailure",
+      "msg": "General calculation failure due to overflow or underflow"
+    },
+    {
+      "code": 6005,
+      "name": "RepeatedMint",
+      "msg": "Swap input token accounts have the same mint"
+    },
+    {
+      "code": 6006,
+      "name": "ExceededSlippage",
+      "msg": "Swap instruction exceeds desired slippage limit"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidCloseAuthority",
+      "msg": "Token account has a close authority"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidFreezeAuthority",
+      "msg": "Pool token mint has a freeze authority"
+    },
+    {
+      "code": 6009,
+      "name": "IncorrectFeeAccount",
+      "msg": "Pool fee token account incorrect"
+    },
+    {
+      "code": 6010,
+      "name": "ZeroTradingTokens",
+      "msg": "Given pool token amount results in zero trading tokens"
+    },
+    {
+      "code": 6011,
+      "name": "FeeCalculationFailure",
+      "msg": "Fee calculation failed due to overflow, underflow, or unexpected 0"
+    },
+    {
+      "code": 6012,
+      "name": "ConversionFailure",
+      "msg": "Conversion to u64 failed with an overflow or underflow"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidFee",
+      "msg": "The provided fee does not match the program owner's constraints"
+    },
+    {
+      "code": 6014,
+      "name": "UnsupportedCurveType",
+      "msg": "The provided curve type is not supported by the program owner"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidCurve",
+      "msg": "The provided curve parameters are invalid"
+    },
+    {
+      "code": 6016,
+      "name": "UnsupportedCurveOperation",
+      "msg": "The operation cannot be performed on the given curve"
+    },
+    {
+      "code": 6017,
+      "name": "WithdrawalsOnlyMode",
+      "msg": "The operation cannot be performed because the pool is in withdrawals only mode"
+    },
+    {
+      "code": 6018,
+      "name": "IncorrectTradingMint",
+      "msg": "Address of the provided trading token mint is incorrect"
+    },
+    {
+      "code": 6019,
+      "name": "InsufficientPoolTokenFunds",
+      "msg": "Insufficient funds in the pool token account"
+    },
+    {
+      "code": 6020,
+      "name": "InvaliPoolAdmin",
+      "msg": "Pool admin is not correct"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidTokenExtension",
+      "msg": "Token 2022 extension is not supported"
+    }
+  ]
+}

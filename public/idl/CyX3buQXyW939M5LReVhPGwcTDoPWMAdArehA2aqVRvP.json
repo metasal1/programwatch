@@ -1,0 +1,201 @@
+{
+  "version": "0.1.0",
+  "name": "hyperspace_resolver",
+  "instructions": [
+    {
+      "name": "initializeNftFloor",
+      "accounts": [
+        {
+          "name": "resolver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrowProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeNftFloorParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolveNftFloor",
+      "accounts": [
+        {
+          "name": "resolver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "escrowProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "ResolveNftFloorParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "acknowledgeNftFloor",
+      "accounts": [
+        {
+          "name": "resolver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NftFloor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "acknowledged",
+            "type": "bool"
+          },
+          {
+            "name": "floorPrice",
+            "type": "u64"
+          },
+          {
+            "name": "projectId",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeNftFloorParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "floorPrice",
+            "type": "u64"
+          },
+          {
+            "name": "projectId",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ResolveNftFloorParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "currentFloorPrice",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MissingBumpSeed",
+      "msg": "Missing bump seed."
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectResolver",
+      "msg": "Resolver does not match the market resolver address"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectCreator",
+      "msg": "Creator does not match the market creator address"
+    },
+    {
+      "code": 6003,
+      "name": "IncorrectAuthority",
+      "msg": "Authority does not match the resolver authority address"
+    },
+    {
+      "code": 6004,
+      "name": "IncorrectMarket",
+      "msg": "Market does not match the resolver market address"
+    },
+    {
+      "code": 6005,
+      "name": "TimestampPassed",
+      "msg": "Cannot create resolver for timestamp that has already passed"
+    },
+    {
+      "code": 6006,
+      "name": "TimestampNotPassed",
+      "msg": "Cannot resolve before timestamp"
+    },
+    {
+      "code": 6007,
+      "name": "AlreadyAcknowledged",
+      "msg": "Authority has already acknowledged the resolver"
+    }
+  ]
+}

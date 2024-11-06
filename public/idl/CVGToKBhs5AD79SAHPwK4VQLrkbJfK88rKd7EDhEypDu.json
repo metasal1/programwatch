@@ -1,0 +1,455 @@
+{
+  "version": "0.1.0",
+  "name": "nft_staking",
+  "instructions": [
+    {
+      "name": "initStaking",
+      "accounts": [
+        {
+          "name": "stakeDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "stakeDetails",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftCustody",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userNftRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "custodyNftRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "stakeDetails",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceiveAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftCustody",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userNftRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "custodyNftRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeStaking",
+      "accounts": [
+        {
+          "name": "stakeDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NftRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "staker",
+            "docs": [
+              "The owner/staker of the NFT (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "docs": [
+              "The mint of the staked NFT (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakedAt",
+            "docs": [
+              "The staking timestamp (8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump of NFT Record PDA (1)"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Details",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isActive",
+            "docs": [
+              "The status of the staking (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "creator",
+            "docs": [
+              "The creator of the stake record (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "docs": [
+              "The verified collection address of the NFT (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeBump",
+            "docs": [
+              "The bump of stake details PDA (1)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "nftAuthBump",
+            "docs": [
+              "The bump of nft authority PDA (1)"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "StakeEvent",
+      "fields": [
+        {
+          "name": "staker",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UnstakeEvent",
+      "fields": [
+        {
+          "name": "staker",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "InitStakingEvent",
+      "fields": [
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collection",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CloseStakingEvent",
+      "fields": [
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collection",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "StakeBumpError",
+      "msg": "unable to get stake details bump"
+    },
+    {
+      "code": 6001,
+      "name": "TokenAuthBumpError",
+      "msg": "unable to get token authority bump"
+    },
+    {
+      "code": 6002,
+      "name": "NftAuthBumpError",
+      "msg": "unable to get token authority bump"
+    },
+    {
+      "code": 6003,
+      "name": "NftBumpError",
+      "msg": "unable to get nft record bump"
+    },
+    {
+      "code": 6004,
+      "name": "TokenNotNFT",
+      "msg": "the given mint account doesn't belong to NFT"
+    },
+    {
+      "code": 6005,
+      "name": "TokenAccountEmpty",
+      "msg": "the given token account has no token"
+    },
+    {
+      "code": 6006,
+      "name": "CollectionNotVerified",
+      "msg": "the collection field in the metadata is not verified"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidCollection",
+      "msg": "the collection doesn't match the staking details"
+    },
+    {
+      "code": 6008,
+      "name": "StakingInactive",
+      "msg": "the staking is not currently active"
+    }
+  ]
+}

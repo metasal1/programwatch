@@ -1,0 +1,507 @@
+{
+  "address": "Ganbqm2tJ8SuaN6kSRWsJhXGb7aLCvHLuCySxCfkXPVL",
+  "metadata": {
+    "name": "xcall_manager",
+    "version": "0.1.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "handle_call_message",
+      "discriminator": [
+        70,
+        67,
+        201,
+        55,
+        42,
+        121,
+        72,
+        196
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "signer": true
+        },
+        {
+          "name": "xcall_singer",
+          "signer": true
+        },
+        {
+          "name": "state",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "from",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "name": "protocols",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "HandleCallMessageResponse"
+        }
+      }
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "xcall",
+          "type": "pubkey"
+        },
+        {
+          "name": "icon_governance",
+          "type": "string"
+        },
+        {
+          "name": "sources",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "destinations",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "propose_removal",
+      "discriminator": [
+        61,
+        121,
+        221,
+        227,
+        35,
+        136,
+        210,
+        150
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "protocol",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "query_handle_call_message_accounts",
+      "discriminator": [
+        7,
+        131,
+        192,
+        232,
+        124,
+        51,
+        47,
+        101
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "_from",
+          "type": "string"
+        },
+        {
+          "name": "_data",
+          "type": "bytes"
+        },
+        {
+          "name": "_protocols",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "ParamAccounts"
+        }
+      }
+    },
+    {
+      "name": "remove_action",
+      "discriminator": [
+        65,
+        241,
+        237,
+        239,
+        87,
+        171,
+        6,
+        114
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "action",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "set_admin",
+      "discriminator": [
+        251,
+        163,
+        0,
+        52,
+        91,
+        194,
+        187,
+        92
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "set_protocols",
+      "discriminator": [
+        231,
+        197,
+        217,
+        170,
+        181,
+        36,
+        88,
+        66
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "sources",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "destinations",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "verify_protocols",
+      "discriminator": [
+        152,
+        216,
+        43,
+        155,
+        90,
+        42,
+        180,
+        135
+      ],
+      "accounts": [
+        {
+          "name": "state"
+        }
+      ],
+      "args": [
+        {
+          "name": "protocols",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ],
+      "returns": "bool"
+    },
+    {
+      "name": "whitelist_action",
+      "discriminator": [
+        126,
+        151,
+        72,
+        122,
+        144,
+        144,
+        253,
+        66
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "action",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "XmState",
+      "discriminator": [
+        90,
+        244,
+        152,
+        182,
+        246,
+        152,
+        23,
+        158
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ExecutionFailed",
+      "msg": "Execution failed"
+    },
+    {
+      "code": 6001,
+      "name": "UnauthorizedCaller",
+      "msg": "Unauthorized caller"
+    },
+    {
+      "code": 6002,
+      "name": "ProtocolMismatch",
+      "msg": "Protocol mismatch"
+    },
+    {
+      "code": 6003,
+      "name": "ActionNotWhitelisted",
+      "msg": "Action not whitelisted"
+    },
+    {
+      "code": 6004,
+      "name": "UnknownMessageType",
+      "msg": "Unknown message type"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidInstruction",
+      "msg": "Invalid instruction"
+    },
+    {
+      "code": 6006,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6007,
+      "name": "DecoderError",
+      "msg": "Decoder Error"
+    },
+    {
+      "code": 6008,
+      "name": "NoProposalForRemovalExists",
+      "msg": "No proposal for removal exists"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidSender",
+      "msg": "Invalid Sender"
+    },
+    {
+      "code": 6010,
+      "name": "NotTheIconGovernance",
+      "msg": "Not the Icon Governance"
+    },
+    {
+      "code": 6011,
+      "name": "OnlyXcall",
+      "msg": "Only Xcall"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidProgram",
+      "msg": "Invalid Program"
+    }
+  ],
+  "types": [
+    {
+      "name": "HandleCallMessageResponse",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "success",
+            "type": "bool"
+          },
+          {
+            "name": "message",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ParamAccountProps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "is_writable",
+            "type": "bool"
+          },
+          {
+            "name": "is_signer",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ParamAccounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "accounts",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "ParamAccountProps"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "XmState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "xcall",
+            "type": "pubkey"
+          },
+          {
+            "name": "icon_governance",
+            "type": "string"
+          },
+          {
+            "name": "sources",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "destinations",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "whitelisted_actions",
+            "type": {
+              "vec": "bytes"
+            }
+          },
+          {
+            "name": "proposed_protocol_to_remove",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}

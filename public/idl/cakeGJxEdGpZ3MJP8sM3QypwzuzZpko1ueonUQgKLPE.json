@@ -1,0 +1,391 @@
+{
+  "version": "0.1.0",
+  "name": "cupcake",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addOrRefillTag",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tagAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tag",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tagParams",
+          "type": {
+            "defined": "AddOrRefillTagParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimTag",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tagAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tag",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "creatorBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tag",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uid",
+            "type": "u64"
+          },
+          {
+            "name": "tagType",
+            "type": {
+              "defined": "TagType"
+            }
+          },
+          {
+            "name": "tagAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalSupply",
+            "type": "u64"
+          },
+          {
+            "name": "numClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "minterPays",
+            "type": "bool"
+          },
+          {
+            "name": "perUser",
+            "type": "u64"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "candyMachine",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistBurn",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "currentTokenLocation",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AddOrRefillTagParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uid",
+            "type": "u64"
+          },
+          {
+            "name": "tagType",
+            "type": {
+              "defined": "TagType"
+            }
+          },
+          {
+            "name": "numClaims",
+            "type": "u64"
+          },
+          {
+            "name": "perUser",
+            "type": "u64"
+          },
+          {
+            "name": "minterPays",
+            "type": "bool"
+          },
+          {
+            "name": "pricePerMint",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "whitelistBurn",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CandyMachineArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "instruction",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "creatorBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TagDepleted"
+          },
+          {
+            "name": "ClaimLimitExceeded"
+          },
+          {
+            "name": "NotRefillable"
+          },
+          {
+            "name": "CannotUseCandyMachineWithThisAction"
+          },
+          {
+            "name": "NumericalOverflowError"
+          },
+          {
+            "name": "PublicKeyMismatch"
+          },
+          {
+            "name": "AtaShouldNotHaveDelegate"
+          },
+          {
+            "name": "AtaDelegateShouldBeConfig"
+          },
+          {
+            "name": "IncorrectOwner"
+          },
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "MustProvideWhitelistTokenIfMinterIsNotProvidingIt"
+          },
+          {
+            "name": "MustProvidePaymentAccountIfMinterIsNotProviding"
+          },
+          {
+            "name": "MustUseConfigAsPayer"
+          },
+          {
+            "name": "SingleUseIsImmutable"
+          },
+          {
+            "name": "AuthorityShouldNotBePayer"
+          },
+          {
+            "name": "CanOnlyMutateHotPotatoWhenAtHome"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TagType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "LimitedOrOpenEdition"
+          },
+          {
+            "name": "SingleUse1Of1"
+          },
+          {
+            "name": "CandyMachineDrop"
+          },
+          {
+            "name": "Refillable1Of1"
+          },
+          {
+            "name": "WalletRestrictedFungible"
+          },
+          {
+            "name": "HotPotato"
+          }
+        ]
+      }
+    }
+  ]
+}

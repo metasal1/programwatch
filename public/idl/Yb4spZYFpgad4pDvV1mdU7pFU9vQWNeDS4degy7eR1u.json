@@ -1,0 +1,729 @@
+{
+  "version": "1.0.0",
+  "name": "hh_escrow",
+  "instructions": [
+    {
+      "name": "initializeMarket",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeMarketParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeUserPosition",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "DepositParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateState",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "resolver",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UpdateStateParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeGlobalState",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalStateOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeGlobalStateParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yesTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "noTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPosition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setGlobalState",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "SetGlobalStateParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolverAcknowledge",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "resolver",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeCutBps",
+            "type": {
+              "defined": "Bps"
+            }
+          },
+          {
+            "name": "feeWallet",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "resolver",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "yesTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "noTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "yesAmount",
+            "type": "u64"
+          },
+          {
+            "name": "yesFilled",
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "type": "u64"
+          },
+          {
+            "name": "noFilled",
+            "type": "u64"
+          },
+          {
+            "name": "closeTs",
+            "type": "u64"
+          },
+          {
+            "name": "expiryTs",
+            "type": "u64"
+          },
+          {
+            "name": "outcomeTs",
+            "type": "u64"
+          },
+          {
+            "name": "resolutionDelay",
+            "type": "u32"
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "defined": "Outcome"
+            }
+          },
+          {
+            "name": "finalized",
+            "type": "bool"
+          },
+          {
+            "name": "yesAccountBump",
+            "type": "u8"
+          },
+          {
+            "name": "noAccountBump",
+            "type": "u8"
+          },
+          {
+            "name": "acknowledged",
+            "type": "bool"
+          },
+          {
+            "name": "uri",
+            "type": {
+              "defined": "UriResource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "yesAmount",
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Bps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DepositParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "yesAmount",
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "type": "u64"
+          },
+          {
+            "name": "allowPartial",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeGlobalStateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocolFeeBps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeMarketParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "closeTs",
+            "type": "u64"
+          },
+          {
+            "name": "expiryTs",
+            "type": "u64"
+          },
+          {
+            "name": "resolutionDelay",
+            "type": "u32"
+          },
+          {
+            "name": "yesAmount",
+            "type": "u64"
+          },
+          {
+            "name": "noAmount",
+            "type": "u64"
+          },
+          {
+            "name": "resolver",
+            "type": "publicKey"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetGlobalStateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "newFeeCutBps",
+            "type": "u16"
+          },
+          {
+            "name": "newFeeWallet",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateStateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "outcome",
+            "type": {
+              "defined": "Outcome"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UriResource",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "len",
+            "type": "u16"
+          },
+          {
+            "name": "uri",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidMarketResource"
+          },
+          {
+            "name": "InvalidCloseTimestamp"
+          },
+          {
+            "name": "InvalidExpiryTimestamp"
+          },
+          {
+            "name": "NonCanonicalBumpSeed"
+          },
+          {
+            "name": "Overflow"
+          },
+          {
+            "name": "AlreadyFinalized"
+          },
+          {
+            "name": "MarketClosed"
+          },
+          {
+            "name": "OverAllowedAmount"
+          },
+          {
+            "name": "IncorrectYesEscrow"
+          },
+          {
+            "name": "IncorrectNoEscrow"
+          },
+          {
+            "name": "IncorrectResolver"
+          },
+          {
+            "name": "InvalidTransition"
+          },
+          {
+            "name": "MarketNotInvalid"
+          },
+          {
+            "name": "NotFinalized"
+          },
+          {
+            "name": "FeeTooHigh"
+          },
+          {
+            "name": "InvalidProgramData"
+          },
+          {
+            "name": "InvalidProgramAuthority"
+          },
+          {
+            "name": "IncorrectGlobalStateOwner"
+          },
+          {
+            "name": "AccountNotOwnedByFeeWallet"
+          },
+          {
+            "name": "UserAccountCannotBeMarketAccount"
+          },
+          {
+            "name": "UserAccountIncorrectOwner"
+          },
+          {
+            "name": "CannotClaim"
+          },
+          {
+            "name": "AssociatedTokenAccountRequired"
+          },
+          {
+            "name": "CannotHaveNonzeroAmounts"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Outcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Yes"
+          },
+          {
+            "name": "No"
+          },
+          {
+            "name": "Invalid"
+          }
+        ]
+      }
+    }
+  ]
+}

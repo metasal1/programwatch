@@ -1,0 +1,740 @@
+{
+  "version": "0.1.0",
+  "name": "bskt_vesting",
+  "constants": [
+    {
+      "name": "ADMIN_PUBKEY_STR",
+      "type": "string",
+      "value": "\"F8gX2Wh6LWVbUHuYn9jKmUtkk6rGd1gseipAtWLoPubu\""
+    },
+    {
+      "name": "ADMIN_PUBKEY_STR",
+      "type": "string",
+      "value": "\"BSKTa7yhHSicHrhTJrSZLvDyTT6vxHCnsaHR78WGWUcU\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "init",
+      "accounts": [
+        {
+          "name": "vestingConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vesting config created for vesting program"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of the config."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initDistributor",
+      "accounts": [
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the distributor."
+          ]
+        },
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "[MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The config account"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint to distribute."
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer to create the distributor."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "maxTotalClaim",
+          "type": "u64"
+        },
+        {
+          "name": "maxNumNodes",
+          "type": "u64"
+        },
+        {
+          "name": "vestingPeriod",
+          "type": "i64"
+        },
+        {
+          "name": "claimFrequency",
+          "type": "i64"
+        },
+        {
+          "name": "vestingStartDate",
+          "type": "i64"
+        },
+        {
+          "name": "vestingGracePeriod",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "initializeVesting",
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "vestingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vesting account created for payer"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The config account"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "vestingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vesting account created for payer"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The config account"
+          ]
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Distributor ATA containing the tokens to distribute."
+          ]
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to send the claimed tokens to."
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "authBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "cancelVesting",
+      "accounts": [
+        {
+          "name": "vestingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelVestingAdmin",
+      "accounts": [
+        {
+          "name": "vestingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributorAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeDistributorTokenAccount",
+      "accounts": [
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the distributor."
+          ]
+        },
+        {
+          "name": "distributor",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "[MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Distributor containing the tokens to distribute."
+          ]
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to send the claimed tokens to."
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The config account"
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Who is receiving the remaining rent allocation."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "accounts": [
+        {
+          "name": "vestingConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vesting config created for vesting program"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of the config."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "freeze",
+          "type": "bool"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VestingAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "docs": [
+              "Claimant that owns the account."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "lastClaimedAt",
+            "docs": [
+              "When the tokens were last claimed."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "totalAmount",
+            "docs": [
+              "Amount of tokens claimed."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "amountClaimed",
+            "docs": [
+              "Amount claimed so far."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "isCanceled",
+            "docs": [
+              "Indicates if the vesting is canceled."
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MerkleDistributor",
+      "docs": [
+        "State for the account which distributes tokens."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "base",
+            "docs": [
+              "Base key used to generate the PDA."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "root",
+            "docs": [
+              "The 256-bit merkle root."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "[Mint] of the token to be distributed."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "maxTotalClaim",
+            "docs": [
+              "Maximum number of tokens that can ever be claimed from this [MerkleDistributor]."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxNumNodes",
+            "docs": [
+              "Maximum number of nodes that can ever be claimed from this [MerkleDistributor]."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalAmountClaimed",
+            "docs": [
+              "Total amount of tokens that have been claimed."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "numNodesClaimed",
+            "docs": [
+              "Number of nodes that have been claimed."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "vestingPeriod",
+            "docs": [
+              "Vesting period in seconds"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "claimFrequency",
+            "docs": [
+              "Frequency of claim"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "vestingStartDate",
+            "docs": [
+              "Vesting start date"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "vestingEndDate",
+            "docs": [
+              "Vesting end date"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "vestingGracePeriod",
+            "docs": [
+              "Vesting grace period"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "The owner of the tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "isInitialized",
+            "docs": [
+              "The vesting program is initialized and ready."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "isFrozen",
+            "docs": [
+              "The vesting program is frozen and no vesting can occur."
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ClaimedEvent",
+      "fields": [
+        {
+          "name": "index",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "claimant",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "No valid signer present"
+    },
+    {
+      "code": 6001,
+      "name": "NotInitialized",
+      "msg": "Vesting program is not initialized"
+    },
+    {
+      "code": 6002,
+      "name": "Frozen",
+      "msg": "Vesting program is frozen"
+    },
+    {
+      "code": 6003,
+      "name": "AlreadyClaimed",
+      "msg": "User has claimed already"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidProof",
+      "msg": "Invalid proof"
+    },
+    {
+      "code": 6005,
+      "name": "AlreadyInitialized",
+      "msg": "Already initialized vesting account"
+    },
+    {
+      "code": 6006,
+      "name": "VestingNotInitialized",
+      "msg": "Vesting account is not initialized"
+    },
+    {
+      "code": 6007,
+      "name": "VestingPeriodEnded",
+      "msg": "Vesting period has ended"
+    },
+    {
+      "code": 6008,
+      "name": "NoClaimRemaining",
+      "msg": "No claim remaining"
+    },
+    {
+      "code": 6009,
+      "name": "ClaimTooSoon",
+      "msg": "Cannot claim yet"
+    },
+    {
+      "code": 6010,
+      "name": "OwnerMismatch",
+      "msg": "Owners do not match"
+    },
+    {
+      "code": 6011,
+      "name": "ExceededMaxClaim",
+      "msg": "Invalid amount exceeded"
+    },
+    {
+      "code": 6012,
+      "name": "ExceededMaxNumNodes",
+      "msg": "Too many nodes in merkle"
+    },
+    {
+      "code": 6013,
+      "name": "IncorrectAdmin",
+      "msg": "Token account owner key must match distributor authority key"
+    },
+    {
+      "code": 6014,
+      "name": "MustBePositive",
+      "msg": "Value must be greater than or equal to zero"
+    },
+    {
+      "code": 6015,
+      "name": "MustBeGreaterThanZero",
+      "msg": "Value must be greater than zero"
+    },
+    {
+      "code": 6016,
+      "name": "AlreadyCanceled",
+      "msg": "Vesting account is already canceled"
+    },
+    {
+      "code": 6017,
+      "name": "VestingCanceled",
+      "msg": "Vesting account is canceled"
+    }
+  ]
+}

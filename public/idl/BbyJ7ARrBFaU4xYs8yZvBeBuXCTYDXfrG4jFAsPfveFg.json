@@ -1,0 +1,263 @@
+{
+  "version": "0.1.0",
+  "name": "fundmeme",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "porkMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "porkStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "porkMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fromAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "porkStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "porkUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "referral",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referralUser",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cashout",
+      "accounts": [
+        {
+          "name": "porkMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "toAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "porkStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "porkUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "compound",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "porkStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "porkUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PorkStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PorkUser",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "depostedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "claimableAmount",
+            "type": "u64"
+          },
+          {
+            "name": "claimedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "lastDepositTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "timesOfBiggerHolder",
+            "type": "u64"
+          },
+          {
+            "name": "biggerHolderTimestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "StakeBumpError"
+    },
+    {
+      "code": 6001,
+      "name": "MinimumDepositError"
+    },
+    {
+      "code": 6002,
+      "name": "ReferralError"
+    },
+    {
+      "code": 6003,
+      "name": "ClaimOrCompoundEveryHourError"
+    },
+    {
+      "code": 6004,
+      "name": "PorkMintError"
+    }
+  ]
+}

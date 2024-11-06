@@ -1,0 +1,378 @@
+{
+  "version": "0.1.0",
+  "name": "standard_generator",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "enableNativeFee",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "enable",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "enableReferral",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "enable",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateFeeName",
+      "accounts": [
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "dappFeeName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createToken",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenDecimals",
+          "type": "u8"
+        },
+        {
+          "name": "tokenName",
+          "type": "string"
+        },
+        {
+          "name": "tokenSymbol",
+          "type": "string"
+        },
+        {
+          "name": "tokenUri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "mintToken",
+      "accounts": [
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recepient",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeCheckProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeCheckAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeDepositProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "referralContractProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referralContractAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "codeOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenFeeAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenFeeAddressAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "codeOwnerAta",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenAmount",
+          "type": "u64"
+        },
+        {
+          "name": "mintAddress",
+          "type": "publicKey"
+        },
+        {
+          "name": "nativeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "refCode",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StandardTokenGenerator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numberOfTokensCreated",
+            "type": "u64"
+          },
+          {
+            "name": "tokenContractStorage",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "referralDisabled",
+            "type": "bool"
+          },
+          {
+            "name": "tokenFeeMode",
+            "type": "bool"
+          },
+          {
+            "name": "dappFeeName",
+            "type": "string"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotOwner",
+      "msg": "Caller is not a Owner"
+    },
+    {
+      "code": 6001,
+      "name": "ZeroAddress",
+      "msg": "Cannot set burn contract to zero address"
+    },
+    {
+      "code": 6002,
+      "name": "TokenAlreadyAdded",
+      "msg": "Token name already added"
+    },
+    {
+      "code": 6003,
+      "name": "TokenNotFound",
+      "msg": "Token name already removed or never added"
+    },
+    {
+      "code": 6004,
+      "name": "RouterAlreadyAdd",
+      "msg": "Router already added"
+    },
+    {
+      "code": 6005,
+      "name": "RouterNotFound",
+      "msg": "Router already removed or never added"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidTokenAmount",
+      "msg": "invalid token amount"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidTokenDecimal",
+      "msg": "decimal value invalid"
+    },
+    {
+      "code": 6008,
+      "name": "CannotSendNative",
+      "msg": "Cannot send native value for token fee mode"
+    },
+    {
+      "code": 6009,
+      "name": "OnlyDefaultCode",
+      "msg": "only default code allowed"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidDiscountCode",
+      "msg": "invalid discount code"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidNativeAmount",
+      "msg": "native amount must be equal to dxMint referral fee!"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidNativeAmountFee",
+      "msg": "msg.value must be equal to the dxMint fee!"
+    },
+    {
+      "code": 6013,
+      "name": "ReferrerPaymentFailed",
+      "msg": "referrer payment aborted due to failed transfer."
+    },
+    {
+      "code": 6014,
+      "name": "CustomErr",
+      "msg": "Custom Error: failing here."
+    }
+  ]
+}

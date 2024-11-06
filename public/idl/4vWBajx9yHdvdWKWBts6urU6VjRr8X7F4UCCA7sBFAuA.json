@@ -1,0 +1,1884 @@
+{
+  "version": "0.1.0",
+  "name": "nolosslottery",
+  "constants": [
+    {
+      "name": "USER_ACCOUNT",
+      "type": "string",
+      "value": "\"useraccount\""
+    },
+    {
+      "name": "USER_DEPOSIT",
+      "type": "string",
+      "value": "\"user\""
+    },
+    {
+      "name": "LOTTERY_ACCOUNT",
+      "type": "string",
+      "value": "\"nolosslottery\""
+    },
+    {
+      "name": "PAGE_INDEX",
+      "type": "string",
+      "value": "\"pageindex\""
+    },
+    {
+      "name": "PAGE",
+      "type": "string",
+      "value": "\"page\""
+    },
+    {
+      "name": "DRAW_RESULT",
+      "type": "string",
+      "value": "\"draw_result\""
+    },
+    {
+      "name": "VRF_AUTHORITY",
+      "type": "string",
+      "value": "\"vrfauthority\""
+    },
+    {
+      "name": "SOLEND_COLLATERAL_ACCOUNT",
+      "type": "string",
+      "value": "\"lotterycollateral\""
+    },
+    {
+      "name": "LIQUIDITY_AUTHORITY",
+      "type": "string",
+      "value": "\"lotteryauthority\""
+    },
+    {
+      "name": "COLLATERAL_ACCOUNT",
+      "type": "string",
+      "value": "\"collateralaccount\""
+    },
+    {
+      "name": "COLLATERAL_AUTHORITY",
+      "type": "string",
+      "value": "\"collateralauthority\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initLottery",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vrfAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vrfAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVaultTransferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitLotteryParams"
+          }
+        },
+        {
+          "name": "strategyType",
+          "type": {
+            "defined": "CTokenType"
+          }
+        },
+        {
+          "name": "jackpotType",
+          "type": {
+            "defined": "JackpotType"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initPage",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lotteryAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "page",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initUserDeposit",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthorityMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "page",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initUserAccount",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initRefLink",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "referrerUserAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refLink",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "link",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "linkLen",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setReferrer",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refLink",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configureLottery",
+      "accounts": [
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "ConfigureLotteryParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "userDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "sourceCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "page",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxCollateralAmount",
+          "type": "u64"
+        },
+        {
+          "name": "depositMode",
+          "type": {
+            "defined": "DepositMode"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "pageIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "page",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxLiquidityAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxLiquidityAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeemSolend",
+      "accounts": [
+        {
+          "name": "liquiditySupply",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lendingMarket",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingMarketAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationLiquidity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxCollateralAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "requestResult",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vrfAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vrfAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "switchboardProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracleQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "queueAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dataBuffer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "permission",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "recentBlockhashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "RequestResultParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateResult",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vrfAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setResult",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "result",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "drawPage",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "drawUser",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "page",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "awardUser",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refLink",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrerUserAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrerDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winningDepositAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winningTransferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "winner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "winnerUserAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "drawResultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resetPageIndex",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resetPage",
+      "accounts": [
+        {
+          "name": "lotteryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pageIndex",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "page",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DrawResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "winner",
+            "type": "publicKey"
+          },
+          {
+            "name": "draw",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "prize",
+            "type": "u64"
+          },
+          {
+            "name": "version",
+            "docs": [
+              "Draw result version. always 1"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "lotteryNumTickets",
+            "type": "u64"
+          },
+          {
+            "name": "winningTicket",
+            "type": "u64"
+          },
+          {
+            "name": "winnerNumTickets",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Lottery",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "liquidityDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "collateralDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "drawSequence",
+            "type": {
+              "defined": "DrawSequence"
+            }
+          },
+          {
+            "name": "winnerReferrerFeeBps",
+            "docs": [
+              "The fee in basis points sent to the users referrer when a jackpot is awarded"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "canExternallySetRandomness",
+            "docs": [
+              "A debugging bool to allow a random number to be chosen by an admin",
+              "instead of through switchboard or chainlink VRF. This allows the set_result endoint to be invoked."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "strategyType",
+            "type": {
+              "defined": "CTokenType"
+            }
+          },
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralAuthorityBump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "vrfAuthorityBump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "winnerVaultFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a jackpot is awarded"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "withdrawalFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a user withdraws"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "earlyWithdrawalFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a user withdraws",
+              "and the time since their most recent deposit is greater than the lottery duration"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "lotteryDuration",
+            "docs": [
+              "The lottery duration in seconds. A draw occurs every interval"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "liquidityMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "collateralMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserve",
+            "type": "publicKey"
+          },
+          {
+            "name": "jackpotType",
+            "type": {
+              "defined": "JackpotType"
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                31
+              ]
+            }
+          },
+          {
+            "name": "feeVault",
+            "docs": [
+              "The fee vault user deposit account. This account should be initialized immediately after lottery initialization"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "vrfAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "vrfAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "vrfRequestedTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "winningTicketId",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityCap",
+            "docs": [
+              "The deposit limit for the pool. New deposits are denied when lottery_liquidity > liquidity_cap"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "pageToReset",
+            "type": "u64"
+          },
+          {
+            "name": "numUsers",
+            "type": "u64"
+          },
+          {
+            "name": "numTickets",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityAmount",
+            "docs": [
+              "Liquidity owed to depositors"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "drawNumber",
+            "type": "u64"
+          },
+          {
+            "name": "lastDraw",
+            "docs": [
+              "Time since unix epoch when the last draw occurred.",
+              "The next draw is equal to (last_draw + lottery_duration)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "winningPageId",
+            "type": "u64"
+          },
+          {
+            "name": "winningPageFirstTicketId",
+            "type": "u64"
+          },
+          {
+            "name": "winningDepositAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                512
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PageIndex",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lotteryAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "numEntries",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                248
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Page",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lotteryAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "pageId",
+            "type": "u64"
+          },
+          {
+            "name": "numEntries",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RefLink",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "referrerUserAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "link",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "linkLen",
+            "type": "u8"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                7
+              ]
+            }
+          },
+          {
+            "name": "numReferred",
+            "type": "u64"
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                48
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "refLink",
+            "type": "publicKey"
+          },
+          {
+            "name": "createdRefLink",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "referrerFrozen",
+            "type": "bool"
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                126
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserDeposit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "transferAuthorityType",
+            "type": {
+              "defined": "TransferAuthorityType"
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                6
+              ]
+            }
+          },
+          {
+            "name": "transferAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "lotteryAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "page",
+            "type": "publicKey"
+          },
+          {
+            "name": "pageId",
+            "type": "u64"
+          },
+          {
+            "name": "liquidity",
+            "type": "u64"
+          },
+          {
+            "name": "prizeLiquidity",
+            "type": "u64"
+          },
+          {
+            "name": "numTickets",
+            "type": "u64"
+          },
+          {
+            "name": "lastDepositTime",
+            "type": "i64"
+          },
+          {
+            "name": "referrerLiquidity",
+            "type": "u64"
+          },
+          {
+            "name": "pageEntryIndex",
+            "type": "u64"
+          },
+          {
+            "name": "lifetimeReferrerLiquidity",
+            "type": "u64"
+          },
+          {
+            "name": "lifetimePrizeLiquidity",
+            "type": "u64"
+          },
+          {
+            "name": "lastDepositDrawNumber",
+            "type": "u64"
+          },
+          {
+            "name": "reserved1",
+            "type": {
+              "array": [
+                "u8",
+                88
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ConfigureLotteryParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "winnerVaultFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a jackpot is awarded"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "winnerReferrerFeeBps",
+            "docs": [
+              "The fee in basis points sent to the users referrer when a jackpot is awarded"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "withdrawalFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a user withdraws"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "earlyWithdrawalFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a user withdraws",
+              "and the time since their most recent deposit is greater than the lottery duration"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "lotteryDuration",
+            "docs": [
+              "The lottery duration in seconds. A draw occurs every interval"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "liquidityCap",
+            "docs": [
+              "The deposit limit for the pool. New deposits are denied when lottery_liquidity > liquidity_cap"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "nextDraw",
+            "docs": [
+              "Time since unix epoch when the next draw occurs."
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitLotteryParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "winnerVaultFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a jackpot is awarded"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "winnerReferrerFeeBps",
+            "docs": [
+              "The fee in basis points sent to the users referrer when a jackpot is awarded"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "withdrawalFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a user withdraws"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "earlyWithdrawalFeeBps",
+            "docs": [
+              "The fee in basis points sent to the fee vault when a user withdraws",
+              "and the time since their most recent deposit is greater than the lottery duration"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "lotteryDuration",
+            "docs": [
+              "The lottery duration in seconds. A draw occurs every interval"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "firstDraw",
+            "docs": [
+              "Time since unix epoch when the first draw occurs."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "liquidityCap",
+            "docs": [
+              "The deposit limit for the pool. New deposits are denied when lottery_liquidity > liquidity_cap"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "canExternallySetRandomness",
+            "docs": [
+              "A debugging bool to allow a random number to be chosen by an admin",
+              "instead of through switchboard or chainlink VRF. This allows the set_result endoint to be invoked."
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestResultParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "permissionBump",
+            "type": "u8"
+          },
+          {
+            "name": "switchboardStateBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CTokenType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Solend"
+          },
+          {
+            "name": "Bare"
+          },
+          {
+            "name": "Mercurial"
+          },
+          {
+            "name": "Marinade"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DrawSequence",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Countdown"
+          },
+          {
+            "name": "AwaitingRandomness"
+          },
+          {
+            "name": "DrawWinningPage"
+          },
+          {
+            "name": "DrawWinningUser"
+          },
+          {
+            "name": "AwardWinningUser"
+          },
+          {
+            "name": "ResetPageIndex"
+          },
+          {
+            "name": "ResetPage"
+          }
+        ]
+      }
+    },
+    {
+      "name": "JackpotType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InterestOnly"
+          },
+          {
+            "name": "PrincipalAndInterest"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransferAuthorityType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Wallet"
+          },
+          {
+            "name": "NFT"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DepositMode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Deposit"
+          },
+          {
+            "name": "DepositNoWithdrawal"
+          },
+          {
+            "name": "DepositNoChanceToWin"
+          },
+          {
+            "name": "DonateToCurrentJackpot"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongPool",
+      "msg": "Wrong pool"
+    },
+    {
+      "code": 6001,
+      "name": "WrongLottery",
+      "msg": "Wrong lottery"
+    },
+    {
+      "code": 6002,
+      "name": "WrongLotteryAuthority",
+      "msg": "Wrong lottery authority"
+    },
+    {
+      "code": 6003,
+      "name": "WrongTransferAuthorityOwner",
+      "msg": "Transfer authority owned by the wrong program"
+    },
+    {
+      "code": 6004,
+      "name": "WrongTransferAuthorityKey",
+      "msg": "Transfer authority does not match signer"
+    },
+    {
+      "code": 6005,
+      "name": "WrongTransferAuthorityTokenAccountType",
+      "msg": "Wrong token account type"
+    },
+    {
+      "code": 6006,
+      "name": "TransferAuthorityTokenAccountEmpty",
+      "msg": "Transfer authority token account is empty"
+    },
+    {
+      "code": 6007,
+      "name": "WrongTransferAuthorityTokenOwner",
+      "msg": "Transfer authority token owner does not match signer"
+    },
+    {
+      "code": 6008,
+      "name": "WrongTransferAuthorityTokenMint",
+      "msg": "Transfer authority token mint does not match the mint"
+    },
+    {
+      "code": 6009,
+      "name": "WrongPageIndex",
+      "msg": "Wrong page index"
+    },
+    {
+      "code": 6010,
+      "name": "WrongPage",
+      "msg": "Wrong page"
+    },
+    {
+      "code": 6011,
+      "name": "WrongWinningUser",
+      "msg": "Wrong winning user"
+    },
+    {
+      "code": 6012,
+      "name": "WrongWinningPage",
+      "msg": "Wrong winning page"
+    },
+    {
+      "code": 6013,
+      "name": "WrongLiquidityMint",
+      "msg": "Wrong liquidity mint"
+    },
+    {
+      "code": 6014,
+      "name": "WrongLiquidityAccount",
+      "msg": "Wrong liquidity account"
+    },
+    {
+      "code": 6015,
+      "name": "WrongLiquiditySupply",
+      "msg": "Wrong liquidity supply"
+    },
+    {
+      "code": 6016,
+      "name": "WrongCollateralMint",
+      "msg": "Wrong collateral mint"
+    },
+    {
+      "code": 6017,
+      "name": "WrongCollateralAccount",
+      "msg": "Wrong collateral account"
+    },
+    {
+      "code": 6018,
+      "name": "WrongCollateralAuthority",
+      "msg": "Wrong collateral authority"
+    },
+    {
+      "code": 6019,
+      "name": "WrongReserve",
+      "msg": "Wrong reserve"
+    },
+    {
+      "code": 6020,
+      "name": "WrongLendingMarket",
+      "msg": "Wrong lending market"
+    },
+    {
+      "code": 6021,
+      "name": "WrongLendingMarketAuthority",
+      "msg": "Wrong lending market authority"
+    },
+    {
+      "code": 6022,
+      "name": "WrongLendingProgram",
+      "msg": "Wrong lending program"
+    },
+    {
+      "code": 6023,
+      "name": "WrongReferrer",
+      "msg": "Wrong referrer"
+    },
+    {
+      "code": 6024,
+      "name": "WrongVrfAccount",
+      "msg": "Wrong VRF account provided"
+    },
+    {
+      "code": 6025,
+      "name": "WrongVrfAuthority",
+      "msg": "Wrong VRF authority provided"
+    },
+    {
+      "code": 6026,
+      "name": "InvalidSwitchboardVrfAccount",
+      "msg": "Not a valid Switchboard VRF account"
+    },
+    {
+      "code": 6027,
+      "name": "InvalidSwitchboardVrfAuthority",
+      "msg": "Not a valid Switchboard VRF authority"
+    },
+    {
+      "code": 6028,
+      "name": "DepositBlocked",
+      "msg": "Depositing is blocked"
+    },
+    {
+      "code": 6029,
+      "name": "WithdrawBlocked",
+      "msg": "Withdrawing is blocked"
+    },
+    {
+      "code": 6030,
+      "name": "DrawBlocked",
+      "msg": "Drawing is blocked"
+    },
+    {
+      "code": 6031,
+      "name": "ExternallySetRandomnessBlocked",
+      "msg": "Externally setting randomness blocked"
+    },
+    {
+      "code": 6032,
+      "name": "LotteryLiquidityAmountCapExceeded",
+      "msg": "Lottery liquidity amount cap exceeded"
+    },
+    {
+      "code": 6033,
+      "name": "LowBalance",
+      "msg": "Balance is too low"
+    },
+    {
+      "code": 6034,
+      "name": "NoPrize",
+      "msg": "There is no prize"
+    },
+    {
+      "code": 6035,
+      "name": "NoVrfValue",
+      "msg": "There is no VRF value"
+    },
+    {
+      "code": 6036,
+      "name": "WrongFeeVault",
+      "msg": "Wrong vault"
+    },
+    {
+      "code": 6037,
+      "name": "WinnerFeesOutOfRange",
+      "msg": "Winner fees out of range"
+    },
+    {
+      "code": 6038,
+      "name": "WithdrawalFeesOutOfRange",
+      "msg": "Withdrawal fees out of range"
+    },
+    {
+      "code": 6039,
+      "name": "EntriesLengthExceeded",
+      "msg": "Page index length exceeded"
+    },
+    {
+      "code": 6040,
+      "name": "ReferrerFrozen",
+      "msg": "Referrer frozen"
+    },
+    {
+      "code": 6041,
+      "name": "UserAlreadyCreatedReflink",
+      "msg": "User already created a reflink"
+    },
+    {
+      "code": 6042,
+      "name": "RefLinkLenOverflow",
+      "msg": "Ref link contents overflowed it's length"
+    },
+    {
+      "code": 6043,
+      "name": "RefLinkLenOutOfRange",
+      "msg": "Ref link length out of the range (0-32]"
+    },
+    {
+      "code": 6044,
+      "name": "RefLinkInvalidUtf8",
+      "msg": "Ref link contained invalid utf-8 bytes"
+    }
+  ]
+}

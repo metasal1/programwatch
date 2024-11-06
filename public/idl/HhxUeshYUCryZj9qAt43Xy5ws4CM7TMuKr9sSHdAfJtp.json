@@ -1,0 +1,556 @@
+{
+  "version": "0.1.0",
+  "name": "ugs_raffle",
+  "instructions": [
+    {
+      "name": "createRaffle",
+      "accounts": [
+        {
+          "name": "raffle",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creatorPrizeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rafflePrizeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rafflePayAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateRaffleArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "freezePrize",
+      "accounts": [
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "prizeTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenManagerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintCounter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenManagerProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenManagerKind",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "bid",
+      "accounts": [
+        {
+          "name": "raffle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rafflePayAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderPayAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "setRandom",
+      "accounts": [
+        {
+          "name": "raffle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recentBlockhashes",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimPrize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "raffle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rafflePrizeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerPrizeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "collect",
+      "accounts": [
+        {
+          "name": "raffle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rafflePayAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorPayAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeRaffle",
+      "accounts": [
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "raffle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rafflePayAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rafflePrizeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Bids",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "currentSize",
+            "type": "u32"
+          },
+          {
+            "name": "maxSize",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Raffle",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "category",
+            "type": "u8"
+          },
+          {
+            "name": "feature",
+            "type": "u8"
+          },
+          {
+            "name": "escrowBump",
+            "type": "u8"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "bids",
+            "type": "publicKey"
+          },
+          {
+            "name": "payMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "prizeMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "prizeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "endedAt",
+            "type": "i64"
+          },
+          {
+            "name": "startedAt",
+            "type": "i64"
+          },
+          {
+            "name": "ticketPrice",
+            "type": "u64"
+          },
+          {
+            "name": "isClaimed",
+            "type": "u8"
+          },
+          {
+            "name": "isFinished",
+            "type": "u8"
+          },
+          {
+            "name": "random",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "title",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateRaffleArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "category",
+            "type": "u8"
+          },
+          {
+            "name": "feature",
+            "type": "u8"
+          },
+          {
+            "name": "startedAt",
+            "type": "i64"
+          },
+          {
+            "name": "endedAt",
+            "type": "i64"
+          },
+          {
+            "name": "ticketPrice",
+            "type": "u64"
+          },
+          {
+            "name": "maxSize",
+            "type": "u32"
+          },
+          {
+            "name": "prizeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NoTicketsAvailable",
+      "msg": "No tickets available"
+    },
+    {
+      "code": 6001,
+      "name": "BidderSizeInvalid",
+      "msg": "Bids size does not match"
+    },
+    {
+      "code": 6002,
+      "name": "RaffleEnded",
+      "msg": "Raffle has already ended"
+    },
+    {
+      "code": 6003,
+      "name": "RaffleNotStarted",
+      "msg": "Raffle has not started yet"
+    },
+    {
+      "code": 6004,
+      "name": "CalculationOverflow",
+      "msg": "Overflow"
+    },
+    {
+      "code": 6005,
+      "name": "RaffleRunning",
+      "msg": "Raffle has not ended yet"
+    },
+    {
+      "code": 6006,
+      "name": "RaffleWinnerNotFound",
+      "msg": "Raffle winner has not been decided yet"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidAccountDiscriminant",
+      "msg": "Account discriminant is invalid"
+    },
+    {
+      "code": 6008,
+      "name": "WinnerAlreadySet",
+      "msg": "Winner has already been set"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidRemainingAccount",
+      "msg": "Remaining account is invalid"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidFreezeAuthority",
+      "msg": "Invalid freeze authority"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidClaimer",
+      "msg": "Claimer is invalid"
+    },
+    {
+      "code": 6012,
+      "name": "RaffleNotClaimed",
+      "msg": "Raffle has not been claimed yet"
+    },
+    {
+      "code": 6013,
+      "name": "RaffleAlreadyClaimed",
+      "msg": "Raffle has been claimed"
+    },
+    {
+      "code": 6014,
+      "name": "RaffleNotFinished",
+      "msg": "Raffle has not been finished yet"
+    },
+    {
+      "code": 6015,
+      "name": "RaffleAlreadyFinished",
+      "msg": "Raffle has already been finished"
+    },
+    {
+      "code": 6016,
+      "name": "ImpossibleToClose",
+      "msg": "Raffle can not be closed"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidTimeInformation",
+      "msg": "Raffle time information is not valid"
+    }
+  ]
+}

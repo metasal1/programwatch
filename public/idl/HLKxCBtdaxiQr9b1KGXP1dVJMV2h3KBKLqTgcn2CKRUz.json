@@ -1,0 +1,920 @@
+{
+  "version": "0.1.0",
+  "name": "lottery_program",
+  "instructions": [
+    {
+      "name": "createPool",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "CreatePoolParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closePool",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createLottery",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aggs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "CreateLotteryParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeLottery",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "joinLottery",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aggs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "JoinLotteryParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "finalizeWinner",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setLotteryWinner",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "aggs",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "SetLotteryWinnerParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createEscrow",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "token",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "fundEscrow",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "takeEscrow",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateHouseLiability",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "liabilityPercent",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateBaseFee",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lottery",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "baseFee",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalLotteries",
+            "type": "u8"
+          },
+          {
+            "name": "lotteries",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "username",
+            "type": "string"
+          },
+          {
+            "name": "other",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Escrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "token",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Lottery",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "publicKey"
+          },
+          {
+            "name": "index",
+            "type": "u8"
+          },
+          {
+            "name": "lotteriesCompleted",
+            "type": "u64"
+          },
+          {
+            "name": "entryFee",
+            "type": "u64"
+          },
+          {
+            "name": "maxParticipants",
+            "type": "u16"
+          },
+          {
+            "name": "startTime",
+            "type": "u32"
+          },
+          {
+            "name": "minIntervalSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "LotteryState"
+            }
+          },
+          {
+            "name": "liabilityPercent",
+            "type": "u8"
+          },
+          {
+            "name": "baseFee",
+            "type": "u64"
+          },
+          {
+            "name": "horses",
+            "type": {
+              "vec": {
+                "vec": {
+                  "defined": "Participant"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Aggs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totals",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "probs",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateLotteryParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "entryFee",
+            "type": "u64"
+          },
+          {
+            "name": "maxParticipants",
+            "type": "u16"
+          },
+          {
+            "name": "horsesCount",
+            "type": "u8"
+          },
+          {
+            "name": "startTime",
+            "type": "u32"
+          },
+          {
+            "name": "minIntervalSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "liabilityPercent",
+            "type": "u8"
+          },
+          {
+            "name": "baseFee",
+            "type": "u64"
+          },
+          {
+            "name": "horseProbs",
+            "type": {
+              "vec": {
+                "defined": "Odds"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePoolParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "JoinLotteryParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "useEscrow",
+            "type": "bool"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "horseIndex",
+            "type": "u8"
+          },
+          {
+            "name": "betType",
+            "type": {
+              "defined": "BetType"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetLotteryWinnerParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "horseProbs",
+            "type": {
+              "vec": {
+                "defined": "Odds"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Participant",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "publicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "bet",
+            "type": "u64"
+          },
+          {
+            "name": "betType",
+            "type": {
+              "defined": "BetType"
+            }
+          },
+          {
+            "name": "timestamp",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Odds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wo",
+            "type": "u64"
+          },
+          {
+            "name": "po",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Win"
+          },
+          {
+            "name": "Place"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LotteryState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Finalizing"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "LotteryJoined",
+      "fields": [
+        {
+          "name": "lottery",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "participant",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "time",
+          "type": "u32",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LotteryFinalized",
+      "fields": [
+        {
+          "name": "lottery",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "winner",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LotteryDrawn",
+      "fields": [
+        {
+          "name": "lottery",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotAManager",
+      "msg": "Restricted! You are not a manager."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidPool",
+      "msg": "Please use the pool associated with the given lottery"
+    },
+    {
+      "code": 6002,
+      "name": "LotteryIsOver",
+      "msg": "Lottery Inactive. This lottery is over."
+    },
+    {
+      "code": 6003,
+      "name": "LotteryFull",
+      "msg": "Sorry, this lottery is full"
+    },
+    {
+      "code": 6004,
+      "name": "LotteryNotEnded",
+      "msg": "Sorry, this lottery has not ended"
+    },
+    {
+      "code": 6005,
+      "name": "LotteryFinalizing",
+      "msg": "Sorry, this lottery is already in the process of finalizing"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidSwitchboardAccount",
+      "msg": "Sorry, please use a valid vrf account"
+    },
+    {
+      "code": 6007,
+      "name": "RandomNumberNotVerified",
+      "msg": "Sorry, please wait for the random number to be verified"
+    },
+    {
+      "code": 6008,
+      "name": "TooManyParticiapnts",
+      "msg": "Too many participants"
+    },
+    {
+      "code": 6009,
+      "name": "HouseEmpty",
+      "msg": "House doesn't have enough to pay out this amount"
+    },
+    {
+      "code": 6010,
+      "name": "HorseOutOfRange",
+      "msg": "You are tyring to bet on a horse that doesn't exist"
+    },
+    {
+      "code": 6011,
+      "name": "LiabilityExceeded",
+      "msg": "Sorry we are not accepting bets at this time"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidLiability",
+      "msg": "Sorry please submit a liability % between 0 and 100"
+    }
+  ]
+}

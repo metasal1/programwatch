@@ -1,0 +1,307 @@
+{
+  "version": "0.8.2",
+  "name": "everwave_dao",
+  "instructions": [
+    {
+      "name": "createRealm",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "govMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Governance token mint"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createMinter",
+      "accounts": [
+        {
+          "name": "auth",
+          "accounts": [
+            {
+              "name": "admin",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "realm",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "minter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "minterAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pfMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "profile token mint"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "manager",
+          "type": "publicKey"
+        },
+        {
+          "name": "allowance",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateMinterManager",
+      "accounts": [
+        {
+          "name": "auth",
+          "accounts": [
+            {
+              "name": "admin",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "realm",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "minter",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newManager",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "createArtist",
+      "accounts": [
+        {
+          "name": "auth",
+          "accounts": [
+            {
+              "name": "manager",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "minter",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "minterAuthority",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "artist",
+          "accounts": [
+            {
+              "name": "user",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Artist's wallet"
+              ]
+            },
+            {
+              "name": "tokenAccount",
+              "isMut": true,
+              "isSigner": false,
+              "docs": [
+                "Artist's profile ATA"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pfMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Minter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "docs": [
+              "parent DAO"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "manager",
+            "docs": [
+              "manager that has minting power; realm admin can change this!"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pfMint",
+            "docs": [
+              "profile token mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pfDecimals",
+            "docs": [
+              "profile token decimals"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "pfMultiplier",
+            "docs": [
+              "unit amount; store 10**pf_decimals to reduce compute units"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "allowance",
+            "docs": [
+              "allowed mint amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalMinted",
+            "docs": [
+              "total minted amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "authorityBump",
+            "docs": [
+              "mint/freeze authority PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Realm",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "docs": [
+              "DAO administrator"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bot",
+            "type": "publicKey"
+          },
+          {
+            "name": "beneficiary",
+            "type": "publicKey"
+          },
+          {
+            "name": "govMint",
+            "docs": [
+              "governance token mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "govDecimals",
+            "docs": [
+              "governance token decimals"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "govMultiplier",
+            "docs": [
+              "store 10**gov_decimals to reduce compute units"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "authorityBump",
+            "docs": [
+              "treasury authority PDA bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "emergencyFlag",
+            "docs": [
+              "emergency"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ServiceNotAvailable",
+      "msg": "Service not available"
+    },
+    {
+      "code": 6001,
+      "name": "AccessDenied",
+      "msg": "Access denied"
+    }
+  ]
+}

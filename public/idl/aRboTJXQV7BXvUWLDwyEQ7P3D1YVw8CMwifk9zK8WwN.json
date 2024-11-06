@@ -1,0 +1,375 @@
+{
+  "version": "0.1.0",
+  "name": "clmm_arb",
+  "instructions": [
+    {
+      "name": "raydiumSwap",
+      "accounts": [
+        {
+          "name": "clmmProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The user performing the swap"
+          ]
+        },
+        {
+          "name": "ammConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The factory state to read protocol fees"
+          ]
+        },
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The program account of the pool in which the swap will be performed"
+          ]
+        },
+        {
+          "name": "inputTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user token account for input token"
+          ]
+        },
+        {
+          "name": "outputTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user token account for output token"
+          ]
+        },
+        {
+          "name": "inputVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The vault token account for input token"
+          ]
+        },
+        {
+          "name": "outputVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The vault token account for output token"
+          ]
+        },
+        {
+          "name": "observationState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The program account for the most recent oracle observation"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL program for token transfers"
+          ]
+        },
+        {
+          "name": "tokenProgram2022",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL program 2022 for token transfers"
+          ]
+        },
+        {
+          "name": "memoProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inputVaultMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint of token vault 0"
+          ]
+        },
+        {
+          "name": "outputVaultMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint of token vault 1"
+          ]
+        },
+        {
+          "name": "guardRegistry",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimitX64",
+          "type": "u128"
+        },
+        {
+          "name": "isBaseInput",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "orcaSwap",
+      "accounts": [
+        {
+          "name": "whirlpoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "guardRegistry",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimit",
+          "type": "u128"
+        },
+        {
+          "name": "amountSpecifiedIsInput",
+          "type": "bool"
+        },
+        {
+          "name": "aToB",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "preGuard",
+      "accounts": [
+        {
+          "name": "guardRegistry",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user performing the swap"
+          ]
+        },
+        {
+          "name": "mintA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inputAToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputBToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountIn",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "postGuard",
+      "accounts": [
+        {
+          "name": "guardRegistry",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user performing the swap"
+          ]
+        },
+        {
+          "name": "inputAToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputBToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minProfitA",
+          "type": "u128"
+        },
+        {
+          "name": "minProfitB",
+          "type": "u128"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GuardRegistry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "preGuardSlot",
+            "type": "u64"
+          },
+          {
+            "name": "amountInA",
+            "type": "u64"
+          },
+          {
+            "name": "mintA",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintB",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountB",
+            "type": "u64"
+          },
+          {
+            "name": "balanceA",
+            "type": "u64"
+          },
+          {
+            "name": "balanceB",
+            "type": "u64"
+          },
+          {
+            "name": "tradeSigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                160
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

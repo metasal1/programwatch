@@ -1,0 +1,779 @@
+{
+  "version": "0.1.0",
+  "name": "spl_staking",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "settings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thisProgramAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockDuration",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "settings",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thisProgramAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "settings",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thisProgramAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setReferrer",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "referrer",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "registerShortReferrer",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "shortReferrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "shortSize",
+          "type": "u16"
+        },
+        {
+          "name": "short",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "adminRegisterShortReferrer",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "shortReferrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "shortSize",
+          "type": "u16"
+        },
+        {
+          "name": "short",
+          "type": "bytes"
+        },
+        {
+          "name": "full",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "adminDeleteShortReferrer",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "shortReferrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "short",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "adminEmergencyWithdraw",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "settings",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thisProgramAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "userToWithdraw",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "adminSetLockDuration",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "settings",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockDuration",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "addAdmin",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "currentAdmin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newAdmin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdminKey",
+          "type": "publicKey"
+        },
+        {
+          "name": "newAdminRole",
+          "type": {
+            "defined": "AdminRole"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dropAdmin",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "currentAdmin",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "revokeAdmin",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetAdmin",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Settings",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "splTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "lockDuration",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "lockExpires",
+            "type": "u32"
+          },
+          {
+            "name": "referrer",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ShortReferrer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "full",
+            "type": "publicKey"
+          },
+          {
+            "name": "short",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "publicKey"
+          },
+          {
+            "name": "role",
+            "type": {
+              "defined": "AdminRole"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AdminRole",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Admin"
+          },
+          {
+            "name": "Operator"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Deposit",
+      "fields": [
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "totalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "lockExpires",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "referrer",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Withdraw",
+      "fields": [
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "totalAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetReferrer",
+      "fields": [
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "oldReferrer",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newReferrer",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RegisterShortReferrer",
+      "fields": [
+        {
+          "name": "full",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "short",
+          "type": "bytes",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdminRegisterShortReferrer",
+      "fields": [
+        {
+          "name": "full",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "short",
+          "type": "bytes",
+          "index": false
+        },
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdminDeleteShortReferrer",
+      "fields": [
+        {
+          "name": "short",
+          "type": "bytes",
+          "index": false
+        },
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdminEmergencyWithdraw",
+      "fields": [
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "totalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdminSetLockDuration",
+      "fields": [
+        {
+          "name": "lockDuration",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AddAdmin",
+      "fields": [
+        {
+          "name": "key",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "role",
+          "type": {
+            "defined": "AdminRole"
+          },
+          "index": false
+        },
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DropAdmin",
+      "fields": [
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RevokeAdmin",
+      "fields": [
+        {
+          "name": "initiator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "target",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TooSoon",
+      "msg": "Too soon to withdraw"
+    },
+    {
+      "code": 6001,
+      "name": "NothingToWithdraw",
+      "msg": "Nothing to withdraw"
+    },
+    {
+      "code": 6002,
+      "name": "MustNotBeEmpty",
+      "msg": "Argument must not be empty"
+    },
+    {
+      "code": 6003,
+      "name": "OnlyDigitsAllowed",
+      "msg": "Only digits allowed"
+    },
+    {
+      "code": 6004,
+      "name": "CannotReferYourself",
+      "msg": "Not allowed to refer yourself"
+    },
+    {
+      "code": 6005,
+      "name": "WeakRole",
+      "msg": "Weak role"
+    }
+  ]
+}

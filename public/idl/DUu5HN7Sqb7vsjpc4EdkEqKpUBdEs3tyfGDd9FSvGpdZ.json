@@ -1,0 +1,276 @@
+{
+  "version": "0.0.0",
+  "name": "roulette",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "poolSignerBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "spin",
+      "accounts": [
+        {
+          "name": "requester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "requesterUsdcAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "requestReference",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solanaAnchorRandoProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "betBump",
+          "type": "u8"
+        },
+        {
+          "name": "stateBump",
+          "type": "u8"
+        },
+        {
+          "name": "bets",
+          "type": {
+            "array": [
+              "u32",
+              64
+            ]
+          }
+        },
+        {
+          "name": "isRealBet",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "requesterUsdcAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stateBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GameState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolSigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolSignerBump",
+            "type": "u8"
+          },
+          {
+            "name": "initialized",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bets",
+            "type": {
+              "array": [
+                "u32",
+                64
+              ]
+            }
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "i32"
+          },
+          {
+            "name": "ball",
+            "type": "u8"
+          },
+          {
+            "name": "rolled",
+            "type": "bool"
+          },
+          {
+            "name": "requesterUsdcAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "isRealBet",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidBetSide",
+      "msg": "Invalid bet side"
+    },
+    {
+      "code": 301,
+      "name": "ResultNotReady",
+      "msg": "Result not ready yet."
+    },
+    {
+      "code": 302,
+      "name": "YouBetTooMuchBro",
+      "msg": "You bet too much bro, please don't rug me, my familia."
+    }
+  ]
+}

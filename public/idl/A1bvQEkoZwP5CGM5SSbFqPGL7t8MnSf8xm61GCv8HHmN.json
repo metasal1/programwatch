@@ -1,0 +1,467 @@
+{
+  "version": "0.0.1",
+  "name": "fracture_swap",
+  "instructions": [
+    {
+      "name": "initSwapConfig",
+      "accounts": [
+        {
+          "name": "swapConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ix",
+          "type": {
+            "defined": "InitSwapConfigIx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateSwapConfig",
+      "accounts": [
+        {
+          "name": "swapConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ix",
+          "type": {
+            "defined": "UpdateSwapConfigIx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addOutputMintData",
+      "accounts": [
+        {
+          "name": "swapConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ix",
+          "type": {
+            "defined": "AddOutputMintDataIx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "swap",
+      "accounts": [
+        {
+          "name": "swapConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapConfigAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "holder",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "outputMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "outputMintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputMintEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetOutputMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetOutputMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recentSlothashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SwapConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "outputMintProgrammableRuleset",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "inputTokensAmount",
+            "type": "u64"
+          },
+          {
+            "name": "swapSupply",
+            "type": "u64"
+          },
+          {
+            "name": "swapCount",
+            "type": "u64"
+          },
+          {
+            "name": "inputAllowedCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "outputTokensCreatorsArray",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AddOutputMintDataIx",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "index",
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitSwapConfigIx",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "outputMintProgrammableRuleset",
+            "type": "publicKey"
+          },
+          {
+            "name": "inputTokensAmount",
+            "type": "u64"
+          },
+          {
+            "name": "inputAllowedCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "outputTokensCreatorsArray",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateSwapConfigIx",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "outputMintProgrammableRuleset",
+            "type": "publicKey"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "inputTokensAmount",
+            "type": "u64"
+          },
+          {
+            "name": "inputAllowedCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "outputTokensCreatorsArray",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OutputMintEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Creator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "share",
+            "type": "u8"
+          },
+          {
+            "name": "verified",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority"
+    },
+    {
+      "code": 6001,
+      "name": "InsufficientInputTokensAccounts",
+      "msg": "Insufficient input tokens accounts"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidHolderInputTokenAccount",
+      "msg": "Invalid holder input token account"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidInputMintTokenAccount",
+      "msg": "Invalid input token account"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidTokenAccountMint",
+      "msg": "Invalid token account mint"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidMetadata",
+      "msg": "Invalid metadata"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidIndex",
+      "msg": "Invalid index"
+    },
+    {
+      "code": 6007,
+      "name": "MintNotAllowed",
+      "msg": "Mint is not allowed to be swapped"
+    },
+    {
+      "code": 6008,
+      "name": "NoCollectionFound",
+      "msg": "Collection not found for token"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidSwapConfigAddress",
+      "msg": "Invalid swap config address"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidSwapConfig",
+      "msg": "Invalid swap config"
+    },
+    {
+      "code": 6011,
+      "name": "NoTokensLeftToSwapFor",
+      "msg": "No tokens left to swap for"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidOutputMintEntry",
+      "msg": "Invalid output mint entry"
+    },
+    {
+      "code": 6013,
+      "name": "SwappingHasAlreadyStarted",
+      "msg": "Swapping has already started"
+    },
+    {
+      "code": 6014,
+      "name": "TokensAreNotFromUniqueCollections",
+      "msg": "TokensAreNotFromUniqueCollections"
+    }
+  ]
+}

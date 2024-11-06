@@ -1,0 +1,605 @@
+{
+  "version": "0.1.0",
+  "name": "slingo",
+  "instructions": [
+    {
+      "name": "initMatchPda",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "matchPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initUserPda",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "playerBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "distributeShare",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "distributeTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "share",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "serverWithdraw",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "matchPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "matchPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "freeDeposit",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "startGame",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "matchPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "players",
+          "type": {
+            "array": [
+              {
+                "option": "publicKey"
+              },
+              6
+            ]
+          }
+        },
+        {
+          "name": "serverCommit",
+          "type": "string"
+        },
+        {
+          "name": "betValue",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "finishGame",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "matchPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "firstUserPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "secondUserPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "thirdUserPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "fourthUserPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "fifthUserPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "sixthUserPda",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "matchId",
+          "type": "string"
+        },
+        {
+          "name": "serverKey",
+          "type": "string"
+        },
+        {
+          "name": "ipfsLink",
+          "type": "string"
+        },
+        {
+          "name": "serverPayback",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MatchPda",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "matchId",
+            "type": "string"
+          },
+          {
+            "name": "players",
+            "type": {
+              "array": [
+                {
+                  "option": "publicKey"
+                },
+                6
+              ]
+            }
+          },
+          {
+            "name": "server",
+            "type": "publicKey"
+          },
+          {
+            "name": "serverCommit",
+            "type": "string"
+          },
+          {
+            "name": "betValue",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "serverKey",
+            "type": "string"
+          },
+          {
+            "name": "ipfsLink",
+            "type": "string"
+          },
+          {
+            "name": "chainTable",
+            "type": {
+              "array": [
+                "u8",
+                528
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserPda",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userWallet",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "MatchEvent",
+      "fields": [
+        {
+          "name": "matchId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "players",
+          "type": {
+            "array": [
+              {
+                "option": "publicKey"
+              },
+              6
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "server",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "serverCommit",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "betValue",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "bump",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "serverKey",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "ipfsLink",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "chainTable",
+          "type": {
+            "array": [
+              "u8",
+              528
+            ]
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DistributeEvent",
+      "fields": [
+        {
+          "name": "matchId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "distributeTo",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "share",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientFund",
+      "msg": "Error InsufficientFund!"
+    },
+    {
+      "code": 6001,
+      "name": "RestrictionError",
+      "msg": "Restriction error!"
+    },
+    {
+      "code": 6002,
+      "name": "PlayerDoesntExist",
+      "msg": "Player Doesn't Exist!"
+    },
+    {
+      "code": 6003,
+      "name": "PlayerPdaBalanceIsZero",
+      "msg": "Player Pda Balance Is Zero!"
+    },
+    {
+      "code": 6004,
+      "name": "ServerPdaBalanceIsZero",
+      "msg": "Server Pda Balance Is Zero!"
+    },
+    {
+      "code": 6005,
+      "name": "MatchIsLocked",
+      "msg": "Match Is Locked!"
+    },
+    {
+      "code": 6006,
+      "name": "MatchPdaIsEmpty",
+      "msg": "Match PDA Is Empty!"
+    },
+    {
+      "code": 6007,
+      "name": "PdaCantHaveAmountLowerThanBetValue",
+      "msg": "Match PDA Can't Have Amount Lower Than Bet Value"
+    }
+  ]
+}

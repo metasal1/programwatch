@@ -1,0 +1,587 @@
+{
+  "version": "0.1.0",
+  "name": "pawn_shop",
+  "instructions": [
+    {
+      "name": "requestLoan",
+      "accounts": [
+        {
+          "name": "pawnLoan",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pawnMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "borrower",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "borrowerPawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "desiredTerms",
+          "type": {
+            "option": {
+              "defined": "LoanTerms"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "underwriteLoan",
+      "accounts": [
+        {
+          "name": "pawnLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pawnTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lender",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "lenderPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrowerPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "expectedTerms",
+          "type": {
+            "defined": "LoanTerms"
+          }
+        },
+        {
+          "name": "expectedPawnMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "expectedPawnAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "repayLoan",
+      "accounts": [
+        {
+          "name": "pawnLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrower",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "borrowerPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrowerPawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lenderPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adminPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelLoan",
+      "accounts": [
+        {
+          "name": "pawnLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrower",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "borrowerPawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "seizePawn",
+      "accounts": [
+        {
+          "name": "pawnLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lenderPawnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawAdminFees",
+      "accounts": [
+        {
+          "name": "feeCollector",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "feeCollectorPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adminPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PawnLoan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "borrower",
+            "type": "publicKey"
+          },
+          {
+            "name": "pawnTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "LoanStatus"
+            }
+          },
+          {
+            "name": "lender",
+            "type": "publicKey"
+          },
+          {
+            "name": "desiredTerms",
+            "type": {
+              "option": {
+                "defined": "LoanTerms"
+              }
+            }
+          },
+          {
+            "name": "terms",
+            "type": {
+              "option": {
+                "defined": "LoanTerms"
+              }
+            }
+          },
+          {
+            "name": "creationTime",
+            "type": "i64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "endTime",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PawnLoan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "borrower",
+            "type": "publicKey"
+          },
+          {
+            "name": "pawnTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "LoanStatus"
+            }
+          },
+          {
+            "name": "lender",
+            "type": "publicKey"
+          },
+          {
+            "name": "desiredTerms",
+            "type": {
+              "option": {
+                "defined": "LoanTerms"
+              }
+            }
+          },
+          {
+            "name": "terms",
+            "type": {
+              "option": {
+                "defined": "LoanTerms"
+              }
+            }
+          },
+          {
+            "name": "creationTime",
+            "type": "i64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "endTime",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LoanTerms",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "principalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "annualPercentageRateBps",
+            "type": "u64"
+          },
+          {
+            "name": "duration",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LoanStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Repaid"
+          },
+          {
+            "name": "Defaulted"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "LoanRequested",
+      "fields": [
+        {
+          "name": "pawnLoanAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnLoan",
+          "type": {
+            "defined": "PawnLoan"
+          },
+          "index": false
+        },
+        {
+          "name": "pawnMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LoanUnderwritten",
+      "fields": [
+        {
+          "name": "pawnLoanAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnLoan",
+          "type": {
+            "defined": "PawnLoan"
+          },
+          "index": false
+        },
+        {
+          "name": "pawnMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LoanRepaid",
+      "fields": [
+        {
+          "name": "pawnLoanAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnLoan",
+          "type": {
+            "defined": "PawnLoan"
+          },
+          "index": false
+        },
+        {
+          "name": "pawnMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PawnSeized",
+      "fields": [
+        {
+          "name": "pawnLoanAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnLoan",
+          "type": {
+            "defined": "PawnLoan"
+          },
+          "index": false
+        },
+        {
+          "name": "pawnMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pawnAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PawnAmountIsZero"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidLoanTerms"
+    },
+    {
+      "code": 6002,
+      "name": "CalculationError"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidLoanStatus"
+    },
+    {
+      "code": 6004,
+      "name": "UnexpectedDesiredTerms"
+    },
+    {
+      "code": 6005,
+      "name": "UnexpectedPawnMint"
+    },
+    {
+      "code": 6006,
+      "name": "UnexpectedPawnAmount"
+    },
+    {
+      "code": 6007,
+      "name": "CannotCancelLoanWithMoreThanZeroBids"
+    },
+    {
+      "code": 6008,
+      "name": "CannotSeizeBeforeExpiry"
+    }
+  ]
+}

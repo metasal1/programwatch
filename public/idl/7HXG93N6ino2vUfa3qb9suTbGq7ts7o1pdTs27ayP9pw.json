@@ -1,0 +1,279 @@
+{
+  "version": "0.1.0",
+  "name": "imso_claim",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rainVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rainMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "Treasury"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateTreasury",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "Treasury"
+          }
+        }
+      ]
+    },
+    {
+      "name": "enableTreasury",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "disableTreasury",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "redeemPandaOwnershipRainTokens",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftRedeemed",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadataAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "in instruction processor which in turn verifies this account"
+          ]
+        },
+        {
+          "name": "nftMasterEditionAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "in instruction processor which in turn verifies this account"
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rainVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destRainTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recentSlothashes",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Treasury",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "updateAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "rainMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rainVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "redemptionMultiplier",
+            "type": "f64"
+          },
+          {
+            "name": "enabled",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NFTRedeemed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "recentSlothash",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NftRedemptionState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "metadataKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "isVerified",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TreasuryDisabled",
+      "msg": "Treasury is disabled"
+    },
+    {
+      "code": 6001,
+      "name": "NFTCreatorNotVerified",
+      "msg": "NFT Creator not verified"
+    }
+  ]
+}

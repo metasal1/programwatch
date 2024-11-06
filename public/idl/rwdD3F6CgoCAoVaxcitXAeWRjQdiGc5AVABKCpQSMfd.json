@@ -1,0 +1,1659 @@
+{
+  "version": "0.2.8",
+  "name": "reward_center",
+  "instructions": [
+    {
+      "name": "createRewardCenter",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "the mint of the token to use as rewards."
+          ]
+        },
+        {
+          "name": "auctionHouseTreasuryMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer program PDA running this auction."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "createRewardCenterParams",
+          "type": {
+            "defined": "CreateRewardCenterParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "editRewardCenter",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer program PDA running this auction."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "editRewardCenterParams",
+          "type": {
+            "defined": "EditRewardCenterParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawRewardCenterFunds",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "rewardCenterRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer program PDA running this auction."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawRewardCenterFundsParams",
+          "type": {
+            "defined": "WithdrawRewardCenterFundsParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createListing",
+      "accounts": [
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House Program used for CPI call"
+          ]
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Listing Config used for listing settings"
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer program PDA running this auction."
+          ]
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account containing token for sale."
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House authority account."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "auctionHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance fee account."
+          ]
+        },
+        {
+          "name": "sellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller trade state PDA account encoding the sell order."
+          ]
+        },
+        {
+          "name": "freeSellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Free seller trade state PDA account encoding a free sell order."
+          ]
+        },
+        {
+          "name": "ahAuctioneerPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer PDA owned by Auction House storing scopes."
+          ]
+        },
+        {
+          "name": "programAsSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "createListingParams",
+          "type": {
+            "defined": "CreateListingParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateListing",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Seller wallet"
+          ]
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Listing Config used for listing settings"
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer authority PDA running this auction."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL token account containing token for sale."
+          ]
+        },
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House Program used for CPI call"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "updateListingParams",
+          "type": {
+            "defined": "UpdateListingParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeListing",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Listing Config used for listing settings"
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account containing the token of the sale to be canceled."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token mint account of SPL token."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance authority account."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer program PDA running this auction."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "auctionHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance fee account."
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Trade state PDA account representing the bid or ask to be canceled."
+          ]
+        },
+        {
+          "name": "ahAuctioneerPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer PDA owned by Auction House storing scopes."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createOffer",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "offer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Offer config account used for bids"
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House authority account."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer authority - typically a PDA of the Auctioneer program running this action."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerTradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ahAuctioneerPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer PDA owned by Auction House storing scopes."
+          ]
+        },
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "createOfferParams",
+          "type": {
+            "defined": "CreateOfferParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeOffer",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "offer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Offer config account used for bids"
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account containing the token of the sale to be canceled."
+          ]
+        },
+        {
+          "name": "receiptAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account or native SOL account to transfer funds to. If the account is a native SOL account, this is the same as the wallet address."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token mint account of SPL token."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House authority account."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer authority - typically a PDA of the Auctioneer program running this action."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "auctionHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Trade state PDA account representing the bid or ask to be canceled."
+          ]
+        },
+        {
+          "name": "ahAuctioneerPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer PDA owned by Auction House storing scopes."
+          ]
+        },
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "closeOfferParams",
+          "type": {
+            "defined": "CloseOfferParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "buyListing",
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer user wallet account."
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "buyerRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account to receive the buyer rewards."
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller user wallet account."
+          ]
+        },
+        {
+          "name": "sellerRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account to receive the seller rewards."
+          ]
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Listing Config used for listing settings"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account where the SPL token is stored."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token mint account for the SPL token."
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House treasury mint account."
+          ]
+        },
+        {
+          "name": "sellerPaymentReceiptAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller SOL or SPL account to receive payment at."
+          ]
+        },
+        {
+          "name": "buyerReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer SPL token account to receive purchased item at."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance authority."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer escrow payment account."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "auctionHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance fee account."
+          ]
+        },
+        {
+          "name": "auctionHouseTreasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance treasury account."
+          ]
+        },
+        {
+          "name": "buyerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer trade state PDA account encoding the buy order."
+          ]
+        },
+        {
+          "name": "sellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller trade state PDA account encoding the sell order."
+          ]
+        },
+        {
+          "name": "freeSellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Free seller trade state PDA account encoding a free sell order."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer authority PDA running this auction."
+          ]
+        },
+        {
+          "name": "rewardCenterRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account holding the reward token for the reward center."
+          ]
+        },
+        {
+          "name": "ahAuctioneerPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer PDA owned by Auction House storing scopes."
+          ]
+        },
+        {
+          "name": "programAsSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House Program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System Program"
+          ]
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Associated Token Program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "buyListingParams",
+          "type": {
+            "defined": "BuyListingParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "acceptOffer",
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer user wallet account."
+          ]
+        },
+        {
+          "name": "buyerRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account to receive the buyer rewards."
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller user wallet account."
+          ]
+        },
+        {
+          "name": "sellerRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account to receive the seller rewards."
+          ]
+        },
+        {
+          "name": "offer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The offer config account used for bids"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account where the SPL token is stored."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token mint account for the SPL token."
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House treasury mint account."
+          ]
+        },
+        {
+          "name": "sellerPaymentReceiptAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller SOL or SPL account to receive payment at."
+          ]
+        },
+        {
+          "name": "buyerReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer SPL token account to receive purchased item at."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance authority."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer escrow payment account."
+          ]
+        },
+        {
+          "name": "auctionHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance PDA account."
+          ]
+        },
+        {
+          "name": "auctionHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance fee account."
+          ]
+        },
+        {
+          "name": "auctionHouseTreasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction House instance treasury account."
+          ]
+        },
+        {
+          "name": "buyerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer trade state PDA account encoding the buy order."
+          ]
+        },
+        {
+          "name": "sellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller trade state PDA account encoding the sell order."
+          ]
+        },
+        {
+          "name": "freeSellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Free seller trade state PDA account encoding a free sell order."
+          ]
+        },
+        {
+          "name": "rewardCenter",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer authority PDA running this auction."
+          ]
+        },
+        {
+          "name": "rewardCenterRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account holding the reward token for the reward center."
+          ]
+        },
+        {
+          "name": "ahAuctioneerPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auctioneer PDA owned by Auction House storing scopes."
+          ]
+        },
+        {
+          "name": "programAsSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionHouseProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Auction House Program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System Program"
+          ]
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Associated Token Program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "acceptOfferParams",
+          "type": {
+            "defined": "AcceptOfferParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "attribute",
+      "accounts": [],
+      "args": [
+        {
+          "name": "attributeParams",
+          "type": {
+            "defined": "AttributeParams"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RewardCenter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMint",
+            "docs": [
+              "the mint of the token used as rewards"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "auctionHouse",
+            "docs": [
+              "the auction house associated to the reward center"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardRules",
+            "docs": [
+              "rules for listing rewards"
+            ],
+            "type": {
+              "defined": "RewardRules"
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "the bump of the pda"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Listing",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardCenter",
+            "type": "publicKey"
+          },
+          {
+            "name": "seller",
+            "type": "publicKey"
+          },
+          {
+            "name": "metadata",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "tokenSize",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Offer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardCenter",
+            "type": "publicKey"
+          },
+          {
+            "name": "buyer",
+            "type": "publicKey"
+          },
+          {
+            "name": "metadata",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "tokenSize",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "priceWithFees",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AttributeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "memo",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuyListingParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyerTradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "escrowPaymentBump",
+            "type": "u8"
+          },
+          {
+            "name": "freeTradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "sellerTradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "programAsSignerBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateListingParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "tokenSize",
+            "type": "u64"
+          },
+          {
+            "name": "tradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "freeTradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "programAsSignerBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateListingParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newPrice",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AcceptOfferParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "escrowPaymentBump",
+            "type": "u8"
+          },
+          {
+            "name": "freeTradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "programAsSignerBump",
+            "type": "u8"
+          },
+          {
+            "name": "sellerTradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "buyerTradeStateBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CloseOfferParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "escrowPaymentBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateOfferParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tradeStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "escrowPaymentBump",
+            "type": "u8"
+          },
+          {
+            "name": "buyerPrice",
+            "type": "u64"
+          },
+          {
+            "name": "tokenSize",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRewardCenterParams",
+      "docs": [
+        "Options to set on the reward center"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardRules",
+            "type": {
+              "defined": "RewardRules"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EditRewardCenterParams",
+      "docs": [
+        "Options to set on the reward center"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardRules",
+            "type": {
+              "defined": "RewardRules"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardRules",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sellerRewardPayoutBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "mathematicalOperand",
+            "type": {
+              "defined": "PayoutOperation"
+            }
+          },
+          {
+            "name": "payoutNumeral",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawRewardCenterFundsParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "withdrawalAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayoutOperation",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Multiple"
+          },
+          {
+            "name": "Divide"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "RewardCenterTreasuryWithdrawn",
+      "fields": [
+        {
+          "name": "rewardsMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardCenterAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "destinationRewardTokenAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "withdrawalAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BumpSeedNotInHashMap",
+      "msg": "Bump seed not in hash map"
+    },
+    {
+      "code": 6001,
+      "name": "SignerNotAuthorized",
+      "msg": "Unauthorized signer"
+    },
+    {
+      "code": 6002,
+      "name": "NumericalOverflowError",
+      "msg": "Math numerical overflow"
+    },
+    {
+      "code": 6003,
+      "name": "MintMismatch",
+      "msg": "The mints do not match"
+    },
+    {
+      "code": 6004,
+      "name": "PriceMismatch",
+      "msg": "Listing and offer prices do not match"
+    },
+    {
+      "code": 6005,
+      "name": "BuyerTokenAccountMismatch",
+      "msg": "Buyer token account owner does not match the buyer"
+    },
+    {
+      "code": 6006,
+      "name": "SellerTokenAccountMismatch",
+      "msg": "Seller token account owner does not match the seller"
+    },
+    {
+      "code": 6007,
+      "name": "RewardMintDecimalMismatch",
+      "msg": "The number of decimals for auction house treasury mint do not match reward mint decimals"
+    },
+    {
+      "code": 6008,
+      "name": "AuctionHouseTreasuryMismatch",
+      "msg": "The treasury does not match the one present on the auction house"
+    },
+    {
+      "code": 6009,
+      "name": "BumpMismatch",
+      "msg": "The account address bumps do not match"
+    },
+    {
+      "code": 6010,
+      "name": "TokenOwnerMismatch",
+      "msg": "The given token account owner does not match"
+    },
+    {
+      "code": 6011,
+      "name": "InsufficientFunds",
+      "msg": "The given token account has insufficient funds"
+    },
+    {
+      "code": 6012,
+      "name": "PriceInvalid",
+      "msg": "The listing price cannot be zero"
+    }
+  ]
+}

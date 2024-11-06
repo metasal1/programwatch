@@ -1,0 +1,563 @@
+{
+  "version": "0.2.1",
+  "name": "messaging",
+  "constants": [
+    {
+      "name": "MESSAGE_FEE_LAMPORTS",
+      "type": "u64",
+      "value": "50000"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "sendMessage",
+      "accounts": [
+        {
+          "name": "mailbox",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "receiver"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "message",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "message"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mailbox",
+                "path": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "u32",
+                "account": "Mailbox",
+                "path": "mailbox.message_count"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sender",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "feeReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "deleteMessage",
+      "accounts": [
+        {
+          "name": "mailbox",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "receiver"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizedDeleter",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "message",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "message"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mailbox",
+                "path": "mailbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "message_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rentDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "messageIndex",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "updateReadMessages",
+      "accounts": [
+        {
+          "name": "mailbox",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "receiver"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "readMessages",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "sendMessageWithIncentive",
+      "accounts": [
+        {
+          "name": "mailbox",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "receiver"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "message",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "message"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mailbox",
+                "path": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "u32",
+                "account": "Mailbox",
+                "path": "mailbox.message_count"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sender",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "feeReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "incentiveMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "incentiveTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "string"
+        },
+        {
+          "name": "incentiveAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimIncentive",
+      "accounts": [
+        {
+          "name": "mailbox",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "mailbox"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "receiver"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "message",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatch"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "message"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mailbox",
+                "path": "mailbox"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "message_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rentDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "incentiveMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "incentiveTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "messageIndex",
+          "type": "u32"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Mailbox",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "readMessageCount",
+            "type": "u32"
+          },
+          {
+            "name": "messageCount",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Message",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sender",
+            "type": "publicKey"
+          },
+          {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": "string"
+          },
+          {
+            "name": "incentiveMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "DispatchMessage",
+      "fields": [
+        {
+          "name": "senderPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "receiverPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "messageIndex",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "IncentiveClaimed",
+      "fields": [
+        {
+          "name": "senderPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "receiverPubkey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "messageIndex",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,667 @@
+{
+  "version": "0.1.0",
+  "name": "drift_client",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "configNonce",
+          "type": "u8"
+        },
+        {
+          "name": "collateralVaultNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initializeUser",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUserPositions",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "userNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "depositCollateral",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "adminCollateralAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseCollateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseMarkets",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUserPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseFundingPaymentHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseDepositHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateConfiguration",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxPerSymCapital",
+          "type": "u128"
+        },
+        {
+          "name": "maxPerTradeAmount",
+          "type": "u128"
+        },
+        {
+          "name": "bpsArbGetinRequired",
+          "type": "i32"
+        },
+        {
+          "name": "bpsArbGetoutRequired",
+          "type": "i32"
+        },
+        {
+          "name": "bpsMaxSkew",
+          "type": "u128"
+        },
+        {
+          "name": "capitalToStartScaling",
+          "type": "u128"
+        },
+        {
+          "name": "bpsExtraAtMax",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateral",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "adminCollateralAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseCollateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseCollateralVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseInsuranceVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseInsuranceVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseMarkets",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUserPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseFundingPaymentHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseDepositHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "openPosition",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseMarkets",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle0",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracle1",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracle2",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracle3",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracle4",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUserPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseFundingPaymentHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseFundingRateHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseTradeHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "marketIndexes",
+          "type": {
+            "array": [
+              "u64",
+              5
+            ]
+          }
+        },
+        {
+          "name": "fairBuyPrices",
+          "type": {
+            "array": [
+              "i128",
+              5
+            ]
+          }
+        },
+        {
+          "name": "fairSellPrices",
+          "type": {
+            "array": [
+              "i128",
+              5
+            ]
+          }
+        },
+        {
+          "name": "optionalAccounts",
+          "type": {
+            "defined": "ManagePositionOptionalAccounts"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closePosition",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseMarkets",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseUserPositions",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseFundingPaymentHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseFundingRateHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseTradeHistory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clearingHouseProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "marketIndex",
+          "type": "u64"
+        },
+        {
+          "name": "optionalAccounts",
+          "type": {
+            "defined": "ManagePositionOptionalAccounts"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorityNonce",
+            "type": "u8"
+          },
+          {
+            "name": "clearingHouseUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "clearingHouseUserPositions",
+            "type": "publicKey"
+          },
+          {
+            "name": "maxPerSymCapital",
+            "type": "u128"
+          },
+          {
+            "name": "maxPerTradeAmount",
+            "type": "u128"
+          },
+          {
+            "name": "bpsArbGetinRequired",
+            "type": "i32"
+          },
+          {
+            "name": "bpsArbGetoutRequired",
+            "type": "i32"
+          },
+          {
+            "name": "bpsMaxSkew",
+            "type": "u128"
+          },
+          {
+            "name": "capitalToStartScaling",
+            "type": "u128"
+          },
+          {
+            "name": "bpsExtraAtMax",
+            "type": "u128"
+          },
+          {
+            "name": "padding3",
+            "type": "u128"
+          },
+          {
+            "name": "padding4",
+            "type": "u128"
+          },
+          {
+            "name": "padding5",
+            "type": "u128"
+          },
+          {
+            "name": "padding6",
+            "type": "u128"
+          },
+          {
+            "name": "padding7",
+            "type": "u128"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ManagePositionOptionalAccounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "discountToken",
+            "type": "bool"
+          },
+          {
+            "name": "referrer",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidAuthority"
+          },
+          {
+            "name": "InvalidCollateralAccountAuthority"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GenericError",
+      "msg": "GenericError"
+    }
+  ]
+}

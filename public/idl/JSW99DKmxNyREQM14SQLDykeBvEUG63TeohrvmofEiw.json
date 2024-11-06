@@ -1,0 +1,846 @@
+{
+  "version": "0.1.0",
+  "name": "jupiter_smart_wallet",
+  "constants": [
+    {
+      "name": "BASE_SOL_FEE",
+      "type": "u64",
+      "value": "100000"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "userSigner",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "flashSwapApprove",
+      "accounts": [
+        {
+          "name": "keeper",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "wsolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultWsol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "keeperInputAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECKED: in implementation code"
+          ]
+        },
+        {
+          "name": "inputTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionsSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "signature",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "recoveryId",
+          "type": "u8"
+        },
+        {
+          "name": "priorityFeeLamports",
+          "type": "u64"
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minOut",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "preFlashSwapApprove",
+      "accounts": [
+        {
+          "name": "keeper",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultWsol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "keeperInputAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECKED: in implementation code"
+          ]
+        },
+        {
+          "name": "inputTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionsSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "signature",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "recoveryId",
+          "type": "u8"
+        },
+        {
+          "name": "priorityFeeLamports",
+          "type": "u64"
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minOut",
+          "type": "u64"
+        },
+        {
+          "name": "postSwapIxIndex",
+          "type": "u8"
+        },
+        {
+          "name": "feeBps",
+          "type": "u16"
+        },
+        {
+          "name": "referralShareBps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "postSwap",
+      "accounts": [
+        {
+          "name": "keeper",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "wsolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultWsol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "keeper",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "signature",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "recoveryId",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VaultInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "nonces",
+            "type": {
+              "array": [
+                "u64",
+                32
+              ]
+            }
+          },
+          {
+            "name": "userSigner",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "swapInProgress",
+            "type": "bool"
+          },
+          {
+            "name": "preSwapAmount",
+            "type": "u64"
+          },
+          {
+            "name": "minOut",
+            "type": "u64"
+          },
+          {
+            "name": "feeBps",
+            "type": "u16"
+          },
+          {
+            "name": "referralShareBps",
+            "type": "u16"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                171
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "SwapApproval",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "inputMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "outputMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "inputAmount",
+            "type": "u64"
+          },
+          {
+            "name": "minOut",
+            "type": "u64"
+          },
+          {
+            "name": "priorityFeeLamports",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawApproval",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawalAddress",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BurnApproval",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Initialize",
+      "fields": [
+        {
+          "name": "vaultKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userKey",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Withdraw",
+      "fields": [
+        {
+          "name": "vaultKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Swap",
+      "fields": [
+        {
+          "name": "userKey",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "vaultKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "outputMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "baseFeeAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Refer",
+      "fields": [
+        {
+          "name": "vaultKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "referrerKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "shareAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MathOverflow"
+    },
+    {
+      "code": 6001,
+      "name": "AddressMismatch"
+    },
+    {
+      "code": 6002,
+      "name": "Unauthorized"
+    },
+    {
+      "code": 6003,
+      "name": "UnauthorizedKeeper"
+    },
+    {
+      "code": 6004,
+      "name": "ProgramMismatch"
+    },
+    {
+      "code": 6005,
+      "name": "UnexpectedSwapProgram"
+    },
+    {
+      "code": 6006,
+      "name": "UnexpectedSwapInstruction"
+    },
+    {
+      "code": 6007,
+      "name": "WrongSwapOutAccount"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidSwapMint"
+    },
+    {
+      "code": 6009,
+      "name": "ExceedSlippageSetting"
+    },
+    {
+      "code": 6010,
+      "name": "AmountMismatch"
+    },
+    {
+      "code": 6011,
+      "name": "MissingSwapInstructions"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidPublicKey"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidApproval"
+    },
+    {
+      "code": 6014,
+      "name": "ExpiredApproval"
+    },
+    {
+      "code": 6015,
+      "name": "ExpiredOrder"
+    },
+    {
+      "code": 6016,
+      "name": "InsufficientSOLForFees"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidNonce"
+    },
+    {
+      "code": 6018,
+      "name": "ViolateMinOut"
+    },
+    {
+      "code": 6019,
+      "name": "FeeTooHigh"
+    },
+    {
+      "code": 6020,
+      "name": "NonceExpired"
+    },
+    {
+      "code": 6021,
+      "name": "NonceUsed"
+    },
+    {
+      "code": 6022,
+      "name": "NonceLimit"
+    },
+    {
+      "code": 6023,
+      "name": "UnableToVerify"
+    },
+    {
+      "code": 6024,
+      "name": "MissingPreSwapIx"
+    },
+    {
+      "code": 6025,
+      "name": "MissingPostSwapIx"
+    },
+    {
+      "code": 6026,
+      "name": "InvalidBps"
+    },
+    {
+      "code": 6027,
+      "name": "TooLargeFee"
+    }
+  ]
+}

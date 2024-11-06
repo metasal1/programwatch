@@ -1,0 +1,302 @@
+{
+  "version": "0.1.0",
+  "name": "nexuz",
+  "instructions": [
+    {
+      "name": "initializeProfile",
+      "accounts": [
+        {
+          "name": "profilePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "profileExists",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "solspot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "deleteProfile",
+      "accounts": [
+        {
+          "name": "profilePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "profileExists",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateProfile",
+      "accounts": [
+        {
+          "name": "profilePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "bio",
+          "type": "string"
+        },
+        {
+          "name": "pfp",
+          "type": "string"
+        },
+        {
+          "name": "displayName",
+          "type": "string"
+        },
+        {
+          "name": "banner",
+          "type": "string"
+        },
+        {
+          "name": "links",
+          "type": {
+            "vec": {
+              "defined": "Link"
+            }
+          }
+        },
+        {
+          "name": "styles",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateUsername",
+      "accounts": [
+        {
+          "name": "newProfilePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "profilePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "profileExists",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newUsername",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Profile",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "username",
+            "type": "string"
+          },
+          {
+            "name": "bio",
+            "type": "string"
+          },
+          {
+            "name": "pfp",
+            "type": "string"
+          },
+          {
+            "name": "displayName",
+            "type": "string"
+          },
+          {
+            "name": "banner",
+            "type": "string"
+          },
+          {
+            "name": "links",
+            "type": {
+              "vec": {
+                "defined": "Link"
+              }
+            }
+          },
+          {
+            "name": "styles",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserAlreadyExists",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Link",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidReciever",
+      "msg": "Invalid Solspot Wallet. Pls use: AxfhziL5aew9MHuonRU9pWC3cgzFZF5GLWeyUY84Yf6t"
+    },
+    {
+      "code": 6001,
+      "name": "UserAlreadyExists",
+      "msg": "Username already taken"
+    },
+    {
+      "code": 6002,
+      "name": "NotAuthorized",
+      "msg": "You are not authorized to perform this action"
+    },
+    {
+      "code": 6003,
+      "name": "UsernameTooLong",
+      "msg": "Username is too long"
+    },
+    {
+      "code": 6004,
+      "name": "BioTooLong",
+      "msg": "Bio is too long"
+    },
+    {
+      "code": 6005,
+      "name": "PfpTooLong",
+      "msg": "Pfp is too long"
+    },
+    {
+      "code": 6006,
+      "name": "BannerTooLong",
+      "msg": "Banner is too long"
+    },
+    {
+      "code": 6007,
+      "name": "DisplayNameTooLong",
+      "msg": "Display name is too long"
+    },
+    {
+      "code": 6008,
+      "name": "StylesTooLong",
+      "msg": "Styles is too long"
+    },
+    {
+      "code": 6009,
+      "name": "TooManyLinks",
+      "msg": "Too many links"
+    },
+    {
+      "code": 6010,
+      "name": "LinkTooLong",
+      "msg": "Link is too long"
+    },
+    {
+      "code": 6011,
+      "name": "LinkNameTooLong",
+      "msg": "Link name is too long"
+    },
+    {
+      "code": 6012,
+      "name": "LinkInvalid",
+      "msg": "Link is invalid"
+    },
+    {
+      "code": 6013,
+      "name": "PfpInvalid",
+      "msg": "Pfp is invalid"
+    },
+    {
+      "code": 6014,
+      "name": "BannerInvalid",
+      "msg": "Banner is invalid"
+    },
+    {
+      "code": 6015,
+      "name": "UsernameInvalid",
+      "msg": "Username is invalid"
+    }
+  ]
+}

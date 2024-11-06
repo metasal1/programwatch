@@ -1,0 +1,3006 @@
+{
+  "version": "0.1.0",
+  "name": "nft_lending_v2",
+  "instructions": [
+    {
+      "name": "proposeLoan",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        },
+        {
+          "name": "isPriceBased",
+          "type": "bool"
+        },
+        {
+          "name": "originalPriceFromUser",
+          "type": "u64"
+        },
+        {
+          "name": "loanToValue",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "approveLoanByAdmin",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftPrice",
+          "type": "u64"
+        },
+        {
+          "name": "discount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "depositLiquidity",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "initializeCollectionInfo",
+      "accounts": [
+        {
+          "name": "collectionInfo",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "creatorAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityPool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pricingLookupAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "royaltyAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "CollectionInfoParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "updateCollectionInfo",
+      "accounts": [
+        {
+          "name": "collectionInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "creatorAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricingLookupAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "royaltyAddress",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "CollectionInfoParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "initializePriceBasedLiquidityPool",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        },
+        {
+          "name": "params",
+          "type": {
+            "defined": "PriceBasedLiqPoolInputParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "updateTimeBasedLiquidityPool",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "LiqPoolInputParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "updatePriceBasedLiquidityPool",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "PriceBasedLiqPoolInputParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "paybackLoan",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "royaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "rejectLoanByAdmin",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "unstakeLiquidity",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "harvestLiquidity",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositBump",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "liquidateNftToRaffles",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        },
+        {
+          "name": "gracePeriod",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "paybackWithGrace",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "royaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "getLotTicket",
+      "accounts": [
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAttempts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotTicket",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attemptsNftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftAttemptsBump",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "initializeNftAttempts",
+      "accounts": [
+        {
+          "name": "nftAttempts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "redeemWinningLotTicket",
+      "accounts": [
+        {
+          "name": "lotTicket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "royaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "rejectLotTicketByAdmin",
+      "accounts": [
+        {
+          "name": "lotTicket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "revealLotTicketByAdmin",
+      "accounts": [
+        {
+          "name": "lotTicket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "isWinning",
+          "type": "bool"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "withdrawFromReserveFund",
+      "accounts": [
+        {
+          "name": "liquidityPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liqOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "stopLiquidationRafflesByAdmin",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAdminTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "putLoanToLiquidationRaffles",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAdminTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        },
+        {
+          "name": "gracePeriod",
+          "type": "u64"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "initializeNftAttemptsByStaking",
+      "accounts": [
+        {
+          "name": "nftAttempts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fraktNftStakeAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "getLotTicketByStaking",
+      "accounts": [
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAttempts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotTicket",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attemptsNftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fraktNftStakeAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftAttemptsBump",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "stakeGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "StakeGemFarmParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "unstakeGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UnstakeGemFarmParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "claimGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "ClaimGemFarmParams"
+          }
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "getClaimedGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        }
+      ],
+      "returns": null
+    },
+    {
+      "name": "unstakeGemFarmStakingByAdmin",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UnstakeGemFarmParams"
+          }
+        }
+      ],
+      "returns": null
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CollectionInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "liquidityPool",
+            "type": "publicKey"
+          },
+          {
+            "name": "pricingLookupAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "royaltyAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "royaltyFeeTime",
+            "type": "u64"
+          },
+          {
+            "name": "royaltyFeePrice",
+            "type": "u64"
+          },
+          {
+            "name": "loanToValue",
+            "type": "u64"
+          },
+          {
+            "name": "collaterizationRate",
+            "type": "u64"
+          },
+          {
+            "name": "availableLoanTypes",
+            "type": {
+              "defined": "AvailableLoanTypes"
+            }
+          },
+          {
+            "name": "expirationTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deposit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "liquidityPool",
+            "type": "publicKey"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "stakedAt",
+            "type": "u64"
+          },
+          {
+            "name": "stakedAtCumulative",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LendingStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stakeType",
+            "type": {
+              "defined": "StakeType"
+            }
+          },
+          {
+            "name": "loan",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeContract",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeContractOptional",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeState",
+            "type": {
+              "defined": "StakeState"
+            }
+          },
+          {
+            "name": "identity",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataA",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataB",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataC",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataD",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalHarvested",
+            "type": "u64"
+          },
+          {
+            "name": "totalHarvestedOptional",
+            "type": "u64"
+          },
+          {
+            "name": "lastTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidationLot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "loan",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultNftTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "lotNoFeesPrice",
+            "type": "u64"
+          },
+          {
+            "name": "winningChanceInBasePoints",
+            "type": "u64"
+          },
+          {
+            "name": "startedAt",
+            "type": "u64"
+          },
+          {
+            "name": "endingAt",
+            "type": "u64"
+          },
+          {
+            "name": "lotState",
+            "type": {
+              "defined": "LotState"
+            }
+          },
+          {
+            "name": "ticketsCount",
+            "type": "u64"
+          },
+          {
+            "name": "gracePeriod",
+            "type": "u64"
+          },
+          {
+            "name": "graceFee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Loan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftUserTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "liquidityPool",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionInfo",
+            "type": "publicKey"
+          },
+          {
+            "name": "startedAt",
+            "type": "u64"
+          },
+          {
+            "name": "expiredAt",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "finishedAt",
+            "type": "u64"
+          },
+          {
+            "name": "originalPrice",
+            "type": "u64"
+          },
+          {
+            "name": "amountToGet",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAmount",
+            "type": "u64"
+          },
+          {
+            "name": "feeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "royaltyAmount",
+            "type": "u64"
+          },
+          {
+            "name": "rewardInterestRate",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "feeInterestRate",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "royaltyInterestRate",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "loanStatus",
+            "type": {
+              "defined": "LoanStatus"
+            }
+          },
+          {
+            "name": "loanType",
+            "type": {
+              "defined": "LoanType"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LotTicket",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "liquidationLot",
+            "type": "publicKey"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "usedNftAttempts",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketState",
+            "type": {
+              "defined": "TicketState"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftAttempts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "blockedUntil",
+            "type": "u64"
+          },
+          {
+            "name": "attempts",
+            "type": "u64"
+          },
+          {
+            "name": "cycleStartedAt",
+            "type": "u64"
+          },
+          {
+            "name": "lastTriedAt",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceBasedLiquidityPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "baseBorrowRate",
+            "type": "u32"
+          },
+          {
+            "name": "variableSlope1",
+            "type": "u32"
+          },
+          {
+            "name": "variableSlope2",
+            "type": "u32"
+          },
+          {
+            "name": "utilizationRateOptimal",
+            "type": "u32"
+          },
+          {
+            "name": "reserveFactor",
+            "type": "u32"
+          },
+          {
+            "name": "reserveAmount",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityAmount",
+            "type": "u64"
+          },
+          {
+            "name": "liqOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "liqSeed",
+            "type": "u8"
+          },
+          {
+            "name": "amountOfStaked",
+            "type": "u64"
+          },
+          {
+            "name": "depositApr",
+            "type": "u64"
+          },
+          {
+            "name": "borrowApr",
+            "type": "u64"
+          },
+          {
+            "name": "borrowCumulative",
+            "type": "u64"
+          },
+          {
+            "name": "depositCumulative",
+            "type": "u64"
+          },
+          {
+            "name": "lastTime",
+            "type": "u64"
+          },
+          {
+            "name": "borrowCommission",
+            "type": "u32"
+          },
+          {
+            "name": "depositCommission",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidityPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "rewardInterestRateTime",
+            "type": "u64"
+          },
+          {
+            "name": "feeInterestRateTime",
+            "type": "u64"
+          },
+          {
+            "name": "rewardInterestRatePrice",
+            "type": "u64"
+          },
+          {
+            "name": "feeInterestRatePrice",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityAmount",
+            "type": "u64"
+          },
+          {
+            "name": "liqOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "liqSeed",
+            "type": "u8"
+          },
+          {
+            "name": "amountOfStaked",
+            "type": "u64"
+          },
+          {
+            "name": "userRewardsAmount",
+            "type": "u64"
+          },
+          {
+            "name": "apr",
+            "type": "u64"
+          },
+          {
+            "name": "cumulative",
+            "type": "u64"
+          },
+          {
+            "name": "lastTime",
+            "type": "u64"
+          },
+          {
+            "name": "oldCumulative",
+            "type": "u64"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ClaimGemFarmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpFarmer",
+            "type": "u8"
+          },
+          {
+            "name": "bumpPotA",
+            "type": "u8"
+          },
+          {
+            "name": "bumpPotB",
+            "type": "u8"
+          },
+          {
+            "name": "isDegod",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionInfoParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "loanToValue",
+            "type": "u64"
+          },
+          {
+            "name": "collaterizationRate",
+            "type": "u64"
+          },
+          {
+            "name": "royaltyFeeTime",
+            "type": "u64"
+          },
+          {
+            "name": "royaltyFeePrice",
+            "type": "u64"
+          },
+          {
+            "name": "expirationTime",
+            "type": "u64"
+          },
+          {
+            "name": "isPriceBased",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceBasedLiqPoolInputParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u32"
+          },
+          {
+            "name": "baseBorrowRate",
+            "type": "u32"
+          },
+          {
+            "name": "variableSlope1",
+            "type": "u32"
+          },
+          {
+            "name": "variableSlope2",
+            "type": "u32"
+          },
+          {
+            "name": "utilizationRateOptimal",
+            "type": "u32"
+          },
+          {
+            "name": "reserveFactor",
+            "type": "u32"
+          },
+          {
+            "name": "borrowCommission",
+            "type": "u32"
+          },
+          {
+            "name": "depositCommission",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeGemFarmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpPoolsAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthVaultAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpRarity",
+            "type": "u8"
+          },
+          {
+            "name": "bumpFarmer",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGdr",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGemBox",
+            "type": "u8"
+          },
+          {
+            "name": "bumpVault",
+            "type": "u8"
+          },
+          {
+            "name": "isDegod",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnstakeGemFarmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpPoolsAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpTreasury",
+            "type": "u8"
+          },
+          {
+            "name": "bumpFarmer",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthVaultAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGemBox",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGdr",
+            "type": "u8"
+          },
+          {
+            "name": "bumpRarity",
+            "type": "u8"
+          },
+          {
+            "name": "isDegod",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiqPoolInputParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardInterestRateTime",
+            "type": "u64"
+          },
+          {
+            "name": "feeInterestRateTime",
+            "type": "u64"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "rewardInterestRatePrice",
+            "type": "u64"
+          },
+          {
+            "name": "feeInterestRatePrice",
+            "type": "u64"
+          },
+          {
+            "name": "period",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AvailableLoanTypes",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "OnlyTimeBased"
+          },
+          {
+            "name": "OnlyPriceBased"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "DeGods"
+          },
+          {
+            "name": "GemWorksNewest"
+          },
+          {
+            "name": "Cets"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Unstaked"
+          },
+          {
+            "name": "Staked"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LotState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NotActive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Redeemed"
+          },
+          {
+            "name": "PaidBackWithGrace"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LoanStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Proposed"
+          },
+          {
+            "name": "Rejected"
+          },
+          {
+            "name": "Activated"
+          },
+          {
+            "name": "PaidBack"
+          },
+          {
+            "name": "Liquidated"
+          },
+          {
+            "name": "PaidBackWithGrace"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LoanType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TimeBased"
+          },
+          {
+            "name": "PriceBased"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TicketState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ToBeRevealed"
+          },
+          {
+            "name": "NotWinning"
+          },
+          {
+            "name": "Winning"
+          },
+          {
+            "name": "Rejected"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "LoanUpdate",
+      "fields": [
+        {
+          "name": "loan",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "status",
+          "type": {
+            "defined": "LoanStatus"
+          },
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidInstruction",
+      "msg": "InvalidInstruction"
+    },
+    {
+      "code": 6001,
+      "name": "MoreThanHave",
+      "msg": "MoreThanHave"
+    },
+    {
+      "code": 6002,
+      "name": "LoanIsNotProposed",
+      "msg": "LoanIsNotProposed"
+    },
+    {
+      "code": 6003,
+      "name": "CollectionInfoDoNotConnectWithNftMint",
+      "msg": "CollectionInfoDoNotConnectWithNftMint"
+    },
+    {
+      "code": 6004,
+      "name": "IncorrectNftMint",
+      "msg": "IncorrectNftMint"
+    },
+    {
+      "code": 6005,
+      "name": "IncorrectTokenAccount",
+      "msg": "IncorrectTokenAccount"
+    },
+    {
+      "code": 6006,
+      "name": "LoanIsNotActivated",
+      "msg": "LoanIsNotActivated"
+    },
+    {
+      "code": 6007,
+      "name": "LoanIsNotLiquidated",
+      "msg": "LoanIsNotLiquidated"
+    },
+    {
+      "code": 6008,
+      "name": "TimeIsExpired",
+      "msg": "TimeIsExpired"
+    },
+    {
+      "code": 6009,
+      "name": "CollectionInfoDoesntMatchLiquidityPool",
+      "msg": "CollectionInfoDoesntMatchLiquidityPool"
+    },
+    {
+      "code": 6010,
+      "name": "CannotClose",
+      "msg": "CannotClose"
+    },
+    {
+      "code": 6011,
+      "name": "WrongTypeOfAvailableLoan",
+      "msg": "WrongTypeOfAvailableLoan"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidLoan",
+      "msg": "InvalidLoan"
+    },
+    {
+      "code": 6013,
+      "name": "NftsAttemptsAreUsed",
+      "msg": "NftsAttemptsAreUsed"
+    },
+    {
+      "code": 6014,
+      "name": "GracePeriodNotEnded",
+      "msg": "GracePeriodNotEnded"
+    },
+    {
+      "code": 6015,
+      "name": "GracePerionIsAlreadyEnded",
+      "msg": "GracePerionIsAlreadyEnded"
+    },
+    {
+      "code": 6016,
+      "name": "LotIsAlreadyEnded",
+      "msg": "LotIsAlreadyEnded"
+    },
+    {
+      "code": 6017,
+      "name": "LotIsNotLiquidatedYet",
+      "msg": "LotIsNotLiquidatedYet"
+    },
+    {
+      "code": 6018,
+      "name": "TicketIsRevealedOrRejected",
+      "msg": "TicketIsRevealedOrRejected"
+    },
+    {
+      "code": 6019,
+      "name": "TicketIsNotWinning",
+      "msg": "TicketIsNotWinning"
+    },
+    {
+      "code": 6020,
+      "name": "WrongLiqPool",
+      "msg": "WrongLiqPool"
+    },
+    {
+      "code": 6021,
+      "name": "WrongLiqOwner",
+      "msg": "WrongLiqOwner"
+    },
+    {
+      "code": 6022,
+      "name": "WrongUserOnLoan",
+      "msg": "WrongUserOnLoan"
+    },
+    {
+      "code": 6023,
+      "name": "WrongAdmin",
+      "msg": "WrongAdmin"
+    },
+    {
+      "code": 6024,
+      "name": "WrongNftMintOnLoan",
+      "msg": "WrongNftMintOnLoan"
+    },
+    {
+      "code": 6025,
+      "name": "WrongLoanOnLiquidationLot",
+      "msg": "WrongLoanOnLiquidationLot"
+    },
+    {
+      "code": 6026,
+      "name": "WrongNftMintOnLiquidationLot",
+      "msg": "WrongNftMintOnLiquidationLot"
+    },
+    {
+      "code": 6027,
+      "name": "WrongNftMintOnNftAttempts",
+      "msg": "WrongNftMintOnNftAttempts"
+    },
+    {
+      "code": 6028,
+      "name": "WrongLiqPoolOnDeposit",
+      "msg": "WrongLiqPoolOnDeposit"
+    },
+    {
+      "code": 6029,
+      "name": "WrongUserOnDeposit",
+      "msg": "WrongUserOnDeposit"
+    },
+    {
+      "code": 6030,
+      "name": "WrongTokenAccountOnLoan",
+      "msg": "WrongTokenAccountOnLoan"
+    },
+    {
+      "code": 6031,
+      "name": "WrongLiquidator",
+      "msg": "WrongLiquidator"
+    },
+    {
+      "code": 6032,
+      "name": "WrongRoyaltyAddressOnCollectionInfo",
+      "msg": "WrongRoyaltyAddressOnCollectionInfo"
+    },
+    {
+      "code": 6033,
+      "name": "WrongLiqPoolOnCollectionInfo",
+      "msg": "WrongLiqPoolOnCollectionInfo"
+    },
+    {
+      "code": 6034,
+      "name": "WrongCollectionInfoOnLoan",
+      "msg": "WrongCollectionInfoOnLoan"
+    },
+    {
+      "code": 6035,
+      "name": "WrongLiqPoolOnLoan",
+      "msg": "WrongLiqPoolOnLoan"
+    },
+    {
+      "code": 6036,
+      "name": "WrongVaultAccountOnLiquidationLot",
+      "msg": "WrongVaultAccountOnLiquidationLot"
+    },
+    {
+      "code": 6037,
+      "name": "WrongLiqLotOnLotTicket",
+      "msg": "WrongLiqLotOnLotTicket"
+    },
+    {
+      "code": 6038,
+      "name": "WrongUserOnLotTicket",
+      "msg": "WrongUserOnLotTicket"
+    },
+    {
+      "code": 6039,
+      "name": "LotStateIsNotActive",
+      "msg": "LotStateIsNotActive"
+    },
+    {
+      "code": 6040,
+      "name": "WrongLoanToValue",
+      "msg": "WrongLoanToValue"
+    },
+    {
+      "code": 6041,
+      "name": "FunctionIsNotSupportedForNow",
+      "msg": "Function is not supported right now"
+    },
+    {
+      "code": 6042,
+      "name": "CantSetLtvMoreThanNftValue",
+      "msg": "Can't set loan to value more than 100%"
+    },
+    {
+      "code": 6043,
+      "name": "FraktNftStakeNotInitialized",
+      "msg": "FraktNftStakeNotInitialized"
+    },
+    {
+      "code": 6044,
+      "name": "FraktNftNotStaked",
+      "msg": "FraktNftNotStaked"
+    },
+    {
+      "code": 6045,
+      "name": "FraktNftStakeOwnerDoesntMatch",
+      "msg": "FraktNftStakeOwnerDoesntMatch"
+    },
+    {
+      "code": 6046,
+      "name": "TokenAccountDoesntContainNft",
+      "msg": "TokenAccountDoesntContainNft"
+    },
+    {
+      "code": 6047,
+      "name": "StakingAccountDoesntMatchAttemptsNftMint",
+      "msg": "StakingAccountDoesntMatchAttemptsNftMint"
+    },
+    {
+      "code": 6048,
+      "name": "UserDoesntOwnStake",
+      "msg": "UserDoesntOwnStake"
+    }
+  ]
+}

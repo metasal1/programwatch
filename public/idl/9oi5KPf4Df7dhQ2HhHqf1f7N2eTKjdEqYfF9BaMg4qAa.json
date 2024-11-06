@@ -1,0 +1,1177 @@
+{
+  "version": "0.1.0",
+  "name": "staking",
+  "instructions": [
+    {
+      "name": "initializePool",
+      "docs": [
+        "Initializes a new pool"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minStakeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minStakePeriod",
+          "type": "u64"
+        },
+        {
+          "name": "maxBiggerBonusEligibleAmount",
+          "type": "u64"
+        },
+        {
+          "name": "yearlyBiggerBonusPercent",
+          "type": "u64"
+        },
+        {
+          "name": "dailyFixedPercent",
+          "type": "u64"
+        },
+        {
+          "name": "dailyGrowthPercent",
+          "type": "u64"
+        },
+        {
+          "name": "maxLongerBonusPercent",
+          "type": "u64"
+        },
+        {
+          "name": "maxRewardEligiblePeriod",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createUser",
+      "docs": [
+        "Create a user staking account."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updatePool",
+      "docs": [
+        "Update pool parameters.",
+        "This is very dangerous and can affect the amount of unclaimed rewards.",
+        "Must be used carefully by admin."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "minStakeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minStakePeriod",
+          "type": "u64"
+        },
+        {
+          "name": "maxBiggerBonusEligibleAmount",
+          "type": "u64"
+        },
+        {
+          "name": "yearlyBiggerBonusPercent",
+          "type": "u64"
+        },
+        {
+          "name": "dailyFixedPercent",
+          "type": "u64"
+        },
+        {
+          "name": "dailyGrowthPercent",
+          "type": "u64"
+        },
+        {
+          "name": "maxLongerBonusPercent",
+          "type": "u64"
+        },
+        {
+          "name": "maxRewardEligiblePeriod",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "docs": [
+        "Pauses the pool."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpause",
+      "docs": [
+        "Unpauses a previously paused pool."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stake",
+      "docs": [
+        "A user stakes tokens in the pool."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeFromAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "stakePeriod",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimReward",
+      "docs": [
+        "A user claiming rewards"
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimToAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "stakeId",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "docs": [
+        "A user unstakes tokens in the pool."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "unstakeToAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimToAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakeId",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositFund",
+      "docs": [
+        "Fund the pool with rewards."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositFromAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawFund",
+      "docs": [
+        "Withdraw the rewards from the vault.",
+        "This is only necessary when staking is finished unexpectedly."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawToAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeUser",
+      "docs": [
+        "Closes a users stake account. Validation is done to ensure this is only allowed when",
+        "the user has nothing staked and no rewards pending."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closePool",
+      "docs": [
+        "Closes a pool account and returns the lamports to the refundee.",
+        "Before closing the pool this function checks the stake and reward vault and",
+        "returns the tokens to the reward_refundee if any exists."
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeRefundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardRefundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferAdmin",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nextAdmin",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "acceptAdmin",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pendingAdmin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "docs": [
+              "Priviledged account."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pendingAdmin",
+            "docs": [
+              "Pending admin in case of transfering admin."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "docs": [
+              "Pool creator"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump to derive the program-derived address owning the vaults."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "paused",
+            "docs": [
+              "Paused state of the program"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "stakeToken",
+            "docs": [
+              "Mint of X token that can be staked and rewarded."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeTokenVault",
+            "docs": [
+              "Vault to store staked X tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardToken",
+            "docs": [
+              "Vault to store reward X tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardTokenVault",
+            "docs": [
+              "Mint of the reward A token."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "minStakeAmount",
+            "docs": [
+              "Minimum stake amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "minStakePeriod",
+            "docs": [
+              "Minimum stake amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxBiggerBonusEligibleAmount",
+            "docs": [
+              "Maximum stake amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "yearlyBiggerBonusPercent",
+            "docs": [
+              "Yearly bigger bonus percent"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dailyFixedPercent",
+            "docs": [
+              "Daily fixed percent"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dailyGrowthPercent",
+            "docs": [
+              "Daily growth percent"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxLongerBonusPercent",
+            "docs": [
+              "Max longer bonus percent"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxRewardEligiblePeriod",
+            "docs": [
+              "Max reward eligible period"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalStakedAmount",
+            "docs": [
+              "Total staked amount in the pool"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalClaimedAmount",
+            "docs": [
+              "Total claimed amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "numCreatedUsers",
+            "docs": [
+              "Number of created users"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "numActiveUsers",
+            "docs": [
+              "Number of actually staked users"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "User",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "docs": [
+              "Pool the this user belongs to."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "The owner of this account."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The PDA bump"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "totalStakedAmount",
+            "docs": [
+              "The staked amount by the user."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalClaimedAmount",
+            "docs": [
+              "The claimed amount by the user."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "numStakes",
+            "docs": [
+              "The number of stakes including inactive ones."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "numActiveStakes",
+            "docs": [
+              "The number of active stakes."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "stakeEntries",
+            "docs": [
+              "The stake entries."
+            ],
+            "type": {
+              "vec": {
+                "defined": "StakeEntry"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "StakeEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stakedAmount",
+            "docs": [
+              "Pool the this user belongs to."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "stakePeriod",
+            "docs": [
+              "The owner of this account."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "stakedAt",
+            "docs": [
+              "The staked amount by the user."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "withdrawnAt",
+            "docs": [
+              "The claimed amount by the user."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "claimedAmount",
+            "docs": [
+              "The number of stakes that the user have."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "active",
+            "docs": [
+              "The stake entries."
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "InitializePoolEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdatePoolEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ClosePoolEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DepositFundEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "from",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawFundEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "to",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreateUserEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "CloseUserEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "StakeEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "stakeId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ClaimRewardEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "stakeId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UnstakeEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "stakeId",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdminProposeEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "currentAdmin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pendingAdmin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdminUpdateEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "previousAdmin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PoolPauseEvent",
+      "fields": [
+        {
+          "name": "pool",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "paused",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MaxBiggerBonusEligibleAmountZero",
+      "msg": "Max bigger bonus eligible amount cannot be zero."
+    },
+    {
+      "code": 6001,
+      "name": "MaxLongerBonusEligiblePeriodZero",
+      "msg": "Max longer bonus eligible period cannot be zero."
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientFund",
+      "msg": "Insufficient fund to transfer."
+    },
+    {
+      "code": 6003,
+      "name": "StakeAmountLessThanMinStakeAmount",
+      "msg": "Stake amount cannot be than min stake amount."
+    },
+    {
+      "code": 6004,
+      "name": "StakePeriodTooShort",
+      "msg": "Stake period cannot be shorter than one day."
+    },
+    {
+      "code": 6005,
+      "name": "ExceedsMaxStakeEntries",
+      "msg": "Exceeds max stake entries."
+    },
+    {
+      "code": 6006,
+      "name": "ExceedsClaimableAmount",
+      "msg": "Cannot claim more than available reward."
+    },
+    {
+      "code": 6007,
+      "name": "UnauthorizedAdmin",
+      "msg": "Unauthorized admin"
+    },
+    {
+      "code": 6008,
+      "name": "UnauthorizedPendingAdmin",
+      "msg": "Unauthorized pending admin"
+    },
+    {
+      "code": 6009,
+      "name": "PoolPaused",
+      "msg": "Pool paused"
+    },
+    {
+      "code": 6010,
+      "name": "PoolUnpaused",
+      "msg": "Pool unpused"
+    }
+  ]
+}

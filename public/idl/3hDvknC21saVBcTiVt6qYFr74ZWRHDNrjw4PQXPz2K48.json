@@ -1,0 +1,287 @@
+{
+  "version": "0.1.0",
+  "name": "nds_transaction",
+  "instructions": [
+    {
+      "name": "startGame",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "matchId",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "generateCard",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "serverCommit",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "gameResult",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "server",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "revenueShareWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "winner",
+          "type": "u8"
+        },
+        {
+          "name": "instruct",
+          "type": "u8"
+        },
+        {
+          "name": "deck",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GameState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "server",
+            "type": "publicKey"
+          },
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "deck",
+            "type": "bytes"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TicketStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "server",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "StartGameEvent",
+      "fields": [
+        {
+          "name": "server",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "matchId",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "GameResultEvent",
+      "fields": [
+        {
+          "name": "amountReceive",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "eventTaxAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "deck",
+          "type": "bytes",
+          "index": false
+        },
+        {
+          "name": "winner",
+          "type": {
+            "option": "publicKey"
+          },
+          "index": false
+        },
+        {
+          "name": "isEqual",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientFund",
+      "msg": "Error InsufficientFund!"
+    },
+    {
+      "code": 6001,
+      "name": "InsufficientFundEqualCondition",
+      "msg": "Error InsufficientFund In Equal Condition!"
+    },
+    {
+      "code": 6002,
+      "name": "RestrictionError",
+      "msg": "Restriction error!"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidWinnerIndex",
+      "msg": "Invalid Winner Index"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidDeck",
+      "msg": "Invalid Deck"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidInstruction",
+      "msg": "Invalid Instruction"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidDeckIndex",
+      "msg": "Invalid Deck Index"
+    },
+    {
+      "code": 6007,
+      "name": "PdaIsFullWithTaxes",
+      "msg": "PDA Is Full With Taxes"
+    },
+    {
+      "code": 6008,
+      "name": "PdaAlreadyCleaned",
+      "msg": "PDA Has Alread Cleaned"
+    }
+  ]
+}

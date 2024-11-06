@@ -1,0 +1,406 @@
+{
+  "version": "0.1.0",
+  "name": "staking_bridge",
+  "instructions": [
+    {
+      "name": "createStakingBridgeBalancePda",
+      "accounts": [
+        {
+          "name": "stakingBridgePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createStakingBridgeBalanceAtas",
+      "accounts": [
+        {
+          "name": "stakingBridgePda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "audioTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "audioMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "raydiumSwap",
+      "docs": [
+        "* Verifies that correct programs, token accounts, PDAs are being used,\n     * and then swaps tokens via the Raydium AMM Program."
+      ],
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "amm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ammAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ammOpenOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ammTargetOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolCoinTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolPcTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "serumMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumBids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumAsks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumEventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumCoinVaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumPcVaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "serumVaultSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userSourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userSourceOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "audioMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountIn",
+          "type": "u64"
+        },
+        {
+          "name": "minimumAmountOut",
+          "type": "u64"
+        },
+        {
+          "name": "stakingBridgePdaBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "postWormholeMessage",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bridgeId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wrappedMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wrappedMeta",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authoritySigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bridgeConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "emitter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sequence",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "message",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fromOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "audioMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u32"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "wrappedMintBump",
+          "type": "u8"
+        },
+        {
+          "name": "stakingBridgePdaBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "Amounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amountIn",
+            "type": "u64"
+          },
+          {
+            "name": "minimumAmountOut",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PostWormholeMessageData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u32"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "targetAddress",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "targetChain",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotCallingRaydiumAmmProgram",
+      "msg": "Not calling Raydium AMM program."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidSerumDexProgram",
+      "msg": "Invalid serum DEX program."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidAmmProgram",
+      "msg": "Invalid USDC-$AUDIO AMM program"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidSerumMarketProgram",
+      "msg": "Invalid serum market program."
+    },
+    {
+      "code": 6004,
+      "name": "NotCallingWormholeTokenBridgeProgram",
+      "msg": "Not calling Wormhole Token Bridge program."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidWormholeCoreBridgeProgram",
+      "msg": "Invalid Wormhole Core Bridge program."
+    }
+  ]
+}

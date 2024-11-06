@@ -1,0 +1,805 @@
+{
+  "version": "0.1.0",
+  "name": "atlas_staking",
+  "instructions": [
+    {
+      "name": "cancelUnstake",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user calling this instruction"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An initialized [StakingAccount] owned by the user"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createStakingAccount",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user calling this instruction"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An initialized [StakingAccount] owned by the user"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The solana system program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "harvest",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user calling this instruction"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint account for the token being awarded"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An initialized [StakingAccount] owned by the user"
+          ]
+        },
+        {
+          "name": "userRewardAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's `RewardMint` token account"
+          ]
+        },
+        {
+          "name": "rewardAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RewardPda` associated with the [RegisteredStake]"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The rent sysvar"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The associated token program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeStaking",
+      "accounts": [
+        {
+          "name": "updateAuthorityAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingVarsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "registerStake",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The authority on the [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingVarsAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [StakingVars] account"
+          ]
+        },
+        {
+          "name": "stakeMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint account for the token being staked"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint account for the token being awarded"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "rewardAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An reward mint vault owned by the program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The solana rent sysvar"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The solana system program"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The solana token program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "rewardMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "cooldownPeriod",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The authority on the [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "A [StakingAccount] for the given user"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "updatedStakingPeriod",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "stakeTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user calling this instruction"
+          ]
+        },
+        {
+          "name": "stakeMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint account for the token being staked"
+          ]
+        },
+        {
+          "name": "tokenSource",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's `StakeMint` token account"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An initialized [StakingAccount] owned by the user"
+          ]
+        },
+        {
+          "name": "tokenEscrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "A PDA token escrow account associated with the user and [RegisteredStake]"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The rent system var"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The associated token program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The solana system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "stakeAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstakeTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user calling this instruction"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint account for the token being awarded"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An initialized [StakingAccount] owned by the user"
+          ]
+        },
+        {
+          "name": "userRewardAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's `RewardMint` token account"
+          ]
+        },
+        {
+          "name": "rewardAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RewardPda` associated with the [RegisteredStake]"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The rent sysvar"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The associated token program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateCooldownPeriod",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The authority on the [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "cooldownPeriod",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateRewardMultiplier",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The authority on the [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "rewardMultiplier",
+          "type": "u64"
+        },
+        {
+          "name": "newStakingPeriod",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The user calling this instruction"
+          ]
+        },
+        {
+          "name": "stakeMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint account for the token being staked"
+          ]
+        },
+        {
+          "name": "tokenSource",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's `StakeMint` token account"
+          ]
+        },
+        {
+          "name": "registeredStake",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A [RegisteredStake] account"
+          ]
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "An initialized [StakingAccount] owned by the user"
+          ]
+        },
+        {
+          "name": "tokenEscrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "A PDA token escrow account associated with the user and [RegisteredStake]"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RegisteredStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "The admin for this [`RegisteredStake`]"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeMint",
+            "docs": [
+              "Mint address for tokens to be staked"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardMint",
+            "docs": [
+              "Mint address for tokens which will be given as reward for staking"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "currentPeriod",
+            "docs": [
+              "Current staking period"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "rewardMultiplier",
+            "docs": [
+              "Rate at which reward tokens will be distributed - Tokens in base units per day per REWARD_MULTIPLIER_BASE tokens staked",
+              "Example - reward_multiplier = 228_938",
+              "User will receive 228_938 reward_mint base units per day for every 1_000 stake_mint base units they have staked"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "cooldownPeriod",
+            "docs": [
+              "Amount of time, in seconds, the user must wait before withdrawing their staked tokens"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seeds for [`RegisteredStake`] account"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakingAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "registeredStake",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalStake",
+            "type": "u64"
+          },
+          {
+            "name": "activeStake",
+            "type": "u64"
+          },
+          {
+            "name": "pendingRewards",
+            "type": "u64"
+          },
+          {
+            "name": "paidRewards",
+            "type": "u64"
+          },
+          {
+            "name": "currentPeriod",
+            "type": "u16"
+          },
+          {
+            "name": "stakedAtTs",
+            "type": "i64"
+          },
+          {
+            "name": "lastPendingRewardCalcTs",
+            "type": "i64"
+          },
+          {
+            "name": "lastHarvestTs",
+            "type": "i64"
+          },
+          {
+            "name": "unstakedTs",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakingVars",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "The authority for the Staking Program"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for [StakingVars] account"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMint",
+      "msg": "Invalid Token Mint"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidOwner",
+      "msg": "Account now owned by user"
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient token balance"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority for this account"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidDepositQty",
+      "msg": "Invalid deposit quantity"
+    },
+    {
+      "code": 6005,
+      "name": "NumericalOverflowError",
+      "msg": "Numerical overflow error"
+    },
+    {
+      "code": 6006,
+      "name": "StakeOnCooldown",
+      "msg": "Cannot stake while account is on cooldown"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidEscrowAuth",
+      "msg": "Invalid escrow authority"
+    },
+    {
+      "code": 6008,
+      "name": "WithdrawOnCooldown",
+      "msg": "Cannot withdraw before cooldown period has elapsed"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidPeriod",
+      "msg": "Staking account must be in the same period as the Registered Stake"
+    },
+    {
+      "code": 6010,
+      "name": "NotOnCooldown",
+      "msg": "Staking account is not on cooldown"
+    }
+  ]
+}

@@ -1,0 +1,400 @@
+{
+  "version": "0.1.0",
+  "name": "liquidity_locker",
+  "instructions": [
+    {
+      "name": "claimFees",
+      "docs": [
+        "Claims the fees generated from the locked position.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The owner of the NFT who has locked the position."
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint address of the NFT."
+          ]
+        },
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The PDA that contains information about the locked position."
+          ]
+        },
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The raydium pool on which the position was created."
+          ]
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The ATA of the locker which holds the NFT."
+          ]
+        },
+        {
+          "name": "personalPosition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Claim fees from raydium for this position."
+          ]
+        },
+        {
+          "name": "protocolPosition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "State used to store info for each user's position."
+          ]
+        },
+        {
+          "name": "tokenVault0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVault1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArrayLower",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Stores init state for the lower tick."
+          ]
+        },
+        {
+          "name": "tickArrayUpper",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Stores init state for the upper tick."
+          ]
+        },
+        {
+          "name": "recipientTokenAccount0",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The destination token account for receive amount_0."
+          ]
+        },
+        {
+          "name": "recipientTokenAccount1",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The destination token account for receive amount_1."
+          ]
+        },
+        {
+          "name": "vault0Mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint address of token_0."
+          ]
+        },
+        {
+          "name": "vault1Mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint address of token_1."
+          ]
+        },
+        {
+          "name": "memoProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The memo program."
+          ]
+        },
+        {
+          "name": "raydiumClmmProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The AmmV3 program of raydium from which fees will be collected."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to transfer out tokens from the pool."
+          ]
+        },
+        {
+          "name": "tokenProgram2022",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program 2022."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "lockPosition",
+      "docs": [
+        "Locks a raydium-clmm position for a specified duration.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction.",
+        "* `duration` - The time in seconds until the position will be locked.",
+        "* `allow_fee_claim` - A boolean value indicating whether fee claim is allowed on the locked position."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The owner of the NFT to be locked."
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint address of the NFT."
+          ]
+        },
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The PDA to store information about the locked position."
+          ]
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The ATA of the locker to hold the NFT."
+          ]
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The ATA of the user from which the NFT will be transferred."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to transfer the NFT from the user to the vault."
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to create an ATA for receiving the position NFT."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to create the locker state account."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "duration",
+          "type": "u32"
+        },
+        {
+          "name": "allowFeeClaim",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "unlockPosition",
+      "docs": [
+        "Unlocks the previously locked raydium-clmm position once the duration has passed.",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The accounts required by the instruction."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The owner of the NFT who has locked the position."
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint address of the NFT."
+          ]
+        },
+        {
+          "name": "locker",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The PDA that contains information about the locked position."
+          ]
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The ATA of the locker from which the NFT will be transferred."
+          ]
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The ATA of the user that will receive the NFT."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to transfer the NFT from the vault to the user."
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used to create an ATA of the user for receiving the position NFT."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The program used for creating ATA."
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Locker",
+      "docs": [
+        "Represents the state of the locker.",
+        "",
+        "This account is a PDA derived from `[user, nft_mint, LOCKER_SEED]`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "docs": [
+              "The owner of the NFT."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "docs": [
+              "The mint address of the tokenized position."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "unlockTime",
+            "docs": [
+              "The time at which the NFT will be unlocked from the locker."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "allowFeeClaim",
+            "docs": [
+              "A boolean indicating whether fee claim is allowed on the locked position."
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ClaimNotAllowed",
+      "msg": "Claim not allowed"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidDuration",
+      "msg": "Invali duration"
+    },
+    {
+      "code": 6002,
+      "name": "MintNotNFT",
+      "msg": "Mint is not a nft"
+    },
+    {
+      "code": 6003,
+      "name": "NotUnlocked",
+      "msg": "Lp not unlocked"
+    },
+    {
+      "code": 6004,
+      "name": "TokenAccountEmpty",
+      "msg": "Token account is empty"
+    }
+  ]
+}

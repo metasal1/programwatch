@@ -1,0 +1,421 @@
+{
+  "version": "0.1.0",
+  "name": "faceoff",
+  "instructions": [
+    {
+      "name": "createPrediction",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "predictionDescription",
+          "type": "string"
+        },
+        {
+          "name": "timestampEnds",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settlePrediction",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "results",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "voteOnPrediction",
+      "accounts": [
+        {
+          "name": "payerTwo",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "votingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "vote",
+          "type": "u8"
+        },
+        {
+          "name": "tier",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "sendSolAdmin",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userVoteWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "predictionState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "votingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeWallet1",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "feeWallet2",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "feeWallet3",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "solanaToSend",
+          "type": "u64"
+        },
+        {
+          "name": "refund",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PredictionState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "predictionAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "predictionDescription",
+            "type": "string"
+          },
+          {
+            "name": "timestampCreated",
+            "type": "u64"
+          },
+          {
+            "name": "timestampEnds",
+            "type": "u64"
+          },
+          {
+            "name": "yesVotes",
+            "type": "u64"
+          },
+          {
+            "name": "noVotes",
+            "type": "u64"
+          },
+          {
+            "name": "results",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VotingState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "predictionKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestampVoted",
+            "type": "u64"
+          },
+          {
+            "name": "tierBucket",
+            "type": "u8"
+          },
+          {
+            "name": "vote",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongToken",
+      "msg": "You have used an incorrect Token Account"
+    },
+    {
+      "code": 6001,
+      "name": "UnauthorizedAccess",
+      "msg": "You are not authorized to sign this transaction"
+    },
+    {
+      "code": 6002,
+      "name": "WrongSolAddress",
+      "msg": "Wrong SOL address"
+    },
+    {
+      "code": 6003,
+      "name": "WrongUser",
+      "msg": "You are not the owner of this."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidAction",
+      "msg": "You are unable to access this feature"
+    },
+    {
+      "code": 6005,
+      "name": "VotingHasEnded",
+      "msg": "Voting has ended for this prediction"
+    },
+    {
+      "code": 6006,
+      "name": "UnexpectedVoteValue",
+      "msg": "Unexpected vote value."
+    },
+    {
+      "code": 6007,
+      "name": "AlreadyVoted",
+      "msg": "You have already voted on this proposition."
+    },
+    {
+      "code": 6008,
+      "name": "InvalidTier",
+      "msg": "Invalid tier passed in."
+    },
+    {
+      "code": 6009,
+      "name": "WrongAmountOfSolWinner",
+      "msg": "Wrong amount of sol winner."
+    },
+    {
+      "code": 6010,
+      "name": "WrongAmountOfSolRefund",
+      "msg": "Wrong amount of sol refund."
+    },
+    {
+      "code": 6011,
+      "name": "MaxAmountOfSolSend",
+      "msg": "Max amount of sol sent."
+    },
+    {
+      "code": 6012,
+      "name": "UserHasAlreadyBeenPayed",
+      "msg": "This user has already been payed out."
+    },
+    {
+      "code": 6013,
+      "name": "PredictionNotSettled",
+      "msg": "The prediction has not been settled yet."
+    },
+    {
+      "code": 6014,
+      "name": "UsersVoteDoesNotMatchResults",
+      "msg": "Missmatch between users vote and prediction result."
+    },
+    {
+      "code": 6015,
+      "name": "TimestampEndsLessThanNow",
+      "msg": "Timestamp ends is less than timestamp now."
+    },
+    {
+      "code": 6016,
+      "name": "DurrationCantBeLongerThanTwoWeeks",
+      "msg": "Durration cant be longer than two weeks."
+    }
+  ]
+}

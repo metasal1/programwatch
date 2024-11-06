@@ -1,0 +1,477 @@
+{
+  "version": "0.1.0",
+  "name": "gov_boarding",
+  "instructions": [
+    {
+      "name": "createConfig",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "verifierRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "verifier",
+          "isMut": false,
+          "isSigner": true,
+          "isOptional": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createEntry",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "governanceEntry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "metadataUri",
+          "type": "string"
+        },
+        {
+          "name": "govAccountType",
+          "type": {
+            "defined": "DAOType"
+          }
+        },
+        {
+          "name": "parents",
+          "type": {
+            "option": {
+              "vec": "publicKey"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "setEntryUri",
+      "accounts": [
+        {
+          "name": "governanceEntry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "verifier",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governance",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "setEntryStatus",
+      "accounts": [
+        {
+          "name": "governanceEntry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "verifier",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governance",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "status",
+          "type": {
+            "defined": "RequestStatus"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateAdmin",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "newAdmin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateVerifier",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "verifierType",
+          "type": {
+            "defined": "VerifierType"
+          }
+        },
+        {
+          "name": "verifier",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setChildStatus",
+      "accounts": [
+        {
+          "name": "childEntry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "verifier",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "parentRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "parentEntry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governance",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "status",
+          "type": {
+            "defined": "RequestStatus"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GovBoardingConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "verifierRealm",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "verifierOverride",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GovernanceEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "governanceProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "govAccountType",
+            "type": {
+              "defined": "DAOType"
+            }
+          },
+          {
+            "name": "requestStatus",
+            "type": {
+              "defined": "RequestStatus"
+            }
+          },
+          {
+            "name": "rank",
+            "type": "u16"
+          },
+          {
+            "name": "parentLinks",
+            "type": {
+              "option": {
+                "defined": "ParentLinks"
+              }
+            }
+          },
+          {
+            "name": "childRealms",
+            "type": {
+              "option": {
+                "vec": "publicKey"
+              }
+            }
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "metadataUri",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ParentLinks",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realms",
+            "type": {
+              "vec": {
+                "defined": "ParentLink"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ParentLink",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "parentRealm",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "RequestStatus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DAOType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Social"
+          },
+          {
+            "name": "Finance"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Approved"
+          },
+          {
+            "name": "Rejected"
+          },
+          {
+            "name": "Disabled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VerifierType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "VerifierRealm"
+          },
+          {
+            "name": "VerfierOverride"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GovernanceNotFound",
+      "msg": "No governance has been specified for the verifier"
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectRealm",
+      "msg": "The given governance is not in the verifier realm"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectVerifier",
+      "msg": "The signer is neither the governance or the native treasury account"
+    },
+    {
+      "code": 6003,
+      "name": "VerifierNotSigner",
+      "msg": "The verifier is not a signer"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidVerifierRealm",
+      "msg": "Verifier realm cannot be set to None"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidStatus",
+      "msg": "Status cannot be set to Pending"
+    }
+  ]
+}

@@ -1,0 +1,3900 @@
+{
+  "version": "0.1.0",
+  "name": "nft_staking",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platformAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "platformAuthorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "collection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "solOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "floorPriceOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateMain",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateMainArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addAttribute",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "attribute",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "attribute"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "arg",
+                "type": "u16",
+                "path": "attribute_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AddAttributeArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addIndividual",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority",
+            "collection_table"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AddIndividualArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "checkComplete",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority",
+            "collection_table"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CheckCompleteArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateAttributeProperties",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "attribute",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "attribute"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "arg",
+                "type": "u16",
+                "path": "attribute_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateAttributePropertiesArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateDistributionCycle",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateDistribtuionCycleArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "fundDistribution",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          }
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "FundDistributionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unfundDistribution",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UnfundDistributionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "crankAttributeSelection",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "randomness_program"
+          ]
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "randomnessRequest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "randomnessProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftStaking",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CrankAttributeSelectionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "crankResultSelection",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "randomness_program"
+          ]
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "nextDistribution",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "distribution"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "arg",
+                "type": "u16",
+                "path": "next_instance_nonce"
+              }
+            ]
+          }
+        },
+        {
+          "name": "attribute",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "randomnessRequest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftStaking",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CrankResultSelectionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "crankUpdateIndividuals",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "collection_table"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "distribution"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "Main",
+                "path": "main.instance_nonce"
+              }
+            ]
+          },
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "nextDistribution",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "distribution"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "Distribution",
+                "path": "next_distribution.instance_nonce"
+              }
+            ]
+          },
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CrankUpdateIndividualsArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "callbackAttributeSelection",
+      "accounts": [
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "randomness_dispatcher_signer"
+          ]
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "distribution"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "Main",
+                "path": "main.instance_nonce"
+              }
+            ]
+          },
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CallbackAttributeSelectArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "callbackResultSelection",
+      "accounts": [
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "randomness_dispatcher_signer",
+            "collection_table"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "distribution"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "Main",
+                "path": "main.instance_nonce"
+              }
+            ]
+          },
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "nextDistribution",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "distribution"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main"
+              },
+              {
+                "kind": "account",
+                "type": "u16",
+                "account": "Distribution",
+                "path": "next_distribution.instance_nonce"
+              }
+            ]
+          },
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "attribute",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CallbackResultSelectionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platformAuthorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "stakeReceipt",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "stake_receipt"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "nft_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "collection_table",
+            "platform",
+            "cashier_program"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "delegateTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexAuthorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexAuthorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexTokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "StakeArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "collect",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "collection_table"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CollectArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platformAuthorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "stakeReceipt",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "nft_mint"
+          ]
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "token_mint",
+            "cashier_program"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "delegateTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexAuthorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexAuthorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexTokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "solOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "floorPriceOracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UnstakeArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            ""
+          ],
+          "relations": [
+            "owner",
+            "platform"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platformAuthorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "stakeReceipt",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "nft_mint",
+            "owner"
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "main",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "main"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Main",
+                "path": "main.collection"
+              }
+            ]
+          },
+          "relations": [
+            "collection_table",
+            "platform",
+            "cashier_program"
+          ]
+        },
+        {
+          "name": "collectionTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "attribute",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "main"
+          ]
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "SyncArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Attribute",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main",
+            "type": "publicKey"
+          },
+          {
+            "name": "attributeId",
+            "type": "u16"
+          },
+          {
+            "name": "countTraits",
+            "type": "u16"
+          },
+          {
+            "name": "countStaked",
+            "type": "u16"
+          },
+          {
+            "name": "countTimesSelected",
+            "type": "u64"
+          },
+          {
+            "name": "pastRewardsAmount",
+            "type": "u64"
+          },
+          {
+            "name": "traits",
+            "type": {
+              "vec": {
+                "defined": "Trait"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionTable",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "header",
+            "type": {
+              "defined": "CollectionTableHeader"
+            }
+          },
+          {
+            "name": "recordsTranche1",
+            "type": {
+              "array": [
+                {
+                  "defined": "IndividualRecord"
+                },
+                1024
+              ]
+            }
+          },
+          {
+            "name": "recordsTranche2",
+            "type": {
+              "array": [
+                {
+                  "defined": "IndividualRecord"
+                },
+                1024
+              ]
+            }
+          },
+          {
+            "name": "recordsTranche3",
+            "type": {
+              "array": [
+                {
+                  "defined": "IndividualRecord"
+                },
+                1024
+              ]
+            }
+          },
+          {
+            "name": "recordsTranche4",
+            "type": {
+              "array": [
+                {
+                  "defined": "IndividualRecord"
+                },
+                256
+              ]
+            }
+          },
+          {
+            "name": "recordsTranche5",
+            "type": {
+              "array": [
+                {
+                  "defined": "IndividualRecord"
+                },
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Distribution",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main",
+            "type": "publicKey"
+          },
+          {
+            "name": "instanceNonce",
+            "type": "u16"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "DistributionStatus"
+            }
+          },
+          {
+            "name": "startOfPeriod",
+            "type": "i64"
+          },
+          {
+            "name": "attributeSelectionTime",
+            "type": "i64"
+          },
+          {
+            "name": "freezeTime",
+            "type": "i64"
+          },
+          {
+            "name": "distributionTime",
+            "type": "i64"
+          },
+          {
+            "name": "platformProfitShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "royaltiesShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "unstakingShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "discretionaryAmount",
+            "type": "u64"
+          },
+          {
+            "name": "rolloverAmount",
+            "type": "u64"
+          },
+          {
+            "name": "individualVsTraitSplitPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "traitWinDistributionPerThousand",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "individualWinDistributionPerThousand",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "selectedAttribute",
+            "type": "u8"
+          },
+          {
+            "name": "selectedTraits",
+            "type": "bytes"
+          },
+          {
+            "name": "selectedIndividuals",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "amountPerIndividualWithTraits",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "rolloverToNext",
+            "type": "u64"
+          },
+          {
+            "name": "individualSettled",
+            "type": "bool"
+          },
+          {
+            "name": "individualTraitRecordsLeftToUpdate",
+            "type": "u16"
+          },
+          {
+            "name": "rolloversRecorded",
+            "type": "bool"
+          },
+          {
+            "name": "distributedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "countStakedThisPeriod",
+            "type": "u16"
+          },
+          {
+            "name": "countUnstakedThisPeriod",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Main",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "platform",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionTable",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenOracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "solOracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "floorPriceOracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "cashierProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessDispatcherSigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessAttributeCallbackDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "randomnessSettleCallbackDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "canClaimRewards",
+            "type": "bool"
+          },
+          {
+            "name": "unstakingPenaltyPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "distributionPeriodInterval",
+            "type": "i64"
+          },
+          {
+            "name": "individualVsTraitSplitPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "traitWinDistributionPerThousand",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "individualWinDistributionPerThousand",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "countPopulation",
+            "type": "u16"
+          },
+          {
+            "name": "countStaked",
+            "type": "u16"
+          },
+          {
+            "name": "countAttributes",
+            "type": "u16"
+          },
+          {
+            "name": "countTraits",
+            "type": "u16"
+          },
+          {
+            "name": "rolloverAmount",
+            "type": "u64"
+          },
+          {
+            "name": "balanceDistributed",
+            "type": "u64"
+          },
+          {
+            "name": "instanceNonce",
+            "type": "u16"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "MainStatus"
+            }
+          },
+          {
+            "name": "balanceUndistributed",
+            "type": "u64"
+          },
+          {
+            "name": "balanceCollected",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftId",
+            "type": "u16"
+          },
+          {
+            "name": "staked",
+            "type": "i64"
+          },
+          {
+            "name": "balanceDrawndown",
+            "type": "u64"
+          },
+          {
+            "name": "rakebackBoostApplied",
+            "type": "bool"
+          },
+          {
+            "name": "verifiedAvatar",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AddAttributeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "attributeId",
+            "type": "u16"
+          },
+          {
+            "name": "numberOfTraits",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddIndividualArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u16"
+          },
+          {
+            "name": "traits",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CallbackAttributeSelectArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "randomness",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CallbackResultSelectionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "randomness",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CheckCompleteArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "CollectArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "CrankAttributeSelectionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "clientSeed",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CrankResultSelectionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "clientSeed",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "nextInstanceNonce",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CrankUpdateIndividualsArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ids",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FundDistributionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "platformProfitShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "royaltiesShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "unstakingShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "discretionaryAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sizeOfCollection",
+            "type": "u16"
+          },
+          {
+            "name": "numberOfAttributes",
+            "type": "u16"
+          },
+          {
+            "name": "numberOfTraits",
+            "type": "u16"
+          },
+          {
+            "name": "traitWinDistributionPerThousand",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "individualWinDistributionPerThousand",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "firstStartOfPeriod",
+            "type": "i64"
+          },
+          {
+            "name": "firstAttributeSelectionTime",
+            "type": "i64"
+          },
+          {
+            "name": "firstFreezeTime",
+            "type": "i64"
+          },
+          {
+            "name": "firstDistributionTime",
+            "type": "i64"
+          },
+          {
+            "name": "distributionPeriodInterval",
+            "type": "i64"
+          },
+          {
+            "name": "canClaimRewards",
+            "type": "bool"
+          },
+          {
+            "name": "unstakingPenaltyPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "individualVsTraitSplitPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "randomnessAttributeCallbackDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "randomnessSettleCallbackDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u16"
+          },
+          {
+            "name": "applyAvatar",
+            "type": "bool"
+          },
+          {
+            "name": "applyRakebackBoost",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SyncArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u16"
+          },
+          {
+            "name": "applyAvatar",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "applyRakebackBoost",
+            "type": {
+              "option": "bool"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnfundDistributionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "platformProfitShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "royaltiesShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "unstakingShareAmount",
+            "type": "u64"
+          },
+          {
+            "name": "discretionaryAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnstakeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateAttributePropertiesArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "attributeId",
+            "type": "u16"
+          },
+          {
+            "name": "propertyNumber",
+            "type": "u8"
+          },
+          {
+            "name": "traitValues",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateDistribtuionCycleArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startOfPeriod",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "attributeSelectionTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "freezeTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "distributionTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "distributionPeriodInterval",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateMainArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numberOfAttributes",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "numberOfTraits",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "traitWinDistributionPerThousand",
+            "type": {
+              "option": {
+                "vec": "u16"
+              }
+            }
+          },
+          {
+            "name": "individualWinDistributionPerThousand",
+            "type": {
+              "option": {
+                "vec": "u16"
+              }
+            }
+          },
+          {
+            "name": "canClaimRewards",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "unstakingPenaltyPerThousand",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "individualVsTraitSplitPerThousand",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "randomnessAttributeCallbackDiscriminator",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  8
+                ]
+              }
+            }
+          },
+          {
+            "name": "randomnessSettleCallbackDiscriminator",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  8
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Trait",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "countPopulation",
+            "type": "u16"
+          },
+          {
+            "name": "countStaked",
+            "type": "u16"
+          },
+          {
+            "name": "properties",
+            "type": {
+              "array": [
+                "u16",
+                5
+              ]
+            }
+          },
+          {
+            "name": "countTimesSelected",
+            "type": "u64"
+          },
+          {
+            "name": "pastRewardsAmount",
+            "type": "u64"
+          },
+          {
+            "name": "pastRewardsAmountPerStaker",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IndividualRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "traits",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "timeStaked",
+            "type": "i64"
+          },
+          {
+            "name": "sumIndividualWinningsFomo",
+            "type": "u64"
+          },
+          {
+            "name": "sumIndividualWinningsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "sumTraitWinningsFomo",
+            "type": "u64"
+          },
+          {
+            "name": "sumTraitWinningsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "balanceToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "countIndividualWinsTotal",
+            "type": "u16"
+          },
+          {
+            "name": "countIndividualWinsStaked",
+            "type": "u16"
+          },
+          {
+            "name": "updateInstanceNonce",
+            "type": "u16"
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionTableHeader",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "main",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "reserved1",
+            "type": "u8"
+          },
+          {
+            "name": "countPopulation",
+            "type": "u16"
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MainStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Initialized"
+          },
+          {
+            "name": "CompleteActive"
+          },
+          {
+            "name": "FrozenForDistribution"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionTableStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Initialized"
+          },
+          {
+            "name": "Populated"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DistributionStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Initialized"
+          },
+          {
+            "name": "Accruing"
+          },
+          {
+            "name": "AwaitingAttributeRandomness"
+          },
+          {
+            "name": "AccruingAttributeSelected"
+          },
+          {
+            "name": "AwaitingSettleRandomness"
+          },
+          {
+            "name": "TraitAndIndividualSelected"
+          },
+          {
+            "name": "DistributionComplete"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Attributes",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "Background"
+          },
+          {
+            "name": "Clothes"
+          },
+          {
+            "name": "Headwear"
+          },
+          {
+            "name": "EyesAndAccessories"
+          },
+          {
+            "name": "Mouth"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TraitsBackground",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "Black"
+          },
+          {
+            "name": "Dark"
+          },
+          {
+            "name": "Gold"
+          },
+          {
+            "name": "White"
+          },
+          {
+            "name": "Purple"
+          },
+          {
+            "name": "Pink"
+          },
+          {
+            "name": "Yellow"
+          },
+          {
+            "name": "Blue"
+          },
+          {
+            "name": "Green"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TraitsEyesAndAccessories",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "ThreeDGlasses"
+          },
+          {
+            "name": "AngryEyes"
+          },
+          {
+            "name": "BanditMask"
+          },
+          {
+            "name": "BitcoinEyes"
+          },
+          {
+            "name": "BlackEye"
+          },
+          {
+            "name": "BloodshotEyes"
+          },
+          {
+            "name": "BlueEyes"
+          },
+          {
+            "name": "BrownEyes"
+          },
+          {
+            "name": "ClosedEyes"
+          },
+          {
+            "name": "GreenEyes"
+          },
+          {
+            "name": "GlowEyesGold"
+          },
+          {
+            "name": "GlowEyesPink"
+          },
+          {
+            "name": "MoneyEyes"
+          },
+          {
+            "name": "Eyepatch"
+          },
+          {
+            "name": "HypnoticGlasses"
+          },
+          {
+            "name": "Monocle"
+          },
+          {
+            "name": "PixelShades"
+          },
+          {
+            "name": "ShadyLook"
+          },
+          {
+            "name": "ShockedEyes"
+          },
+          {
+            "name": "ShutterShadesGreen"
+          },
+          {
+            "name": "ShutterShadesPink"
+          },
+          {
+            "name": "ShutterShadesWhite"
+          },
+          {
+            "name": "ShutterShadesYellow"
+          },
+          {
+            "name": "WinkingEyes"
+          },
+          {
+            "name": "SolanaShades"
+          },
+          {
+            "name": "SolanaEyes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TraitsHeadwear",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "BeerHat"
+          },
+          {
+            "name": "CaptainsHat"
+          },
+          {
+            "name": "CrocodileHunterHat"
+          },
+          {
+            "name": "Crown"
+          },
+          {
+            "name": "FishermanHat"
+          },
+          {
+            "name": "GoldLaurels"
+          },
+          {
+            "name": "Hair"
+          },
+          {
+            "name": "HeadbandRed"
+          },
+          {
+            "name": "HeadbandWhite"
+          },
+          {
+            "name": "NapoleonHat"
+          },
+          {
+            "name": "PartyHat"
+          },
+          {
+            "name": "PirateHat"
+          },
+          {
+            "name": "RomanHelmet"
+          },
+          {
+            "name": "TophatBlack"
+          },
+          {
+            "name": "TophatGold"
+          },
+          {
+            "name": "TophatPurple"
+          },
+          {
+            "name": "TophatRed"
+          },
+          {
+            "name": "TophatWhite"
+          },
+          {
+            "name": "UmbrellaHat"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TraitsClothes",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "AdventurerWaistcoat"
+          },
+          {
+            "name": "BaseballShirt"
+          },
+          {
+            "name": "BomberJacket"
+          },
+          {
+            "name": "CountryClub"
+          },
+          {
+            "name": "Dungarees"
+          },
+          {
+            "name": "GoldChainShirt"
+          },
+          {
+            "name": "HeroCostume"
+          },
+          {
+            "name": "NinetiesPopShirt"
+          },
+          {
+            "name": "PimpCoatWhite"
+          },
+          {
+            "name": "PyjamasBlue"
+          },
+          {
+            "name": "SuspendersBlack"
+          },
+          {
+            "name": "SuspendersGold"
+          },
+          {
+            "name": "SuspendersPurple"
+          },
+          {
+            "name": "SuspendersRed"
+          },
+          {
+            "name": "TropicalShirtBlue"
+          },
+          {
+            "name": "TropicalShirtPurple"
+          },
+          {
+            "name": "TropicalShirtRed"
+          },
+          {
+            "name": "TurtleNeck"
+          },
+          {
+            "name": "TuxedoPurple"
+          },
+          {
+            "name": "TuxedoRed"
+          },
+          {
+            "name": "TuxedoGold"
+          },
+          {
+            "name": "TuxedoWhite"
+          },
+          {
+            "name": "TuxedoBlack"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TraitsMouth",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "Bubblegum"
+          },
+          {
+            "name": "BullRing"
+          },
+          {
+            "name": "CasinoChip"
+          },
+          {
+            "name": "CheeseyGrin"
+          },
+          {
+            "name": "Cigar"
+          },
+          {
+            "name": "Dice"
+          },
+          {
+            "name": "GoldenCarrot"
+          },
+          {
+            "name": "Grass"
+          },
+          {
+            "name": "MoustachePoirot"
+          },
+          {
+            "name": "MoustacheMonopoly"
+          },
+          {
+            "name": "MoustacheGringo"
+          },
+          {
+            "name": "PartyPopper"
+          },
+          {
+            "name": "Pipe"
+          },
+          {
+            "name": "Smirk"
+          },
+          {
+            "name": "TeethRoll"
+          },
+          {
+            "name": "TongueOut"
+          },
+          {
+            "name": "Toothpick"
+          },
+          {
+            "name": "Whistling"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Staked",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "rakebackBoostApplied",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "verifiedAvatar",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Unstaked",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "totalRewards",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "unstakingPenalty",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rakebackBoostRemoved",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "verifiedAvatarRemoved",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Synced",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "rakebackBoostApplied",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "verifiedAvatar",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DistributionFunded",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "funder",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "platformProfitShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "royaltiesShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "unstakingShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "discretionaryAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DistributionUnfunded",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "receiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "platformProfitShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "royaltiesShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "unstakingShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "discretionaryAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AttributeSelected",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "attribute",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "IndividualSelected",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "position",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "isStaked",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "TraitSelected",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "attributeId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "traitId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "position",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "countPopulation",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "countStaked",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "amountPerStaker",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DistributionInitialized",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "startOfPeriod",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "attributeSelectionTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "freezeTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "rolloverAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "countStakedStart",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DistributionClosed",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "platformProfitShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "royaltiesShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "unstakingShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "discretionaryAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "distributedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rolloverAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "countStakedThisPeriod",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "countUnstakedThisPeriod",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "countStakedEnd",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "IndvidualTraitUpdate",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "distribution",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "instanceNonce",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "attributeId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "traitId",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "position",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "isStaked",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "distributionEndTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Collection",
+      "fields": [
+        {
+          "name": "main",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnspecifiedError",
+      "msg": "Unspecified Error"
+    },
+    {
+      "code": 6001,
+      "name": "DistributionPeriodLargerThanInterval",
+      "msg": "Distribution period is larger than the specified distribution interval"
+    },
+    {
+      "code": 6002,
+      "name": "DistributionEventsOutOfSequence",
+      "msg": "Distribution event times are out of sequence"
+    },
+    {
+      "code": 6003,
+      "name": "AttributeAccountsOutOfOrder",
+      "msg": "Attribute accounts were not provided in order"
+    },
+    {
+      "code": 6004,
+      "name": "MismatchOnCountAttributes",
+      "msg": "Incomplete - mismatch between attribute account in main and number of attribute accounts provided"
+    },
+    {
+      "code": 6005,
+      "name": "MismatchOnCountTraits",
+      "msg": "Incomplete - mismatch between trait account in main and sum of traits in attribute accounts provided"
+    },
+    {
+      "code": 6006,
+      "name": "MismatchOnCountPopulation",
+      "msg": "Incomplete - mismatch between collection table account in main and individual records"
+    },
+    {
+      "code": 6007,
+      "name": "AttributeIdExceedsAttributeCount",
+      "msg": "Attribute ID provided is larger than that allowed by main attribute count"
+    },
+    {
+      "code": 6008,
+      "name": "IncorrectNumberOfAttributeAccounts",
+      "msg": "The numebr of attribute accounts provided does not match the main attribute count"
+    },
+    {
+      "code": 6009,
+      "name": "IndividualRecordAlreadyExistsAtThisSlot",
+      "msg": "An individual record already exists at this slot"
+    },
+    {
+      "code": 6010,
+      "name": "TraitIdExceedsTraitCountForThisAttribute",
+      "msg": "The trait id provided exceeds the count of traits for this attribute"
+    },
+    {
+      "code": 6011,
+      "name": "UnusedAttributeSlotsMustBeZero",
+      "msg": "Unused attributed slots must be set to zero"
+    },
+    {
+      "code": 6012,
+      "name": "CollectionAdditionsNoLongerAllowed",
+      "msg": "Collection additions not allowed after collection marked complete"
+    },
+    {
+      "code": 6013,
+      "name": "StakingNotCurrentlyPermitted",
+      "msg": "Staking is not currently permitted"
+    },
+    {
+      "code": 6014,
+      "name": "NftMintDoesNotMatchIdProvided",
+      "msg": "The NFT mint account does not correspond to the NFT record at the ID provided"
+    },
+    {
+      "code": 6015,
+      "name": "MetaplexTransferFailed",
+      "msg": "The Metaplex transfer failed to complete"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidDistributionProfile",
+      "msg": "Invalid win distribution profile - must be 1 <= x <= 4"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidDistributionStatus",
+      "msg": "Invalid distribution status for this action"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidMainStatus",
+      "msg": "Invalid main status for this action"
+    },
+    {
+      "code": 6019,
+      "name": "DistributionTimeNotYetReached",
+      "msg": "Distribution time hasn't been reached"
+    },
+    {
+      "code": 6020,
+      "name": "IncorrectAttributeAccountProvided",
+      "msg": "The incorrect attribute account has been provided"
+    },
+    {
+      "code": 6021,
+      "name": "OverflowError",
+      "msg": "Overflow error"
+    },
+    {
+      "code": 6022,
+      "name": "StakeReceiptDoesNotBelongToOwner",
+      "msg": "This staked NFT does not belong to the owner/signer"
+    },
+    {
+      "code": 6023,
+      "name": "NftIdPubkeyMismatch",
+      "msg": "The Id and Pubkey of the NFT do not match within the collection table"
+    },
+    {
+      "code": 6024,
+      "name": "NothingToCollect",
+      "msg": "There is nothing available to collect"
+    },
+    {
+      "code": 6025,
+      "name": "NoValidUpdatesPerformed",
+      "msg": "No valid updates were performed"
+    },
+    {
+      "code": 6026,
+      "name": "NumberIdsPassedExceedsMaximum",
+      "msg": "The number of IDs passed for update exceeds the maximum allowed per ixn"
+    },
+    {
+      "code": 6027,
+      "name": "CollectAccountsExceedsMaximum",
+      "msg": "The number of stake receipts to collect exceeds the maximum allowed per ixn"
+    },
+    {
+      "code": 6028,
+      "name": "ActionNotPermissioned",
+      "msg": "The authority does not have the permissions to carry-out this action"
+    },
+    {
+      "code": 6029,
+      "name": "NoPlayerAccountProvided",
+      "msg": "No player account was provided"
+    },
+    {
+      "code": 6030,
+      "name": "PlayerAccountDoesNotCorrespondToStatedOwner",
+      "msg": "The player account provided does not correspond to the stated owner"
+    },
+    {
+      "code": 6031,
+      "name": "PlayerAccountDoesNotCorrespondToPlatform",
+      "msg": "The player account provided does not correspond to the correct platform"
+    },
+    {
+      "code": 6032,
+      "name": "NothingToDo",
+      "msg": "Nothing to do"
+    },
+    {
+      "code": 6033,
+      "name": "CannotApplyRakebackBoostUntilExistingIsRemoved",
+      "msg": "Cannot apply rakeback boost until existing boost is removed"
+    },
+    {
+      "code": 6034,
+      "name": "CannotRemoveRakebackBoostSinceNotAppliedOnThisStakeReceipt",
+      "msg": "Cannot remove rakeback boost as none applied on this stake receipt"
+    },
+    {
+      "code": 6035,
+      "name": "CannotRemoveAvatarSinceNotThisNft",
+      "msg": "Cannot remove avatar since it's not this NFT"
+    },
+    {
+      "code": 6036,
+      "name": "ActionNotAllowedAfterFreezeTime",
+      "msg": "Cannot stake or unstake after the freeze time"
+    },
+    {
+      "code": 6037,
+      "name": "TriggerTimeNotYetReached",
+      "msg": "Trigger time not yet reached for this action"
+    }
+  ]
+}

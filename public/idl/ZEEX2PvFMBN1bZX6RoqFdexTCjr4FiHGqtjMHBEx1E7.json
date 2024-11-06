@@ -1,0 +1,1529 @@
+{
+  "version": "0.1.0",
+  "name": "random",
+  "instructions": [
+    {
+      "name": "initializeDispatcher",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitDispatcherArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addOrUpdateAuthority",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "existingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "affectedAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AddUpdateAuthorityArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addOrUpdateProvider",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "provider",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AddUpdateProviderArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addOrUpdateCaller",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "callerSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "callerProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AddUpdateCallerArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "request",
+      "accounts": [
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rentReceiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "callerSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "callbackProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "callbackLookupTable",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "request"
+          ]
+        },
+        {
+          "name": "request",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "request"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "caller_signer"
+              },
+              {
+                "kind": "arg",
+                "type": "publicKey",
+                "path": "caller_unique_pubkey"
+              },
+              {
+                "kind": "arg",
+                "type": "u64",
+                "path": "caller_nonce"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RequestArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "voidRequest",
+      "accounts": [
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "request",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "dispatcher",
+            "rent_receiver",
+            "caller"
+          ]
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "request"
+          ]
+        },
+        {
+          "name": "rentReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "VoidRequestArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "respond",
+      "accounts": [
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "request",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "rent_receiver",
+            "dispatcher",
+            "callback_program"
+          ]
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "request"
+          ]
+        },
+        {
+          "name": "provider",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rentReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "callbackProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RespondArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeRequest",
+      "accounts": [
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "request",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "dispatcher",
+            "rent_receiver"
+          ]
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "request"
+          ]
+        },
+        {
+          "name": "rentReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CloseRequestArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initCallbackTable",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "request",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "dispatcher",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dispatcher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "callback_table"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "request"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitCallbackTableArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "extendCallbackTable",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ExtendCallbackTableArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CallbackTable",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "request",
+            "type": "publicKey"
+          },
+          {
+            "name": "capacity",
+            "type": "u8"
+          },
+          {
+            "name": "accountMetas",
+            "type": {
+              "vec": {
+                "defined": "AccountMeta"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Dispatcher",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "defined": "DispatcherStatus"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "requestNonce",
+            "type": "u64"
+          },
+          {
+            "name": "openRequests",
+            "type": "u64"
+          },
+          {
+            "name": "closedRequests",
+            "type": "u64"
+          },
+          {
+            "name": "reward",
+            "type": "u64"
+          },
+          {
+            "name": "authorities",
+            "type": {
+              "vec": {
+                "defined": "Authority"
+              }
+            }
+          },
+          {
+            "name": "callers",
+            "type": {
+              "vec": {
+                "defined": "Caller"
+              }
+            }
+          },
+          {
+            "name": "providers",
+            "type": {
+              "vec": {
+                "defined": "Provider"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dispatcher",
+            "type": "publicKey"
+          },
+          {
+            "name": "caller",
+            "type": "publicKey"
+          },
+          {
+            "name": "rentReceiver",
+            "type": "publicKey"
+          },
+          {
+            "name": "providerAssigned",
+            "type": "bool"
+          },
+          {
+            "name": "assignedProvider",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "RequestStatus"
+            }
+          },
+          {
+            "name": "clientSeed",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "afterSlotNumber",
+            "type": "u64"
+          },
+          {
+            "name": "afterTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "retainUntil",
+            "type": "i64"
+          },
+          {
+            "name": "reward",
+            "type": "u64"
+          },
+          {
+            "name": "callbackProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "callbackLookupTable",
+            "type": "publicKey"
+          },
+          {
+            "name": "callbackIxnDiscrimintator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "callbackTableType",
+            "type": {
+              "defined": "CallbackTableType"
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "provider",
+            "type": "publicKey"
+          },
+          {
+            "name": "blockhashUsed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "slotUsed",
+            "type": "u64"
+          },
+          {
+            "name": "verifiedOnChain",
+            "type": "bool"
+          },
+          {
+            "name": "callbackCompleted",
+            "type": "bool"
+          },
+          {
+            "name": "timestampCreated",
+            "type": "i64"
+          },
+          {
+            "name": "timestampResponded",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AddUpdateAuthorityArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddUpdateCallerArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddUpdateProviderArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CloseDispatcherArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "CloseRequestArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ExtendCallbackTableArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "capacity",
+            "type": "u8"
+          },
+          {
+            "name": "accountMetas",
+            "type": {
+              "vec": {
+                "defined": "AccountMeta"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitCallbackTableArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "capacity",
+            "type": "u8"
+          },
+          {
+            "name": "accountMetas",
+            "type": {
+              "vec": {
+                "defined": "AccountMeta"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitDispatcherArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reward",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "callerNonce",
+            "type": "u64"
+          },
+          {
+            "name": "callerUniquePubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "callbackIxnDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "clientSeed",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          },
+          {
+            "name": "afterSlotNumber",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "afterTimestamp",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "retainUntil",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RespondArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "data",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "slotUsed",
+            "type": "u64"
+          },
+          {
+            "name": "blockhash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CallbackArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "callbackIxnDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "dataPartA",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dataPartB",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoidRequestArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "AccountMeta",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "isSigner",
+            "type": "bool"
+          },
+          {
+            "name": "isWritable",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Authority",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "AuthorityStatus"
+            }
+          },
+          {
+            "name": "lastUpdate",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Caller",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "program",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "CallerStatus"
+            }
+          },
+          {
+            "name": "lastUpdate",
+            "type": "i64"
+          },
+          {
+            "name": "lastRequest",
+            "type": "i64"
+          },
+          {
+            "name": "lastResponse",
+            "type": "i64"
+          },
+          {
+            "name": "numberRequests",
+            "type": "u64"
+          },
+          {
+            "name": "numberResponses",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Provider",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "ProviderStatus"
+            }
+          },
+          {
+            "name": "lastUpdate",
+            "type": "i64"
+          },
+          {
+            "name": "lastResponse",
+            "type": "i64"
+          },
+          {
+            "name": "numberResponses",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DispatcherStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "NoNewRequests"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CallerStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProviderStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "NoNewRequests"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RequestStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Awaiting"
+          },
+          {
+            "name": "Complete"
+          },
+          {
+            "name": "Error"
+          },
+          {
+            "name": "Voided"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CallbackTableType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Custom"
+          },
+          {
+            "name": "SolanaAddressLookupTable"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "RequestEvent",
+      "fields": [
+        {
+          "name": "dispatcher",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rentReceiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "assignedProvider",
+          "type": {
+            "option": "publicKey"
+          },
+          "index": false
+        },
+        {
+          "name": "callbackProgram",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "callbackLookupTable",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "callbackTableType",
+          "type": {
+            "defined": "CallbackTableType"
+          },
+          "index": false
+        },
+        {
+          "name": "clientSeed",
+          "type": {
+            "array": [
+              "u8",
+              4
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "nonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "afterSlotNumber",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "afterTimestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "reward",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ResponseEvent",
+      "fields": [
+        {
+          "name": "dispatcher",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rentReceiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "provider",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "callbackProgram",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "callbackLookupTable",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "clientSeed",
+          "type": {
+            "array": [
+              "u8",
+              4
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "nonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "afterSlotNumber",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "afterTimestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "responseSlotNumber",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "responseTimestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "slotUsed",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "blockhashUsed",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "response",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "callbackExecuted",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "reward",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "VoidRequestEvent",
+      "fields": [
+        {
+          "name": "dispatcher",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rentReceiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnspecifiedError",
+      "msg": "Unspecified Error"
+    },
+    {
+      "code": 6001,
+      "name": "NotAuthorized",
+      "msg": "Action not authorized"
+    },
+    {
+      "code": 6002,
+      "name": "CallerNotAuthorized",
+      "msg": "Caller is not authorized to make a request"
+    },
+    {
+      "code": 6003,
+      "name": "ProviderNotAuthorized",
+      "msg": "Providers is not authorized to supply a response"
+    },
+    {
+      "code": 6004,
+      "name": "AuthorityNotFound",
+      "msg": "Authority record not found"
+    },
+    {
+      "code": 6005,
+      "name": "ProviderNotFound",
+      "msg": "Provider record not found"
+    },
+    {
+      "code": 6006,
+      "name": "CallerNotFound",
+      "msg": "Caller record not found"
+    },
+    {
+      "code": 6007,
+      "name": "EnumOutOfBounds",
+      "msg": "Enum our of bounds"
+    },
+    {
+      "code": 6008,
+      "name": "CallbackProgramDoesNotMatch",
+      "msg": "Callback program provided in context does not match that of the request"
+    },
+    {
+      "code": 6009,
+      "name": "AssignedProviderDoesNotMatch",
+      "msg": "Response not provided by the request's assigned provider"
+    },
+    {
+      "code": 6010,
+      "name": "ResponseSubmittedBeforeRequestedTimestamp",
+      "msg": "The response was provided before the request's specified after_timestamp"
+    },
+    {
+      "code": 6011,
+      "name": "ResponseSubmittedForWrongSlot",
+      "msg": "The response was provided for the wrong slot"
+    },
+    {
+      "code": 6012,
+      "name": "ResponseTooSlowRelativeToRequestedSlot",
+      "msg": "The response was provided too late relative to the requested slot_number"
+    },
+    {
+      "code": 6013,
+      "name": "CannotCloseIncompleteRequest",
+      "msg": "The request account cannot be closed as it has not been completed"
+    },
+    {
+      "code": 6014,
+      "name": "RequestRetainPeriodNotPassed",
+      "msg": "The request cannot be closed as the retain period is not passed"
+    },
+    {
+      "code": 6015,
+      "name": "CanOnlyBeClosedByRequestCaller",
+      "msg": "This action can only be called by the request caller "
+    },
+    {
+      "code": 6016,
+      "name": "InconsistentCallbackAccount",
+      "msg": "Accounts provided in callback are inconsistent"
+    },
+    {
+      "code": 6017,
+      "name": "CouldNotCloseAccount",
+      "msg": "Could not close an account"
+    },
+    {
+      "code": 6018,
+      "name": "CallbackNotAuthorized",
+      "msg": "Callback program is not authorized"
+    },
+    {
+      "code": 6019,
+      "name": "RequestNoLongerAwaiting",
+      "msg": "The request is no longer in awaiting state"
+    }
+  ]
+}

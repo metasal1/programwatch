@@ -1,0 +1,2555 @@
+{
+  "version": "0.1.0",
+  "name": "align_governance",
+  "instructions": [
+    {
+      "name": "createOrganisation",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManagerAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManagerAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "organisationAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "organisationAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identifierSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "identifier",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "node",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside cpi to mulitgraph"
+          ]
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "multigraph",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "identifierProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "beacon",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "beaconProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": "OrganisationConfig"
+          }
+        },
+        {
+          "name": "councilAuthoritySeeds",
+          "type": "bytes"
+        },
+        {
+          "name": "organisationAuthoritySeeds",
+          "type": "bytes"
+        },
+        {
+          "name": "councilThreshold",
+          "type": "u32"
+        },
+        {
+          "name": "organisationThreshold",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "createSubOrganisation",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "subOrganisation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManagerAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManagerAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "organisationAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "organisationAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identifierSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "identifier",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "node",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside cpi to mulitgraph"
+          ]
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "recoveryKey",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : any key can be used to recover account"
+          ]
+        },
+        {
+          "name": "multigraph",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identifierProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": "OrganisationConfig"
+          }
+        },
+        {
+          "name": "retainParentAuthority",
+          "type": "bool"
+        },
+        {
+          "name": "councilAuthoritySeeds",
+          "type": "bytes"
+        },
+        {
+          "name": "organisationAuthoritySeeds",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "joinOrganisation",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "toNode",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside cpi to multigraph"
+          ]
+        },
+        {
+          "name": "fromNode",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside cpi to multigraph"
+          ]
+        },
+        {
+          "name": "edge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside cpi to mulitgraph"
+          ]
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multigraph",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "identifierProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createProposal",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "shadowDrive",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rankingPeroid",
+          "type": "i64"
+        },
+        {
+          "name": "isServiced",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "addProof",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "servicerIdentity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proof",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createWallet",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "walletSeed",
+          "type": "bytes"
+        },
+        {
+          "name": "threshold",
+          "type": "u32"
+        },
+        {
+          "name": "authorityType",
+          "type": {
+            "defined": "AuthorityConfigType"
+          }
+        },
+        {
+          "name": "walletName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "finalizeDraftProposal",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposerContributionRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelDraft",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposerContributionRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createContributionRecord",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "contributionRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createCollectionNftRecord",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "answerServicerRequest",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "contributionRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "response",
+          "type": {
+            "defined": "ServicerRequestResponse"
+          }
+        }
+      ]
+    },
+    {
+      "name": "castRank",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contributionRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "voteType",
+          "type": {
+            "defined": "RankVoteType"
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "castCouncilVote",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "councilVoteRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "voteType",
+          "type": {
+            "defined": "CouncilVote"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pushProposalState",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "onTokenAccountChange",
+      "accounts": [
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftHolderOwnerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK address is asserted manually and non intialized accounts are handled in instruction"
+          ]
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside instruction"
+          ]
+        },
+        {
+          "name": "nftMasterEdition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK inside instruction"
+          ]
+        },
+        {
+          "name": "reputationManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "beacon",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletTracker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecord",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "trackNft",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "beacon",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "* Beacon accounts for cpi"
+          ]
+        },
+        {
+          "name": "walletTracker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trackedTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userNftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userNftMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userNftMasteredition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clockwork",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "beaconProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createWalletTracker",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "beacon",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletTracker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "beaconProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addTransaction",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK : Checked in Identifier CPI"
+          ]
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addInstruction",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ixProgramId",
+          "type": "publicKey"
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "name": "metaAccounts",
+          "type": {
+            "vec": {
+              "defined": "AlignAccountMeta"
+            }
+          }
+        },
+        {
+          "name": "transactionIndex",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "finishServicingProposal",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "servicerIdentity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reviewProposal",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "councilManager",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "councilVoteRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerRecord",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "score",
+          "type": "i8"
+        }
+      ]
+    },
+    {
+      "name": "claimReputation",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "organisation",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "contributionRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reputationManager",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "executeTransaction",
+      "accounts": [
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthorityConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AuthorityConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authorityType",
+            "type": {
+              "defined": "AuthorityConfigType"
+            }
+          },
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "seed",
+            "type": "bytes"
+          },
+          {
+            "name": "votingProposalCount",
+            "type": "u32"
+          },
+          {
+            "name": "totalProposals",
+            "type": "u64"
+          },
+          {
+            "name": "threshold",
+            "type": "u32"
+          },
+          {
+            "name": "authorityBump",
+            "type": "u8"
+          },
+          {
+            "name": "authorityAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ContributionRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "idenitfier",
+            "type": "publicKey"
+          },
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "isClaimed",
+            "type": "bool"
+          },
+          {
+            "name": "upVoteCount",
+            "type": "u64"
+          },
+          {
+            "name": "downVoteCount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CouncilManager",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": {
+              "defined": "CouncilManagerState"
+            }
+          },
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "councilCount",
+            "type": "u8"
+          },
+          {
+            "name": "isInElection",
+            "type": "bool"
+          },
+          {
+            "name": "electionManager",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "electedAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "councilIdentifiers",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CouncilVoteRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "vote",
+            "type": {
+              "defined": "CouncilVote"
+            }
+          },
+          {
+            "name": "reviewScore",
+            "type": {
+              "option": "i8"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ElectionManager",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Organisation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "config",
+            "type": {
+              "defined": "OrganisationConfig"
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "subOrganisationCount",
+            "type": "u8"
+          },
+          {
+            "name": "parentOrganisation",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Proposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": {
+              "defined": "ProposalState"
+            }
+          },
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "subOrgType",
+            "type": {
+              "option": {
+                "defined": "SubOrganisationType"
+              }
+            }
+          },
+          {
+            "name": "proposer",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorityConfigAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "rankingAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "votingAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "deniedAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "executedAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "approvedAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "servicerAcceptedRequestAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "servicerDeclinedRequestAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "transactionCount",
+            "type": "u32"
+          },
+          {
+            "name": "executingTransactionIndex",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "draftAt",
+            "type": "i64"
+          },
+          {
+            "name": "servicer",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "shadowDrive",
+            "type": "publicKey"
+          },
+          {
+            "name": "councilReviewRating",
+            "type": {
+              "option": "i8"
+            }
+          },
+          {
+            "name": "councilReviewCount",
+            "type": "u8"
+          },
+          {
+            "name": "totalCouncilYesVotes",
+            "type": "u8"
+          },
+          {
+            "name": "totalCouncilNoVotes",
+            "type": "u8"
+          },
+          {
+            "name": "totalCouncilAbstainVotes",
+            "type": "u8"
+          },
+          {
+            "name": "rankingPeroid",
+            "type": "i64"
+          },
+          {
+            "name": "upvotes",
+            "type": "u64"
+          },
+          {
+            "name": "downvotes",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "serviceProofs",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionNftRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftCount",
+            "type": "u32"
+          },
+          {
+            "name": "collectionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReputationManager",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "contributionReputation",
+            "docs": [
+              "* precalculated via mulitplier at ontokena ccount change instruction\n     * TODO: if config is changed for rep_multiplier of collections need to have\n     * a way to update this - needs to be seperate PDA's for each collection with a count that\n     * way when onTokenChange is called we always calculate the new reptuation from the current collections\n     * weightings in the governance config."
+            ],
+            "type": {
+              "defined": "ContributionReputation"
+            }
+          },
+          {
+            "name": "reputation",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SubOrganisation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "organisation",
+            "type": "publicKey"
+          },
+          {
+            "name": "orgType",
+            "type": {
+              "defined": "SubOrganisationType"
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposalCount",
+            "type": "u64"
+          },
+          {
+            "name": "liveProposals",
+            "type": "u32"
+          },
+          {
+            "name": "totalCouncilSeats",
+            "type": "u8"
+          },
+          {
+            "name": "filledCouncilSeats",
+            "type": "u8"
+          },
+          {
+            "name": "councilManager",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalTransaction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": {
+              "defined": "TransactionState"
+            }
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "executedAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "transactionIndex",
+            "type": "u32"
+          },
+          {
+            "name": "instructionCount",
+            "type": "u8"
+          },
+          {
+            "name": "executedBy",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalInstruction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transaction",
+            "type": "publicKey"
+          },
+          {
+            "name": "programId",
+            "type": "publicKey"
+          },
+          {
+            "name": "isExecuted",
+            "type": "bool"
+          },
+          {
+            "name": "instructionIndex",
+            "type": "u8"
+          },
+          {
+            "name": "accounts",
+            "type": {
+              "vec": {
+                "defined": "AlignAccountMeta"
+              }
+            }
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CollectionItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "repMultiplier",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrganisationConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "votingRepReward",
+            "type": "u8"
+          },
+          {
+            "name": "votingInAlignmentReward",
+            "type": "u8"
+          },
+          {
+            "name": "proposalServicedReward",
+            "type": "u8"
+          },
+          {
+            "name": "proposalCreatedReward",
+            "type": "u8"
+          },
+          {
+            "name": "nftRequireForActions",
+            "type": "bool"
+          },
+          {
+            "name": "rankingPeriod",
+            "type": "i64"
+          },
+          {
+            "name": "proposalMinReputationGate",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "collectionItems",
+            "type": {
+              "vec": {
+                "defined": "CollectionItem"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ContributionReputation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposalVotes",
+            "type": "u64"
+          },
+          {
+            "name": "proposalVotesInAlignment",
+            "type": "u64"
+          },
+          {
+            "name": "servicedProposalsFailed",
+            "type": "u64"
+          },
+          {
+            "name": "servicedProposalsSuccess",
+            "type": "u64"
+          },
+          {
+            "name": "proposalsCreatedFailed",
+            "type": "u64"
+          },
+          {
+            "name": "proposalsCreatedSuccess",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AlignAccountMeta",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "isSigner",
+            "type": "bool"
+          },
+          {
+            "name": "isWritable",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityConfigType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Cold"
+          },
+          {
+            "name": "Hot"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CouncilManagerState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Electing"
+          },
+          {
+            "name": "Elected"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ElectionState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Electing"
+          },
+          {
+            "name": "Elected"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RankVoteType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Upvote"
+          },
+          {
+            "name": "Downvote"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CouncilVote",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Yes"
+          },
+          {
+            "name": "No"
+          },
+          {
+            "name": "Abstain"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ServicerRequestResponse",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Accept"
+          },
+          {
+            "name": "Deny"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Draft"
+          },
+          {
+            "name": "RequestingServicer"
+          },
+          {
+            "name": "ReadyToExecute"
+          },
+          {
+            "name": "Executing"
+          },
+          {
+            "name": "Ranking"
+          },
+          {
+            "name": "Voting"
+          },
+          {
+            "name": "Servicing"
+          },
+          {
+            "name": "Reviewing"
+          },
+          {
+            "name": "Reviewed"
+          },
+          {
+            "name": "Complete"
+          },
+          {
+            "name": "Denied"
+          },
+          {
+            "name": "Canceled"
+          },
+          {
+            "name": "ReviewFailed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SubOrganisationType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ProposalModeration"
+          },
+          {
+            "name": "Product"
+          },
+          {
+            "name": "Engineering"
+          },
+          {
+            "name": "Operations"
+          },
+          {
+            "name": "CustomerSupport"
+          },
+          {
+            "name": "Marketing"
+          },
+          {
+            "name": "Growth"
+          },
+          {
+            "name": "Finance"
+          },
+          {
+            "name": "Security"
+          },
+          {
+            "name": "Recruiting"
+          },
+          {
+            "name": "Tokenomics"
+          },
+          {
+            "name": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Waiting"
+          },
+          {
+            "name": "Executing"
+          },
+          {
+            "name": "Success"
+          },
+          {
+            "name": "Failed"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow!"
+    },
+    {
+      "code": 6001,
+      "name": "WalletNameToLarge",
+      "msg": "The wallet name has to be below 40 characters"
+    },
+    {
+      "code": 6002,
+      "name": "NotEnoughReputation",
+      "msg": "The reputation score of this user does not have enough to access this action"
+    },
+    {
+      "code": 6003,
+      "name": "NotEnoughCaptialInvestmentStaked",
+      "msg": "This organization requires you have at least one nft to interact with the DAO"
+    },
+    {
+      "code": 6004,
+      "name": "RankingPeriodLapsed",
+      "msg": "Ranking period has finished for proposal!"
+    },
+    {
+      "code": 6005,
+      "name": "ProposalInvalidState",
+      "msg": "Proposal has invalid state to access this instruction"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidProposal",
+      "msg": "Proposal is not valid for this instruction"
+    },
+    {
+      "code": 6007,
+      "name": "MaxRankingPeriodExceeded",
+      "msg": "Ranking peroid for proposal exceeds the organisations max ranking peroid"
+    },
+    {
+      "code": 6008,
+      "name": "NotCouncilIdentifier",
+      "msg": "Idenitfier is not apart of the council"
+    },
+    {
+      "code": 6009,
+      "name": "NotEnoughReputationForInstruction",
+      "msg": "Not enough reputation for instruction"
+    },
+    {
+      "code": 6010,
+      "name": "UnverifiedNFT",
+      "msg": "Unverified NFT for collection"
+    },
+    {
+      "code": 6011,
+      "name": "CollectionMintMismatch",
+      "msg": "Incorrect NFT for collection that governs organisation"
+    },
+    {
+      "code": 6012,
+      "name": "NotAllTransactionsExecuted",
+      "msg": "Not all transaction are executed"
+    },
+    {
+      "code": 6013,
+      "name": "ReviewScoreNotValid",
+      "msg": "Review score not valid"
+    },
+    {
+      "code": 6014,
+      "name": "GovernanceThresholdNotValid",
+      "msg": "Governance threshold must be above zero"
+    },
+    {
+      "code": 6015,
+      "name": "InstructionInvalid",
+      "msg": "Instruction is not valid for execution"
+    },
+    {
+      "code": 6016,
+      "name": "FeatureNotYetImplemented",
+      "msg": "The feature requested is not yet implemented in this version of Align"
+    },
+    {
+      "code": 6017,
+      "name": "TransactionIndexInvalid",
+      "msg": "Transactions must be executed sequentially. Index of transaction does not match next transaction."
+    },
+    {
+      "code": 6018,
+      "name": "InvalidVoteType",
+      "msg": "Invalid vote type was provided. A user can only vote in one direction on a proposal."
+    },
+    {
+      "code": 6019,
+      "name": "InvalidIdentifier",
+      "msg": "Identifier is invalid for the state being accessed"
+    },
+    {
+      "code": 6020,
+      "name": "ReputationAlreadyClaimed",
+      "msg": "Reputation for this proposal has already been claimed"
+    },
+    {
+      "code": 6021,
+      "name": "IncorrectCollectionForOrganisation",
+      "msg": "You have a provided an nft with the incorrect collection mint associated for this organisation."
+    },
+    {
+      "code": 6022,
+      "name": "IncorrectCollectionRecordForOrganisation",
+      "msg": "You have provided a collection record that does not belong to this organisation."
+    },
+    {
+      "code": 6023,
+      "name": "InvalidOrganisation",
+      "msg": "The wrong organisation was provided."
+    },
+    {
+      "code": 6024,
+      "name": "CannotCastRankFromProposer",
+      "msg": "The proposer of the proposal cannot cast a rank vote on there own proposal"
+    },
+    {
+      "code": 6025,
+      "name": "CannotCastRankFromServicer",
+      "msg": "The servicer of the proposal cannot cast a rank vote on there own proposal"
+    }
+  ]
+}

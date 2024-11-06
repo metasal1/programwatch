@@ -1,0 +1,537 @@
+{
+  "version": "0.1.0",
+  "name": "solana_fundraisers",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "liveFunds",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "makeFund",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "liveFunds",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "firstPartition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fpRecOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fpRecToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowSigner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        },
+        {
+          "name": "private",
+          "type": "bool"
+        },
+        {
+          "name": "info",
+          "type": "string"
+        },
+        {
+          "name": "partitionInfo",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "partitionName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "makePartition",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipientOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipientTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        },
+        {
+          "name": "info",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "markCompleted",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        },
+        {
+          "name": "partitionId",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "destroyPartition",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partition",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        },
+        {
+          "name": "partitionId",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "destroyFund",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "liveFunds",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "donate",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "donorTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "distributeDonation",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partitionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        },
+        {
+          "name": "partitionId",
+          "type": "u16"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "unlockFund",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "fund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fundId",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "LiveFunds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nextFund",
+            "type": "u16"
+          },
+          {
+            "name": "funds",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fund",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintAddr",
+            "type": "publicKey"
+          },
+          {
+            "name": "locked",
+            "type": "bool"
+          },
+          {
+            "name": "private",
+            "type": "bool"
+          },
+          {
+            "name": "nextPartition",
+            "type": "u16"
+          },
+          {
+            "name": "partitions",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "completed",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "information",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Partition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "recipientOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "information",
+            "type": "string"
+          },
+          {
+            "name": "amountReceived",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Distribution",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mintAddr",
+            "type": "publicKey"
+          },
+          {
+            "name": "total",
+            "type": "u64"
+          },
+          {
+            "name": "recipients",
+            "type": {
+              "vec": "u16"
+            }
+          },
+          {
+            "name": "done",
+            "type": {
+              "vec": "bool"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

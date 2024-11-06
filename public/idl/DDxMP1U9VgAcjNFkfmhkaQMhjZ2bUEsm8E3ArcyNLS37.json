@@ -1,0 +1,174 @@
+{
+  "version": "0.1.0",
+  "name": "reward_contract",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "solLamportsReward",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeem",
+      "accounts": [
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "solLamportsReward",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "increase",
+      "accounts": [
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "solLamportsReward",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "decrease",
+      "accounts": [
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "solLamportsReward",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RewardState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sourceAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "userAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "solLamportsReward",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAmount",
+      "msg": "Invalid Amount"
+    },
+    {
+      "code": 6001,
+      "name": "ExpectedUserMismatch",
+      "msg": "Expected User Mismatch"
+    },
+    {
+      "code": 6002,
+      "name": "ExpectedSourceMismatch",
+      "msg": "Expected Source Mismatch"
+    },
+    {
+      "code": 6003,
+      "name": "RewardAmountTooLarge",
+      "msg": "Reward Amount Too Large"
+    },
+    {
+      "code": 6004,
+      "name": "AmountOverflow",
+      "msg": "Amount Overflow"
+    },
+    {
+      "code": 6005,
+      "name": "InsufficientSourceFunds",
+      "msg": "Insufficient Source Funds"
+    }
+  ]
+}

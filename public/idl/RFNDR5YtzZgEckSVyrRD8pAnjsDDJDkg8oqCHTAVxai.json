@@ -1,0 +1,447 @@
+{
+  "version": "0.1.0",
+  "name": "refund_program",
+  "instructions": [
+    {
+      "name": "initializeRefundCfo",
+      "accounts": [
+        {
+          "name": "refundCfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "approvedTreasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RefundCfoInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateRefundCfo",
+      "accounts": [
+        {
+          "name": "refundCfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "approvedTreasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RefundCfoInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initWhitelistedAddressV2",
+      "accounts": [
+        {
+          "name": "whitelistedAddressPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistedAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundCfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "timesRefundable",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "blockWhitelistedAddressV2",
+      "accounts": [
+        {
+          "name": "whitelistedAddressPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistedAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refundCfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "refund",
+      "accounts": [
+        {
+          "name": "refundCfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistedAddressPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "approvedTreasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refundedAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftToRefundMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftToRefundAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftToRefundMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RefundCfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "approvedTreasuryAta",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "refundableCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "delegatedTokenAmount",
+            "type": "u64"
+          },
+          {
+            "name": "currentAvailableTokenAmount",
+            "type": "u64"
+          },
+          {
+            "name": "amountPerRefund",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistedAddressV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "refundCfo",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistedAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "timesRefunded",
+            "type": "u16"
+          },
+          {
+            "name": "timesRefundable",
+            "type": "u16"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "WhitelistedAddressV2State"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistedAddress",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "refundCfo",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistedAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "timesRefunded",
+            "type": "u16"
+          },
+          {
+            "name": "blocked",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "RefundCfoInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "refundableCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "delegatedTokenAmount",
+            "type": "u64"
+          },
+          {
+            "name": "amountPerRefund",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistedAddressV2State",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Blocked"
+          },
+          {
+            "name": "Ready"
+          },
+          {
+            "name": "FullyRefunded"
+          },
+          {
+            "name": "FullyRefundedV2"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AuthorityNotOwner",
+      "msg": "The provided authority is not the owner of the refund config."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidVectorLength",
+      "msg": "Invalid Vector Length"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidATAOwner",
+      "msg": "Invalid ATA Owner"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidATAMint",
+      "msg": "Invalid ATA Mint"
+    },
+    {
+      "code": 6004,
+      "name": "NoCollection",
+      "msg": "Metadata has no collection"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidCollection",
+      "msg": "Invalid Collection"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidWhitelistState",
+      "msg": "Invalid Whitelist State"
+    },
+    {
+      "code": 6007,
+      "name": "BlockedAddress",
+      "msg": "Blocked address"
+    },
+    {
+      "code": 6008,
+      "name": "RefundedTooMany",
+      "msg": "Refunded too many"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidATA",
+      "msg": "Invalid ATA"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidMint",
+      "msg": "Invalid Mint"
+    },
+    {
+      "code": 6011,
+      "name": "RefundCFONotReady",
+      "msg": "Refund CFO not ready"
+    },
+    {
+      "code": 6012,
+      "name": "RefundCFONotInitializing",
+      "msg": "Refund CFO not initializing"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidMetadataMint",
+      "msg": "Invalid Metadata Mint"
+    },
+    {
+      "code": 6014,
+      "name": "NumericOverflow",
+      "msg": "Numeric overflow"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidAccountOwner",
+      "msg": "Invalid account owner"
+    }
+  ]
+}

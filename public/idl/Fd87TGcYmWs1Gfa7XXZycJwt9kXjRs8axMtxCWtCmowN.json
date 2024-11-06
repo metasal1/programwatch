@@ -1,0 +1,201 @@
+{
+  "version": "1.0.0",
+  "name": "redeem_logic_farming",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "redeemLogicConfig",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "interestSplit",
+          "type": "f64"
+        },
+        {
+          "name": "capLow",
+          "type": "f64"
+        },
+        {
+          "name": "capHigh",
+          "type": "f64"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "accounts": [
+        {
+          "name": "redeemLogicConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "interestSplit",
+          "type": "f64"
+        },
+        {
+          "name": "capLow",
+          "type": "f64"
+        },
+        {
+          "name": "capHigh",
+          "type": "f64"
+        }
+      ]
+    },
+    {
+      "name": "execute",
+      "accounts": [
+        {
+          "name": "redeemLogicConfig",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "RedeemLogicExecuteInput"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RedeemLogicConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "interestSplit",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "capLow",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "capHigh",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "RedeemLogicExecuteInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oldQuantity",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "oldReserveFairValue",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    16
+                  ]
+                },
+                10
+              ]
+            }
+          },
+          {
+            "name": "newReserveFairValue",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    16
+                  ]
+                },
+                10
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedeemLogicExecuteResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newQuantity",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "feeQuantity",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

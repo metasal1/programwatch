@@ -1,0 +1,1678 @@
+{
+  "version": "0.4.0",
+  "name": "mallow_rewards",
+  "instructions": [
+    {
+      "name": "createSwapPool",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority's wallet"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the reward token."
+          ]
+        },
+        {
+          "name": "swapMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the token to swap."
+          ]
+        },
+        {
+          "name": "swapPool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Stake pool to create"
+          ]
+        },
+        {
+          "name": "swapPoolRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account holding the reward tokens for the mission. Should be ATA of the swap pool."
+          ]
+        },
+        {
+          "name": "authorityRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Creator's token account for the reward tokens"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "totalSwap",
+          "type": "u64"
+        },
+        {
+          "name": "totalReward",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "swap",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User's wallet"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the reward token."
+          ]
+        },
+        {
+          "name": "swapMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the token to swap."
+          ]
+        },
+        {
+          "name": "swapPool",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Stake pool to create"
+          ]
+        },
+        {
+          "name": "swapPoolRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account holding the reward token. Should be ATA of the swap pool."
+          ]
+        },
+        {
+          "name": "userRewardTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User's token account for the reward tokens"
+          ]
+        },
+        {
+          "name": "userSwapTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User's token account for the swap token"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "swapAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addRewards",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User's wallet"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the reward token."
+          ]
+        },
+        {
+          "name": "mallowMonkeysCollection",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the mallow monkeys collection."
+          ]
+        },
+        {
+          "name": "xeanusCollabsCollection",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the xeanus collabs collection."
+          ]
+        },
+        {
+          "name": "rewardsConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Rewards pool to create"
+          ]
+        },
+        {
+          "name": "rewardsConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account holding the reward tokens for the mission. Should be ATA of the mission."
+          ]
+        },
+        {
+          "name": "authorityTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Creator's token account for the reward tokens"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "stakeLockDuration",
+          "type": "u64"
+        },
+        {
+          "name": "maxPointsMultiplierPct",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "claimRewards",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer for claim"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Rewards pool authority"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "User claiming the rewards"
+          ]
+        },
+        {
+          "name": "userRewards",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Rewards profile for the user"
+          ]
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint reward token."
+          ]
+        },
+        {
+          "name": "rewardsConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Stake pool to use for staking."
+          ]
+        },
+        {
+          "name": "rewardsConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account holding the reward tokens for the mission. Should be ATA of the mission."
+          ]
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User's token account for the reward tokens"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "totalClaim",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User's wallet"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to stake."
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Metadata for the nft mint."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User's token account for the NFT to stake"
+          ]
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Edition of the NFT to stake."
+          ]
+        },
+        {
+          "name": "nftStake",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Stake profile for the NFT"
+          ]
+        },
+        {
+          "name": "userRewards",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Rewards profile for the user"
+          ]
+        },
+        {
+          "name": "rewardsConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rewards pool to create"
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User's wallet"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to stake."
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Metadata for the nft mint."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User's token account for the NFT to unstake"
+          ]
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Edition of the NFT to stake."
+          ]
+        },
+        {
+          "name": "nftStake",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Stake profile for the NFT"
+          ]
+        },
+        {
+          "name": "userRewards",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Rewards profile for the user"
+          ]
+        },
+        {
+          "name": "rewardsConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rewards pool to create"
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initStore",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority's wallet"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Store product to create"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initArgs",
+          "type": {
+            "defined": "StoreInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateStore",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority's wallet"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Store product to create"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initArgs",
+          "type": {
+            "defined": "StoreInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initStoreProduct",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority's wallet"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Store the product belongs to"
+          ]
+        },
+        {
+          "name": "storeProduct",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Store product to create"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initArgs",
+          "type": {
+            "defined": "StoreProductInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateStoreProduct",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority's wallet"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Store the product belongs to"
+          ]
+        },
+        {
+          "name": "storeProduct",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Store product to update"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "updateArgs",
+          "type": {
+            "defined": "StoreProductUpdateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "buyStoreProduct",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer wallet."
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer wallet."
+          ]
+        },
+        {
+          "name": "buyerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer user rewards."
+          ]
+        },
+        {
+          "name": "sellerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Seller user rewards."
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Store the product belongs to"
+          ]
+        },
+        {
+          "name": "storeProduct",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Store product to create"
+          ]
+        },
+        {
+          "name": "proceedsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to send fees to."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxPrice",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "buyCreditsProduct",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer wallet."
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Receiver wallet."
+          ]
+        },
+        {
+          "name": "buyerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer user rewards."
+          ]
+        },
+        {
+          "name": "sellerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Seller user rewards."
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Store the product belongs to"
+          ]
+        },
+        {
+          "name": "storeProduct",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Store product to create"
+          ]
+        },
+        {
+          "name": "userCredits",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Rewards profile for the user"
+          ]
+        },
+        {
+          "name": "proceedsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to send fees to."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxPrice",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "logUserRewards",
+      "accounts": [
+        {
+          "name": "userRewards",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NftStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "Mint of the nft"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "user",
+            "docs": [
+              "Owner of the nft"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakedAt",
+            "docs": [
+              "Timestamp of when the nft was staked"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "unlockedAt",
+            "docs": [
+              "Timestamp of when the nft can be unstaked"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardsConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Owner of the reward pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardMint",
+            "docs": [
+              "Mint reward token."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mallowMonkeysCollectionKey",
+            "docs": [
+              "mallow monkeys collection key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "xeanusCollabsCollectionKey",
+            "docs": [
+              "xeanus collabs collection key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeLockDuration",
+            "docs": [
+              "Duration for which the staked nfts are locked"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxPointsMultiplierPct",
+            "docs": [
+              "Max points multiplier"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StoreProduct",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "store",
+            "docs": [
+              "Store the product belongs to"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "sku",
+            "docs": [
+              "SKU of the product"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "Uri of off-chain metadata"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                200
+              ]
+            }
+          },
+          {
+            "name": "maxSupply",
+            "docs": [
+              "Optional max supply, None means unlimited"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "supply",
+            "docs": [
+              "Number of products purchased"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "price",
+            "docs": [
+              "Price of the product"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "currencyMint",
+            "docs": [
+              "Currency mint of the product"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount of product to receive (like credits)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "isStoreCredit",
+            "docs": [
+              "True if this product is for store credits"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Store",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Authority of the store"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "proceedsAccount",
+            "docs": [
+              "Proceeds account of the store"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "userCreditsCap",
+            "docs": [
+              "Max cap of credits per user"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "rewardsConfig",
+            "docs": [
+              "Rewards config to use for user rewards"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Owner of the reward pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "swapMint",
+            "docs": [
+              "Mint of the token to swap in"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardMint",
+            "docs": [
+              "Mint of the reward token to swap out"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "totalSwap",
+            "docs": [
+              "Total amount of swap token that can be used to swap"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalReward",
+            "docs": [
+              "Total amount of reward token that can be swapped out"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserCredits",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "user",
+            "docs": [
+              "User address"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "store",
+            "docs": [
+              "Store the credits are used for"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "credits",
+            "docs": [
+              "Amount of credits user has"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserRewards",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to generate the program address / authority"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "user",
+            "docs": [
+              "User address"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsConfig",
+            "docs": [
+              "Rewards config account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mallowMonkeysCount",
+            "docs": [
+              "Total amount of mallow monkeys staked"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "xeanusCollabCount",
+            "docs": [
+              "Total amount of xeanus collabs staked"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "rewardsClaimed",
+            "docs": [
+              "Total amount of smores claimed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxPointsMultiplierPct",
+            "docs": [
+              "Max points multiplier"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "StoreProductInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sku",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "uri",
+            "type": {
+              "array": [
+                "u8",
+                200
+              ]
+            }
+          },
+          {
+            "name": "maxSupply",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "currencyMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "isStoreCredit",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StoreProductUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uri",
+            "type": {
+              "array": [
+                "u8",
+                200
+              ]
+            }
+          },
+          {
+            "name": "maxSupply",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "currencyMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StoreInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proceedsAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsConfig",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "BuyStoreProduct",
+      "fields": [
+        {
+          "name": "receiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "sku",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "price",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "currencyMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "store",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "buyer",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "buyerPointsMultiplierPct",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "sellerPointsMultiplierPct",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LogUserRewards",
+      "fields": [
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardsConfig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pointsMultiplierPct",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidNftMint",
+      "msg": "Invalid nft mint"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidNftOwner",
+      "msg": "Invalid nft owner"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidNftCollection",
+      "msg": "Invalid nft collection"
+    },
+    {
+      "code": 6003,
+      "name": "BumpSeedNotInHashMap",
+      "msg": "Bump seed not in hash map"
+    },
+    {
+      "code": 6004,
+      "name": "AlreadyStaked",
+      "msg": "The nft is already staked"
+    },
+    {
+      "code": 6005,
+      "name": "NotStaked",
+      "msg": "The nft is not staked"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidNftDelegate",
+      "msg": "Invalid nft delegate"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidRewardMint",
+      "msg": "Invalid reward mint"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidRewardOwner",
+      "msg": "Invalid reward owner"
+    },
+    {
+      "code": 6009,
+      "name": "StakePoolEmpty",
+      "msg": "The reward pool is empty"
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyOnMission",
+      "msg": "The nft is already on a mission"
+    },
+    {
+      "code": 6011,
+      "name": "MissionAlreadyStarted",
+      "msg": "The mission has already started"
+    },
+    {
+      "code": 6012,
+      "name": "OnMission",
+      "msg": "The nft is on a mission"
+    },
+    {
+      "code": 6013,
+      "name": "NotOnMission",
+      "msg": "The nft is not on a mission"
+    },
+    {
+      "code": 6014,
+      "name": "MissionMismatch",
+      "msg": "The wrong mission account was given"
+    },
+    {
+      "code": 6015,
+      "name": "MissionInProgress",
+      "msg": "The mission is in progress"
+    },
+    {
+      "code": 6016,
+      "name": "RewardsAlreadyClaimed",
+      "msg": "Rewards have already been claimed"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidStakePool",
+      "msg": "Invalid stake pool"
+    },
+    {
+      "code": 6018,
+      "name": "NftLocked",
+      "msg": "Nft locked"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidSwapMint",
+      "msg": "Invalid swap mint"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidTokenOwner",
+      "msg": "Invalid token owner"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidTokenMint",
+      "msg": "Invalid token mint"
+    },
+    {
+      "code": 6022,
+      "name": "MaxPriceExceeded",
+      "msg": "Max price exceeded"
+    },
+    {
+      "code": 6023,
+      "name": "OutOfSupply",
+      "msg": "Out of supply"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidUser",
+      "msg": "Invalid user"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidStore",
+      "msg": "Invalid store"
+    },
+    {
+      "code": 6026,
+      "name": "InvalidFeeAccount",
+      "msg": "Invalid fee account"
+    },
+    {
+      "code": 6027,
+      "name": "UserCreditsCapExceeded",
+      "msg": "User credits cap exceeded"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidStoreProduct",
+      "msg": "Invalid store product"
+    },
+    {
+      "code": 6029,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority"
+    }
+  ]
+}

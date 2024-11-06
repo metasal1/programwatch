@@ -1,0 +1,374 @@
+{
+  "version": "0.1.0",
+  "name": "merch_mint",
+  "instructions": [
+    {
+      "name": "createRedeemable",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "redeemable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cost",
+          "type": "u64"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "redeem",
+      "accounts": [
+        {
+          "name": "redeemer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merchMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redeemerUsdcToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sellerUsdcToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createMerch",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "merch",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "maxSupply",
+          "type": "u64"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "solPrice",
+          "type": "u64"
+        },
+        {
+          "name": "tokenPrice",
+          "type": "u64"
+        },
+        {
+          "name": "privateMint",
+          "type": "bool"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closeMerch",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "merch",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintMerch",
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merch",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proofMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proofToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proofMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Merch",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seller",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "maxSupply",
+            "type": "u64"
+          },
+          {
+            "name": "sold",
+            "type": "u64"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "solPrice",
+            "type": "u64"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenPrice",
+            "type": "u64"
+          },
+          {
+            "name": "privateMint",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Redeemable",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "cost",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MerchNameTooLong",
+      "msg": "Merch Name too long, max 64 chars"
+    },
+    {
+      "code": 6001,
+      "name": "NameTooLong",
+      "msg": "Name too long, max 25 chars"
+    },
+    {
+      "code": 6002,
+      "name": "UriTooLong",
+      "msg": "URI too long, max 200 chars"
+    },
+    {
+      "code": 6003,
+      "name": "SymbolTooLong",
+      "msg": "Symbol too long, max 10 chars"
+    },
+    {
+      "code": 6004,
+      "name": "CreatorsTooMany",
+      "msg": "Creators too many, max 4"
+    },
+    {
+      "code": 6005,
+      "name": "TokenMintMistmatched",
+      "msg": "Mismatched token mint"
+    },
+    {
+      "code": 6006,
+      "name": "MetadataMismatch",
+      "msg": "Metadata Mismatched"
+    },
+    {
+      "code": 6007,
+      "name": "CreatorInvalid",
+      "msg": "Creator Invalid"
+    },
+    {
+      "code": 6008,
+      "name": "Soldout",
+      "msg": "Sold out"
+    }
+  ]
+}

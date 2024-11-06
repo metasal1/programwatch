@@ -1,0 +1,495 @@
+{
+  "version": "0.1.0",
+  "name": "degods_poker_program",
+  "instructions": [
+    {
+      "name": "createCashGame",
+      "accounts": [
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "CreateGameData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "joinGame",
+      "accounts": [
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "JoinGameArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setGameStatus",
+      "accounts": [
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "GameStatusData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addChips",
+      "accounts": [
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "AddChipsData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "SettleParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeGame",
+      "accounts": [
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GameAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "maxPlayers",
+            "type": "u16"
+          },
+          {
+            "name": "minDeposit",
+            "type": "u64"
+          },
+          {
+            "name": "maxDeposit",
+            "type": "u64"
+          },
+          {
+            "name": "players",
+            "type": {
+              "vec": {
+                "defined": "SeatedPlayer"
+              }
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "GameStatus"
+            }
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateGameData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxPlayers",
+            "type": "u16"
+          },
+          {
+            "name": "minDeposit",
+            "type": "u64"
+          },
+          {
+            "name": "maxDeposit",
+            "type": "u64"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "JoinGameArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SeatedPlayer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "addOn",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStatusData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "defined": "GameStatus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddChipsData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Settle",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "addr",
+            "type": "publicKey"
+          },
+          {
+            "name": "op",
+            "type": {
+              "defined": "SettleOp"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettleParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "settles",
+            "type": {
+              "vec": {
+                "defined": "Settle"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Inactive"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettleOp",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Add",
+            "fields": [
+              "u64"
+            ]
+          },
+          {
+            "name": "Sub",
+            "fields": [
+              "u64"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "IncorrectTokenOwner",
+      "msg": "Associated token account should be owned by PDA!"
+    },
+    {
+      "code": 6001,
+      "name": "InitialTokenAccountBalanceNonZero",
+      "msg": "Associated token account should have a balance of zero"
+    },
+    {
+      "code": 6002,
+      "name": "NotEnoughFunds",
+      "msg": "Not enough funds to join game"
+    },
+    {
+      "code": 6003,
+      "name": "GameFull",
+      "msg": "Game is full"
+    },
+    {
+      "code": 6004,
+      "name": "AlreadyAtTable",
+      "msg": "Already at table"
+    },
+    {
+      "code": 6005,
+      "name": "DepositTooSmall",
+      "msg": "Deposit too small"
+    },
+    {
+      "code": 6006,
+      "name": "DepositTooLarge",
+      "msg": "Deposit too large"
+    },
+    {
+      "code": 6007,
+      "name": "NotGameOwner",
+      "msg": "Not Game Owner"
+    },
+    {
+      "code": 6008,
+      "name": "NotAtTable",
+      "msg": "Not At Table"
+    },
+    {
+      "code": 6009,
+      "name": "GameNotActive",
+      "msg": "Game Not Active"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidAddress",
+      "msg": "InvalidAddress"
+    },
+    {
+      "code": 6011,
+      "name": "PlayersStillAtTable",
+      "msg": "PlayersStillAtTable"
+    }
+  ]
+}

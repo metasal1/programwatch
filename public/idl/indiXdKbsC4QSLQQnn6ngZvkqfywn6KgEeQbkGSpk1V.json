@@ -1,0 +1,874 @@
+{
+  "version": "0.1.0",
+  "name": "incentives_distribution",
+  "constants": [
+    {
+      "name": "PROGRAM_ID",
+      "type": "string",
+      "value": "\"indiXdKbsC4QSLQQnn6ngZvkqfywn6KgEeQbkGSpk1V\""
+    },
+    {
+      "name": "TREASURY_TOKEN_AUTHORITY_SEED",
+      "type": "bytes",
+      "value": "[116, 114, 101, 97, 115, 117, 114, 121]"
+    },
+    {
+      "name": "CLAIM_RECORD_ACCOUNT_SEED",
+      "type": "bytes",
+      "value": "[99, 108, 97, 105, 109, 95, 114, 101, 99, 111, 114, 100]"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initTreasury",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "treasury configuration account that will be created"
+          ]
+        },
+        {
+          "name": "tokenStore",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "treasury store token account"
+          ]
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "deduct rent for treasury account creation"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "adminAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "startTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "setAdmin",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "the treasury account to set the admin authority on"
+          ]
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "signer old admin authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdminAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setStartTime",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "the treasury account to set the start time on"
+          ]
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "admin authority signer"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "newStartTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "closeTreasury",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "the treasury account to close"
+          ]
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "admin authority has to sign to permit closing"
+          ]
+        },
+        {
+          "name": "tokenAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "token store account is closed as well"
+          ]
+        },
+        {
+          "name": "transferTokenTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "transfer treasury tokens to this account, can be any"
+          ]
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initClaimRecord",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "root treasury account that the claim_record account belongs under"
+          ]
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "the admin authority of the treasury account"
+          ]
+        },
+        {
+          "name": "claimRecordAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "to deduct rent for account creation from"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "authority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setClaimRecordAmount",
+      "accounts": [
+        {
+          "name": "claimRecordAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTotalAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "claimRecordAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferTokenTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimAndDeposit",
+      "accounts": [
+        {
+          "name": "claimRecordAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vsrProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vsrRegistrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vsrVoter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vsrVault",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositEntryIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closeClaimRecord",
+      "accounts": [
+        {
+          "name": "claimRecordAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ClaimRecord",
+      "docs": [
+        "Info on user's claimable tokens, one claim record per user/wallet",
+        "Securing calculation of amount of tokens to be claimable by the user at a time"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "treasuryAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "nonClaimedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Treasury",
+      "docs": [
+        "Treasury of the Incentives Distribution Program",
+        "A root account that storing info on deposited rewards and claim record rewards"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adminAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenStore",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalClaimRecordedTokens",
+            "type": "u64"
+          },
+          {
+            "name": "totalNonClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "claimRecordCount",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "tokenAuthorityBump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Data",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "discriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "depositEntryIndex",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "InitClaimRecordEvent",
+      "fields": [
+        {
+          "name": "claimRecordAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "totalClaimRecordCount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetClaimRecordAmountEvent",
+      "fields": [
+        {
+          "name": "claimRecordAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "adminAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenStoreAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "requestedNewTotalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "actualNewTotalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldClaimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldClaimRecordTotalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldClaimRecordNonClaimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryTotalNonClaimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryTotalClaimRecordedAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ClaimEvent",
+      "fields": [
+        {
+          "name": "claimRecordAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "claimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "claimRecordTotalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "transferTokenTo",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryTotalNonClaimedAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ClaimAndDepositEvent",
+      "fields": [
+        {
+          "name": "claimRecordAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "claimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "claimRecordTotalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryTotalNonClaimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "depositEntryIndex",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "vsrVoter",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "vsrVault",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CloseClaimRecordEvent",
+      "fields": [
+        {
+          "name": "claimRecordAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "adminAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "claimRecordNonClaimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "claimRecordTotalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryTotalNonClaimedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryTotalClaimRecordedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "oldTreasuryClaimRecordCount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "InitTreasuryEvent",
+      "fields": [
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenStore",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "adminAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "startTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "tokenAuthorityBump",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CloseTreasuryEvent",
+      "fields": [
+        {
+          "name": "treasuryAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenStore",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "adminAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "transferTokenTo",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenStoreAmountBeforeClose",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rentCollector",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetAdminEvent",
+      "fields": [
+        {
+          "name": "oldAdminAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newAdminAuthority",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetStartTimeEvent",
+      "fields": [
+        {
+          "name": "oldStartTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "newStartTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "TreasuryTokenAuthorityDoesNotMatch",
+      "msg": "Treasury token authority does not match"
+    },
+    {
+      "code": 6001,
+      "name": "TreasuryTokenAccountMustNotBeDelegated",
+      "msg": "Treasury token account must not be delegated"
+    },
+    {
+      "code": 6002,
+      "name": "TreasuryTokenAccountMustNotBeCloseable",
+      "msg": "Treasury token account must not be closeable"
+    },
+    {
+      "code": 6003,
+      "name": "ClosingTreasuryWithClaimRecords",
+      "msg": "Can not close treasury while it has not closed claim records"
+    },
+    {
+      "code": 6004,
+      "name": "CloseTargetIsSource",
+      "msg": "Can not close by moving tokens to the same account"
+    },
+    {
+      "code": 6005,
+      "name": "InsufficientTokenStoreFunds",
+      "msg": "Insufficient funds to make add amount to claim record"
+    },
+    {
+      "code": 6006,
+      "name": "NonStarted",
+      "msg": "Airdrop is not started yet"
+    },
+    {
+      "code": 6007,
+      "name": "NextInstructionMustBeMarinadeVoterStakeRegistryDeposit",
+      "msg": "Transaction verification: next instruction must deposit to Marinade VSR"
+    },
+    {
+      "code": 6008,
+      "name": "NextInstructionMustDepositAllTokens",
+      "msg": "Transaction verification: next instruction deposit Marinade VSR to use all tokens"
+    },
+    {
+      "code": 6009,
+      "name": "WrongMarinadeVoterStakeRegistryDepositRegistrar",
+      "msg": "Transaction verification: next instruction deposit Marinade VSR to use MNDE registrar"
+    },
+    {
+      "code": 6010,
+      "name": "WrongMarinadeVoterStakeRegistryDepositToken",
+      "msg": "Transaction verification: next instruction deposit Marinade VSR to deposit from token account"
+    },
+    {
+      "code": 6011,
+      "name": "ClaimRecordAuthorityDoesNotMatch",
+      "msg": "Claim record authority does not match"
+    },
+    {
+      "code": 6012,
+      "name": "TreasuryAccountDoesNotMatch",
+      "msg": "Treasury account does not match"
+    },
+    {
+      "code": 6013,
+      "name": "TokenStoreAccountDoesNotMatch",
+      "msg": "Token store account does not match"
+    },
+    {
+      "code": 6014,
+      "name": "NotMndeVsrProgram",
+      "msg": "Program address is not valid MNDE VSR program"
+    },
+    {
+      "code": 6015,
+      "name": "NotMndeVsrRegistrar",
+      "msg": "Account address is not valid MNDE registrar account"
+    },
+    {
+      "code": 6016,
+      "name": "NotMndeVsrProgramOwner",
+      "msg": "Account address is not owned by MNDE VSR program"
+    }
+  ]
+}

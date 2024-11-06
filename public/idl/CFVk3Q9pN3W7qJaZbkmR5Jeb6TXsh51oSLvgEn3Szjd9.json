@@ -1,0 +1,230 @@
+{
+  "version": "0.0.0",
+  "name": "solana_anchor_rando",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "authority",
+          "type": "publicKey"
+        },
+        {
+          "name": "oracles",
+          "type": {
+            "array": [
+              "publicKey",
+              2
+            ]
+          }
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "request",
+      "accounts": [
+        {
+          "name": "requester",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "requestReference",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "fillOracleResult",
+      "accounts": [
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "requestReference",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "oracleResult",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RandoState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracles",
+            "type": {
+              "array": [
+                "publicKey",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RandoResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "requestReference",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracleResults",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "doneFlag",
+            "type": {
+              "array": [
+                "u8",
+                2
+              ]
+            }
+          },
+          {
+            "name": "numericResult",
+            "type": "u128"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "NewRequestEvent",
+      "fields": [
+        {
+          "name": "requestReference",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "IncorrectOracleLength",
+      "msg": "Incorrect Oracle length between state and provided"
+    },
+    {
+      "code": 301,
+      "name": "IncorrectOracleProvided",
+      "msg": "Incorrect Oracle Pubkey provided"
+    },
+    {
+      "code": 302,
+      "name": "AlreadyFilled",
+      "msg": "Already filled"
+    }
+  ]
+}

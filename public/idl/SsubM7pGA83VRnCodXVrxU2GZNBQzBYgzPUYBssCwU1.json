@@ -1,0 +1,1218 @@
+{
+  "version": "0.1.0",
+  "name": "step_subscriptions",
+  "constants": [
+    {
+      "name": "GLOBAL_STATE_SEED",
+      "type": "string",
+      "value": "\"global_state\""
+    },
+    {
+      "name": "PRODUCT_SEED",
+      "type": "string",
+      "value": "\"product\""
+    },
+    {
+      "name": "PURCHASE_SEED",
+      "type": "string",
+      "value": "\"purchase\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initializeProgram",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "authority",
+          "type": "publicKey"
+        },
+        {
+          "name": "paymentWallet",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateStateAuthority",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "idx",
+          "type": "u32"
+        },
+        {
+          "name": "allowRemoveSelf",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateStatePaymentWallet",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "newPaymentWallet",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "createProduct",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The payer of the new accounts' rents"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "product"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "code"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "code",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "blurb",
+          "type": "string"
+        },
+        {
+          "name": "family",
+          "type": "string"
+        },
+        {
+          "name": "upgradeGroup",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "costMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "cost",
+          "type": "u64"
+        },
+        {
+          "name": "purchaseDurationSecs",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "maxOwned",
+          "type": "u8"
+        },
+        {
+          "name": "assignedRoles",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateProductActiveState",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "active",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateProductCost",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "cost",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProductMint",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "costMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateProductDiscount",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "discountBps",
+          "type": "u64"
+        },
+        {
+          "name": "qtyForDiscount",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateProductName",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateProductBlurb",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "blurb",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateProductFamily",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "family",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateProductAssignedRoles",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "assignedRoles",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateProductI64A5",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "i64A5",
+          "type": {
+            "array": [
+              "i64",
+              5
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateProductStr",
+      "accounts": [
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "str20A5",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deletePurchase",
+      "accounts": [
+        {
+          "name": "refundee",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The receiver of the closed purchase account's rents"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "purchase",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "product"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "__event_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "removeRevenue",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "purchaseProduct",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The payer of the new accounts' rents"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Owner of the purchase account"
+          ]
+        },
+        {
+          "name": "regarding",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Account this purchase is regarding (usually owner)"
+          ]
+        },
+        {
+          "name": "globalState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The one and only state account"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "paymentFromTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account to take payment from"
+          ]
+        },
+        {
+          "name": "paymentFromTokenAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The authority of the payment token account"
+          ]
+        },
+        {
+          "name": "paymentToTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token account to send payment to"
+          ]
+        },
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "purchase",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "purchase"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Product",
+                "path": "product"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "regarding"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "__event_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "docs": [
+        "Global state stores settings needed by the program"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "paymentWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorities",
+            "type": {
+              "array": [
+                "publicKey",
+                2
+              ]
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Purchase",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "product",
+            "type": "publicKey"
+          },
+          {
+            "name": "regarding",
+            "type": "publicKey"
+          },
+          {
+            "name": "expiresTs",
+            "type": "i64"
+          },
+          {
+            "name": "history10",
+            "type": {
+              "vec": {
+                "defined": "PurchaseHistory"
+              }
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Product",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "code16",
+            "type": "string"
+          },
+          {
+            "name": "name32",
+            "type": "string"
+          },
+          {
+            "name": "blurb128",
+            "type": "string"
+          },
+          {
+            "name": "family32",
+            "type": "string"
+          },
+          {
+            "name": "upgradeGroup32",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "createdTs",
+            "type": "i64"
+          },
+          {
+            "name": "costMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "cost",
+            "type": "u64"
+          },
+          {
+            "name": "discountBps",
+            "type": "u64"
+          },
+          {
+            "name": "qtyForDiscount",
+            "type": "u8"
+          },
+          {
+            "name": "purchaseDurationSecs",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "maxOwned",
+            "type": "u8"
+          },
+          {
+            "name": "totalPaid",
+            "type": "i64"
+          },
+          {
+            "name": "assignedRoles6A10",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "i64A5",
+            "type": {
+              "array": [
+                "i64",
+                5
+              ]
+            }
+          },
+          {
+            "name": "str20A5",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "purchaseQty",
+            "type": "u64"
+          },
+          {
+            "name": "purchaseRevenue",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                240
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PurchaseHistory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amountPaid",
+            "type": "u64"
+          },
+          {
+            "name": "quantity",
+            "type": "u8"
+          },
+          {
+            "name": "purchasedTs",
+            "type": "i64"
+          },
+          {
+            "name": "refunded",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "PurchaseEvent",
+      "fields": [
+        {
+          "name": "product",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "purchase",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "regarding",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amountPaid",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "quantity",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "purchasedTs",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "expiresTs",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "upgraded",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAuthorityUpdate",
+      "msg": "Invalid authority update"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidCharsInName",
+      "msg": "Invalid chars in name"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidCharsInCode",
+      "msg": "Invalid chars in code"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidLengthName",
+      "msg": "Invalid product name length"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidLengthBlurb",
+      "msg": "Invalid product blurb length"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidLengthFamily",
+      "msg": "Invalid product family length"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidLengthUpgradeGroup",
+      "msg": "Invalid product upgrade group length"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidLengthCode",
+      "msg": "Invalid product code length"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidLengthRole",
+      "msg": "Invalid role length"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidRoleCount",
+      "msg": "Invalid role count"
+    },
+    {
+      "code": 6011,
+      "name": "InactiveProduct",
+      "msg": "Product not active"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidMaxOwned",
+      "msg": "Max owned cannot be zero"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidPurchaseDuration",
+      "msg": "Invalid purchase duration"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidPurchaseQty",
+      "msg": "Invalid purchase qty"
+    },
+    {
+      "code": 6015,
+      "name": "MaxPurchaseQtyReached",
+      "msg": "Max purchase qty reached"
+    },
+    {
+      "code": 6016,
+      "name": "PurchaseProductMismatch",
+      "msg": "Purchase Product Mismatch"
+    },
+    {
+      "code": 6017,
+      "name": "PurchaseRegardingMismatch",
+      "msg": "Purchase regarding field mismatch"
+    },
+    {
+      "code": 6018,
+      "name": "PurchaseOwnerMismatch",
+      "msg": "Purchase owner field mismatch"
+    },
+    {
+      "code": 6019,
+      "name": "DistinctPurchases",
+      "msg": "Purchases not distinct"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidUpgradeGroup",
+      "msg": "Invalid upgrade group"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidPercentThrough",
+      "msg": "Invalid percent through"
+    },
+    {
+      "code": 6022,
+      "name": "DowngradesNotSupported",
+      "msg": "Downgrades not supported"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidStr20A5Count",
+      "msg": "Invalid str20a5 count"
+    }
+  ]
+}

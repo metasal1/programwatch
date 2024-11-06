@@ -1,0 +1,948 @@
+{
+  "version": "0.1.1",
+  "name": "vyper_core",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Tranche config account, where all the parameters are saved"
+          ]
+        },
+        {
+          "name": "trancheAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rateProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rateProgramState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redeemLogicProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redeemLogicProgramState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserveMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "LP mint token to deposit"
+          ]
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account for vault reserve tokens"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Senior tranche mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Junior tranche mint"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "InitializeInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateTrancheData",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Tranche config account, where all the parameters are saved"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "UpdateTrancheDataInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "refreshTrancheFairValue",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior tranche mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior tranche mint"
+          ]
+        },
+        {
+          "name": "rateProgramState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redeemLogicProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redeemLogicProgramState",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trancheAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "mint token A to deposit"
+          ]
+        },
+        {
+          "name": "userReserveToken",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "mint token A to deposit"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior tranche mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior tranche mint"
+          ]
+        },
+        {
+          "name": "seniorTrancheDest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "juniorTrancheDest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "DepositInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "redeem",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trancheAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "mint token A to deposit"
+          ]
+        },
+        {
+          "name": "userReserveToken",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "mint token A to deposit"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior tranche mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior tranche mint"
+          ]
+        },
+        {
+          "name": "seniorTrancheSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "juniorTrancheSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "RedeemInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "collectFee",
+      "accounts": [
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Tranche config account, where all the parameters are saved"
+          ]
+        },
+        {
+          "name": "trancheAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "tranche reserve vault"
+          ]
+        },
+        {
+          "name": "destReserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "tranche reserve vault"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        },
+        {
+          "name": "feeReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trancheConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trancheAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "vyper core reserve"
+          ]
+        },
+        {
+          "name": "userReserveToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior tranche mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior tranche mint"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RateState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fairValue",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    16
+                  ]
+                },
+                10
+              ]
+            }
+          },
+          {
+            "name": "refreshedSlot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrancheConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reserveMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserve",
+            "type": "publicKey"
+          },
+          {
+            "name": "trancheData",
+            "type": {
+              "defined": "TrancheData"
+            }
+          },
+          {
+            "name": "seniorTrancheMint",
+            "docs": [
+              "Senior tranche mint public key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "juniorTrancheMint",
+            "docs": [
+              "Junior tranche mint public key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "trancheAuthority",
+            "docs": [
+              "Tranche configuration authority"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "authoritySeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorityBump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "Account which is allowed to call restricted instructions"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rateProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "rateProgramState",
+            "type": "publicKey"
+          },
+          {
+            "name": "redeemLogicProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "redeemLogicProgramState",
+            "type": "publicKey"
+          },
+          {
+            "name": "version",
+            "docs": [
+              "Program version when initialized: [major, minor, patch]"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "docs": [
+              "Creation date"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "reserved",
+            "docs": [
+              "Reserved space for future upgrades"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DepositInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reserveQuantity",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "trancheMintDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "haltFlags",
+            "type": "u16"
+          },
+          {
+            "name": "ownerRestrictedIxs",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedeemInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "trancheQuantity",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateTrancheDataInput",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bitmask",
+            "type": "u16"
+          },
+          {
+            "name": "haltFlags",
+            "type": "u16"
+          },
+          {
+            "name": "ownerRestrictedIxs",
+            "type": "u16"
+          },
+          {
+            "name": "reserveFairValueStaleSlotThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "trancheFairValueStaleSlotThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "depositCap",
+            "type": {
+              "array": [
+                {
+                  "option": "u64"
+                },
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LastUpdate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slot",
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReserveFairValue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "docs": [
+              "reserve fair value expressed in Decimal"
+            ],
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    16
+                  ]
+                },
+                10
+              ]
+            }
+          },
+          {
+            "name": "slotTracking",
+            "type": {
+              "defined": "SlotTracking"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SlotTracking",
+      "docs": [
+        "Tracking of slot information"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastUpdate",
+            "type": {
+              "defined": "LastUpdate"
+            }
+          },
+          {
+            "name": "staleSlotThreshold",
+            "docs": [
+              "threshold for defining a slot tracked value stale"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrancheData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "depositedQuantity",
+            "docs": [
+              "Current deposited quantities, for senior and junior cUSDC"
+            ],
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "feeToCollectQuantity",
+            "docs": [
+              ""
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "reserveFairValue",
+            "docs": [
+              "pe cUSDC / USDC"
+            ],
+            "type": {
+              "defined": "ReserveFairValue"
+            }
+          },
+          {
+            "name": "trancheFairValue",
+            "docs": [
+              "pe [ sTranche / cUSDC ; jTranche / cUSDC ]"
+            ],
+            "type": {
+              "defined": "TrancheFairValue"
+            }
+          },
+          {
+            "name": "haltFlags",
+            "docs": [
+              "halt flags"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "ownerRestrictedIx",
+            "docs": [
+              "flags for owner-only instructions"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "depositCap",
+            "docs": [
+              "deposit cap for senior side and junior side, if the value is None the cap is disabled"
+            ],
+            "type": {
+              "array": [
+                {
+                  "option": "u64"
+                },
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TrancheFairValue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "docs": [
+              "tranches [senior, junior] fair values expressed in Decimal"
+            ],
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    16
+                  ]
+                },
+                2
+              ]
+            }
+          },
+          {
+            "name": "slotTracking",
+            "type": {
+              "defined": "SlotTracking"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GenericError",
+      "msg": "generic error"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidInput",
+      "msg": "invalid input"
+    },
+    {
+      "code": 6002,
+      "name": "MathError",
+      "msg": "failed to perform some math operation safely"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidTrancheHaltFlags",
+      "msg": "Bits passed in do not result in valid halt flags"
+    },
+    {
+      "code": 6004,
+      "name": "HaltError",
+      "msg": "Current operation is not available because is halted"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidOwnerRestrictedIxFlags",
+      "msg": "Bits passed in do not result in valid owner restricted instruction flags"
+    },
+    {
+      "code": 6006,
+      "name": "OwnerRestrictedIx",
+      "msg": "Current operation is available only for tranche config owner"
+    },
+    {
+      "code": 6007,
+      "name": "StaleFairValue",
+      "msg": "Fair value is stale, refresh it"
+    },
+    {
+      "code": 6008,
+      "name": "RedeemLogicNoReturn",
+      "msg": "The redeem logic plugin didn't return anything, maybe we forgot to set solana_program::program::set_return_data()?"
+    },
+    {
+      "code": 6009,
+      "name": "PluginCpiError",
+      "msg": "cross-program invocation error calling a vyper plugin"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidBitmask",
+      "msg": "bitmask value provided can't be converted"
+    },
+    {
+      "code": 6011,
+      "name": "DepositExceededCap",
+      "msg": "current deposit exceeded cap"
+    }
+  ]
+}

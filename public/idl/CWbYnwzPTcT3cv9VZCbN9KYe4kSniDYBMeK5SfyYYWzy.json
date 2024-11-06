@@ -1,0 +1,506 @@
+{
+  "version": "0.1.0",
+  "name": "mulberry_markets",
+  "instructions": [
+    {
+      "name": "createMarket",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outcomeToken1",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "outcomeToken2",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collateralToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome1Name",
+          "type": {
+            "array": [
+              "u8",
+              25
+            ]
+          }
+        },
+        {
+          "name": "outcome2Name",
+          "type": {
+            "array": [
+              "u8",
+              25
+            ]
+          }
+        },
+        {
+          "name": "collateralPerTicket",
+          "type": "u64"
+        },
+        {
+          "name": "bFactor",
+          "type": "u64"
+        },
+        {
+          "name": "fees",
+          "type": "u64"
+        },
+        {
+          "name": "endTs",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "ammSwap",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "buy",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "resolveMarket",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "redeemTickets",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "outcome",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "increaseB",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newB",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bFactor",
+            "type": "u64"
+          },
+          {
+            "name": "outcomes",
+            "type": {
+              "array": [
+                {
+                  "defined": "Outcome"
+                },
+                2
+              ]
+            }
+          },
+          {
+            "name": "fees",
+            "type": "u64"
+          },
+          {
+            "name": "resolved",
+            "type": "bool"
+          },
+          {
+            "name": "winningOutcome",
+            "type": "u8"
+          },
+          {
+            "name": "endedAtTs",
+            "type": "u64"
+          },
+          {
+            "name": "expirationTs",
+            "type": "u64"
+          },
+          {
+            "name": "collateralPerTicket",
+            "type": "u64"
+          },
+          {
+            "name": "collateralToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketsCount1",
+            "type": "u64"
+          },
+          {
+            "name": "ticketsCount2",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultsAuth",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "UserVault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "positions",
+            "type": {
+              "array": [
+                {
+                  "defined": "Position"
+                },
+                2
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Outcome",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "array": [
+                "u8",
+                25
+              ]
+            }
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Position",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u32"
+          },
+          {
+            "name": "avgPrice",
+            "type": "u32"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidTokenMintDecimals",
+      "msg": "Token mint decimals must be 3."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidTokenMintAuthority",
+      "msg": "Market_auth_pda must be the mint_authority of the token."
+    },
+    {
+      "code": 6002,
+      "name": "SupplyNotZero",
+      "msg": "Token supply should be 0 to initialize condition."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidBFactor",
+      "msg": "B Factor must be between 20 and 1000."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidFees",
+      "msg": "Fees must be between 0 and 3000(%30)."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidAmount",
+      "msg": "Invalid amount."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidOutcome",
+      "msg": "Invalid outcome, You can only pick outcome 0 or 1."
+    },
+    {
+      "code": 6007,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient balance."
+    },
+    {
+      "code": 6008,
+      "name": "InvalidAdmin",
+      "msg": "Invalid admin, You are not the admin of this market."
+    },
+    {
+      "code": 6009,
+      "name": "MarketInactive",
+      "msg": "Market is closed."
+    },
+    {
+      "code": 6010,
+      "name": "MarketNotResolved",
+      "msg": "Market is not resolved yet."
+    },
+    {
+      "code": 6011,
+      "name": "InvalidEndTime",
+      "msg": "Invalid market end time ."
+    },
+    {
+      "code": 6012,
+      "name": "InvalidOutcomeToken",
+      "msg": "Outcome token provide doesn't match."
+    },
+    {
+      "code": 6013,
+      "name": "InvalidPayer",
+      "msg": "Invalid payer."
+    },
+    {
+      "code": 6014,
+      "name": "InvalidReceiver",
+      "msg": "Invalid receiver."
+    },
+    {
+      "code": 6015,
+      "name": "MarketActive",
+      "msg": "Market is still active, this action can't be performed."
+    },
+    {
+      "code": 6016,
+      "name": "InvalidNewB",
+      "msg": "New B should be greater than current B."
+    }
+  ]
+}

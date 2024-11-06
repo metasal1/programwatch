@@ -1,0 +1,673 @@
+{
+  "version": "0.1.0",
+  "name": "vesting_contract",
+  "instructions": [
+    {
+      "name": "initializeHiestInfo",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "start",
+          "type": "u64"
+        },
+        {
+          "name": "duration",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart0",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart1",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart2",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart3",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initializeGenesisAddr",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "master",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterVestingAddr",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "purchase",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "salesAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "parentVestingAddr",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "parent",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingAddr",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "key",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setRate",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rate",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpause",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setSalesStart",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "salesStart0",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart1",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart2",
+          "type": "u64"
+        },
+        {
+          "name": "salesStart3",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "distribute",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "solAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amts",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "pledgeAmts",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "hash",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "release",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userHiestTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingAddr",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "fetchRelease",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userHiestTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingAddr",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "releaseOn",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "releaseOff",
+      "accounts": [
+        {
+          "name": "programId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "priceAccountInfo",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addVesting",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingAddr",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hiestInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SalesData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "publicKey"
+          },
+          {
+            "name": "parent",
+            "type": "publicKey"
+          },
+          {
+            "name": "pledgeAmt",
+            "type": "u64"
+          },
+          {
+            "name": "hiestAmt",
+            "type": "u64"
+          },
+          {
+            "name": "solAmt",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "parent",
+            "type": "publicKey"
+          },
+          {
+            "name": "vestingAmt",
+            "type": "u64"
+          },
+          {
+            "name": "released",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HiestSalesInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pause",
+            "type": "bool"
+          },
+          {
+            "name": "release",
+            "type": "bool"
+          },
+          {
+            "name": "rate",
+            "type": "u64"
+          },
+          {
+            "name": "ctr",
+            "type": "u64"
+          },
+          {
+            "name": "start",
+            "type": "u64"
+          },
+          {
+            "name": "duration",
+            "type": "u64"
+          },
+          {
+            "name": "salesStart0",
+            "type": "u64"
+          },
+          {
+            "name": "salesStart1",
+            "type": "u64"
+          },
+          {
+            "name": "salesStart2",
+            "type": "u64"
+          },
+          {
+            "name": "salesStart3",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultInfo",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "OnlySignerError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NotSigner"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeedError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidPriceFeed"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotOwner",
+      "msg": "Only owner can call this function!"
+    }
+  ]
+}

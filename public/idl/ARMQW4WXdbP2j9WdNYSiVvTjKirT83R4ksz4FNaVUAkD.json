@@ -1,0 +1,478 @@
+{
+  "version": "0.1.0",
+  "name": "goats_pvp_flip_pot",
+  "instructions": [
+    {
+      "name": "createAdminTreasury",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPotTreasury",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminTreasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "potTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createOrEnterVault",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pvpVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pvpVaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "potTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateOrEnterVaultArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "finalizeVault",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pvpVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pvpVaultPlayer1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pvpVaultPlayer2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "jackpotTicket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player1Mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player2Mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "potTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "slotHashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvarAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "FinalizeVaultArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AdminTreasury",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                100
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "JackpotTicket",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketId",
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                100
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PotTreasury",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "tickets",
+            "type": "u64"
+          },
+          {
+            "name": "winnerTicketId",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                200
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PvPVault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "uuid",
+            "type": "u64"
+          },
+          {
+            "name": "player1",
+            "type": "publicKey"
+          },
+          {
+            "name": "player1Choice",
+            "type": "bool"
+          },
+          {
+            "name": "player1Mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "player1Won",
+            "type": "bool"
+          },
+          {
+            "name": "player2",
+            "type": "publicKey"
+          },
+          {
+            "name": "player2Choice",
+            "type": "bool"
+          },
+          {
+            "name": "player2Mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "player2Won",
+            "type": "bool"
+          },
+          {
+            "name": "open",
+            "type": "bool"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                100
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateOrEnterVaultArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "u64"
+          },
+          {
+            "name": "playerChoice",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FinalizeVaultArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PublicKeyMismatch",
+      "msg": "PublicKey Mismatch"
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectOwner",
+      "msg": "Incorrect Owner"
+    },
+    {
+      "code": 6002,
+      "name": "UninitializedAccount",
+      "msg": "Uninitialized Account"
+    },
+    {
+      "code": 6003,
+      "name": "FeeValueIsntInValidRange",
+      "msg": "Fee value isn't in valid range"
+    },
+    {
+      "code": 6004,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidAmount",
+      "msg": "Invalid Amount"
+    },
+    {
+      "code": 6006,
+      "name": "AccountAlreadyExists",
+      "msg": "Account Already Exists"
+    },
+    {
+      "code": 6007,
+      "name": "UnexpectedProgramInstruction",
+      "msg": "Unexpected Program Instruction"
+    },
+    {
+      "code": 6008,
+      "name": "MoreThanOneInstruction",
+      "msg": "More Than One Instruction"
+    },
+    {
+      "code": 6009,
+      "name": "NotVerifiedGoat",
+      "msg": "Not Verified Goat"
+    },
+    {
+      "code": 6010,
+      "name": "VaultNotOpen",
+      "msg": "Vault Not Open"
+    }
+  ]
+}

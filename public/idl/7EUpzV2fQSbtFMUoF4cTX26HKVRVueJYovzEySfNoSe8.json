@@ -1,0 +1,1013 @@
+{
+  "version": "0.1.0",
+  "name": "bridge_contract",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initializes the program with admin and sequencer along with lst, stablecoin",
+        "and lst_delegation mint address. Also creates marginfi account which will be",
+        "responsible for delegating the funds"
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiGroup",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginfiProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "whitelistedTokenMints",
+          "type": {
+            "vec": {
+              "defined": "MintWithBankPayload"
+            }
+          }
+        },
+        {
+          "name": "lstDelegationMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "docs": [
+        "Deposits the specified token to marginfi, restakes it and stores the record",
+        "in deposit state. If the user has opted for depositing SOL, then the SOL would",
+        "be deposited to the lending pool in exchange for LST. That LST goes through",
+        "marginfi and then restaking."
+      ],
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bankLiquidityVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeCommonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeEscrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeReceiptTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeStakerReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "restakeProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "guestChainProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "depositState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "depositSol",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "docs": [
+        "Users can withdraw their funds from marginfi and restaking. User needs to have",
+        "the receipt token which was created during deposit."
+      ],
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bankLiquidityVaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bankLiquidityVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeCommonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeEscrowTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeReceiptTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeStakerReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "restakeProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "guestChainProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "bridgeTokens",
+      "docs": [
+        "Bridge tokens once the rollup is opened.",
+        "",
+        "Only for deposits which were done before the bridge was active."
+      ],
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiptEscrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userReceiptEscrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "collectRewards",
+      "docs": [
+        "Collects the rewards from marginfi and restaking. The rewards would then",
+        "be deposited again. This would be used to provide yield to the users"
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "emissionsMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "emissionsAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "emissionsVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createMarginfiAccount",
+      "docs": [
+        "New marginfi account is created if the existing account has 16 pools."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiGroup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginfiAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginfiProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateTokenWhitelist",
+      "docs": [
+        "Whitelists more tokens so that they can be deposited. Basic criteria would be that",
+        "the token should have a lending pool on marginfi."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newTokens",
+          "type": {
+            "vec": {
+              "defined": "MintWithBankPayload"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "changeAdminProposal",
+      "docs": [
+        "Updating admin proposal created by the existing admin. Admin would only be changed",
+        "if the new admin accepts it in `accept_admin_change` instruction."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "acceptAdminChange",
+      "docs": [
+        "Accepting new admin change signed by the proposed admin. Admin would be changed if the",
+        "proposed admin calls the method. Would fail if there is no proposed admin and if the",
+        "signer is not the proposed admin."
+      ],
+      "accounts": [
+        {
+          "name": "newAdmin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateRollupStatus",
+      "docs": [
+        "Updates the rollup status by setting the channel id and can only be performed once. This",
+        "operation cannot be reverted."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "channelId",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateTokenPauseFlag",
+      "docs": [
+        "Updates the pause flag for the token mint enabling or disabling the deposit of the token."
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mint",
+          "type": "publicKey"
+        },
+        {
+          "name": "paused",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "unlockReceipt",
+      "docs": [
+        "Method which withdraws the receipt tokens which are not yet bridged."
+      ],
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "depositState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "restakeReceiptTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiptEscrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiptUserAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateMarginfiAccount",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commonState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newMarginfiAccount",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CommonState",
+      "docs": [
+        "Stores the general information about the program set up",
+        "during the initialization."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "whitelistedTokens",
+            "docs": [
+              "Only these tokens are allowed to be deposited. All the",
+              "tokens should have a lending pool on marginfi."
+            ],
+            "type": {
+              "vec": {
+                "defined": "MintWithBank"
+              }
+            }
+          },
+          {
+            "name": "lstDelegationMint",
+            "docs": [
+              "The token mint of the stake pool to which native SOL",
+              "would be deposited to."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "marginfiGroup",
+            "docs": [
+              "Account which stores the authority of the",
+              "marginfi account. Same marginfi group can be",
+              "used for multiple accounts."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "marginfiAccounts",
+            "docs": [
+              "Account which keeps track of all the balances",
+              "of the tokens deposited in marginfi"
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "newAdminProposal",
+            "docs": [
+              "The pubkey of the new admin is stored until the",
+              "new admin accepts the proposal."
+            ],
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Storing bump so that we can reuse and save CU to derive it",
+              "everytime"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "channelId",
+            "docs": [
+              "Until the rollup is active, the receipt tokens would be stored in",
+              "the current contract and would be transferred once the rollup is active.",
+              "",
+              "The value would be none until the rollup is active."
+            ],
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DepositState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "deposits",
+            "type": {
+              "vec": {
+                "defined": "Deposit"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "MintWithBank",
+      "docs": [
+        "Stores the token mint along with the bank account of marginfi",
+        "to which the tokens would be deposited to. Also contains the",
+        "marginfi account index."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bank",
+            "docs": [
+              "The bank account to which deposits are made on marginfi"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "marginfiAccountIdx",
+            "docs": [
+              "A single Marginfi account can only deposit to only 15",
+              "pools. So if there are more, different Marginfi accounts",
+              "would need to be created."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "paused",
+            "docs": [
+              "Flag which prevents the deposit of the token"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintWithBankPayload",
+      "docs": [
+        "Similar to `MintWithBank` but without marginfi account idx"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bank",
+            "docs": [
+              "The bank account to which deposits are made on marginfi"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deposit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidLSTDelegationMint",
+      "msg": "Invalid LST delegation mint"
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientAccounts",
+      "msg": "Fewer Accounts are provided than expected"
+    },
+    {
+      "code": 6003,
+      "name": "MarginfiAccountNotFound",
+      "msg": "Create more marginfi accounts to whitelist more tokens"
+    },
+    {
+      "code": 6004,
+      "name": "NoProposedAdmin",
+      "msg": "No admin has been proposed yet"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidSigner",
+      "msg": "Unexpected signer"
+    },
+    {
+      "code": 6006,
+      "name": "DepositIndexOutOfRange",
+      "msg": "Deposit index is out of range"
+    },
+    {
+      "code": 6007,
+      "name": "RollupAlreadyActive",
+      "msg": "Rollup is already active"
+    },
+    {
+      "code": 6008,
+      "name": "RollupNotActive",
+      "msg": "Withdrawals are enabled only when rollup is active"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidBank",
+      "msg": "Invalid bank account"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidMarginfiAccount",
+      "msg": "Invalid marginfi account"
+    },
+    {
+      "code": 6011,
+      "name": "MaximumTokensExceeded",
+      "msg": "Maximum of only 16 tokens can be whitelisted during initialization"
+    },
+    {
+      "code": 6012,
+      "name": "TokenAccountOwnerNotSigner",
+      "msg": "Token account owner is not the signer"
+    },
+    {
+      "code": 6013,
+      "name": "ContainsDuplicateTokenMints",
+      "msg": "Contains duplicate token mints"
+    },
+    {
+      "code": 6014,
+      "name": "TokenPaused",
+      "msg": "Token is paused for deposits"
+    }
+  ]
+}

@@ -1,0 +1,417 @@
+{
+  "version": "0.1.0",
+  "name": "faraway_minting_program",
+  "instructions": [
+    {
+      "name": "createCollection",
+      "accounts": [
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient3",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient4",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient5",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "CreateCollectionParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mint",
+      "accounts": [
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintLimit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "token",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeRecipient1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient3",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient4",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeRecipient5",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "MintParams"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionId",
+            "type": "u128"
+          },
+          {
+            "name": "count",
+            "type": "u64"
+          },
+          {
+            "name": "limit",
+            "type": "u64"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "symbol",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "pad",
+            "type": {
+              "array": [
+                "u8",
+                512
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintLimit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u32"
+          },
+          {
+            "name": "limit",
+            "type": "u32"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateCollectionParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transactionId",
+            "type": "u128"
+          },
+          {
+            "name": "feeLamports",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "collectionId",
+            "type": "u128"
+          },
+          {
+            "name": "limit",
+            "type": "u64"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "signature",
+            "type": {
+              "defined": "Signature"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "transactionId",
+            "type": "u128"
+          },
+          {
+            "name": "feeLamports",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "collectionId",
+            "type": "u128"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "CreatorShare"
+              }
+            }
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "itemId",
+            "type": "u128"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "env",
+            "type": "u8"
+          },
+          {
+            "name": "limit",
+            "type": "u32"
+          },
+          {
+            "name": "deduplicationId",
+            "type": "u128"
+          },
+          {
+            "name": "signature",
+            "type": {
+              "defined": "Signature"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatorShare",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "share",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Signature",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configId",
+            "type": "u8"
+          },
+          {
+            "name": "signature",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  64
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "TransactionProcessed",
+      "fields": [
+        {
+          "name": "transactionId",
+          "type": "u128",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotAllowedInvoker",
+      "msg": "Cross program invoker not allowed, use signature"
+    },
+    {
+      "code": 6001,
+      "name": "MintLimitExceeded",
+      "msg": "Current mint limit is exceeded"
+    },
+    {
+      "code": 6002,
+      "name": "MintPassInvalid",
+      "msg": "Your pass is invalid"
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "version": "0.1.0",
+  "name": "offload_carrier_metadata",
+  "instructions": [
+    {
+      "name": "initializeOffloadInfoV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "offloadSubInfo",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "offload_sub_info"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "InitializeOffloadInfoArgsV0"
+                },
+                "path": "args.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "dataAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeOffloadInfoArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateOffloadCountV0",
+      "accounts": [
+        {
+          "name": "dataAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "offloadSubInfo",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "data_authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateOffloadCountArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateOffloadInfoV0",
+      "accounts": [
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "offloadSubInfo",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "update_authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateOffloadInfoArgsV0"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "OffloadSubInfoV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u64"
+          },
+          {
+            "name": "dataAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "updateAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeOffloadInfoArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "initialCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateOffloadCountArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateOffloadInfoArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "updateAuthority",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "dataAuthority",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,4543 @@
+{
+  "version": "0.1.0",
+  "name": "marketplace",
+  "instructions": [
+    {
+      "name": "initMarketplace",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMarketplaceAuth",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setNewCosigner",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "newMarketplaceCosigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "payoutFromTreasury",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeMarketplace",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addRewardToken",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "removeRewardToken",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpRewardTokenAccount",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "fundRewardToken",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpRewardTokenAccount",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "defundRewardToken",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpRewardTokenAccount",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addCurrencyWhitelist",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "marketplaceTransactionFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "marketMakerTransactionFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "sharedEscrowMaximumLeveragePct",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "addCurrencyWhitelistRewardInfo",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "currencyRewardInfoVec",
+          "type": {
+            "vec": {
+              "defined": "CurrencyRewardInfo"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "editCurrencyWhitelistRewardInfo",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "editedCurrencyRewardInfoVec",
+          "type": {
+            "vec": {
+              "defined": "CurrencyRewardInfo"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeCurrencyWhitelistRewardInfo",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mintsToRemove",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "editCurrencyWhitelistParameters",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newMarketplaceTransactionFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "newMarketMakerTransactionFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "newSharedEscrowMaximumLeveragePct",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "withdrawFromWhitelistedTokenTreasury",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "removeCurrencyWhitelist",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addCollection",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "verificationAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "May either be a verified creator address or a collection NFT mint address"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "verificationType",
+          "type": {
+            "defined": "VerificationType"
+          }
+        },
+        {
+          "name": "collectionRewardMultiplier",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addCollectionTraitInfo",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "verificationAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "May either be a verified creator address or a collection NFT mint address"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "traitInfoVec",
+          "type": {
+            "vec": {
+              "defined": "CollectionTraitInfo"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "editCollectionTraitInfo",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "verificationAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "May either be a verified creator address or a collection NFT mint address"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "editedTraitInfoVec",
+          "type": {
+            "vec": {
+              "defined": "CollectionTraitInfo"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeCollectionTraitInfo",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "verificationAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "May either be a verified creator address or a collection NFT mint address"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "traitTypesToRemoveVec",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "editCollectionRewardMultiplier",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "verificationAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "May either be a verified creator address or a collection NFT mint address"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newCollectionRewardMultiplier",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "removeCollection",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "verificationAddress",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "May either be a verified creator address or a collection NFT mint address"
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initRewards",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimRewards",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeRewards",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeRewardsManager",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "placeListingPnft",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpOwnerTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "listingPriceInfoVec",
+          "type": {
+            "vec": {
+              "defined": "ListingPriceInfo"
+            }
+          }
+        },
+        {
+          "name": "listingExpiresTs",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "repriceListing",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "newListingPriceInfoVec",
+          "type": {
+            "vec": {
+              "defined": "ListingPriceInfo"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "editListingExpiryTs",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newListingExpiresTs",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateListingRewards",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "removeListingPnft",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpListingTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationRecord",
+          "type": "u8"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeListingPnftManager",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpListingTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationRecord",
+          "type": "u8"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "purchaseListingPnft",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "purchaser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwnerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "purchaserRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpListingTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationRecord",
+          "type": "u8"
+        },
+        {
+          "name": "royaltyBps",
+          "type": "u16"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "placeListingBid",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bidInfoConstructorVec",
+          "type": {
+            "vec": {
+              "defined": "BidInfoConstructor"
+            }
+          }
+        },
+        {
+          "name": "listingBidExpiresTs",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "repriceListingBid",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "newBidInfoConstructorVec",
+          "type": {
+            "vec": {
+              "defined": "BidInfoConstructor"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "editListingBidExpiryTs",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newBidExpiresTs",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateListingBidRewards",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "removeListingBid",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "removeListingBidManager",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMatadata",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "acceptListingBidPnft",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwnerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpListingTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "placeCollectionBid",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionBidInfoConstructorVec",
+          "type": {
+            "vec": {
+              "defined": "CollectionBidInfoConstructor"
+            }
+          }
+        },
+        {
+          "name": "sellerFeeBps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "addCollectionBids",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "additionalCollectionBidInfoConstructorVec",
+          "type": {
+            "vec": {
+              "defined": "CollectionBidInfoConstructor"
+            }
+          }
+        },
+        {
+          "name": "sellerFeeBps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "editCollectionBidExpiryTs",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "editCollectionBidExpiryTsConstructorVec",
+          "type": {
+            "vec": {
+              "defined": "EditCollectionBidExpiryTsConstructor"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateCollectionBidRewards",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "removeCollectionBids",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionBidIndicesToRemove",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "removeCollectionBidsManager",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceManager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionBidsIndicesToRemove",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "acceptCollectionBidPnft",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "listingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listingOwnerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listingTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpListingTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "collectionBidToBeAccepted",
+          "type": "u8"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "acceptCollectionBidUnlistedPnft",
+      "accounts": [
+        {
+          "name": "marketplace",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketplaceCosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assetOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "assetSourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assetDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentDestinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetOwnerRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "destinationTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMetadata",
+          "type": "u8"
+        },
+        {
+          "name": "bumpEditionAccount",
+          "type": "u8"
+        },
+        {
+          "name": "bumpSourceTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "bumpDestinationTokenRecord",
+          "type": "u8"
+        },
+        {
+          "name": "collectionBidToBeAccepted",
+          "type": "u8"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Bid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bidType",
+            "type": {
+              "defined": "BidType"
+            }
+          },
+          {
+            "name": "marketplace",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "assetTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "bidCreatedTs",
+            "type": "u64"
+          },
+          {
+            "name": "bidUpdatedTs",
+            "type": "u64"
+          },
+          {
+            "name": "bidExpiresTs",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "bidInfoVec",
+            "type": {
+              "vec": {
+                "defined": "BidInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionBid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionBidBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "collectionBidInfoVec",
+            "type": {
+              "vec": {
+                "defined": "CollectionBidInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketplaceCollectionNumber",
+            "type": "u64"
+          },
+          {
+            "name": "collectionBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "verificationType",
+            "type": {
+              "defined": "VerificationType"
+            }
+          },
+          {
+            "name": "verificationAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionRewardMultiplier",
+            "type": "u64"
+          },
+          {
+            "name": "collectionListingsCount",
+            "type": "u64"
+          },
+          {
+            "name": "collectionCollectionBidCount",
+            "type": "u64"
+          },
+          {
+            "name": "collectionTraitInfoVec",
+            "type": {
+              "vec": {
+                "defined": "CollectionTraitInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Listing",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "publicKey"
+          },
+          {
+            "name": "listingOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionListingNumber",
+            "type": "u64"
+          },
+          {
+            "name": "listingBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "listingTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "listingTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "listingTokenAccountBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "listedTokenAmount",
+            "type": "u64"
+          },
+          {
+            "name": "listingCreatedTs",
+            "type": "u64"
+          },
+          {
+            "name": "listingUpdatedTs",
+            "type": "u64"
+          },
+          {
+            "name": "listingExpiresTs",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "listingPriceInfoVec",
+            "type": {
+              "vec": {
+                "defined": "ListingPriceInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Marketplace",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u16"
+          },
+          {
+            "name": "marketplaceManager",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketplaceCosigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketplaceAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketplaceAuthoritySeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketplaceAuthorityBumpSeed",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "marketplaceTreasuryBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "marketplaceTreasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketplaceCounts",
+            "type": {
+              "defined": "MarketplaceCounts"
+            }
+          },
+          {
+            "name": "rewardTokenInfoVec",
+            "type": {
+              "vec": {
+                "defined": "RewardTokenInfo"
+              }
+            }
+          },
+          {
+            "name": "currencyWhitelistVec",
+            "type": {
+              "vec": {
+                "defined": "CurrencyWhitelist"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Rewards",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "marketplace",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "rewardInfoVec",
+            "type": {
+              "vec": {
+                "defined": "RewardInfo"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorizationDataLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "taggedPayloadVec",
+            "type": {
+              "vec": {
+                "defined": "TaggedPayload"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaggedPayload",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "payloadTypeLocal",
+            "type": {
+              "defined": "PayloadTypeLocal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SeedsVecLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "docs": [
+              "The vector of derivation seeds."
+            ],
+            "type": {
+              "vec": "bytes"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofInfoLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proof",
+            "docs": [
+              "The merkle proof."
+            ],
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidInfoConstructor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bidTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "topBidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "bidRoyaltyBps",
+            "type": "u16"
+          },
+          {
+            "name": "bidEscrowType",
+            "type": {
+              "defined": "BidEscrowType"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bidTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidTokenAccountBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "bidEscrowType",
+            "type": {
+              "defined": "BidEscrowType"
+            }
+          },
+          {
+            "name": "bidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "topBidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "listingPrice",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "marketplaceTransactionCost",
+            "type": "u64"
+          },
+          {
+            "name": "marketMakerTransactionCost",
+            "type": "u64"
+          },
+          {
+            "name": "royaltyTransactionCost",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionBidInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionBidNumber",
+            "type": "u64"
+          },
+          {
+            "name": "collectionBidCreatedTs",
+            "type": "u64"
+          },
+          {
+            "name": "collectionBidUpdatedTs",
+            "type": "u64"
+          },
+          {
+            "name": "collectionBidExpiresTs",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "traitFilterVec",
+            "type": {
+              "vec": {
+                "defined": "TraitFilter"
+              }
+            }
+          },
+          {
+            "name": "bidInfoVec",
+            "type": {
+              "vec": {
+                "defined": "BidInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TraitFilter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "traitNumber",
+            "type": "u8"
+          },
+          {
+            "name": "allowedTraitValues",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionBidInfoConstructor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionBidExpiresTs",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "traitFilterVec",
+            "type": {
+              "vec": {
+                "defined": "TraitFilter"
+              }
+            }
+          },
+          {
+            "name": "bidInfoConstructorVec",
+            "type": {
+              "vec": {
+                "defined": "BidInfoConstructor"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EditCollectionBidExpiryTsConstructor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionBidInfoIndex",
+            "type": "u8"
+          },
+          {
+            "name": "newCollectionBidExpiresTs",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionTraitInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "traitType",
+            "type": "string"
+          },
+          {
+            "name": "traitValues",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ListingPriceInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pricingTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionFloorPrice",
+            "type": "u64"
+          },
+          {
+            "name": "listingPrice",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketplaceCounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardTokenPdas",
+            "type": "u64"
+          },
+          {
+            "name": "tokenTreasuryPdas",
+            "type": "u64"
+          },
+          {
+            "name": "collectionPdas",
+            "type": "u64"
+          },
+          {
+            "name": "rewardsPdas",
+            "type": "u64"
+          },
+          {
+            "name": "sharedEscrowPdas",
+            "type": "u64"
+          },
+          {
+            "name": "listingPdas",
+            "type": "u64"
+          },
+          {
+            "name": "listingBidPdas",
+            "type": "u64"
+          },
+          {
+            "name": "collectionBidPdas",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardTokenInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardTokenAccount",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CurrencyWhitelist",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "whitelistTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistTokenAccountBumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "marketplaceTransactionFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "marketMakerTransactionFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "sharedEscrowMaximumLeveragePct",
+            "type": "u16"
+          },
+          {
+            "name": "currencyRewardInfoVec",
+            "type": {
+              "vec": {
+                "defined": "CurrencyRewardInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CurrencyRewardInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "listerRewardEmissionRate",
+            "type": "u64"
+          },
+          {
+            "name": "bidderRewardEmissionRate",
+            "type": "u64"
+          },
+          {
+            "name": "buyerRewardEmissionRate",
+            "type": "u64"
+          },
+          {
+            "name": "sellerRewardEmissionRate",
+            "type": "u64"
+          },
+          {
+            "name": "lenderRewardEmissionRate",
+            "type": "u64"
+          },
+          {
+            "name": "borrowerRewardEmissionRate",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardAmountEarned",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAmountClaimed",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayloadTypeLocal",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pubkey",
+            "fields": [
+              "publicKey"
+            ]
+          },
+          {
+            "name": "Seeds",
+            "fields": [
+              {
+                "defined": "SeedsVecLocal"
+              }
+            ]
+          },
+          {
+            "name": "MerkleProof",
+            "fields": [
+              {
+                "defined": "ProofInfoLocal"
+              }
+            ]
+          },
+          {
+            "name": "Number",
+            "fields": [
+              "u64"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Listed"
+          },
+          {
+            "name": "Unlisted"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidEscrowType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Dedicated"
+          },
+          {
+            "name": "Shared"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VerificationType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Collection"
+          },
+          {
+            "name": "Creator"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "EventEditCurrencyWhitelistParameters",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "whitelistTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newMarketplaceTransactionFeeBps",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "newMarketMakerTransactionFeeBps",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventInitRewards",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardsOwner",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventClaimRewards",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardsOwner",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventCloseRewards",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardsOwner",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventPlaceListing",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingOwner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingPriceInfoVec",
+          "type": {
+            "vec": {
+              "defined": "ListingPriceInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventRepriceListing",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "elapsedTimeUntilUpdate",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "newListingPriceInfoVec",
+          "type": {
+            "vec": {
+              "defined": "ListingPriceInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventEditListingExpiryTs",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newListingExpiresTs",
+          "type": {
+            "option": "u64"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventUpdateListingRewards",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "updatedRewardInfoVec",
+          "type": {
+            "vec": {
+              "defined": "RewardInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventRemoveListing",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "elapsedTimeUntilUpdate",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventPurchaseListing",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "purchaser",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "salePrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "elapsedTimeUntilUpdate",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventPlaceListingBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidder",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingBidExpiresTs",
+          "type": {
+            "option": "u64"
+          },
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "bidInfoVec",
+          "type": {
+            "vec": {
+              "defined": "BidInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventRepriceListingBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "newBidInfoVec",
+          "type": {
+            "vec": {
+              "defined": "BidInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventEditListingBidExpiryTs",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newBidExpiresTs",
+          "type": {
+            "option": "u64"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventUpdateListingBidRewards",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventRemoveListingBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventAcceptListingBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "elapsedTimeUntilUpdateListing",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventPlaceCollectionBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collection",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidder",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBidInfoVec",
+          "type": {
+            "vec": {
+              "defined": "CollectionBidInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventAddCollectionBids",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newCollectionBidInfoVec",
+          "type": {
+            "vec": {
+              "defined": "CollectionBidInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventEditCollectionBidExpiryTs",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "editCollectionBidExpiryTsConstructorVec",
+          "type": {
+            "vec": {
+              "defined": "EditCollectionBidExpiryTsConstructor"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventUpdateCollectionBidRewards",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventRemoveCollectionBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "collectionBidIndicesToRemove",
+          "type": "bytes",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventAcceptCollectionBid",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "listingTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "elapsedTimeUntilUpdateListing",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "indexOfCollectionBidAccepted",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "EventAcceptCollectionBidUnlisted",
+      "fields": [
+        {
+          "name": "marketplace",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "assetTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "assetOwner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collectionBid",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "nowTs",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "indexOfCollectionBidAccepted",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    }
+  ]
+}

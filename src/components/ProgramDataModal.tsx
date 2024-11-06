@@ -21,10 +21,10 @@ interface ProgramData {
 }
 
 interface ProgramDataModalProps {
-    programAddress: string;
+    idlAddress: string;
 }
 
-export default function ProgramDataModal({ programAddress }: ProgramDataModalProps) {
+export default function ProgramDataModal({ idlAddress }: ProgramDataModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [programData, setProgramData] = useState<ProgramData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +49,7 @@ export default function ProgramDataModal({ programAddress }: ProgramDataModalPro
     const fetchProgramData = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch(`/api/progdata?address=${programAddress}`);
+            const response = await fetch(`/api/progdata?address=${idlAddress}`);
             const data = await response.json();
             setProgramData(data);
         } catch (error) {

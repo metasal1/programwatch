@@ -1,0 +1,179 @@
+{
+  "version": "0.1.0",
+  "name": "game_bet",
+  "instructions": [
+    {
+      "name": "betStart",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "gameId",
+          "type": "u32"
+        },
+        {
+          "name": "gameRoundCount",
+          "type": "u32"
+        },
+        {
+          "name": "timestamp",
+          "type": "u64"
+        },
+        {
+          "name": "limitBet",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "betEnd",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gameId",
+          "type": "u32"
+        },
+        {
+          "name": "gameRoundCount",
+          "type": "u32"
+        },
+        {
+          "name": "timestamp",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "betClose",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gameId",
+          "type": "u32"
+        },
+        {
+          "name": "gameRoundCount",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "bet",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gameId",
+          "type": "u32"
+        },
+        {
+          "name": "gameRoundCount",
+          "type": "u32"
+        },
+        {
+          "name": "timestamp",
+          "type": "u64"
+        },
+        {
+          "name": "bet",
+          "type": {
+            "array": [
+              "u64",
+              7
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "allowsBet",
+            "type": "bool"
+          },
+          {
+            "name": "limitBet",
+            "type": "u64"
+          },
+          {
+            "name": "betsSum",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CPEG102",
+      "msg": "CPE-G-102"
+    },
+    {
+      "code": 6001,
+      "name": "CPEG107",
+      "msg": "CPE-G-107"
+    }
+  ]
+}

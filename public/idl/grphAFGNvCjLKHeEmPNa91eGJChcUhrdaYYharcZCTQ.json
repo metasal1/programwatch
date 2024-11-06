@@ -1,0 +1,332 @@
+{
+  "version": "0.2.0",
+  "name": "graph_program",
+  "instructions": [
+    {
+      "name": "adminMakeConnection",
+      "accounts": [
+        {
+          "name": "connection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": {
+                  "array": [
+                    "u8",
+                    12
+                  ]
+                },
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  118,
+                  50
+                ]
+              },
+              {
+                "kind": "arg",
+                "type": "publicKey",
+                "path": "from"
+              },
+              {
+                "kind": "arg",
+                "type": "publicKey",
+                "path": "to"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "from",
+          "type": "publicKey"
+        },
+        {
+          "name": "to",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "makeConnection",
+      "accounts": [
+        {
+          "name": "connection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": {
+                  "array": [
+                    "u8",
+                    12
+                  ]
+                },
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  118,
+                  50
+                ]
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "from"
+              },
+              {
+                "kind": "arg",
+                "type": "publicKey",
+                "path": "to"
+              }
+            ]
+          }
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "to",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "revokeConnection",
+      "accounts": [
+        {
+          "name": "connection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": {
+                  "array": [
+                    "u8",
+                    12
+                  ]
+                },
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  118,
+                  50
+                ]
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "from"
+              },
+              {
+                "kind": "arg",
+                "type": "publicKey",
+                "path": "to"
+              }
+            ]
+          }
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "to",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "closeConnection",
+      "accounts": [
+        {
+          "name": "connection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": {
+                  "array": [
+                    "u8",
+                    12
+                  ]
+                },
+                "value": [
+                  99,
+                  111,
+                  110,
+                  110,
+                  101,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  118,
+                  50
+                ]
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "from"
+              },
+              {
+                "kind": "arg",
+                "type": "publicKey",
+                "path": "to"
+              }
+            ]
+          }
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "to",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ConnectionV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "from",
+            "type": "publicKey"
+          },
+          {
+            "name": "to",
+            "type": "publicKey"
+          },
+          {
+            "name": "connectedAt",
+            "type": "i64"
+          },
+          {
+            "name": "disconnectedAt",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CloseConnectionError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "AccountNeedsToBeDisconnected"
+          },
+          {
+            "name": "DisconnectionDateMustBeHigherThanConnectionDate"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RevokeConnectionError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ClockDateMustBeHigherThanConnectionDate"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAdminAccount",
+      "msg": "Invalid Admin Account"
+    }
+  ]
+}

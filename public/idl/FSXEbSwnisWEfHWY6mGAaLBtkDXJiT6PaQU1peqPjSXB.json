@@ -1,0 +1,408 @@
+{
+  "version": "0.1.0",
+  "name": "soldice",
+  "instructions": [
+    {
+      "name": "createJackpot",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "jackpot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateJackpot",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "jackpot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateJackpotArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawFromJackpot",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "jackpot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "WithdrawFromJackpotArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createGame",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "jackpot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "slotHashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvarAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateGameArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "redeemGame",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "jackpot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvarAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "clientSeed",
+            "type": "string"
+          },
+          {
+            "name": "serverSeed",
+            "type": "string"
+          },
+          {
+            "name": "nonce",
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "playerBet",
+            "type": "u64"
+          },
+          {
+            "name": "rollOver",
+            "type": "u64"
+          },
+          {
+            "name": "range",
+            "type": "u64"
+          },
+          {
+            "name": "multiplier",
+            "type": "u64"
+          },
+          {
+            "name": "winChance",
+            "type": "u64"
+          },
+          {
+            "name": "profitOnWin",
+            "type": "u64"
+          },
+          {
+            "name": "playerResult",
+            "type": "u64"
+          },
+          {
+            "name": "redeemed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Jackpot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "games",
+            "type": "u64"
+          },
+          {
+            "name": "enabled",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateGameArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "clientSeed",
+            "type": "string"
+          },
+          {
+            "name": "playerBet",
+            "type": "u64"
+          },
+          {
+            "name": "rollOver",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateJackpotArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "enabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawFromJackpotArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PublicKeyMismatch",
+      "msg": "PublicKey Mismatch"
+    },
+    {
+      "code": 6001,
+      "name": "RollOverTooLow",
+      "msg": "Roll Over Too Low"
+    },
+    {
+      "code": 6002,
+      "name": "RollOverTooHigh",
+      "msg": "Roll Over Too High"
+    },
+    {
+      "code": 6003,
+      "name": "PlayerBetTooLow",
+      "msg": "Player Bet Too Low"
+    },
+    {
+      "code": 6004,
+      "name": "PlayerBetTooHigh",
+      "msg": "Player Bet Too High"
+    },
+    {
+      "code": 6005,
+      "name": "RadixFromStringError",
+      "msg": "Radix From String Error"
+    },
+    {
+      "code": 6006,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    },
+    {
+      "code": 6007,
+      "name": "InstructionViolatesFirstOnly",
+      "msg": "Instruction violates first_only"
+    },
+    {
+      "code": 6008,
+      "name": "InstructionViolatesLastOnly",
+      "msg": "Instruction violates last_only"
+    },
+    {
+      "code": 6009,
+      "name": "InstructionViolatesOneOnly",
+      "msg": "Instruction violates one_only"
+    },
+    {
+      "code": 6010,
+      "name": "InstructionViolatesSelfProgramOnly",
+      "msg": "Instruction violates self_program_only"
+    },
+    {
+      "code": 6011,
+      "name": "InstructionViolatesAllowedProgramsOnly",
+      "msg": "Instruction violates allowed_programs_only"
+    },
+    {
+      "code": 6012,
+      "name": "UnexpectedProgramInstruction",
+      "msg": "Unexpected program instruction"
+    },
+    {
+      "code": 6013,
+      "name": "NotEnabled",
+      "msg": "Not Enabled"
+    },
+    {
+      "code": 6014,
+      "name": "AlreadyRedeemed",
+      "msg": "Already redeemed"
+    }
+  ]
+}

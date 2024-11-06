@@ -1,0 +1,1853 @@
+{
+  "version": "0.1.0",
+  "name": "drip",
+  "instructions": [
+    {
+      "name": "initVaultProtoConfig",
+      "accounts": [
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultProtoConfig",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeVaultProtoConfigParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initVaultPeriod",
+      "accounts": [
+        {
+          "name": "vaultPeriod",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "vault_period"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Vault",
+                "path": "vault"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "InitializeVaultPeriodParams"
+                },
+                "path": "params.period_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeVaultPeriodParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "common",
+          "accounts": [
+            {
+              "name": "depositor",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultPeriodEnd",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userPosition",
+              "isMut": true,
+              "isSigner": false,
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "const",
+                    "type": "string",
+                    "value": "user_position"
+                  },
+                  {
+                    "kind": "account",
+                    "type": "publicKey",
+                    "account": "Mint",
+                    "path": "user_position_nft_mint"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "userPositionNftMint",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "userPositionNftAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "referrer",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "associatedTokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "rent",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "DepositParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "depositWithMetadata",
+      "accounts": [
+        {
+          "name": "common",
+          "accounts": [
+            {
+              "name": "depositor",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultPeriodEnd",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userPosition",
+              "isMut": true,
+              "isSigner": false,
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "const",
+                    "type": "string",
+                    "value": "user_position"
+                  },
+                  {
+                    "kind": "account",
+                    "type": "publicKey",
+                    "account": "Mint",
+                    "path": "user_position_nft_mint"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "userPositionNftMint",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "userPositionNftAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "referrer",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "associatedTokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "rent",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "positionMetadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "DepositParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dripSplTokenSwap",
+      "accounts": [
+        {
+          "name": "common",
+          "accounts": [
+            {
+              "name": "dripTriggerSource",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultProtoConfig",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "lastVaultPeriod",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "currentVaultPeriod",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "swapTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "swapTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "dripFeeTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "swap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenSwapProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "dripOrcaWhirlpool",
+      "accounts": [
+        {
+          "name": "common",
+          "accounts": [
+            {
+              "name": "dripTriggerSource",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultProtoConfig",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "lastVaultPeriod",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "currentVaultPeriod",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "swapTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "swapTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "dripFeeTokenAAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpoolProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawB",
+      "accounts": [
+        {
+          "name": "common",
+          "accounts": [
+            {
+              "name": "withdrawer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultProtoConfig",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "vaultPeriodI",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "vaultPeriodJ",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userPosition",
+              "isMut": true,
+              "isSigner": false,
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "const",
+                    "type": "string",
+                    "value": "user_position"
+                  },
+                  {
+                    "kind": "account",
+                    "type": "publicKey",
+                    "account": "Position",
+                    "path": "user_position.position_authority"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "userPositionNftAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTreasuryTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "referrer",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closePosition",
+      "accounts": [
+        {
+          "name": "common",
+          "accounts": [
+            {
+              "name": "withdrawer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultProtoConfig",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "vaultPeriodI",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "vaultPeriodJ",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userPosition",
+              "isMut": true,
+              "isSigner": false,
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "const",
+                    "type": "string",
+                    "value": "user_position"
+                  },
+                  {
+                    "kind": "account",
+                    "type": "publicKey",
+                    "account": "Position",
+                    "path": "user_position.position_authority"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "userPositionNftAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultTreasuryTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userTokenBAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "referrer",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "vaultPeriodUserExpiry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPositionNftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solDestination",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initVault",
+      "accounts": [
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "drip-v1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_a_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_b_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "VaultProtoConfig",
+                "path": "vault_proto_config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vaultProtoConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryTokenBAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeVaultParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setVaultSwapWhitelist",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultProtoConfig",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UpdateVaultWhitelistedSwapsParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawA",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminTokenAAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultProtoConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "adminClosePositionAccount",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "vaultProtoConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solDestination",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Position",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "positionAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "referrer",
+            "type": "publicKey"
+          },
+          {
+            "name": "depositedTokenAAmount",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawnTokenBAmount",
+            "type": "u64"
+          },
+          {
+            "name": "depositTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "dripPeriodIdBeforeDeposit",
+            "type": "u64"
+          },
+          {
+            "name": "numberOfSwaps",
+            "type": "u64"
+          },
+          {
+            "name": "periodicDripAmount",
+            "type": "u64"
+          },
+          {
+            "name": "isClosed",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultPeriod",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "periodId",
+            "type": "u64"
+          },
+          {
+            "name": "dar",
+            "type": "u64"
+          },
+          {
+            "name": "twap",
+            "type": "u128"
+          },
+          {
+            "name": "dripTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultProtoConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "granularity",
+            "type": "u64"
+          },
+          {
+            "name": "tokenADripTriggerSpread",
+            "type": "u16"
+          },
+          {
+            "name": "tokenBWithdrawalSpread",
+            "type": "u16"
+          },
+          {
+            "name": "tokenBReferralSpread",
+            "type": "u16"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protoConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenBAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryTokenBAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "whitelistedSwaps",
+            "type": {
+              "array": [
+                "publicKey",
+                5
+              ]
+            }
+          },
+          {
+            "name": "lastDripPeriod",
+            "type": "u64"
+          },
+          {
+            "name": "dripAmount",
+            "type": "u64"
+          },
+          {
+            "name": "dripActivationTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "limitSwaps",
+            "type": "bool"
+          },
+          {
+            "name": "maxSlippageBps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NoData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "data",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeVaultParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxSlippageBps",
+            "type": "u16"
+          },
+          {
+            "name": "whitelistedSwaps",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateVaultWhitelistedSwapsParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "whitelistedSwaps",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DepositParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenADepositAmount",
+            "type": "u64"
+          },
+          {
+            "name": "numberOfSwaps",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeVaultProtoConfigParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "granularity",
+            "type": "u64"
+          },
+          {
+            "name": "tokenADripTriggerSpread",
+            "type": "u16"
+          },
+          {
+            "name": "tokenBWithdrawalSpread",
+            "type": "u16"
+          },
+          {
+            "name": "tokenBReferralSpread",
+            "type": "u16"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeVaultPeriodParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "periodId",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InitVault",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutInitializeVaultAccounts<'info>"
+                }
+              },
+              {
+                "name": "params",
+                "type": {
+                  "defined": "InitializeVaultParams"
+                }
+              },
+              {
+                "name": "bumps",
+                "type": {
+                  "defined": "InitializeVaultAccountsBumps"
+                }
+              }
+            ]
+          },
+          {
+            "name": "SetVaultSwapWhitelist",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutUpdateVaultWhitelistedSwapsAccounts<'info>"
+                }
+              },
+              {
+                "name": "params",
+                "type": {
+                  "defined": "UpdateVaultWhitelistedSwapsParams"
+                }
+              }
+            ]
+          },
+          {
+            "name": "WithdrawA",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutWithdrawAAccounts<'info>"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ClosePositionAccount",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutClosePositionAccountAccounts<'info>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Deposit",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WithoutMetadata",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutDepositAccounts<'info>"
+                }
+              },
+              {
+                "name": "params",
+                "type": {
+                  "defined": "DepositParams"
+                }
+              },
+              {
+                "name": "bumps",
+                "type": {
+                  "defined": "DepositAccountsBumps"
+                }
+              }
+            ]
+          },
+          {
+            "name": "WithMetadata",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutDepositWithMetadataAccounts<'info>"
+                }
+              },
+              {
+                "name": "params",
+                "type": {
+                  "defined": "DepositParams"
+                }
+              },
+              {
+                "name": "bumps",
+                "type": {
+                  "defined": "DepositWithMetadataAccountsBumps"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Drip",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "SPLTokenSwap",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutDripSPLTokenSwapAccounts<'info>"
+                }
+              }
+            ]
+          },
+          {
+            "name": "OrcaWhirlpool",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutDripOrcaWhirlpoolAccounts<'info>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Init",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "VaultProtoConfig",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutInitializeVaultProtoConfigAccounts<'info>"
+                }
+              },
+              {
+                "name": "params",
+                "type": {
+                  "defined": "InitializeVaultProtoConfigParams"
+                }
+              }
+            ]
+          },
+          {
+            "name": "VaultPeriod",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutInitializeVaultPeriodAccounts<'info>"
+                }
+              },
+              {
+                "name": "params",
+                "type": {
+                  "defined": "InitializeVaultPeriodParams"
+                }
+              },
+              {
+                "name": "bumps",
+                "type": {
+                  "defined": "InitializeVaultPeriodAccountsBumps"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Withdraw",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WithoutClosePosition",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutWithdrawBAccounts<'info>"
+                }
+              }
+            ]
+          },
+          {
+            "name": "WithClosePosition",
+            "fields": [
+              {
+                "name": "accounts",
+                "type": {
+                  "defined": "&'amutClosePositionAccounts<'info>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "CpiIdentifier",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MintToken",
+            "fields": [
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "mint",
+                "type": "publicKey"
+              },
+              {
+                "name": "to",
+                "type": "publicKey"
+              },
+              {
+                "name": "authority",
+                "type": "publicKey"
+              },
+              {
+                "name": "amount",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "TransferToken",
+            "fields": [
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "from",
+                "type": "publicKey"
+              },
+              {
+                "name": "to",
+                "type": "publicKey"
+              },
+              {
+                "name": "authority",
+                "type": "publicKey"
+              },
+              {
+                "name": "amount",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "BurnToken",
+            "fields": [
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "mint",
+                "type": "publicKey"
+              },
+              {
+                "name": "from",
+                "type": "publicKey"
+              },
+              {
+                "name": "authority",
+                "type": "publicKey"
+              },
+              {
+                "name": "amount",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "CreateTokenMetadata",
+            "fields": [
+              {
+                "name": "metadataProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "systemProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "metadataAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "mint",
+                "type": "publicKey"
+              },
+              {
+                "name": "authority",
+                "type": "publicKey"
+              },
+              {
+                "name": "payer",
+                "type": "publicKey"
+              },
+              {
+                "name": "rent",
+                "type": "publicKey"
+              },
+              {
+                "name": "metadataUri",
+                "type": "string"
+              },
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "symbol",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "CloseAccount",
+            "fields": [
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "destination",
+                "type": "publicKey"
+              },
+              {
+                "name": "authority",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "SetMintAuthority",
+            "fields": [
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "mint",
+                "type": "publicKey"
+              },
+              {
+                "name": "currentAuthority",
+                "type": "publicKey"
+              },
+              {
+                "name": "newAuthority",
+                "type": {
+                  "option": "publicKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "SwapOrcaWhirlpool",
+            "fields": [
+              {
+                "name": "whirlpoolProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenAuthority",
+                "type": "publicKey"
+              },
+              {
+                "name": "whirlpool",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenOwnerAccountA",
+                "type": "publicKey"
+              },
+              {
+                "name": "whirlpoolTokenVaultA",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenOwnerAccountB",
+                "type": "publicKey"
+              },
+              {
+                "name": "whirlpoolTokenVaultB",
+                "type": "publicKey"
+              },
+              {
+                "name": "tickArray0",
+                "type": "publicKey"
+              },
+              {
+                "name": "tickArray1",
+                "type": "publicKey"
+              },
+              {
+                "name": "tickArray2",
+                "type": "publicKey"
+              },
+              {
+                "name": "oracle",
+                "type": "publicKey"
+              },
+              {
+                "name": "amountIn",
+                "type": "u64"
+              },
+              {
+                "name": "sqrtPriceLimit",
+                "type": "u128"
+              },
+              {
+                "name": "aToB",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "SwapSPLTokenSwap",
+            "fields": [
+              {
+                "name": "tokenSwapProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenProgram",
+                "type": "publicKey"
+              },
+              {
+                "name": "tokenSwap",
+                "type": "publicKey"
+              },
+              {
+                "name": "swapAuthority",
+                "type": "publicKey"
+              },
+              {
+                "name": "userTransferAuthority",
+                "type": "publicKey"
+              },
+              {
+                "name": "userTokenAAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "swapTokenAAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "swapTokenBAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "userTokenBAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "swapMint",
+                "type": "publicKey"
+              },
+              {
+                "name": "swapFeeAccount",
+                "type": "publicKey"
+              },
+              {
+                "name": "amountIn",
+                "type": "u64"
+              },
+              {
+                "name": "minimumOut",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Log",
+      "fields": [
+        {
+          "name": "data",
+          "type": {
+            "option": "u64"
+          },
+          "index": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "index": true
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CannotGetPositionBump",
+      "msg": "Cannot get position bump"
+    },
+    {
+      "code": 6001,
+      "name": "CannotGetVaultBump",
+      "msg": "Cannot get vault bump"
+    },
+    {
+      "code": 6002,
+      "name": "CannotGetVaultPeriodBump",
+      "msg": "Cannot get vault_period bump"
+    },
+    {
+      "code": 6003,
+      "name": "DuplicateDripError",
+      "msg": "Drip already triggered for the current period"
+    },
+    {
+      "code": 6004,
+      "name": "IncompleteSwapError",
+      "msg": "Swap did not complete, either received token_b is 0"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidGranularity",
+      "msg": "Granularity must be an integer larger than 0"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidMint",
+      "msg": "Token mint does not match expected value"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidSpread",
+      "msg": "Spread must be >=0 and <5000"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidSwapAccount",
+      "msg": "Token Swap is Not Whitelisted"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidNumSwaps",
+      "msg": "A Vault May Whitelist a Maximum of 5 Swap Accounts"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidVaultProtoConfigReference",
+      "msg": "Provided account references the wrong vault-proto-config"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidVaultPeriod",
+      "msg": "Invalid vault-period"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidVaultReference",
+      "msg": "Provided account references the wrong vault"
+    },
+    {
+      "code": 6013,
+      "name": "OnlyAdminCanInitVault",
+      "msg": "Only admin can init vault"
+    },
+    {
+      "code": 6014,
+      "name": "PeriodicDripAmountIsZero",
+      "msg": "Periodic drip amount == 0"
+    },
+    {
+      "code": 6015,
+      "name": "PositionAlreadyClosed",
+      "msg": "Position is already closed"
+    },
+    {
+      "code": 6016,
+      "name": "WithdrawableAmountIsZero",
+      "msg": "Withdrawable amount is zero"
+    },
+    {
+      "code": 6017,
+      "name": "CannotInitializeVaultPeriodLessThanVaultCurrentPeriod",
+      "msg": "Cannot initialize a vault period lesser than vault's current period"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidVaultMaxSlippage",
+      "msg": "Invalid value for vault.max_slippage_bps"
+    },
+    {
+      "code": 6019,
+      "name": "IncorrectSwapAmount",
+      "msg": "Swapped the wrong amount during drip"
+    },
+    {
+      "code": 6020,
+      "name": "NumSwapsIsZero",
+      "msg": "Number of swaps is zero"
+    },
+    {
+      "code": 6021,
+      "name": "SignerIsNotAdmin",
+      "msg": "Signer is not admin"
+    },
+    {
+      "code": 6022,
+      "name": "IncorrectVaultTokenAccount",
+      "msg": "Incorrect vault token account passed in"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidOwner",
+      "msg": "Account is owned by the wrong account"
+    },
+    {
+      "code": 6024,
+      "name": "PositionBalanceIsZero",
+      "msg": "Position token account balance is empty"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidReferrer",
+      "msg": "Referrer does not match position referrer"
+    },
+    {
+      "code": 6026,
+      "name": "CannotWithdrawAWithNonZeroDripAmount",
+      "msg": "Admin cannot withdraw A if drip amount is non-zero"
+    },
+    {
+      "code": 6027,
+      "name": "VaultTokenAAccountIsEmpty",
+      "msg": "Vault Token A Account is empty"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidSolDestination",
+      "msg": "Invalid sol_destination"
+    },
+    {
+      "code": 6029,
+      "name": "PositionIsNotClosed",
+      "msg": "Position is not closed"
+    }
+  ]
+}

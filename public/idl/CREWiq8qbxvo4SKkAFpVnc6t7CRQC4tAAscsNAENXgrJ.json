@@ -1,0 +1,1564 @@
+{
+  "version": "0.1.0",
+  "name": "crew",
+  "instructions": [
+    {
+      "name": "mintCrewMember",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The auth profile"
+          ]
+        },
+        {
+          "name": "rentRecipient",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account to receive refunded rent if all crew have been minted"
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The registered Crew Config for the deployed Crew program"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The owner of the crew that will be minted. This is validated to be either the `owner` on the",
+            "[`UserRedemption`] account or the `sage_player_profile` if remaining accounts are provided.",
+            "Marked as mutable to allow being used for direct minting.",
+            ""
+          ]
+        },
+        {
+          "name": "userRedemption",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user redemption account to be created which holds data about the crew to be minted"
+          ]
+        },
+        {
+          "name": "packType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pack type that is being redeemed."
+          ]
+        },
+        {
+          "name": "packTiers",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Account containing the probability tiers for the `PackType`"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The collection mint"
+          ]
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The collection metadata"
+          ]
+        },
+        {
+          "name": "collectionEdition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The collection edition"
+          ]
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The compression program"
+          ]
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The bubblegum program"
+          ]
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The log wrapper"
+          ]
+        },
+        {
+          "name": "treeConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The tree config"
+          ]
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The merkle tree to place the crew member in"
+          ]
+        },
+        {
+          "name": "collectionAuthorityRecordPda",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The collection authority record PDA"
+          ]
+        },
+        {
+          "name": "serverHashPreimage",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The preimage bytes of the server hash in the user redemption."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "MintCrewMemberInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "redeemCrewPack",
+      "accounts": [
+        {
+          "name": "packSftAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The crew config's authority profile"
+          ]
+        },
+        {
+          "name": "profileKey",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized with PROVIDE_SERVER_HASH permissions"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the instruction and new accounts"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The user's profile with permissions to redeem crew packs"
+          ]
+        },
+        {
+          "name": "userRedemption",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user redemption account to be created which holds data about the crew to be minted"
+          ]
+        },
+        {
+          "name": "sftRedemption",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The `SftRedemption` account to be used"
+          ]
+        },
+        {
+          "name": "packType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pack type that is being redeemed."
+          ]
+        },
+        {
+          "name": "packTiers",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Account containing the probability tiers for the `PackType`"
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Crew Config account for the deployed Crew program"
+          ]
+        },
+        {
+          "name": "tokenFrom",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that holds the user's Crew Pack SPL tokens."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token mint"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program."
+          ]
+        },
+        {
+          "name": "instructionsSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Solana Instructions Sysvar"
+          ]
+        },
+        {
+          "name": "recentSlothashes",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Solana recent slothashes"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RedeemCrewPacksInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "registerCrewConfig",
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The crew permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder - pays for account rent"
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The associated pack type which represents the pack type that is being registered."
+          ]
+        },
+        {
+          "name": "seedPubkey",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RegisterCrewConfigArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "registerPackTiers",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The crew permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder - pays for account rent"
+          ]
+        },
+        {
+          "name": "packTiers",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The associated pack type which represents the pack type that is being registered."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The registered Crew Config for the deployed Crew program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RegisterPackTiersInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "registerPackType",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The crew permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder - pays for account rent"
+          ]
+        },
+        {
+          "name": "packType",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The associated pack type which represents the pack type that is being registered."
+          ]
+        },
+        {
+          "name": "packTiers",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Account defining the probability tiers for the new `PackType`"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The registered Crew Config for the deployed Crew program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RegisterPackTypeInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "registerSftRedemption",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The crew permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder - pays for account rent"
+          ]
+        },
+        {
+          "name": "sftRedemptionData",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `SftRedemption` account to be created"
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The registered Crew Config for the deployed Crew program"
+          ]
+        },
+        {
+          "name": "packType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The associated pack type which represents the pack that is being redeemed."
+          ]
+        },
+        {
+          "name": "sftMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The associated mint which represents the mint of the SFT that is being exchanged."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RegisterSftRedemptionInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updatePackTiers",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The crew permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder - pays for account rent"
+          ]
+        },
+        {
+          "name": "packTiers",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The associated pack type which represents the pack type that is being updated."
+          ]
+        },
+        {
+          "name": "crewConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The registered Crew Config for the deployed Crew program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "UpdatePackTiersInput"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CrewConfig",
+      "docs": [
+        "`CrewConfig` is the main auth account that manages access to crew operations"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "seedPubkey",
+            "docs": [
+              "Used as random bytes for the seed to allow for multiple CrewConfig accounts"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump seed"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "profile",
+            "docs": [
+              "auth profile"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "namePrefix",
+            "docs": [
+              "The name prefix"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "namePrefixLen",
+            "docs": [
+              "The length of the name prefix"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "symbol",
+            "docs": [
+              "The symbol"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                10
+              ]
+            }
+          },
+          {
+            "name": "symbolLen",
+            "docs": [
+              "The length of the symbol"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "uriPrefix",
+            "docs": [
+              "The uri prefix"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                40
+              ]
+            }
+          },
+          {
+            "name": "uriPrefixLen",
+            "docs": [
+              "The length of the uri prefix"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "docs": [
+              "Royalty rate for the collection"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "collectionMint",
+            "docs": [
+              "The collection the crew belongs to"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "creators",
+            "docs": [
+              "The creators who will split any royalties"
+            ],
+            "type": {
+              "array": [
+                {
+                  "defined": "CrewCreator"
+                },
+                4
+              ]
+            }
+          },
+          {
+            "name": "creatorCount",
+            "docs": [
+              "The number of creators"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "totalMinted",
+            "docs": [
+              "Total crew minted"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "totalAllocated",
+            "docs": [
+              "Total crew allocated to user redemption accounts"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PackTiers",
+      "docs": [
+        "`PackTiers` is a data structure used for defining the odds of rolling each rarity of card in a pack."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "crewConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "seedPubkey",
+            "docs": [
+              "The pubkey used as a PDA seed"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tier",
+            "docs": [
+              "The tier of the pack"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump seed"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "common",
+            "docs": [
+              "The weight for rolling a common card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "uncommon",
+            "docs": [
+              "The weight for rolling an uncommon card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "rare",
+            "docs": [
+              "The weight for rolling a rare card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "epic",
+            "docs": [
+              "The weight for rolling an epic card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "legendary",
+            "docs": [
+              "The weight for rolling a legendary card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "anomaly",
+            "docs": [
+              "The weight for rolling an anomaly card"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PackType",
+      "docs": [
+        "`PackType` is a data structure used for defining the different types of packs that can be opened in the Crew program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump seed"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "crewConfig",
+            "docs": [
+              "The associated crew config account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "packTiers",
+            "docs": [
+              "The tier of the pack"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "faction",
+            "docs": [
+              "The faction of the pack"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SftRedemption",
+      "docs": [
+        "`SftRedemption` is a data account used for handling the redemption of SFTs in the Crew program.",
+        "This account details the number and type of cNFTs that are to be minted in exchange for the given SFT."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "the bump seed"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "packType",
+            "docs": [
+              "The pack type that is being redeemed."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "sftMint",
+            "docs": [
+              "The mint of the SFT that is being exchanged."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "crewConfig",
+            "docs": [
+              "The registered Crew Config for the deployed Crew program"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "redemptionAmount",
+            "docs": [
+              "The number of cNFTs being received in exchange for the SFT"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserRedemption",
+      "docs": [
+        "`UserRedemption` is a data structure used for handling the redemption of cNFTs by users in the Crew program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump seed"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "crewConfig",
+            "docs": [
+              "The associated crew config account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "seedPubkey",
+            "docs": [
+              "The pubkey used to derive the address of the UserRedemption account."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "The account that recieves the minted cNFTs"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mintOffset",
+            "docs": [
+              "The number of cNFTs that had already been allocated when this account was created. All",
+              "cNFTs minted from this account calculate their mint number (i.e. NFT #0, #100, etc.) from this offset."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Total number of CNFTs this account is responsible for."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "numberMinted",
+            "docs": [
+              "The number of `cNFTs` that have been minted."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "packType",
+            "docs": [
+              "The pack type that is being redeemed."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "userSeed",
+            "docs": [
+              "The user provided hash used to generate the pseudo-random data."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "serverHash",
+            "docs": [
+              "The system hash used to generate the pseudo-random data."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "sageProfile",
+            "docs": [
+              "Optional sage profile key for minting directly to sage"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CrewCreator",
+      "docs": [
+        "A creator on the crew collection"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The creator's key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "share",
+            "docs": [
+              "The creator's share of royalties"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CrewCreatorUnpacked",
+      "docs": [
+        "Unpacked version of [`CrewCreator`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The creator's key"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "share",
+            "docs": [
+              "The creator's share of royalties"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintCrewMemberInput",
+      "docs": [
+        "The input for the `redeem_crew_packs` instruction."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "The index of the key in the profile's permissions list"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "userRedemptionIndex",
+            "docs": [
+              "The index of the crew member in the `UserRedemption` account"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "dataHash",
+            "docs": [
+              "The hash of the off chain data"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedeemCrewPacksInput",
+      "docs": [
+        "Input for redeeming crew packs via `RedeemCrewPacks`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "quantity",
+            "docs": [
+              "The number of crew pack SFTs to redeem"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "seedPubkey",
+            "docs": [
+              "A pubkey to use as a seed for the `UserRedemption` account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "serverHash",
+            "docs": [
+              "Server provided sha256 hash of a random pubkey preimage used during minting"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "The index of the profile_key in the profile's permission list"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "sageProfile",
+            "docs": [
+              "Optional SagePlayerProfile key for minting directly to sage"
+            ],
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegisterCrewConfigArgs",
+      "docs": [
+        "Arguments for the `register_crew_config` instruction."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "namePrefix",
+            "docs": [
+              "The name prefix to use for all minted crew"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "docs": [
+              "The symbol to use for all minted crew"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "uriPrefix",
+            "docs": [
+              "The URI prefix to use for all minted crew"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "docs": [
+              "The fee basis points to charge for selling crew"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "collection",
+            "docs": [
+              "The mint that will be used for all crew"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "creators",
+            "docs": [
+              "The creators of the crew and their share of the royalties"
+            ],
+            "type": {
+              "vec": {
+                "defined": "CrewCreatorUnpacked"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegisterPackTiersInput",
+      "docs": [
+        "`RegisterPackTiersInput` is a data structure used for handling the input parameters",
+        "for the `register_pack_tiers` function in the Crew program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the authorizing key in the crew permissions profile"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "seedPubkey",
+            "docs": [
+              "The seed pubkey for the pack tiers"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "packTier",
+            "docs": [
+              "The tier of the pack to be registered"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "common",
+            "docs": [
+              "The weight for receiving a common card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "uncommon",
+            "docs": [
+              "The weight for receiving an uncommon card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "rare",
+            "docs": [
+              "The weight for receiving a rare card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "epic",
+            "docs": [
+              "The weight for receiving an epic card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "legendary",
+            "docs": [
+              "The weight for receiving a legendary card"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "anomaly",
+            "docs": [
+              "The weight for receiving an anomaly card"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegisterPackTypeInput",
+      "docs": [
+        "`RegisterPackTypeInput` is a data structure used for handling the input parameters",
+        "for the `register_pack_type` function in the Crew program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the authorizing key in the crew permissions profile"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "faction",
+            "docs": [
+              "The faction of the pack"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegisterSftRedemptionInput",
+      "docs": [
+        "`RegisterSftRedemptionInput` is a data structure used for handling the input parameters",
+        "for the `register_sft_redemption` function in the Crew program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "redemptionAmount",
+            "docs": [
+              "The number of cNFTs being received in exchange for the SFT"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the authorizing key in the crew permissions profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdatePackTiersInput",
+      "docs": [
+        "`UpdatePackTiersInput` is a data structure used for handling the input parameters",
+        "for the `update_pack_tiers` function in the Crew program."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the authorizing key in the crew permissions profile"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "common",
+            "docs": [
+              "The weight for receiving a common card"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "uncommon",
+            "docs": [
+              "The weight for receiving an uncommon card"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "rare",
+            "docs": [
+              "The weight for receiving a rare card"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "epic",
+            "docs": [
+              "The weight for receiving an epic card"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "legendary",
+            "docs": [
+              "The weight for receiving a legendary card"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "anomaly",
+            "docs": [
+              "The weight for receiving an anomaly card"
+            ],
+            "type": {
+              "option": "u32"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AmountRequired",
+      "msg": "Amount Required"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMint",
+      "msg": "Invalid Mint"
+    },
+    {
+      "code": 6002,
+      "name": "AddressMismatch",
+      "msg": "Address Mismatch"
+    },
+    {
+      "code": 6003,
+      "name": "PackTypeMismatch",
+      "msg": "Pack Type Mismatch"
+    },
+    {
+      "code": 6004,
+      "name": "CrewConfigMismatch",
+      "msg": "Crew Config Mismatch"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidOdds",
+      "msg": "The provided odds do not sum to 100%"
+    },
+    {
+      "code": 6006,
+      "name": "IndexOutOfBounds",
+      "msg": "Index Out of Bounds"
+    },
+    {
+      "code": 6007,
+      "name": "RedemptionIndexOutOfBounds",
+      "msg": "Redemption index out of bounds"
+    },
+    {
+      "code": 6008,
+      "name": "CrewAlreadyMinted",
+      "msg": "Crew at redemption index already minted"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidMerkleTree",
+      "msg": "Can only mint crew to trees listed in crew config"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidTransactionData",
+      "msg": "RedeemCrewPacks must be the only non compute budget ix in the transaction"
+    },
+    {
+      "code": 6011,
+      "name": "NamePrefixTooLong",
+      "msg": "Name prefix must be 32 bytes or less"
+    },
+    {
+      "code": 6012,
+      "name": "URIPrefixTooLong",
+      "msg": "URI prefix must be 40 bytes or less"
+    },
+    {
+      "code": 6013,
+      "name": "SymbolTooLong",
+      "msg": "Symbol must be 10 bytes or less"
+    },
+    {
+      "code": 6014,
+      "name": "TooManyCreators",
+      "msg": "Can't have more than 4 creators"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidCreatorShares",
+      "msg": "Shares must equal 100"
+    },
+    {
+      "code": 6016,
+      "name": "ProfileMismatch",
+      "msg": "Profile mismatch"
+    },
+    {
+      "code": 6017,
+      "name": "HashMismatch",
+      "msg": "Hash of provided preimage mismatch"
+    },
+    {
+      "code": 6018,
+      "name": "NoSageProfile",
+      "msg": "Remaining accounts exist during minting with no sage profile set"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidMintingRemainingAccounts",
+      "msg": "Invalid number of remaining accounts for minting"
+    }
+  ]
+}

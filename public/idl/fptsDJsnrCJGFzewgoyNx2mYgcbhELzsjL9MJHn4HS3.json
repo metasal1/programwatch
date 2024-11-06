@@ -1,0 +1,1888 @@
+{
+  "version": "0.1.0",
+  "name": "points_program",
+  "constants": [
+    {
+      "name": "TREASURY",
+      "type": {
+        "array": [
+          "u8",
+          8
+        ]
+      },
+      "value": "* b\"treasury\""
+    },
+    {
+      "name": "STAKE_INSTANCE",
+      "type": {
+        "array": [
+          "u8",
+          14
+        ]
+      },
+      "value": "* b\"stake_instance\""
+    },
+    {
+      "name": "STAKE_RECORD",
+      "type": {
+        "array": [
+          "u8",
+          12
+        ]
+      },
+      "value": "* b\"stake_record\""
+    },
+    {
+      "name": "DISTRIBUTION_POT",
+      "type": {
+        "array": [
+          "u8",
+          16
+        ]
+      },
+      "value": "* b\"distribution_pot\""
+    },
+    {
+      "name": "DISTRIBUTION_TAG",
+      "type": {
+        "array": [
+          "u8",
+          16
+        ]
+      },
+      "value": "* b\"distribution_tag\""
+    },
+    {
+      "name": "DISTRIBUTION_POT_TOKEN_ACCOUNT",
+      "type": {
+        "array": [
+          "u8",
+          30
+        ]
+      },
+      "value": "* b\"distribution_pot_token_account\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "setupTreasury",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "feeLamportsDist",
+          "type": "u64"
+        },
+        {
+          "name": "feeLamportsStaking",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setupTreasuryWithMetadataAddress",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "metadataAddress",
+          "type": "publicKey"
+        },
+        {
+          "name": "feeLamportsDist",
+          "type": "u64"
+        },
+        {
+          "name": "feeLamportsStaking",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setupTreasuryTokenMetadata",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "mplSetupTreasuryTokenMetadata",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "addFeeLamportsToTreasury",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeLamportsDist",
+          "type": "u64"
+        },
+        {
+          "name": "feeLamportsStaking",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "issue",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "receiverAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "issuePermissionedV2",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "issueV2",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "receiverAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "issueBundle",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amounts",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "transfer",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "receiverAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "senderTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "senderAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "transferPermissioned",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "receiverAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "senderTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "senderAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "spend",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "senderAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "spendPermissioned",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "senderTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "senderAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "ActionMetadata"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setupStakeInstance",
+      "accounts": [
+        {
+          "name": "stakeInstance",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "issueFactor",
+          "type": "u64"
+        },
+        {
+          "name": "divideFactor",
+          "type": "u64"
+        },
+        {
+          "name": "maxIssuable",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateStakeInstance",
+      "accounts": [
+        {
+          "name": "stakeInstance",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "enabled",
+          "type": "bool"
+        },
+        {
+          "name": "issueFactor",
+          "type": "u64"
+        },
+        {
+          "name": "divideFactor",
+          "type": "u64"
+        },
+        {
+          "name": "maxIssuable",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "stakePnft",
+      "accounts": [
+        {
+          "name": "stakeInstance",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAuthorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAuthorizationRulesAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimStake",
+      "accounts": [
+        {
+          "name": "stakeInstance",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": "u64"
+    },
+    {
+      "name": "unstakePnft",
+      "accounts": [
+        {
+          "name": "stakeInstance",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAuthorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAuthorizationRulesAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "harvester",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setupDistributionPot",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPotTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "identifier",
+          "type": "string"
+        },
+        {
+          "name": "enabled",
+          "type": "bool"
+        },
+        {
+          "name": "distributionMode",
+          "type": {
+            "defined": "DistributionMode"
+          }
+        },
+        {
+          "name": "absoluteRatio",
+          "type": "bool"
+        },
+        {
+          "name": "inputRatio",
+          "type": "u64"
+        },
+        {
+          "name": "outputRatio",
+          "type": "u64"
+        },
+        {
+          "name": "startTimestamp",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "stopTimestamp",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "maxClaimable",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "minClaimable",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "singleReceiver",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "fillAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateDistributionPot",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPotTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "enabled",
+          "type": "bool"
+        },
+        {
+          "name": "absoluteRatio",
+          "type": "bool"
+        },
+        {
+          "name": "inputRatio",
+          "type": "u64"
+        },
+        {
+          "name": "outputRatio",
+          "type": "u64"
+        },
+        {
+          "name": "startTimestamp",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "stopTimestamp",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "maxClaimable",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "minClaimable",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "newFillAmount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimDistribution",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverPointsTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPotMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverDistributionTag",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPotTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiverDistributionPotTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account is mutable; This means it was previously",
+            "initialized with something like `getOrCreateAssociatedTokenAccount`."
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "distributionPotTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pointsToExchange",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeDistributionPot",
+      "accounts": [
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionPotTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeDistributionTag",
+      "accounts": [
+        {
+          "name": "distributionPot",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributionTag",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DistributionPot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "identifier",
+            "type": "string"
+          },
+          {
+            "name": "enabled",
+            "type": "bool"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "distributionMode",
+            "type": {
+              "defined": "DistributionMode"
+            }
+          },
+          {
+            "name": "absoluteRatio",
+            "type": "bool"
+          },
+          {
+            "name": "inputRatio",
+            "type": "u64"
+          },
+          {
+            "name": "outputRatio",
+            "type": "u64"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "startTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "stopTimestamp",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "maxClaimable",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "minClaimable",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "singleReceiver",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DistributionTag",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "distributionPot",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "lastDistributionTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "totalAwarded",
+            "type": "u64"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeInstance",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "issueFactor",
+            "type": "u64"
+          },
+          {
+            "name": "divideFactor",
+            "type": "u64"
+          },
+          {
+            "name": "maxIssuable",
+            "type": "u64"
+          },
+          {
+            "name": "enabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "lastClaimTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "stakeInstance",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "enabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Treasury",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeLamportsDist",
+            "type": "u64"
+          },
+          {
+            "name": "feeLamportsStaking",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "MetadataKeyValue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ActionMetadata",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mainType",
+            "type": "string"
+          },
+          {
+            "name": "subType",
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "type": "string"
+          },
+          {
+            "name": "additionalData",
+            "type": {
+              "vec": {
+                "defined": "MetadataKeyValue"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DistributionMode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PointsSwap"
+          },
+          {
+            "name": "PointsAccrual"
+          },
+          {
+            "name": "SingleUse"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unknown",
+      "msg": "Unknown"
+    },
+    {
+      "code": 6001,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient balance"
+    },
+    {
+      "code": 6002,
+      "name": "NotImplemented",
+      "msg": "Not implemented"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 6004,
+      "name": "ZeroTokenAmount",
+      "msg": "Token amount is zero"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidCollection",
+      "msg": "Invalid collection"
+    },
+    {
+      "code": 6007,
+      "name": "DisabledStakeInstance",
+      "msg": "Stake instance is disabled"
+    },
+    {
+      "code": 6008,
+      "name": "DisabledStakeRecord",
+      "msg": "Stake record is disabled"
+    },
+    {
+      "code": 6009,
+      "name": "NotEnoughTimePassed",
+      "msg": "Not enough time has passed to claim the minimum decimal points"
+    },
+    {
+      "code": 6010,
+      "name": "NumericOverflow",
+      "msg": "Numeric overflow"
+    },
+    {
+      "code": 6011,
+      "name": "NumberCantBeZero",
+      "msg": "Number can't be zero"
+    },
+    {
+      "code": 6012,
+      "name": "CantAwardZeroPoints",
+      "msg": "Can't award zero points"
+    },
+    {
+      "code": 6013,
+      "name": "DistributionPotClosed",
+      "msg": "Distributon pot is closed"
+    },
+    {
+      "code": 6014,
+      "name": "DistributionPotNotClosed",
+      "msg": "Distribution pot not closed"
+    },
+    {
+      "code": 6015,
+      "name": "PointsToExchangeRequired",
+      "msg": "Points to exchange is required for swap"
+    },
+    {
+      "code": 6016,
+      "name": "PointsBelowThreshold",
+      "msg": "The input points don't meet the minimum threshold"
+    },
+    {
+      "code": 6017,
+      "name": "DistributionModeMustBeSingleUse",
+      "msg": "Distribution mode must be SingleUse for directed boxes"
+    },
+    {
+      "code": 6018,
+      "name": "AmountExceedsMaxAllowed",
+      "msg": "Amount exceeds the maximum allowed"
+    },
+    {
+      "code": 6019,
+      "name": "AmountNotDivisibleByLeftRatio",
+      "msg": "Amount is not divisible by left ratio because of absolute ratio"
+    },
+    {
+      "code": 6020,
+      "name": "InsufficientFillAmount",
+      "msg": "Insufficient fill amount"
+    },
+    {
+      "code": 6021,
+      "name": "FillAmountNotDivisibleByOutputRatio",
+      "msg": "Fill amount is not divisible by output ratio"
+    },
+    {
+      "code": 6022,
+      "name": "AccountNotClosed",
+      "msg": "Account is not closed"
+    },
+    {
+      "code": 6023,
+      "name": "InputAmountLowerThanMinimum",
+      "msg": "Input amount lower than minimum"
+    },
+    {
+      "code": 6024,
+      "name": "DistributionPotDisabled",
+      "msg": "Distribution pot is disabled"
+    },
+    {
+      "code": 6025,
+      "name": "DistributionPotNotStarted",
+      "msg": "Distribution pot hasn't started yet"
+    },
+    {
+      "code": 6026,
+      "name": "IssueInstructionDisabled",
+      "msg": "Issue: This instruction has been disabled, please use the new IssueV2 and IssuePermissionedV2 instructions."
+    },
+    {
+      "code": 6027,
+      "name": "InvalidAccountData",
+      "msg": "Invalid account data"
+    },
+    {
+      "code": 6028,
+      "name": "RemainingAccountsRequired",
+      "msg": "Remaining accounts are required"
+    },
+    {
+      "code": 6029,
+      "name": "AmountsDontMatchRemainingAccounts",
+      "msg": "Amounts don't match remaining accounts"
+    }
+  ]
+}

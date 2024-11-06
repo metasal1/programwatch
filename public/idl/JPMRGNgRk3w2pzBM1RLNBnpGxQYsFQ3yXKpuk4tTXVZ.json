@@ -1,0 +1,1679 @@
+{
+  "version": "1.0.0",
+  "name": "jet_margin",
+  "constants": [
+    {
+      "name": "TOKEN_CONFIG_SEED",
+      "type": "bytes",
+      "value": "[116, 111, 107, 101, 110, 45, 99, 111, 110, 102, 105, 103]"
+    },
+    {
+      "name": "ADAPTER_CONFIG_SEED",
+      "type": "bytes",
+      "value": "[97, 100, 97, 112, 116, 101, 114, 45, 99, 111, 110, 102, 105, 103]"
+    },
+    {
+      "name": "LIQUIDATOR_CONFIG_SEED",
+      "type": {
+        "defined": "&[u8]"
+      },
+      "value": "PERMIT_SEED"
+    },
+    {
+      "name": "PERMIT_SEED",
+      "type": "bytes",
+      "value": "[112, 101, 114, 109, 105, 116]"
+    },
+    {
+      "name": "MAX_ORACLE_CONFIDENCE",
+      "type": "u16",
+      "value": "5_00"
+    },
+    {
+      "name": "MAX_ORACLE_STALENESS",
+      "type": "i64",
+      "value": "30"
+    },
+    {
+      "name": "MAX_PRICE_QUOTE_AGE",
+      "type": "u64",
+      "value": "30"
+    },
+    {
+      "name": "LIQUIDATION_TIMEOUT",
+      "type": {
+        "defined": "UnixTimestamp"
+      },
+      "value": "60"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "createAccount",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "closeAccount",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "registerPosition",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updatePositionBalance",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closePosition",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "verifyHealthy",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "verifyUnhealthy",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "adapterInvoke",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adapterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adapterConfig",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "accountingInvoke",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adapterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adapterConfig",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "liquidateBegin",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "liquidator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "liquidation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "liquidateEnd",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidation",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "liquidatorInvoke",
+      "accounts": [
+        {
+          "name": "liquidator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "liquidation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adapterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adapterConfig",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "refreshPositionConfig",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "refresher",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "refreshDepositPosition",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "priceOracle",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createDepositPosition",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferDeposit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "configureToken",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "update",
+          "type": {
+            "option": {
+              "defined": "TokenConfigUpdate"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "configureAdapter",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adapterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adapterConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "isAdapter",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "configureLiquidator",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "permit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "isLiquidator",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "configureAccountAirspace",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configurePositionConfigRefresher",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "permit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mayRefresh",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "adminTransferPosition",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "targetAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initLookupRegistry",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "registryProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createLookupTable",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lookupTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "addressLookupTableProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registryProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "recentSlot",
+          "type": "u64"
+        },
+        {
+          "name": "discriminator",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "appendToLookup",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lookupTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "addressLookupTableProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registryProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "discriminator",
+          "type": "u64"
+        },
+        {
+          "name": "addresses",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MarginAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "bumpSeed",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "userSeed",
+            "type": {
+              "array": [
+                "u8",
+                2
+              ]
+            }
+          },
+          {
+            "name": "invocation",
+            "type": {
+              "defined": "Invocation"
+            }
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "airspace",
+            "type": "publicKey"
+          },
+          {
+            "name": "liquidator",
+            "type": "publicKey"
+          },
+          {
+            "name": "positions",
+            "type": {
+              "defined": "PodBytes<7432>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidationState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "liquidator",
+            "type": "publicKey"
+          },
+          {
+            "name": "marginAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "Liquidation"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "airspace",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenKind",
+            "type": {
+              "defined": "TokenKind"
+            }
+          },
+          {
+            "name": "valueModifier",
+            "type": "u16"
+          },
+          {
+            "name": "maxStaleness",
+            "type": "u64"
+          },
+          {
+            "name": "admin",
+            "type": {
+              "defined": "TokenAdmin"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Permit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "airspace",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "permissions",
+            "type": {
+              "defined": "Permissions"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdapterConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "airspace",
+            "type": "publicKey"
+          },
+          {
+            "name": "adapterProgram",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AdapterResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "positionChanges",
+            "type": {
+              "vec": {
+                "defined": "(Pubkey,Vec<PositionChange>)"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceChangeInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": "i64"
+          },
+          {
+            "name": "confidence",
+            "type": "u64"
+          },
+          {
+            "name": "twap",
+            "type": "i64"
+          },
+          {
+            "name": "publishTime",
+            "type": "i64"
+          },
+          {
+            "name": "exponent",
+            "type": "i32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ValuationSummary",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "equity",
+            "type": "i128"
+          },
+          {
+            "name": "liabilities",
+            "type": "i128"
+          },
+          {
+            "name": "requiredCollateral",
+            "type": "i128"
+          },
+          {
+            "name": "weightedCollateral",
+            "type": "i128"
+          },
+          {
+            "name": "effectiveCollateral",
+            "type": "i128"
+          },
+          {
+            "name": "availableCollateral",
+            "type": "i128"
+          },
+          {
+            "name": "pastDue",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenConfigUpdate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "underlyingMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "type": {
+              "defined": "TokenAdmin"
+            }
+          },
+          {
+            "name": "tokenKind",
+            "type": {
+              "defined": "TokenKind"
+            }
+          },
+          {
+            "name": "valueModifier",
+            "type": "u16"
+          },
+          {
+            "name": "maxStaleness",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdapterPositionFlags",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "flags",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriceInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "exponent",
+            "type": "i32"
+          },
+          {
+            "name": "isValid",
+            "type": "u8"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AccountPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "token",
+            "type": "publicKey"
+          },
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "adapter",
+            "type": "publicKey"
+          },
+          {
+            "name": "value",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "balanceTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "price",
+            "type": {
+              "defined": "PriceInfo"
+            }
+          },
+          {
+            "name": "kind",
+            "type": "u32"
+          },
+          {
+            "name": "exponent",
+            "type": "i16"
+          },
+          {
+            "name": "valueModifier",
+            "type": "u16"
+          },
+          {
+            "name": "maxStaleness",
+            "type": "u64"
+          },
+          {
+            "name": "flags",
+            "type": {
+              "defined": "AdapterPositionFlags"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                23
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AccountPositionKey",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AccountPositionList",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "length",
+            "type": "u64"
+          },
+          {
+            "name": "map",
+            "type": {
+              "array": [
+                {
+                  "defined": "AccountPositionKey"
+                },
+                32
+              ]
+            }
+          },
+          {
+            "name": "positions",
+            "type": {
+              "array": [
+                {
+                  "defined": "AccountPosition"
+                },
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Liquidation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "equityLoss",
+            "type": "i128"
+          },
+          {
+            "name": "maxEquityLoss",
+            "type": "i128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Invocation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "flags",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PositionChange",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Price",
+            "fields": [
+              {
+                "defined": "PriceChangeInfo"
+              }
+            ]
+          },
+          {
+            "name": "Flags",
+            "fields": [
+              {
+                "defined": "AdapterPositionFlags"
+              },
+              "bool"
+            ]
+          },
+          {
+            "name": "Register",
+            "fields": [
+              "publicKey"
+            ]
+          },
+          {
+            "name": "Close",
+            "fields": [
+              "publicKey"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Approver",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MarginAccountAuthority"
+          },
+          {
+            "name": "Adapter",
+            "fields": [
+              "publicKey"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenKind",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Collateral"
+          },
+          {
+            "name": "Claim"
+          },
+          {
+            "name": "AdapterCollateral"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenOracle",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pyth",
+            "fields": [
+              {
+                "name": "price",
+                "docs": [
+                  "The pyth address containing price information for a token."
+                ],
+                "type": "publicKey"
+              },
+              {
+                "name": "product",
+                "docs": [
+                  "The pyth address with product information for a token"
+                ],
+                "type": "publicKey"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenAdmin",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Margin",
+            "fields": [
+              {
+                "name": "oracle",
+                "docs": [
+                  "An oracle that can be used to collect price information for a token"
+                ],
+                "type": {
+                  "defined": "TokenOracle"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Adapter",
+            "fields": [
+              "publicKey"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "SyscallProvider",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Mock",
+            "fields": [
+              {
+                "defined": "dynFn()->T"
+              }
+            ]
+          },
+          {
+            "name": "SolanaRuntime"
+          },
+          {
+            "name": "Stub"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 141000,
+      "name": "NoAdapterResult"
+    },
+    {
+      "code": 141001,
+      "name": "WrongProgramAdapterResult",
+      "msg": "The program that set the result was not the adapter"
+    },
+    {
+      "code": 141002,
+      "name": "UnauthorizedInvocation",
+      "msg": "this invocation is not authorized by the necessary accounts"
+    },
+    {
+      "code": 141003,
+      "name": "IndirectInvocation",
+      "msg": "the current instruction was not directly invoked by the margin program"
+    },
+    {
+      "code": 141010,
+      "name": "MaxPositions",
+      "msg": "account cannot record any additional positions"
+    },
+    {
+      "code": 141011,
+      "name": "UnknownPosition",
+      "msg": "account has no record of the position"
+    },
+    {
+      "code": 141012,
+      "name": "CloseNonZeroPosition",
+      "msg": "attempting to close a position that has a balance"
+    },
+    {
+      "code": 141013,
+      "name": "PositionAlreadyRegistered",
+      "msg": "attempting to register an existing position"
+    },
+    {
+      "code": 141014,
+      "name": "AccountNotEmpty",
+      "msg": "attempting to close non-empty margin account"
+    },
+    {
+      "code": 141015,
+      "name": "PositionNotRegistered",
+      "msg": "attempting to use unregistered position"
+    },
+    {
+      "code": 141016,
+      "name": "CloseRequiredPosition",
+      "msg": "attempting to close a position that is required by the adapter"
+    },
+    {
+      "code": 141017,
+      "name": "InvalidPositionOwner",
+      "msg": "registered position owner inconsistent with PositionTokenMetadata owner or token_kind"
+    },
+    {
+      "code": 141018,
+      "name": "PositionNotRegisterable",
+      "msg": "dependencies are not satisfied to auto-register a required but unregistered position"
+    },
+    {
+      "code": 141020,
+      "name": "InvalidPositionAdapter",
+      "msg": "wrong adapter to modify the position"
+    },
+    {
+      "code": 141021,
+      "name": "OutdatedPrice",
+      "msg": "a position price is outdated"
+    },
+    {
+      "code": 141022,
+      "name": "InvalidPrice",
+      "msg": "an asset price is currently invalid"
+    },
+    {
+      "code": 141023,
+      "name": "OutdatedBalance",
+      "msg": "a position balance is outdated"
+    },
+    {
+      "code": 141030,
+      "name": "Unhealthy",
+      "msg": "the account is not healthy"
+    },
+    {
+      "code": 141031,
+      "name": "Healthy",
+      "msg": "the account is already healthy"
+    },
+    {
+      "code": 141032,
+      "name": "Liquidating",
+      "msg": "the account is being liquidated"
+    },
+    {
+      "code": 141033,
+      "name": "NotLiquidating",
+      "msg": "the account is not being liquidated"
+    },
+    {
+      "code": 141034,
+      "name": "StalePositions"
+    },
+    {
+      "code": 141040,
+      "name": "UnauthorizedLiquidator",
+      "msg": "the liquidator does not have permission to do this"
+    },
+    {
+      "code": 141041,
+      "name": "LiquidationLostValue",
+      "msg": "attempted to extract too much value during liquidation"
+    },
+    {
+      "code": 141042,
+      "name": "WrongLiquidationState",
+      "msg": "liquidationState does not match given margin account"
+    },
+    {
+      "code": 141050,
+      "name": "WrongAirspace",
+      "msg": "attempting to mix entities from different airspaces"
+    },
+    {
+      "code": 141051,
+      "name": "InvalidConfig",
+      "msg": "attempting to use or set invalid configuration"
+    },
+    {
+      "code": 141052,
+      "name": "InvalidOracle",
+      "msg": "attempting to use or set invalid configuration"
+    },
+    {
+      "code": 141053,
+      "name": "AlreadyJoinedAirspace",
+      "msg": "account is already joined to an airspace"
+    },
+    {
+      "code": 141060,
+      "name": "InsufficientPermissions",
+      "msg": "the permit does not authorize this action"
+    },
+    {
+      "code": 141061,
+      "name": "PermitNotOwned",
+      "msg": "the permit is not owned by the current user"
+    }
+  ]
+}

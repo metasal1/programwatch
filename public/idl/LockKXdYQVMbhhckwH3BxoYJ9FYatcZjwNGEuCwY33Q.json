@@ -1,0 +1,461 @@
+{
+  "version": "0.0.0",
+  "name": "lockup",
+  "instructions": [
+    {
+      "name": "availableForWithdrawal",
+      "accounts": [
+        {
+          "name": "release",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "state": {
+    "struct": {
+      "name": "Lockup",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "pendingOwner",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    "methods": [
+      {
+        "name": "new",
+        "accounts": [
+          {
+            "name": "auth",
+            "accounts": [
+              {
+                "name": "owner",
+                "isMut": false,
+                "isSigner": true
+              }
+            ]
+          },
+          {
+            "name": "mintProxyState",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "mintProxyProgram",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "createRelease",
+        "accounts": [
+          {
+            "name": "auth",
+            "accounts": [
+              {
+                "name": "owner",
+                "isMut": false,
+                "isSigner": true
+              }
+            ]
+          },
+          {
+            "name": "minterInfo",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "beneficiary",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "release",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "mint",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "mintProxyProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "payer",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "systemProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "rent",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "clock",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "releaseAmount",
+            "type": "u64"
+          },
+          {
+            "name": "startTs",
+            "type": "i64"
+          },
+          {
+            "name": "endTs",
+            "type": "i64"
+          }
+        ]
+      },
+      {
+        "name": "revokeRelease",
+        "accounts": [
+          {
+            "name": "auth",
+            "accounts": [
+              {
+                "name": "owner",
+                "isMut": false,
+                "isSigner": true
+              }
+            ]
+          },
+          {
+            "name": "release",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "payer",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "transferOwnership",
+        "accounts": [
+          {
+            "name": "owner",
+            "isMut": false,
+            "isSigner": true
+          }
+        ],
+        "args": [
+          {
+            "name": "nextOwner",
+            "type": "publicKey"
+          }
+        ]
+      },
+      {
+        "name": "acceptOwnership",
+        "accounts": [
+          {
+            "name": "owner",
+            "isMut": false,
+            "isSigner": true
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "withdraw",
+        "accounts": [
+          {
+            "name": "proxyMintAuthority",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "tokenMint",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "beneficiary",
+            "isMut": false,
+            "isSigner": true
+          },
+          {
+            "name": "release",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "tokenAccount",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "clock",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "minterInfo",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "mintProxyProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "mintProxyState",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": []
+      }
+    ]
+  },
+  "accounts": [
+    {
+      "name": "Release",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "beneficiary",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "mintProxyProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "minterInfo",
+            "type": "publicKey"
+          },
+          {
+            "name": "outstanding",
+            "type": "u64"
+          },
+          {
+            "name": "startBalance",
+            "type": "u64"
+          },
+          {
+            "name": "createdTs",
+            "type": "i64"
+          },
+          {
+            "name": "startTs",
+            "type": "i64"
+          },
+          {
+            "name": "endTs",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ReleaseCreatedEvent",
+      "fields": [
+        {
+          "name": "beneficiary",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "releaseAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "createdAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "startAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "endAt",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawEvent",
+      "fields": [
+        {
+          "name": "beneficiary",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "outstandingAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "withdrawAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidBeneficiary",
+      "msg": "The provided beneficiary was not valid."
+    },
+    {
+      "code": 301,
+      "name": "InvalidDepositAmount",
+      "msg": "The release deposit amount must be greater than zero."
+    },
+    {
+      "code": 302,
+      "name": "InvalidProgramAddress",
+      "msg": "The Whitelist entry is not a valid program address."
+    },
+    {
+      "code": 303,
+      "name": "InvalidSchedule",
+      "msg": "Invalid release schedule given."
+    },
+    {
+      "code": 304,
+      "name": "InvalidTokenMint",
+      "msg": "The provided token mint did not match the mint on the release account."
+    },
+    {
+      "code": 305,
+      "name": "InsufficientWithdrawalBalance",
+      "msg": "Insufficient withdrawal balance."
+    },
+    {
+      "code": 306,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access."
+    },
+    {
+      "code": 307,
+      "name": "PendingOwnerMismatch",
+      "msg": "Pending owner mismatch."
+    },
+    {
+      "code": 308,
+      "name": "InvalidMintProxyProgram",
+      "msg": "The mint proxy program provided was not valid."
+    },
+    {
+      "code": 309,
+      "name": "MinterUnauthorized",
+      "msg": "The Release must be an authorized minter on the mint proxy."
+    },
+    {
+      "code": 310,
+      "name": "MinterInfoProgramMismatch",
+      "msg": "The minter info is not owned by the expected mint proxy."
+    },
+    {
+      "code": 311,
+      "name": "MinterAllowanceTooLow",
+      "msg": "The minter must have an allowance of at least the release amount."
+    },
+    {
+      "code": 312,
+      "name": "MinterInfoMismatch",
+      "msg": "Minter info mismatch"
+    },
+    {
+      "code": 313,
+      "name": "ReleaseMismatch",
+      "msg": "Release mismatch"
+    },
+    {
+      "code": 314,
+      "name": "ProxyMintAuthorityMismatch",
+      "msg": "Proxy mint authority mismatch"
+    },
+    {
+      "code": 315,
+      "name": "MintProxyMintMismatch",
+      "msg": "Mint proxy mint mismatch"
+    },
+    {
+      "code": 316,
+      "name": "DestinationMintMismatch",
+      "msg": "Withdraw destination mint mismatch"
+    },
+    {
+      "code": 317,
+      "name": "TokenProgramMismatch",
+      "msg": "Token program mismatch"
+    },
+    {
+      "code": 318,
+      "name": "ReleaseAlreadyRedeemedFrom",
+      "msg": "Release already redeemed from"
+    }
+  ]
+}

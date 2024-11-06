@@ -1,0 +1,4592 @@
+{
+  "version": "1.5.0",
+  "name": "tlock",
+  "constants": [
+    {
+      "name": "ORDER_STATE_SEED",
+      "type": "bytes",
+      "value": "[111, 114, 100, 101, 114, 95, 115, 116, 97, 116, 101]"
+    },
+    {
+      "name": "ORDER_VAULT_SEED",
+      "type": "bytes",
+      "value": "[111, 114, 100, 101, 114, 95, 118, 97, 117, 108, 116]"
+    },
+    {
+      "name": "ORDER_STATE_SIZE",
+      "type": {
+        "defined": "usize"
+      },
+      "value": "8 + 1 + 1 + 32 + 1 + 4 + 32 + 8 + 33 + 4 + 4 + 32 + 33 + 33 + 8 + 8 + 8 + 4 + 8 + 8 + 8 + 33 + 1 + 8 + 4 + 8 + 4 + 8 + 128"
+    },
+    {
+      "name": "CURRENT_TLOCK_VERSION",
+      "type": "u8",
+      "value": "1"
+    },
+    {
+      "name": "TLOCK_PREMIUM_FEE_BPS",
+      "type": "u64",
+      "value": "2500"
+    },
+    {
+      "name": "TLOCK_TRADE_FEE_BPS",
+      "type": "u64",
+      "value": "200"
+    },
+    {
+      "name": "MAKER_BROKER_PCT",
+      "type": "u64",
+      "value": "0"
+    },
+    {
+      "name": "TAKER_BROKER_PCT",
+      "type": "u64",
+      "value": "0"
+    },
+    {
+      "name": "MAX_EXPIRY_SEC",
+      "type": "i64",
+      "value": "31536000"
+    },
+    {
+      "name": "MAX_DURATION_SEC",
+      "type": "u32",
+      "value": "2419200"
+    },
+    {
+      "name": "AUTO_EXERCISE_SEC",
+      "type": "u32",
+      "value": "3600"
+    },
+    {
+      "name": "MAX_APR_BPS",
+      "type": "u32",
+      "value": "100000"
+    },
+    {
+      "name": "YEAR_SEC",
+      "type": "u64",
+      "value": "31557600"
+    },
+    {
+      "name": "TLOCK_COSIGNER",
+      "type": "string",
+      "value": "\"FyZHRaULHMw9LnVrycpjM6TV9pGDs4TK4bcgvit4EfSj\""
+    },
+    {
+      "name": "TLOCK_FEES_COSIGNER",
+      "type": "string",
+      "value": "\"99cmWwQMqMFzMPx85rvZYKwusGSjZUDsu6mqYV4iisiz\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "tlockNoop",
+      "accounts": [
+        {
+          "name": "orderState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "event",
+          "type": {
+            "defined": "TLockEvent"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawFees",
+      "accounts": [
+        {
+          "name": "tlock",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "upsertOrder",
+      "accounts": [
+        {
+          "name": "maker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "orderState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitelist",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "makerBroker",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "currency",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "makerTokenAcc",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "orderAtaAcc",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tlockProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "orderType",
+          "type": {
+            "defined": "OrderType"
+          }
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "expireInSec",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "aprBps",
+          "type": "u32"
+        },
+        {
+          "name": "durationSec",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "lockOrder",
+      "docs": [
+        "Taker locks in order and timer starts."
+      ],
+      "accounts": [
+        {
+          "name": "tlock",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "cosigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "orderState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "maker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "makerBroker",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "takerBroker",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tensorswapProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tlockProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "nonce",
+          "type": "u32"
+        },
+        {
+          "name": "aprBps",
+          "type": "u32"
+        },
+        {
+          "name": "durationSec",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "closeOrder",
+      "docs": [
+        "Taker/maker/anon closes order (depends on state)."
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "orderState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "taker",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "maker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tlockProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositCompressed",
+      "docs": [
+        "Maker deposits cNFT for NFT order."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawCompressed",
+      "docs": [
+        "Maker withdraws cNFT from NFT order."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "depositLegacy",
+      "docs": [
+        "Maker deposits legacy NFT for NFT order."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftSource",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawLegacy",
+      "docs": [
+        "Maker withdraws legacy NFT from NFT order."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftSource",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateralSol",
+      "docs": [
+        "Taker/maker/anon returns collateral (in SOL) back to maker/taker."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "dest",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "toMaker",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateralCompressed",
+      "docs": [
+        "Taker/maker/anon returns collateral (cNFT) back to maker."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "dest",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "toMaker",
+          "type": "bool"
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "dataHash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "creatorHash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateralLegacy",
+      "docs": [
+        "Taker/maker/anon returns collateral (legacy NFT) back to maker."
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "dest",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "toMaker",
+          "type": "bool"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimCompressedReceiveNft",
+      "docs": [
+        "Taker receives cNFT, gives SOL"
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimCompressedReceiveSol",
+      "docs": [
+        "Taker receives SOL, gives cNFT"
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimLegacyReceiveNft",
+      "docs": [
+        "Taker receives cNFT, gives SOL"
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftSource",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimLegacyReceiveSol",
+      "docs": [
+        "Taker receives SOL, gives cNFT"
+      ],
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftSource",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "buyCompressed",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sellCompressed",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "buyLegacy",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftSource",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "sellLegacy",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "maker",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "marginAccount",
+              "isMut": false,
+              "isSigner": false,
+              "isOptional": true
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftSource",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftDest",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceTokenAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "tswapBuySingleListing",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "tswap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "listing",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tensorswap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "tswapBuyNft",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "tswap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tensorswap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "mintProof",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "intentionally not deserializing, it would be dummy in the case of VOC/FVC based verification"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "tswapSellNft",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "tswap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tensorswap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftReceipt",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ownerAtaAcc",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tempEscrowTokenRecord",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "cosigner",
+          "isMut": false,
+          "isSigner": true,
+          "isOptional": true
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "tcompBuy",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "tcomp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tcompProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "listState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentDest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "makerBroker",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "maxAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tcompTakeBidCompressed",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "tcomp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tcompProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tensorswapProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bidState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "makerBroker",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "rentDest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cosigner",
+          "isMut": false,
+          "isSigner": true,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "metaArgs",
+          "type": {
+            "defined": "TMetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tcompTakeBidLegacy",
+      "accounts": [
+        {
+          "name": "shared",
+          "accounts": [
+            {
+              "name": "tlock",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "signer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "orderState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "taker",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "orderVault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "whitelist",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "Needed for pool seeds derivation, also checked via has_one on pool"
+              ]
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tlockProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "tcomp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "makerBroker",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "marginAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "rentDest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerAtaAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "pnftShared",
+          "accounts": [
+            {
+              "name": "tokenMetadataProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "instructions",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authorizationRulesProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tempEscrowTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tcompProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tensorswapProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minAmount",
+          "type": "u64"
+        },
+        {
+          "name": "optionalRoyaltyPct",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "OrderState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "orderId",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "orderType",
+            "type": {
+              "defined": "OrderType"
+            }
+          },
+          {
+            "name": "nonce",
+            "type": "u32"
+          },
+          {
+            "name": "maker",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "currency",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "aprBps",
+            "type": "u32"
+          },
+          {
+            "name": "durationSec",
+            "type": "u32"
+          },
+          {
+            "name": "whitelist",
+            "type": "publicKey"
+          },
+          {
+            "name": "makerBroker",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "margin",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "expiry",
+            "type": "i64"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          },
+          {
+            "name": "nftsHeld",
+            "type": "u32"
+          },
+          {
+            "name": "vaultBalance",
+            "type": "u64"
+          },
+          {
+            "name": "lockedAt",
+            "type": "i64"
+          },
+          {
+            "name": "lockedUntil",
+            "type": "i64"
+          },
+          {
+            "name": "taker",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "collateralReturned",
+            "type": "bool"
+          },
+          {
+            "name": "lastExercisedAt",
+            "type": "i64"
+          },
+          {
+            "name": "exerciseCount",
+            "type": "u32"
+          },
+          {
+            "name": "accumulatedProfit",
+            "type": "u64"
+          },
+          {
+            "name": "takerWithdrawnNfts",
+            "type": "u32"
+          },
+          {
+            "name": "takerWithdrawnFunds",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TUses",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "useMethod",
+            "type": {
+              "defined": "TUseMethod"
+            }
+          },
+          {
+            "name": "remaining",
+            "type": "u64"
+          },
+          {
+            "name": "total",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TCollection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "verified",
+            "type": "bool"
+          },
+          {
+            "name": "key",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TMetadataArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "docs": [
+              "The name of the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "docs": [
+              "The symbol for the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "URI pointing to JSON representing the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "docs": [
+              "Royalty basis points that goes to creators in secondary sales (0-10000)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "primarySaleHappened",
+            "type": "bool"
+          },
+          {
+            "name": "isMutable",
+            "type": "bool"
+          },
+          {
+            "name": "editionNonce",
+            "docs": [
+              "nonce for easy calculation of editions, if present"
+            ],
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "tokenStandard",
+            "docs": [
+              "Since we cannot easily change Metadata, we add the new DataV2 fields here at the end."
+            ],
+            "type": {
+              "option": {
+                "defined": "TTokenStandard"
+              }
+            }
+          },
+          {
+            "name": "collection",
+            "docs": [
+              "Collection"
+            ],
+            "type": {
+              "option": {
+                "defined": "TCollection"
+              }
+            }
+          },
+          {
+            "name": "uses",
+            "docs": [
+              "Uses"
+            ],
+            "type": {
+              "option": {
+                "defined": "TUses"
+              }
+            }
+          },
+          {
+            "name": "tokenProgramVersion",
+            "type": {
+              "defined": "TTokenProgramVersion"
+            }
+          },
+          {
+            "name": "creatorShares",
+            "type": "bytes"
+          },
+          {
+            "name": "creatorVerified",
+            "type": {
+              "vec": "bool"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EventOrderState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "orderId",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "orderType",
+            "type": {
+              "defined": "OrderType"
+            }
+          },
+          {
+            "name": "nonce",
+            "type": "u32"
+          },
+          {
+            "name": "maker",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "currency",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "aprBps",
+            "type": "u32"
+          },
+          {
+            "name": "durationSec",
+            "type": "u32"
+          },
+          {
+            "name": "whitelist",
+            "type": "publicKey"
+          },
+          {
+            "name": "makerBroker",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "margin",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "expiry",
+            "type": "i64"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          },
+          {
+            "name": "nftsHeld",
+            "type": "u32"
+          },
+          {
+            "name": "vaultBalance",
+            "type": "u64"
+          },
+          {
+            "name": "lockedAt",
+            "type": "i64"
+          },
+          {
+            "name": "lockedUntil",
+            "type": "i64"
+          },
+          {
+            "name": "taker",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "collateralReturned",
+            "type": "bool"
+          },
+          {
+            "name": "lastExercisedAt",
+            "type": "i64"
+          },
+          {
+            "name": "exerciseCount",
+            "type": "u32"
+          },
+          {
+            "name": "accumulatedProfit",
+            "type": "u64"
+          },
+          {
+            "name": "takerWithdrawnNfts",
+            "type": "u32"
+          },
+          {
+            "name": "takerWithdrawnFunds",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpsertEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CloseEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LockEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          },
+          {
+            "name": "fees",
+            "type": {
+              "defined": "Fees"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "XferEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          },
+          {
+            "name": "action",
+            "type": {
+              "defined": "XferAction"
+            }
+          },
+          {
+            "name": "assetType",
+            "type": {
+              "defined": "AssetType"
+            }
+          },
+          {
+            "name": "assetId",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawCollateralEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          },
+          {
+            "name": "assetType",
+            "type": {
+              "option": {
+                "defined": "AssetType"
+              }
+            }
+          },
+          {
+            "name": "assetId",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "toMaker",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderTradeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          },
+          {
+            "name": "isClaim",
+            "type": "bool"
+          },
+          {
+            "name": "action",
+            "type": {
+              "defined": "TradeAction"
+            }
+          },
+          {
+            "name": "assetType",
+            "type": {
+              "defined": "AssetType"
+            }
+          },
+          {
+            "name": "assetId",
+            "type": "publicKey"
+          },
+          {
+            "name": "creatorFee",
+            "type": "u64"
+          },
+          {
+            "name": "tlockFee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketTradeEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "order",
+            "type": {
+              "defined": "EventOrderState"
+            }
+          },
+          {
+            "name": "action",
+            "type": {
+              "defined": "TradeAction"
+            }
+          },
+          {
+            "name": "counterparty",
+            "type": "publicKey"
+          },
+          {
+            "name": "assetType",
+            "type": {
+              "defined": "AssetType"
+            }
+          },
+          {
+            "name": "assetId",
+            "type": "publicKey"
+          },
+          {
+            "name": "finalPrice",
+            "type": "u64"
+          },
+          {
+            "name": "profit",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fees",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "premium",
+            "type": "u64"
+          },
+          {
+            "name": "premiumNetFees",
+            "type": "u64"
+          },
+          {
+            "name": "totalFee",
+            "type": "u64"
+          },
+          {
+            "name": "tlockFee",
+            "type": "u64"
+          },
+          {
+            "name": "takerBrokerFee",
+            "type": "u64"
+          },
+          {
+            "name": "makerBrokerFee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorizationDataLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payload",
+            "type": {
+              "vec": {
+                "defined": "TaggedPayload"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaggedPayload",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "payload",
+            "type": {
+              "defined": "PayloadTypeLocal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SeedsVecLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "docs": [
+              "The vector of derivation seeds."
+            ],
+            "type": {
+              "vec": "bytes"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofInfoLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proof",
+            "docs": [
+              "The merkle proof."
+            ],
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TTokenProgramVersion",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Original"
+          },
+          {
+            "name": "Token2022"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TTokenStandard",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NonFungible"
+          },
+          {
+            "name": "FungibleAsset"
+          },
+          {
+            "name": "Fungible"
+          },
+          {
+            "name": "NonFungibleEdition"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TUseMethod",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Burn"
+          },
+          {
+            "name": "Multiple"
+          },
+          {
+            "name": "Single"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TLockEvent",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Upsert",
+            "fields": [
+              {
+                "defined": "UpsertEvent"
+              }
+            ]
+          },
+          {
+            "name": "Close",
+            "fields": [
+              {
+                "defined": "CloseEvent"
+              }
+            ]
+          },
+          {
+            "name": "Lock",
+            "fields": [
+              {
+                "defined": "LockEvent"
+              }
+            ]
+          },
+          {
+            "name": "Xfer",
+            "fields": [
+              {
+                "defined": "XferEvent"
+              }
+            ]
+          },
+          {
+            "name": "WithdrawCollateral",
+            "fields": [
+              {
+                "defined": "WithdrawCollateralEvent"
+              }
+            ]
+          },
+          {
+            "name": "OrderTrade",
+            "fields": [
+              {
+                "defined": "OrderTradeEvent"
+              }
+            ]
+          },
+          {
+            "name": "MarketTrade",
+            "fields": [
+              {
+                "defined": "MarketTradeEvent"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "XferAction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Deposit"
+          },
+          {
+            "name": "Withdraw"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Legacy"
+          },
+          {
+            "name": "Compressed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TradeAction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Buy"
+          },
+          {
+            "name": "Sell"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollateralType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Token"
+          },
+          {
+            "name": "NFT"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PayloadTypeLocal",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pubkey",
+            "fields": [
+              "publicKey"
+            ]
+          },
+          {
+            "name": "Seeds",
+            "fields": [
+              {
+                "defined": "SeedsVecLocal"
+              }
+            ]
+          },
+          {
+            "name": "MerkleProof",
+            "fields": [
+              {
+                "defined": "ProofInfoLocal"
+              }
+            ]
+          },
+          {
+            "name": "Number",
+            "fields": [
+              "u64"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Token"
+          },
+          {
+            "name": "NFT"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongStateVersion",
+      "msg": "wrong state version"
+    },
+    {
+      "code": 6001,
+      "name": "CurrencyNotYetEnabled",
+      "msg": "currency not yet enabled"
+    },
+    {
+      "code": 6002,
+      "name": "MakerBrokerNotYetEnabled",
+      "msg": "maker broker not yet enabled"
+    },
+    {
+      "code": 6003,
+      "name": "OptionalRoyaltiesNotYetEnabled",
+      "msg": "optional royalties not enabled yet"
+    },
+    {
+      "code": 6004,
+      "name": "CannotModifyWhitelist",
+      "msg": "cannot modify whitelist"
+    },
+    {
+      "code": 6005,
+      "name": "CannotModifyCurrency",
+      "msg": "cannot modify currency"
+    },
+    {
+      "code": 6006,
+      "name": "CannotModifyOrderType",
+      "msg": "cannot modify order type"
+    },
+    {
+      "code": 6007,
+      "name": "AprTooLarge",
+      "msg": "apr too large"
+    },
+    {
+      "code": 6008,
+      "name": "DurationTooLong",
+      "msg": "duration too long"
+    },
+    {
+      "code": 6009,
+      "name": "ExpiryTooLarge",
+      "msg": "expiry too large"
+    },
+    {
+      "code": 6010,
+      "name": "OrderExpired",
+      "msg": "order expired before being active"
+    },
+    {
+      "code": 6011,
+      "name": "BrokerMismatch",
+      "msg": "broker mismatch"
+    },
+    {
+      "code": 6012,
+      "name": "PriceMismatch",
+      "msg": "price mismatch"
+    },
+    {
+      "code": 6013,
+      "name": "BalanceMismatch",
+      "msg": "balance does not match price"
+    },
+    {
+      "code": 6014,
+      "name": "NftsHeldMismatch",
+      "msg": "nfts held does not match order type"
+    },
+    {
+      "code": 6015,
+      "name": "OrderTypeMismatch",
+      "msg": "operation does not work for order type"
+    },
+    {
+      "code": 6016,
+      "name": "NonceMismatch",
+      "msg": "nonce mismatch"
+    },
+    {
+      "code": 6017,
+      "name": "OrderAlreadyLocked",
+      "msg": "order already locked"
+    },
+    {
+      "code": 6018,
+      "name": "OrderNotLocked",
+      "msg": "order not locked"
+    },
+    {
+      "code": 6019,
+      "name": "OrderLockStale",
+      "msg": "order no longer locked (stale)"
+    },
+    {
+      "code": 6020,
+      "name": "BadMargin",
+      "msg": "bad margin"
+    },
+    {
+      "code": 6021,
+      "name": "NotEnoughTokens",
+      "msg": "not enough tokens"
+    },
+    {
+      "code": 6022,
+      "name": "NoNftsHeld",
+      "msg": "no nfts held"
+    },
+    {
+      "code": 6023,
+      "name": "StillNftsHeld",
+      "msg": "still have nfts held"
+    },
+    {
+      "code": 6024,
+      "name": "StillFundsHeld",
+      "msg": "still have funds held"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidSigner",
+      "msg": "signer cannot perform this action"
+    },
+    {
+      "code": 6026,
+      "name": "WrongPayer",
+      "msg": "wrong payer for order"
+    },
+    {
+      "code": 6027,
+      "name": "WrongNftSource",
+      "msg": "wrong nft source acc"
+    },
+    {
+      "code": 6028,
+      "name": "WrongNftDest",
+      "msg": "wrong nft dest"
+    },
+    {
+      "code": 6029,
+      "name": "WrongPoolType",
+      "msg": "wrong pool type"
+    },
+    {
+      "code": 6030,
+      "name": "WrongTaker",
+      "msg": "taker does not match order's"
+    },
+    {
+      "code": 6031,
+      "name": "PriceTooHigh",
+      "msg": "price too high"
+    },
+    {
+      "code": 6032,
+      "name": "PriceTooLow",
+      "msg": "price too low"
+    },
+    {
+      "code": 6033,
+      "name": "CollateralNotReturned",
+      "msg": "collateral not returned to maker"
+    },
+    {
+      "code": 6034,
+      "name": "CollateralAlreadyReturned",
+      "msg": "collateral already returned to maker"
+    }
+  ]
+}

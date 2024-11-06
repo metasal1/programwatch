@@ -1,0 +1,758 @@
+{
+  "version": "0.1.0",
+  "name": "solana_oms_proxy",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialise proxy state",
+        "",
+        "### Parameters",
+        "- `admin` - The admin address",
+        "- `manager` - The manager address",
+        "- `treasurer` - The treasurer address",
+        "- `trader` - The trader address"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "deployer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "publicKey"
+        },
+        {
+          "name": "manager",
+          "type": "publicKey"
+        },
+        {
+          "name": "treasurer",
+          "type": "publicKey"
+        },
+        {
+          "name": "trader",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "docs": [
+        "Deposit funds in the proxy",
+        "",
+        "### Access control",
+        "- Treasurer",
+        "",
+        "### Parameters",
+        "- `amount` - The amount to deposit"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxyAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasurerAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "docs": [
+        "Withdraw funds from the proxy",
+        "",
+        "### Access control",
+        "- Treasurer",
+        "",
+        "### Parameters",
+        "- `amount` - The amount to withdraw"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proxyAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasurerAssociatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pauseProxy",
+      "docs": [
+        "Pause all trading activities",
+        "",
+        "### Access control",
+        "- Manager"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpauseProxy",
+      "docs": [
+        "Resume all trading activities",
+        "",
+        "### Access control",
+        "- Manager"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setAdmin",
+      "docs": [
+        "Set a new admin",
+        "",
+        "### Access control",
+        "- Admin",
+        "",
+        "### Parameters",
+        "- `new_admin` - The pubkey of the new admin"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setManager",
+      "docs": [
+        "Set a new manager",
+        "",
+        "### Access control",
+        "- Admin",
+        "",
+        "### Parameters",
+        "- `new_manager` - The pubkey of the new manager"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newManager",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setTreasurer",
+      "docs": [
+        "Set a new treasurer",
+        "",
+        "### Access control",
+        "- Admin",
+        "",
+        "### Parameters",
+        "- `new_treasurer` - The pubkey of the new treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTreasurer",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setTrader",
+      "docs": [
+        "Set a new trader",
+        "",
+        "### Access control",
+        "- Manager",
+        "",
+        "### Parameters",
+        "- `new_trader` - The pubkey of the new trader"
+      ],
+      "accounts": [
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTrader",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "swapPhoenix",
+      "docs": [
+        "Send an IOC order to phoenix",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `order_packet_data` - A vectorized Phoenix IOC order packet"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "omsTrader",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccountProxyBase",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountProxyQuote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountPhoenixVaultBase",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountPhoenixVaultQuote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "phoenixMarket",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "phoenixProgramId",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderPacketData",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "swapWhirlpool",
+      "docs": [
+        "Perform a swap on whirlpool",
+        "",
+        "### Access control",
+        "- Trader",
+        "",
+        "### Parameters",
+        "- `amount` - The amount of input or output token to swap from (depending on amount_specified_is_input).",
+        "- `other_amount_threshold` - The maximum/minimum of input/output token to swap into (depending on amount_specified_is_input).",
+        "- `sqrt_price_limit` - The maximum/minimum price the swap will swap to.",
+        "- `amount_specified_is_input` - Specifies the token the parameter `amount`represents. If true, the amount represents the input token of the swap.",
+        "- `a_to_b` - The direction of the swap. True if swapping from A to B. False if swapping from B to A."
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trader",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpoolsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenOwnerAccountB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenVaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "otherAmountThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "sqrtPriceLimit",
+          "type": "u128"
+        },
+        {
+          "name": "amountSpecifiedIsInput",
+          "type": "bool"
+        },
+        {
+          "name": "aToB",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "whitelistMarket",
+      "docs": [
+        "Whitelist a new market",
+        "",
+        "### Access control",
+        "- Admin"
+      ],
+      "accounts": [
+        {
+          "name": "programAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAddress",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "removeMarket",
+      "docs": [
+        "Remove a Phoenix market from whitelist",
+        "",
+        "### Access control",
+        "- Manager"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pauseMarket",
+      "docs": [
+        "Pause trading activities on a specific Phoenix market",
+        "",
+        "### Access control",
+        "- Treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpauseMarket",
+      "docs": [
+        "Resume trading activities on a specific Phoenix market",
+        "",
+        "### Access control",
+        "- Treasurer"
+      ],
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proxy",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasurer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "docs": [
+        "This structure stores information about a whitelisted market"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "marketAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "isPaused",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Proxy",
+      "docs": [
+        "This strucuture stores the main information about the proxy such as the addresses that have privileged access right"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "manager",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasurer",
+            "type": "publicKey"
+          },
+          {
+            "name": "trader",
+            "type": "publicKey"
+          },
+          {
+            "name": "isPaused",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotAdmin",
+      "msg": "Signer must be the admin"
+    },
+    {
+      "code": 6001,
+      "name": "NotManager",
+      "msg": "Signer must be the manager"
+    },
+    {
+      "code": 6002,
+      "name": "NotTreasurer",
+      "msg": "Signer must be the treasurer"
+    },
+    {
+      "code": 6003,
+      "name": "NotTrader",
+      "msg": "Signer must be the trader"
+    },
+    {
+      "code": 6004,
+      "name": "ProxyIsPaused",
+      "msg": "The proxy is paused"
+    },
+    {
+      "code": 6005,
+      "name": "MarketIsPaused",
+      "msg": "The market is paused"
+    }
+  ]
+}

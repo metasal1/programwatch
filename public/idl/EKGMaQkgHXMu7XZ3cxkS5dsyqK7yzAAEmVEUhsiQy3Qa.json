@@ -1,0 +1,399 @@
+{
+  "version": "0.0.0",
+  "name": "dao_multisig_treasury",
+  "instructions": [
+    {
+      "name": "initializeMultisig",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolWrappedSol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolUsdc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "owners",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "signerThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "proposeMultisigWithdraw",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolWrappedSol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolUsdc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proposedCurrencyMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "proposedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "proposedReceiver",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "approveMultisigWithdraw",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proposedCurrencyMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "proposedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "proposedReceiver",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "executeMultisigWithdraw",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolWrappedSol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolUsdc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposedReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Multisig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "owners",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "signers",
+            "type": {
+              "vec": "bool"
+            }
+          },
+          {
+            "name": "signerThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "proposedCurrencyMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposedReceiver",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "proposalIsActive",
+            "type": "bool"
+          },
+          {
+            "name": "usdcMintAddress",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CURRENCY",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WSOL"
+          },
+          {
+            "name": "USDC"
+          },
+          {
+            "name": "INVALID"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidFeeRxAtaOwner",
+      "msg": "Invalid fee receiver address"
+    },
+    {
+      "code": 301,
+      "name": "NameTooLong",
+      "msg": "Name Too Long"
+    },
+    {
+      "code": 302,
+      "name": "TooManyOwners",
+      "msg": "Num owners exceeds max"
+    },
+    {
+      "code": 303,
+      "name": "InvalidCandyMachineId",
+      "msg": "CandyMachineId not listed as verified creator"
+    },
+    {
+      "code": 304,
+      "name": "FundsAlreadyWithdrawn",
+      "msg": "User's funds already withdrawn"
+    },
+    {
+      "code": 305,
+      "name": "InvalidAuthPda",
+      "msg": "Invalid auth pda"
+    },
+    {
+      "code": 306,
+      "name": "MintStillActiveOrSucceeded",
+      "msg": "Mint succeeded or still active so no withdrawls"
+    },
+    {
+      "code": 307,
+      "name": "InvalidOwner",
+      "msg": "The given owner is not part of this multisig"
+    },
+    {
+      "code": 308,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient balance"
+    },
+    {
+      "code": 309,
+      "name": "ProposalNotActive",
+      "msg": "Proposal is not active"
+    },
+    {
+      "code": 310,
+      "name": "ProposalMismatch",
+      "msg": "Proposal parameters do not match expected"
+    },
+    {
+      "code": 311,
+      "name": "NotEnoughSignersApproved",
+      "msg": "Not enough signers have approved"
+    },
+    {
+      "code": 312,
+      "name": "InvalidAccountOwner",
+      "msg": "Invalid account owner"
+    },
+    {
+      "code": 313,
+      "name": "TooManyRegistrations",
+      "msg": "Too many registrations"
+    },
+    {
+      "code": 314,
+      "name": "MintThresholdNotReached",
+      "msg": "Mint threshold not reached"
+    },
+    {
+      "code": 315,
+      "name": "InvalidTokenMint",
+      "msg": "Invalid token mint"
+    },
+    {
+      "code": 316,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds."
+    }
+  ]
+}

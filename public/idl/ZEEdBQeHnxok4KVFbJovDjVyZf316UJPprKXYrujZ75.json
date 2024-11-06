@@ -1,0 +1,3591 @@
+{
+  "version": "0.1.0",
+  "name": "casino",
+  "instructions": [
+    {
+      "name": "initializeGameSpec",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "houseAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "authority",
+            "house"
+          ]
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gameSpec",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game_spec"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "game_type"
+              }
+            ]
+          }
+        },
+        {
+          "name": "globalSigner",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "randomnessProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cashierSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gameLookupTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "addressLookupTableProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitGameSpecArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "configureGameSpec",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "gameSpec",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ConfigGameSpecArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateGameSpec",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "gameSpec",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateGameSpecArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addTokenToGameSpec",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "gameSpec",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority",
+            "house"
+          ]
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AddTokenArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "randomnessCallbackSolo",
+      "accounts": [
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "gameSpec",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "randomness_dispatcher_signer",
+            "house"
+          ]
+        },
+        {
+          "name": "gameInstance",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game_instance"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GameSpec",
+                "path": "game_spec"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player"
+              }
+            ]
+          },
+          "relations": [
+            "game_spec"
+          ]
+        },
+        {
+          "name": "globalSigner",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RandomnessCallbackSoloArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initAndBetSolo",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameSpec",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "randomness_dispatcher_signer",
+            "randomness_program",
+            "cashier_program",
+            "house"
+          ]
+        },
+        {
+          "name": "gameInstance",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game_instance"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GameSpec",
+                "path": "game_spec"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "globalSigner",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "randomnessRequest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessDispatcherSigner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "callbackTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "casinoProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "randomnessProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cashierProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitAndBetSoloArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GameInstance",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameSpec",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessRequest",
+            "type": "publicKey"
+          },
+          {
+            "name": "lookupTable",
+            "type": "publicKey"
+          },
+          {
+            "name": "rentReturnRecipient",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "GameInstanceStatus"
+            }
+          },
+          {
+            "name": "gameInstanceNonce",
+            "type": "u64"
+          },
+          {
+            "name": "round",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "betNonce",
+            "type": "u64"
+          },
+          {
+            "name": "maxTokens",
+            "type": "u8"
+          },
+          {
+            "name": "maxPlayers",
+            "type": "u8"
+          },
+          {
+            "name": "maxBets",
+            "type": "u16"
+          },
+          {
+            "name": "activeTokens",
+            "type": "u8"
+          },
+          {
+            "name": "activePlayers",
+            "type": "u8"
+          },
+          {
+            "name": "activeBets",
+            "type": "u16"
+          },
+          {
+            "name": "config",
+            "type": {
+              "defined": "GameInstanceConfig"
+            }
+          },
+          {
+            "name": "randomness",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "defined": "GameInstanceResult"
+            }
+          },
+          {
+            "name": "tokenSlots",
+            "type": {
+              "vec": {
+                "defined": "TokenSlot"
+              }
+            }
+          },
+          {
+            "name": "playerSlots",
+            "type": {
+              "vec": {
+                "defined": "PlayerSlot"
+              }
+            }
+          },
+          {
+            "name": "betSlots",
+            "type": {
+              "vec": {
+                "defined": "Bet"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameSpec",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameType",
+            "type": {
+              "defined": "GameType"
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "GameStatus"
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "lookupTable",
+            "type": "publicKey"
+          },
+          {
+            "name": "cashierProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "cashierSigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessDispatcherSigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "randomnessCallbackDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "minWagerInTokenMinUnits",
+            "type": "u64"
+          },
+          {
+            "name": "isMultiplayer",
+            "type": "bool"
+          },
+          {
+            "name": "maxBetsPerIxn",
+            "type": "u8"
+          },
+          {
+            "name": "hasRounds",
+            "type": "bool"
+          },
+          {
+            "name": "maxUsersToSettlePerIxn",
+            "type": "u8"
+          },
+          {
+            "name": "maxBetsToSettlePerIxn",
+            "type": "u8"
+          },
+          {
+            "name": "supportsMultiToken",
+            "type": "bool"
+          },
+          {
+            "name": "maxTokensPerInstance",
+            "type": "u8"
+          },
+          {
+            "name": "maxUsersPerInstance",
+            "type": "u8"
+          },
+          {
+            "name": "maxBetsPerInstance",
+            "type": "u16"
+          },
+          {
+            "name": "scheduledBy",
+            "type": {
+              "defined": "GameInstanceTrigger"
+            }
+          },
+          {
+            "name": "instanceInterval",
+            "type": "u64"
+          },
+          {
+            "name": "instanceNonce",
+            "type": "u64"
+          },
+          {
+            "name": "activeInstances",
+            "type": "u64"
+          },
+          {
+            "name": "activeBets",
+            "type": "u64"
+          },
+          {
+            "name": "pastInstances",
+            "type": "u64"
+          },
+          {
+            "name": "pastBets",
+            "type": "u64"
+          },
+          {
+            "name": "config",
+            "type": {
+              "defined": "GameSpecConfig"
+            }
+          },
+          {
+            "name": "numActiveTokens",
+            "type": "u8"
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "vec": {
+                "defined": "TokenInfo"
+              }
+            }
+          },
+          {
+            "name": "lastUsedInstanceIdx",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "lastGame",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "currentGame",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "nextGame",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "BaccaratHandResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "playerCards",
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          },
+          {
+            "name": "bankerCards",
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          },
+          {
+            "name": "result",
+            "type": {
+              "defined": "BaccaratSide"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CoinFlipMultiplier",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numCorrect",
+            "type": "u8"
+          },
+          {
+            "name": "numTossed",
+            "type": "u8"
+          },
+          {
+            "name": "probabilityPerMillion",
+            "type": "u32"
+          },
+          {
+            "name": "multiplierPerMillion",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CrashBetRequest",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "targetMultiplierPerMillion",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HurdlesTokenConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "targetAllocationNumerator",
+            "type": "u32"
+          },
+          {
+            "name": "thresholdForZeroPerMillion",
+            "type": "u32"
+          },
+          {
+            "name": "volatilityPerMillion",
+            "type": "u32"
+          },
+          {
+            "name": "driftPerMillion",
+            "type": "u32"
+          },
+          {
+            "name": "unscaledExpectationPerMillion",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "KenoMultipliers",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numSelected",
+            "type": "u8"
+          },
+          {
+            "name": "edgePerMillion",
+            "type": "u32"
+          },
+          {
+            "name": "multipliersPerMillion",
+            "type": {
+              "vec": "u32"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlinkoPaytable",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numRows",
+            "type": "u8"
+          },
+          {
+            "name": "difficultyLevel",
+            "type": "u8"
+          },
+          {
+            "name": "maxNumBalls",
+            "type": "u8"
+          },
+          {
+            "name": "edgePerMillion",
+            "type": "u64"
+          },
+          {
+            "name": "multipliersPerMillion",
+            "type": {
+              "vec": "u32"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouletteBetRequest",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "selection",
+            "type": {
+              "defined": "RouletteSelection"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddTokenArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CloseGameInstanceArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "CloseGameSpecArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ConfigGameSpecArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameSpecConfig",
+            "type": {
+              "defined": "GameSpecConfig"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitAndBetSoloArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numBets",
+            "type": "u8"
+          },
+          {
+            "name": "instanceRequest",
+            "type": {
+              "defined": "GameInstanceRequest"
+            }
+          },
+          {
+            "name": "betRequest",
+            "type": {
+              "defined": "BetRequest"
+            }
+          },
+          {
+            "name": "clientSeed",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitGameSpecArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameType",
+            "type": "u8"
+          },
+          {
+            "name": "recentBlockSlot",
+            "type": "u64"
+          },
+          {
+            "name": "isMultiplayer",
+            "type": "bool"
+          },
+          {
+            "name": "maxBetsPerIxn",
+            "type": "u8"
+          },
+          {
+            "name": "hasRounds",
+            "type": "bool"
+          },
+          {
+            "name": "randomnessCallbackDiscriminator",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "minWagerInTokenMinUnits",
+            "type": "u64"
+          },
+          {
+            "name": "scheduledBy",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "instanceInterval",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "supportsMultiToken",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "maxTokensPerInstance",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxUsersPerInstance",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxBetsPerInstance",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "maxUsersToSettlePerIxn",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxBetsToSettlePerIxn",
+            "type": {
+              "option": "u8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RandomnessCallbackSoloArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "randomness",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateGameSpecArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxBetsPerIxn",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "randomnessCallbackDiscriminator",
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  8
+                ]
+              }
+            }
+          },
+          {
+            "name": "minWagerInTokenMinUnits",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "scheduledBy",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "instanceInterval",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "supportsMultiToken",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "maxTokensPerInstance",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxUsersPerInstance",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "maxBetsPerInstance",
+            "type": {
+              "option": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "betId",
+            "type": "u64"
+          },
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "liabilityReleased",
+            "type": "u64"
+          },
+          {
+            "name": "payout",
+            "type": "u64"
+          },
+          {
+            "name": "expectedEdge",
+            "type": "u64"
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "defined": "BetOutcome"
+            }
+          },
+          {
+            "name": "isFreeBet",
+            "type": "bool"
+          },
+          {
+            "name": "config",
+            "type": {
+              "defined": "BetConfig"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenSlot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "playerSlotHeadIdx",
+            "type": "u8"
+          },
+          {
+            "name": "countPlayers",
+            "type": "u8"
+          },
+          {
+            "name": "activeWager",
+            "type": "u64"
+          },
+          {
+            "name": "activeLiability",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerSlot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "profileAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenIdx",
+            "type": "u8"
+          },
+          {
+            "name": "countBets",
+            "type": "u8"
+          },
+          {
+            "name": "betSlotHeadIdx",
+            "type": "u16"
+          },
+          {
+            "name": "prevPlayerIdx",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "nextPlayerIdx",
+            "type": {
+              "option": "u8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "betId",
+            "type": "u64"
+          },
+          {
+            "name": "isFreeBet",
+            "type": "bool"
+          },
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "liability",
+            "type": "u64"
+          },
+          {
+            "name": "expectedEdge",
+            "type": "u64"
+          },
+          {
+            "name": "prevBetIdx",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "nextBetIdx",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "config",
+            "type": {
+              "defined": "BetConfig"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "TokenStatus"
+            }
+          },
+          {
+            "name": "activeWager",
+            "type": "u64"
+          },
+          {
+            "name": "activeLiability",
+            "type": "u64"
+          },
+          {
+            "name": "pastWagered",
+            "type": "u64"
+          },
+          {
+            "name": "pastPaidOut",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameInstanceTrigger",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "User"
+          },
+          {
+            "name": "Time"
+          },
+          {
+            "name": "Slot"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Configured"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "NoNewBets"
+          },
+          {
+            "name": "Inactive"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameInstanceStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "ResultProvided"
+          },
+          {
+            "name": "Settled"
+          },
+          {
+            "name": "ErrorConfirmed"
+          },
+          {
+            "name": "Voided"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetOutcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Won"
+          },
+          {
+            "name": "Lost"
+          },
+          {
+            "name": "Push"
+          },
+          {
+            "name": "Canceled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BaccaratSide",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Player"
+          },
+          {
+            "name": "Tie"
+          },
+          {
+            "name": "Banker"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayingCardSuit",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Clubs"
+          },
+          {
+            "name": "Diamonds"
+          },
+          {
+            "name": "Hearts"
+          },
+          {
+            "name": "Spades"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayingCardRank",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Ace"
+          },
+          {
+            "name": "Two"
+          },
+          {
+            "name": "Three"
+          },
+          {
+            "name": "Four"
+          },
+          {
+            "name": "Five"
+          },
+          {
+            "name": "Six"
+          },
+          {
+            "name": "Seven"
+          },
+          {
+            "name": "Eight"
+          },
+          {
+            "name": "Nine"
+          },
+          {
+            "name": "Ten"
+          },
+          {
+            "name": "Jack"
+          },
+          {
+            "name": "Queen"
+          },
+          {
+            "name": "King"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip"
+          },
+          {
+            "name": "Limbo"
+          },
+          {
+            "name": "Plinko"
+          },
+          {
+            "name": "Dice"
+          },
+          {
+            "name": "Roulette"
+          },
+          {
+            "name": "Mines"
+          },
+          {
+            "name": "Crash"
+          },
+          {
+            "name": "Keno"
+          },
+          {
+            "name": "Baccarat"
+          },
+          {
+            "name": "SlotsThree"
+          },
+          {
+            "name": "Wheel"
+          },
+          {
+            "name": "Hurdles"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameSpecConfig",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip",
+            "fields": [
+              {
+                "name": "max_coins",
+                "type": "u8"
+              },
+              {
+                "name": "multipliers",
+                "type": {
+                  "vec": {
+                    "defined": "CoinFlipMultiplier"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Limbo",
+            "fields": [
+              {
+                "name": "max_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "rounding_denominator",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Plinko",
+            "fields": [
+              {
+                "name": "pay_tables",
+                "type": {
+                  "vec": {
+                    "defined": "PlinkoPaytable"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Dice",
+            "fields": [
+              {
+                "name": "max_num_rolls",
+                "type": "u8"
+              },
+              {
+                "name": "range_upper",
+                "type": "u16"
+              },
+              {
+                "name": "selection_min",
+                "type": "u16"
+              },
+              {
+                "name": "selection_max",
+                "type": "u16"
+              },
+              {
+                "name": "selection_increment",
+                "type": "u16"
+              },
+              {
+                "name": "edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "rounding_denominator",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Roulette",
+            "fields": [
+              {
+                "name": "is_american",
+                "type": "bool"
+              },
+              {
+                "name": "max_bets",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Mines",
+            "fields": [
+              {
+                "name": "max_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "rounding_denominator",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Crash",
+            "fields": [
+              {
+                "name": "max_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "rounding_denominator",
+                "type": "u64"
+              },
+              {
+                "name": "max_bets",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Keno",
+            "fields": [
+              {
+                "name": "max_bets",
+                "type": "u8"
+              },
+              {
+                "name": "table_size",
+                "type": "u8"
+              },
+              {
+                "name": "max_num_selected",
+                "type": "u8"
+              },
+              {
+                "name": "multipliers",
+                "type": {
+                  "vec": {
+                    "vec": {
+                      "defined": "KenoMultipliers"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Baccarat",
+            "fields": [
+              {
+                "name": "player_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "player_edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "tie_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "tie_edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "banker_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "banker_edge_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "max_num_hands",
+                "type": "u8"
+              },
+              {
+                "name": "max_num_bets",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "SlotsThree",
+            "fields": [
+              {
+                "name": "max_spins",
+                "type": "u8"
+              },
+              {
+                "name": "win_lines",
+                "type": {
+                  "vec": {
+                    "array": [
+                      "u8",
+                      3
+                    ]
+                  }
+                }
+              },
+              {
+                "name": "reels",
+                "type": {
+                  "array": [
+                    "bytes",
+                    3
+                  ]
+                }
+              },
+              {
+                "name": "pay_table",
+                "type": {
+                  "vec": {
+                    "array": [
+                      "u32",
+                      3
+                    ]
+                  }
+                }
+              },
+              {
+                "name": "includes_wilcard_multiplier_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "max_multiplier_per_million",
+                "type": "u32"
+              },
+              {
+                "name": "edge_per_million",
+                "type": "u32"
+              }
+            ]
+          },
+          {
+            "name": "Wheel",
+            "fields": [
+              {
+                "name": "max_spins",
+                "type": "u8"
+              },
+              {
+                "name": "reels",
+                "type": {
+                  "vec": "bytes"
+                }
+              },
+              {
+                "name": "symbol_multipliers_per_million",
+                "type": {
+                  "vec": "u32"
+                }
+              },
+              {
+                "name": "reel_edges_per_million",
+                "type": {
+                  "vec": "u32"
+                }
+              },
+              {
+                "name": "reel_max_multiplier_per_million",
+                "type": {
+                  "vec": "u32"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Hurdles",
+            "fields": [
+              {
+                "name": "edge_per_million",
+                "type": "u32"
+              },
+              {
+                "name": "token_configs",
+                "type": {
+                  "vec": {
+                    "defined": "HurdlesTokenConfig"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameInstanceConfig",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip",
+            "fields": [
+              {
+                "name": "num_coins",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Limbo"
+          },
+          {
+            "name": "Plinko",
+            "fields": [
+              {
+                "name": "num_rows",
+                "type": "u8"
+              },
+              {
+                "name": "difficulty_level",
+                "type": "u8"
+              },
+              {
+                "name": "num_balls",
+                "type": "u8"
+              },
+              {
+                "name": "pay_table",
+                "type": {
+                  "defined": "PlinkoPaytable"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Dice",
+            "fields": [
+              {
+                "name": "num_rolls",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Roulette",
+            "fields": [
+              {
+                "name": "house_liability_grid",
+                "type": {
+                  "array": [
+                    "u64",
+                    38
+                  ]
+                }
+              },
+              {
+                "name": "grid_maximum",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Mines",
+            "fields": [
+              {
+                "name": "num_mines",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Crash"
+          },
+          {
+            "name": "Keno",
+            "fields": [
+              {
+                "name": "risk_level",
+                "type": "u8"
+              },
+              {
+                "name": "num_selected",
+                "type": "u8"
+              },
+              {
+                "name": "num_bets",
+                "type": "u8"
+              },
+              {
+                "name": "table_size",
+                "type": "u8"
+              },
+              {
+                "name": "multipliers_per_million",
+                "type": {
+                  "vec": "u32"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Baccarat",
+            "fields": [
+              {
+                "name": "num_hands",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "SlotsThree",
+            "fields": [
+              {
+                "name": "num_spins",
+                "type": "u8"
+              },
+              {
+                "name": "max_lines_per_spin",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Wheel",
+            "fields": [
+              {
+                "name": "reel_idx",
+                "type": "u8"
+              },
+              {
+                "name": "reel",
+                "type": "bytes"
+              },
+              {
+                "name": "symbol_multipliers_per_million",
+                "type": {
+                  "vec": "u32"
+                }
+              },
+              {
+                "name": "num_spins",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Hurdles",
+            "fields": [
+              {
+                "name": "edge_per_million",
+                "type": "u32"
+              },
+              {
+                "name": "token_configs",
+                "type": {
+                  "vec": {
+                    "defined": "HurdlesTokenConfig"
+                  }
+                }
+              },
+              {
+                "name": "player_allocations",
+                "type": {
+                  "vec": "u64"
+                }
+              },
+              {
+                "name": "house_balancing_allocations",
+                "type": {
+                  "vec": "u64"
+                }
+              },
+              {
+                "name": "house_exposure",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetConfig",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip",
+            "fields": [
+              {
+                "name": "side",
+                "type": "u8"
+              },
+              {
+                "name": "num_correct",
+                "type": "u8"
+              },
+              {
+                "name": "potential_payout",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Limbo",
+            "fields": [
+              {
+                "name": "target_multiplier_per_million",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Plinko",
+            "fields": [
+              {
+                "name": "ball_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Dice",
+            "fields": [
+              {
+                "name": "roll_idx",
+                "type": "u8"
+              },
+              {
+                "name": "line",
+                "type": "u16"
+              },
+              {
+                "name": "potential_payout",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Roulette",
+            "fields": [
+              {
+                "name": "selection",
+                "type": {
+                  "defined": "RouletteSelection"
+                }
+              },
+              {
+                "name": "potential_payout",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Mines",
+            "fields": [
+              {
+                "name": "guess_grid",
+                "type": {
+                  "array": [
+                    "u8",
+                    25
+                  ]
+                }
+              },
+              {
+                "name": "potential_payout",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Crash",
+            "fields": [
+              {
+                "name": "target_multiplier_per_million",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Keno",
+            "fields": [
+              {
+                "name": "bet_idx",
+                "type": "u8"
+              },
+              {
+                "name": "chosen_numbers",
+                "type": {
+                  "array": [
+                    "u8",
+                    10
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Baccarat",
+            "fields": [
+              {
+                "name": "hand_idx",
+                "type": "u8"
+              },
+              {
+                "name": "side",
+                "type": {
+                  "defined": "BaccaratSide"
+                }
+              },
+              {
+                "name": "potential_payout",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "SlotsThree",
+            "fields": [
+              {
+                "name": "spin_idx",
+                "type": "u8"
+              },
+              {
+                "name": "num_lines",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Wheel",
+            "fields": [
+              {
+                "name": "spin_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Hurdles",
+            "fields": [
+              {
+                "name": "token_idx",
+                "type": "u8"
+              },
+              {
+                "name": "allocation",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameInstanceResult",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip",
+            "fields": [
+              {
+                "name": "num_zeros",
+                "type": "u8"
+              },
+              {
+                "name": "num_ones",
+                "type": "u8"
+              },
+              {
+                "name": "result_vector",
+                "type": "bytes"
+              }
+            ]
+          },
+          {
+            "name": "Limbo",
+            "fields": [
+              {
+                "name": "multiplier_per_million",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Plinko",
+            "fields": [
+              {
+                "name": "slot_idxs",
+                "type": "bytes"
+              },
+              {
+                "name": "paths",
+                "type": {
+                  "vec": "bytes"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Dice",
+            "fields": [
+              {
+                "name": "rolls",
+                "type": {
+                  "vec": "u16"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Roulette",
+            "fields": [
+              {
+                "name": "slot",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Mines",
+            "fields": [
+              {
+                "name": "grid",
+                "type": {
+                  "array": [
+                    "u8",
+                    25
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Crash",
+            "fields": [
+              {
+                "name": "multiplier_per_million",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Keno",
+            "fields": [
+              {
+                "name": "drawn_numbers",
+                "type": {
+                  "vec": "bytes"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Baccarat",
+            "fields": [
+              {
+                "name": "hands",
+                "type": {
+                  "vec": {
+                    "defined": "BaccaratHandResult"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "SlotsThree",
+            "fields": [
+              {
+                "name": "grids",
+                "type": {
+                  "vec": {
+                    "array": [
+                      {
+                        "array": [
+                          "u8",
+                          3
+                        ]
+                      },
+                      3
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Wheel",
+            "fields": [
+              {
+                "name": "selected_slot_idxs",
+                "type": "bytes"
+              }
+            ]
+          },
+          {
+            "name": "Hurdles",
+            "fields": [
+              {
+                "name": "final_allocations",
+                "type": {
+                  "vec": "u64"
+                }
+              },
+              {
+                "name": "prices_per_million",
+                "type": {
+                  "vec": "u64"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameInstanceRequest",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip",
+            "fields": [
+              {
+                "name": "num_coins",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Limbo"
+          },
+          {
+            "name": "Plinko",
+            "fields": [
+              {
+                "name": "num_rows",
+                "type": "u8"
+              },
+              {
+                "name": "difficulty_level",
+                "type": "u8"
+              },
+              {
+                "name": "num_balls",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Dice",
+            "fields": [
+              {
+                "name": "num_rolls",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Roulette"
+          },
+          {
+            "name": "Mines",
+            "fields": [
+              {
+                "name": "num_mines",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Crash"
+          },
+          {
+            "name": "Keno",
+            "fields": [
+              {
+                "name": "risk_level",
+                "type": "u8"
+              },
+              {
+                "name": "num_selected",
+                "type": "u8"
+              },
+              {
+                "name": "num_bets",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Baccarat",
+            "fields": [
+              {
+                "name": "num_hands",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "SlotsThree",
+            "fields": [
+              {
+                "name": "num_spins",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Wheel",
+            "fields": [
+              {
+                "name": "reel_idx",
+                "type": "u8"
+              },
+              {
+                "name": "num_spins",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Hurdles",
+            "fields": [
+              {
+                "name": "num_tokens",
+                "type": "u8"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetRequest",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "CoinFlip",
+            "fields": [
+              {
+                "name": "side",
+                "type": "u8"
+              },
+              {
+                "name": "num_correct",
+                "type": "u8"
+              },
+              {
+                "name": "wager",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Limbo",
+            "fields": [
+              {
+                "name": "target_multiplier_per_million",
+                "type": "u64"
+              },
+              {
+                "name": "wager",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Plinko",
+            "fields": [
+              {
+                "name": "wager",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Dice",
+            "fields": [
+              {
+                "name": "lines",
+                "type": {
+                  "vec": "u16"
+                }
+              },
+              {
+                "name": "wager",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Roulette",
+            "fields": [
+              {
+                "name": "bets",
+                "type": {
+                  "vec": {
+                    "defined": "RouletteBetRequest"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Mines",
+            "fields": [
+              {
+                "name": "wager",
+                "type": "u64"
+              },
+              {
+                "name": "guess_grid",
+                "type": {
+                  "array": [
+                    "u8",
+                    25
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "Crash",
+            "fields": [
+              {
+                "name": "bets",
+                "type": {
+                  "vec": {
+                    "defined": "CrashBetRequest"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "Keno",
+            "fields": [
+              {
+                "name": "wager",
+                "type": "u64"
+              },
+              {
+                "name": "chosen_numbers",
+                "type": "bytes"
+              }
+            ]
+          },
+          {
+            "name": "Baccarat",
+            "fields": [
+              {
+                "name": "player_wager",
+                "type": "u64"
+              },
+              {
+                "name": "tie_wager",
+                "type": "u64"
+              },
+              {
+                "name": "banker_wager",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "SlotsThree",
+            "fields": [
+              {
+                "name": "num_lines",
+                "type": "u8"
+              },
+              {
+                "name": "wager_per_spin",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Wheel",
+            "fields": [
+              {
+                "name": "wager_per_spin",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "Hurdles",
+            "fields": [
+              {
+                "name": "allocations",
+                "type": {
+                  "vec": "u64"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "RouletteSelection",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Straight",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Street",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Column",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Dozen",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "RedBlack",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "OddEven",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "LowHigh",
+            "fields": [
+              {
+                "name": "idx",
+                "type": "u8"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "GameInstanceCreatedEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "gameInstanceConfig",
+          "type": {
+            "defined": "GameInstanceConfig"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "GameRoundStartedEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "gameInstanceConfig",
+          "type": {
+            "defined": "GameInstanceConfig"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BetPlacedEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "betId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "wager",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "liability",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "expectedEdge",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "betConfig",
+          "type": {
+            "defined": "BetConfig"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "avatar",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "username",
+          "type": {
+            "array": [
+              "u8",
+              20
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "fxRatePerBillion",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BetVoidedEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "betId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "wager",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "liability",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "expectedEdge",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "betConfig",
+          "type": {
+            "defined": "BetConfig"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "GameInstanceResultEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "config",
+          "type": {
+            "defined": "GameInstanceConfig"
+          },
+          "index": false
+        },
+        {
+          "name": "result",
+          "type": {
+            "defined": "GameInstanceResult"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RoundResultEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "roundNumber",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "result",
+          "type": {
+            "defined": "GameInstanceResult"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BetResultEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "betOutcome",
+          "type": {
+            "defined": "BetOutcome"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "betId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "wager",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "payout",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "betConfig",
+          "type": {
+            "defined": "BetConfig"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "avatar",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "username",
+          "type": {
+            "array": [
+              "u8",
+              20
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "fxRatePerBillion",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "GameInstanceClosedEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "GameInstanceVoidedEvent",
+      "fields": [
+        {
+          "name": "gameSpec",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameInstance",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "request",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          },
+          "index": false
+        },
+        {
+          "name": "gameInstanceNonce",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnspecifiedError",
+      "msg": "Unspecified Error"
+    },
+    {
+      "code": 6001,
+      "name": "NotAuthorized",
+      "msg": "Action not authorized"
+    },
+    {
+      "code": 6002,
+      "name": "OptionalValuesRequiredForMultiPlayerGames",
+      "msg": "Optional values are required for MultiPlayer Games"
+    },
+    {
+      "code": 6003,
+      "name": "GameMustBeConfiguredFirst",
+      "msg": "The game must be configured before tokens can be added to it"
+    },
+    {
+      "code": 6004,
+      "name": "TokenNotFound",
+      "msg": "Token info/congifuration not found"
+    },
+    {
+      "code": 6005,
+      "name": "TokenAlreadyListed",
+      "msg": "Token info/congifuration already added for this game"
+    },
+    {
+      "code": 6006,
+      "name": "TokenNotSupportedByHouse",
+      "msg": "Token cannot be added as it is not supported by the house"
+    },
+    {
+      "code": 6007,
+      "name": "CouldNotSerializeToFixedBytes",
+      "msg": "Object could not serialize to fixed bytes"
+    },
+    {
+      "code": 6008,
+      "name": "GameSpecNotActive",
+      "msg": "The GameSpec is not active"
+    },
+    {
+      "code": 6009,
+      "name": "GameSpecTokenConfigDoesntSupportBets",
+      "msg": "The GameSpec's configuration doesn't currently support bets for this token"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidStatusChange",
+      "msg": "The requested GameSpec status change is not allowed"
+    },
+    {
+      "code": 6011,
+      "name": "GameSpecStatusCannotBeInactiveWithActiveInstances",
+      "msg": "The GameSpec status cannot change to inactive while active instances remain. Switch to NoNewBets first."
+    },
+    {
+      "code": 6012,
+      "name": "UpdateRequestedIsNotApplicableForNoMultiPlayerGames",
+      "msg": "The GameSpec update requested does not apply for non-multiplayer games."
+    },
+    {
+      "code": 6013,
+      "name": "SettleNotAllowedForThisState",
+      "msg": "Settle actions are not permitted unless the GameInstance state is ResultProvided"
+    },
+    {
+      "code": 6014,
+      "name": "GameConfigDataDidNotDerserialize",
+      "msg": "GameConfig data did not deserialize"
+    },
+    {
+      "code": 6015,
+      "name": "GameConfigDataValidationFailed",
+      "msg": "GameConfig data did not pass validations"
+    },
+    {
+      "code": 6016,
+      "name": "InstructionDoesNotSupportMultiplayer",
+      "msg": "This instruction does not support multiplayer games"
+    },
+    {
+      "code": 6017,
+      "name": "InstructionDoesNotSupportGamesWithRounds",
+      "msg": "This instruction does not support games with rounds"
+    },
+    {
+      "code": 6018,
+      "name": "MaximumBetsPerInstructionExceeded",
+      "msg": "The maximum bets allowed per instruction for this game has been exceeded"
+    },
+    {
+      "code": 6019,
+      "name": "InconsistentIxnBetCount",
+      "msg": "The number of bets specified in the instruction does not match the number present in the BetRequest data"
+    },
+    {
+      "code": 6020,
+      "name": "TokenNotSupportedByThisGame",
+      "msg": "This token is not supported by this game"
+    },
+    {
+      "code": 6021,
+      "name": "OnlyOneTokenPerPlayerAllowedPerInstance",
+      "msg": "A player may only have bets in one token currency per game instance"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidInstanceRequest",
+      "msg": "Invalid GameInstanceRequest value"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidBetData",
+      "msg": "Invalid BetRequest value"
+    },
+    {
+      "code": 6024,
+      "name": "WagerExceedsMaximumAllowed",
+      "msg": "Wager requested exceeds the maximum allowed"
+    },
+    {
+      "code": 6025,
+      "name": "WagerBelowMinimumAllowed",
+      "msg": "Wager requested is below the minimum allowed"
+    },
+    {
+      "code": 6026,
+      "name": "LiabilityCreatedExeedsMaximumAllowed",
+      "msg": "The liability created by this bet exceeds the maximum allowed"
+    },
+    {
+      "code": 6027,
+      "name": "MultiplierOfferedLessThanEqualOne",
+      "msg": "The multiplier offered was less than or equal to 1.0; Not offered since unfair bet"
+    },
+    {
+      "code": 6028,
+      "name": "ProbabilityGreaterThanEqualOne",
+      "msg": "The probability provided was greater than or equal to 1.0"
+    },
+    {
+      "code": 6029,
+      "name": "NegativeExpectancyBet",
+      "msg": "The bet led to a negative house expectancy."
+    },
+    {
+      "code": 6030,
+      "name": "RandomnessAttemptProvidedByUnapprovedSigner",
+      "msg": "An instruction to provide randomness was not signed by the approved randomnessSigner"
+    },
+    {
+      "code": 6031,
+      "name": "GameInstanceStatusDoesNotPermitResult",
+      "msg": "The GameInstance's status does not permit a result to be provided"
+    },
+    {
+      "code": 6032,
+      "name": "CallbackNotProvidedByAuthorizedSigner",
+      "msg": "The callback was not signed by the authorized signer"
+    },
+    {
+      "code": 6033,
+      "name": "SeedsDoNotCorrespondToThePubkeyProvided",
+      "msg": "The seeds and pubkey provided to not correspond"
+    },
+    {
+      "code": 6034,
+      "name": "NextTokenSlotExpectedButNotFound",
+      "msg": "Next token slot expected but not found"
+    },
+    {
+      "code": 6035,
+      "name": "NextPlayerSlotExpectedButNotFound",
+      "msg": "Next player slot expected but not found"
+    },
+    {
+      "code": 6036,
+      "name": "NextBetSlotExpectedButNotFound",
+      "msg": "Next bet slot expected but not found"
+    },
+    {
+      "code": 6037,
+      "name": "MaximumTokenSlotsReached",
+      "msg": "Maximum token slots on gameInstance reached"
+    },
+    {
+      "code": 6038,
+      "name": "MaximumPlayerSlotsReached",
+      "msg": "Maximum player slots on gameInstance reached"
+    },
+    {
+      "code": 6039,
+      "name": "MaximumBetSlotsReached",
+      "msg": "Maximum bet slots on gameInstance reached"
+    },
+    {
+      "code": 6040,
+      "name": "AttemptedToCloseButGameInstanceWasNotFullySettled",
+      "msg": "Attempted to close but gameInstance was not settled"
+    },
+    {
+      "code": 6041,
+      "name": "PlayerAccountProvidedDidNotMatch",
+      "msg": "The player account provided did not match the bet's player"
+    }
+  ]
+}

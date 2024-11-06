@@ -1,0 +1,384 @@
+{
+  "version": "0.1.0",
+  "name": "jupiter",
+  "instructions": [
+    {
+      "name": "route",
+      "docs": [
+        "route_plan Topologically sorted trade DAG"
+      ],
+      "accounts": [
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTransferAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "routePlan",
+          "type": {
+            "vec": {
+              "defined": "RoutePlanStep"
+            }
+          }
+        },
+        {
+          "name": "inAmount",
+          "type": "u64"
+        },
+        {
+          "name": "quotedOutAmount",
+          "type": "u64"
+        },
+        {
+          "name": "slippageBps",
+          "type": "u16"
+        },
+        {
+          "name": "platformFeeBps",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "AmountWithSlippage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "slippageBps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoutePlanStep",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "swap",
+            "type": {
+              "defined": "Swap"
+            }
+          },
+          {
+            "name": "percent",
+            "type": "u8"
+          },
+          {
+            "name": "inputIndex",
+            "type": "u8"
+          },
+          {
+            "name": "outputIndex",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Side",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bid"
+          },
+          {
+            "name": "Ask"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Swap",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Saber"
+          },
+          {
+            "name": "SaberAddDecimalsDeposit"
+          },
+          {
+            "name": "SaberAddDecimalsWithdraw"
+          },
+          {
+            "name": "TokenSwap"
+          },
+          {
+            "name": "Sencha"
+          },
+          {
+            "name": "Step"
+          },
+          {
+            "name": "Cropper"
+          },
+          {
+            "name": "Raydium"
+          },
+          {
+            "name": "Crema",
+            "fields": [
+              {
+                "name": "a_to_b",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "Lifinity"
+          },
+          {
+            "name": "Mercurial"
+          },
+          {
+            "name": "Cykura"
+          },
+          {
+            "name": "Serum",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              }
+            ]
+          },
+          {
+            "name": "MarinadeDeposit"
+          },
+          {
+            "name": "MarinadeUnstake"
+          },
+          {
+            "name": "Aldrin",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              }
+            ]
+          },
+          {
+            "name": "AldrinV2",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Whirlpool",
+            "fields": [
+              {
+                "name": "a_to_b",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "Invariant",
+            "fields": [
+              {
+                "name": "x_to_y",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "Meteora"
+          },
+          {
+            "name": "GooseFX"
+          },
+          {
+            "name": "DeltaFi",
+            "fields": [
+              {
+                "name": "stable",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "Balansol"
+          },
+          {
+            "name": "MarcoPolo",
+            "fields": [
+              {
+                "name": "x_to_y",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "Dradex",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              }
+            ]
+          },
+          {
+            "name": "LifinityV2"
+          },
+          {
+            "name": "RaydiumClmm"
+          },
+          {
+            "name": "Openbook",
+            "fields": [
+              {
+                "name": "side",
+                "type": {
+                  "defined": "Side"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Swap",
+      "fields": [
+        {
+          "name": "amm",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "outputMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "outputAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Fee",
+      "fields": [
+        {
+          "name": "account",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "EmptyRoute",
+      "msg": "Empty route"
+    },
+    {
+      "code": 6001,
+      "name": "SlippageToleranceExceeded",
+      "msg": "Slippage tolerance exceeded"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidCalculation",
+      "msg": "Invalid calculation"
+    },
+    {
+      "code": 6003,
+      "name": "MissingPlatformFeeAccount",
+      "msg": "Missing platform fee account"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidSlippage",
+      "msg": "Invalid slippage"
+    },
+    {
+      "code": 6005,
+      "name": "NotEnoughPercent",
+      "msg": "Not enough percent to 100"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidInputIndex",
+      "msg": "Token input index is invalid"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidOutputIndex",
+      "msg": "Token output index is invalid"
+    },
+    {
+      "code": 6008,
+      "name": "NotEnoughAccountKeys",
+      "msg": "Not Enough Account keys"
+    },
+    {
+      "code": 6009,
+      "name": "NonZeroMinimumOutAmountNotSupported",
+      "msg": "Non zero minimum out amount not supported"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidRoutePlan",
+      "msg": "Invalid route plan"
+    }
+  ]
+}

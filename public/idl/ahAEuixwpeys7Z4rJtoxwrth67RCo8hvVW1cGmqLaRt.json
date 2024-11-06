@@ -1,0 +1,943 @@
+{
+  "version": "2.1.6",
+  "name": "blockasset_auction_house",
+  "instructions": [
+    {
+      "name": "bidOnAuction",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "history",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "highestBidPayer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimPrize",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winnerPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeAuction",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "history",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initAuction",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "history",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ix",
+          "type": {
+            "defined": "InitAuctionIx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateAuction",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "ix",
+          "type": {
+            "defined": "UpdateAuctionIx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initAuctionProgrammable",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "history",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPrizeMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ix",
+          "type": {
+            "defined": "InitAuctionProgrammableIx"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimPrizeProgrammable",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winnerPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winnerPrizeMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeAuctionProgrammable",
+      "accounts": [
+        {
+          "name": "auction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "history",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeMintEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRules",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionPrizeMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPrizeMintTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPrizeMintTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Auction",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "project",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "prizeMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "startingPrice",
+            "type": "u64"
+          },
+          {
+            "name": "start",
+            "type": "i64"
+          },
+          {
+            "name": "end",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          },
+          {
+            "name": "prizeClaimed",
+            "type": "bool"
+          },
+          {
+            "name": "featured",
+            "type": "bool"
+          },
+          {
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "name": "highestBidPayer",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "highestBidPrice",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "minBidStep",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "staticFee",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "History",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "auction",
+            "type": "publicKey"
+          },
+          {
+            "name": "count",
+            "type": "u32"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitAuctionIx",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "startingPrice",
+            "type": "u64"
+          },
+          {
+            "name": "start",
+            "type": "i64"
+          },
+          {
+            "name": "end",
+            "type": "i64"
+          },
+          {
+            "name": "category",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "featured",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "minBidStep",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "staticFee",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitAuctionProgrammableIx",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifier",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "startingPrice",
+            "type": "u64"
+          },
+          {
+            "name": "start",
+            "type": "i64"
+          },
+          {
+            "name": "end",
+            "type": "i64"
+          },
+          {
+            "name": "category",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "featured",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "minBidStep",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "staticFee",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateAuctionIx",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "treasury",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "start",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "end",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "category",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "featured",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "minBidStep",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "treasuryMint",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "staticFee",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidProjectAuthority",
+      "msg": "Invalid project authority"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidPrizeMintTokenAccount",
+      "msg": "Invalid prize mint token account"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTokenAccount",
+      "msg": "Invalid token account"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidUserTokenAccount",
+      "msg": "Invalid user token account"
+    },
+    {
+      "code": 6004,
+      "name": "ActiveAuction",
+      "msg": "Active auction"
+    },
+    {
+      "code": 6005,
+      "name": "AuctionNotStarted",
+      "msg": "Auction not started yet"
+    },
+    {
+      "code": 6006,
+      "name": "AuctionEnded",
+      "msg": "Auction ended"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidStartEnd",
+      "msg": "Invalid start and end"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidCalculation",
+      "msg": "Invalid calculation"
+    },
+    {
+      "code": 6009,
+      "name": "UserIsNotTheWinner",
+      "msg": "You are not the winner"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidProject",
+      "msg": "Invalid project"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidPrice",
+      "msg": "Invalid price"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidTreasury",
+      "msg": "Invalid treasury"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidHighestBid",
+      "msg": "Invalid highest bid"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidMintMetadata",
+      "msg": "Invalid mint metadata"
+    },
+    {
+      "code": 6015,
+      "name": "UnauthorizedMint",
+      "msg": "Unauthorized mint"
+    },
+    {
+      "code": 6016,
+      "name": "PermissionDenied",
+      "msg": "Permission denied"
+    },
+    {
+      "code": 6017,
+      "name": "PrizeClaimed",
+      "msg": "Prize claimed"
+    }
+  ]
+}

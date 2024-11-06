@@ -1,0 +1,773 @@
+{
+  "version": "0.1.0",
+  "name": "drop_machine",
+  "instructions": [
+    {
+      "name": "initializeDropFactoryConfig",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "dropFactoryConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "authority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateDropFactoryConfig",
+      "accounts": [
+        {
+          "name": "dropFactoryConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dropFactoryAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initializeAirdropBitset",
+      "accounts": [
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "airdropBitset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "updateAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "destroyAirdropBitset",
+      "accounts": [
+        {
+          "name": "airdropBitset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createDrop",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "dropFactoryAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "dropFactoryConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treeCreator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumTreeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegum",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mintAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "updateAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "dropSize",
+          "type": "u32"
+        },
+        {
+          "name": "urlBase",
+          "type": "string"
+        },
+        {
+          "name": "nameBase",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nameBaseModifier",
+          "type": "u32"
+        },
+        {
+          "name": "defaultSymbol",
+          "type": {
+            "array": [
+              "u8",
+              10
+            ]
+          }
+        },
+        {
+          "name": "defaultCreators",
+          "type": {
+            "vec": {
+              "defined": "DropMachineCreatorAdapter"
+            }
+          }
+        },
+        {
+          "name": "defaultSellerFeeBasisPoints",
+          "type": "u16"
+        },
+        {
+          "name": "defaultUses",
+          "type": {
+            "defined": "DropMachineUsesAdapter"
+          }
+        },
+        {
+          "name": "defaultMetadataMutability",
+          "type": "bool"
+        },
+        {
+          "name": "maxDepth",
+          "type": "u32"
+        },
+        {
+          "name": "maxBufferSize",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "updateDrop",
+      "accounts": [
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "mintAuthority",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "updateAuthority",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "dropSize",
+          "type": {
+            "option": "u32"
+          }
+        },
+        {
+          "name": "urlBase",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "nameBase",
+          "type": {
+            "option": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "nameBaseModifier",
+          "type": {
+            "option": "u32"
+          }
+        },
+        {
+          "name": "defaultSymbol",
+          "type": {
+            "option": {
+              "array": [
+                "u8",
+                10
+              ]
+            }
+          }
+        },
+        {
+          "name": "defaultCreators",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": "DropMachineCreatorAdapter"
+              }
+            }
+          }
+        },
+        {
+          "name": "defaultSellerFeeBasisPoints",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "defaultUses",
+          "type": {
+            "option": {
+              "defined": "DropMachineUsesAdapter"
+            }
+          }
+        },
+        {
+          "name": "defaultMetadataMutability",
+          "type": {
+            "option": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setDecompressionState",
+      "accounts": [
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treeCreator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumTreeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "bubblegum",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "state",
+          "type": {
+            "defined": "DecompressableState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dispense",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "airdropBitset",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "treeDelegate",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumTreeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "This account doesn't necessarily need to be the collection_authority for the Collection associated with the cNFTs in this drop. But, it should be at least a delegated collection_authority by the original collection_authority."
+          ]
+        },
+        {
+          "name": "collectionAuthorityRecordPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegum",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "recipientQuantities",
+          "type": "bytes"
+        },
+        {
+          "name": "urlSuffixes",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "nameOverrides",
+          "type": {
+            "option": {
+              "vec": "string"
+            }
+          }
+        },
+        {
+          "name": "symbolOverrides",
+          "type": {
+            "option": {
+              "vec": "string"
+            }
+          }
+        },
+        {
+          "name": "creatorOverrides",
+          "type": {
+            "option": {
+              "vec": {
+                "vec": {
+                  "defined": "DropMachineCreatorAdapter"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "sellerFeeBasisPointsOverrides",
+          "type": {
+            "option": {
+              "vec": "u16"
+            }
+          }
+        },
+        {
+          "name": "usesOverrides",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": "DropMachineUsesAdapter"
+              }
+            }
+          }
+        },
+        {
+          "name": "metadataMutabilityOverrides",
+          "type": {
+            "option": {
+              "vec": "bool"
+            }
+          }
+        },
+        {
+          "name": "txNonce",
+          "type": {
+            "option": "u32"
+          }
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "docs": [
+        "Account closing behavior implicit. Encoded in Anchor context."
+      ],
+      "accounts": [
+        {
+          "name": "dropMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DropFactoryConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dropFactoryAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropMachine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "defaultUses",
+            "type": {
+              "defined": "DropMachineUsesAdapter"
+            }
+          },
+          {
+            "name": "mintAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "updateAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "urlBase",
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          },
+          {
+            "name": "nameBase",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "defaultSymbol",
+            "type": {
+              "array": [
+                "u8",
+                10
+              ]
+            }
+          },
+          {
+            "name": "defaultSellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "dropSize",
+            "type": "u32"
+          },
+          {
+            "name": "numMintedSoFar",
+            "type": "u32"
+          },
+          {
+            "name": "nameBaseModifier",
+            "type": "u32"
+          },
+          {
+            "name": "treeDepth",
+            "type": "u32"
+          },
+          {
+            "name": "defaultMetadataMutability",
+            "type": "u8"
+          },
+          {
+            "name": "defaultCreators",
+            "type": {
+              "array": [
+                {
+                  "defined": "DropMachineCreatorAdapter"
+                },
+                4
+              ]
+            }
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                67
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DropMachineCreatorAdapter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "verified",
+            "type": "u8"
+          },
+          {
+            "name": "share",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropMachineUsesAdapter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "remaining",
+            "type": "u64"
+          },
+          {
+            "name": "total",
+            "type": "u64"
+          },
+          {
+            "name": "useMethod",
+            "type": "u8"
+          },
+          {
+            "name": "isNone",
+            "type": "u8"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                6
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AirdropBitsetHeader",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dropMachine",
+            "type": "publicKey"
+          },
+          {
+            "name": "updateAuthority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DecompressableState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Enabled"
+          },
+          {
+            "name": "Disabled"
+          }
+        ]
+      }
+    }
+  ]
+}

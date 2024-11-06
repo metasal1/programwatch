@@ -1,0 +1,709 @@
+{
+  "version": "0.0.1",
+  "name": "fireball",
+  "instructions": [
+    {
+      "name": "initializeConfig",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "ConfigData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addConfigLines",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u32"
+        },
+        {
+          "name": "configLines",
+          "type": {
+            "vec": {
+              "defined": "ConfigLine"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "createRecipes",
+      "accounts": [
+        {
+          "name": "recipe",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ingredients",
+          "type": "string"
+        },
+        {
+          "name": "roots",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "creators",
+          "type": {
+            "vec": {
+              "defined": "Creator"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "startDish",
+      "accounts": [
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dish",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dishBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "addIngredient",
+      "accounts": [
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dish",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ingredientMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ingredientStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ingredientBump",
+          "type": "u8"
+        },
+        {
+          "name": "ingredientNum",
+          "type": "u64"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeIngredient",
+      "accounts": [
+        {
+          "name": "dish",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ingredientMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ingredientStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ingredientBump",
+          "type": "u8"
+        },
+        {
+          "name": "ingredientNum",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "makeDish",
+      "accounts": [
+        {
+          "name": "recipe",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dish",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataNewMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataNewEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataMasterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataNewMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataEditionMarkPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dev",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataNewMintAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "metadataMasterTokenOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataMasterTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataNewUpdateAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataMasterMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataMasterMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "recipeSignerBump",
+          "type": "u8"
+        },
+        {
+          "name": "edition",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "consumeIngredient",
+      "accounts": [
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dev",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dish",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ingredientMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ingredientStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ingredientBump",
+          "type": "u8"
+        },
+        {
+          "name": "ingredientNum",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "reclaimMasterEdition",
+      "accounts": [
+        {
+          "name": "recipe",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "masterMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "masterTokenOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "recipeSignerBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "ConfigData"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Recipe",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "ingredients",
+            "type": "string"
+          },
+          {
+            "name": "roots",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "itemsRedeemed",
+            "type": "u64"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Dish",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "recipe",
+            "type": "publicKey"
+          },
+          {
+            "name": "ingredientsAdded",
+            "type": "u64"
+          },
+          {
+            "name": "completed",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ConfigData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          },
+          {
+            "name": "maxSupply",
+            "type": "u64"
+          },
+          {
+            "name": "isMutable",
+            "type": "bool"
+          },
+          {
+            "name": "retainAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "maxNumberOfLines",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Creator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "verified",
+            "type": "bool"
+          },
+          {
+            "name": "shares",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigLine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FireballError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidProof"
+          },
+          {
+            "name": "InvalidMint"
+          },
+          {
+            "name": "InvalidMintPDA"
+          },
+          {
+            "name": "MismatchedRecipe"
+          },
+          {
+            "name": "IncompleteRecipe"
+          },
+          {
+            "name": "RecipeAlreadyCompleted"
+          },
+          {
+            "name": "RecipeNotCompleted"
+          },
+          {
+            "name": "InvalidAuthority"
+          },
+          {
+            "name": "ArithmeticOverflow"
+          },
+          {
+            "name": "MismatchedEditionMint"
+          },
+          {
+            "name": "EditionZeroInvalid"
+          },
+          {
+            "name": "DerivedKeyInvalid"
+          }
+        ]
+      }
+    }
+  ]
+}

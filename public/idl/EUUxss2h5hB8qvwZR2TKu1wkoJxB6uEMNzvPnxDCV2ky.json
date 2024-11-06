@@ -1,0 +1,744 @@
+{
+  "address": "HwtNgHSAjabBxrjfJwrDxe1FRyLtGLqYnzwmU3HkKAqC",
+  "metadata": {
+    "name": "fantasy3",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "fantasy3.xyz"
+  },
+  "instructions": [
+    {
+      "name": "create_contest",
+      "discriminator": [
+        129,
+        189,
+        164,
+        27,
+        152,
+        242,
+        123,
+        93
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "entry_fee",
+          "type": "u64"
+        },
+        {
+          "name": "sport",
+          "type": {
+            "defined": {
+              "name": "Sport"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "end_contest",
+      "discriminator": [
+        87,
+        244,
+        178,
+        174,
+        95,
+        229,
+        104,
+        167
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "contest"
+          ]
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "winners",
+          "type": {
+            "vec": "pubkey"
+          }
+        },
+        {
+          "name": "perfect",
+          "type": "bool"
+        },
+        {
+          "name": "winning_hash",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "manage_carryover_pool",
+      "discriminator": [
+        86,
+        217,
+        75,
+        52,
+        134,
+        167,
+        55,
+        218
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "carryover_pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  114,
+                  114,
+                  121,
+                  111,
+                  118,
+                  101,
+                  114,
+                  95,
+                  112,
+                  111,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "contest.sport",
+                "account": "Contest"
+              }
+            ]
+          }
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "contest"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount_to_send",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "payout_contest_prizes",
+      "discriminator": [
+        201,
+        118,
+        152,
+        99,
+        255,
+        52,
+        141,
+        210
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "prize_per_winner",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "payout_creator",
+      "discriminator": [
+        205,
+        253,
+        162,
+        94,
+        169,
+        172,
+        158,
+        206
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "contest"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "payout_from_carryover_pool",
+      "discriminator": [
+        207,
+        202,
+        78,
+        98,
+        192,
+        45,
+        10,
+        203
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "carryover_pool",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount_to_distribute",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "start_contest",
+      "discriminator": [
+        97,
+        146,
+        213,
+        7,
+        230,
+        233,
+        121,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "contest"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "submit_pick",
+      "discriminator": [
+        253,
+        40,
+        90,
+        222,
+        41,
+        24,
+        188,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "contest",
+          "writable": true
+        },
+        {
+          "name": "pick",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "pick_hash",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_from_carryover_pool",
+      "discriminator": [
+        76,
+        22,
+        107,
+        54,
+        108,
+        184,
+        113,
+        49
+      ],
+      "accounts": [
+        {
+          "name": "carryover_pool",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  114,
+                  114,
+                  121,
+                  111,
+                  118,
+                  101,
+                  114,
+                  95,
+                  112,
+                  111,
+                  111,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "carryover_pool.sport",
+                "account": "CarryoverPool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CarryoverPool",
+      "discriminator": [
+        87,
+        57,
+        247,
+        159,
+        178,
+        60,
+        106,
+        136
+      ]
+    },
+    {
+      "name": "Contest",
+      "discriminator": [
+        216,
+        26,
+        88,
+        18,
+        251,
+        80,
+        201,
+        96
+      ]
+    },
+    {
+      "name": "Pick",
+      "discriminator": [
+        240,
+        89,
+        147,
+        71,
+        106,
+        143,
+        252,
+        174
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "ContestCompleted",
+      "discriminator": [
+        199,
+        49,
+        135,
+        16,
+        202,
+        86,
+        136,
+        11
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized action."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidWinnerCount",
+      "msg": "The number of winners does not match the prize amounts."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidPrizeAmount",
+      "msg": "The total prize amount does not match the sum of individual prizes."
+    },
+    {
+      "code": 6003,
+      "name": "ContestNotFinished",
+      "msg": "The contest is not finished."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidWinnerIndex",
+      "msg": "Invalid winner index."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidWinner",
+      "msg": "The provided winner does not match the stored winner."
+    },
+    {
+      "code": 6006,
+      "name": "ContestNotOpen",
+      "msg": "Contest is not open."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidContestState",
+      "msg": "Invalid contest state."
+    },
+    {
+      "code": 6008,
+      "name": "WinnersAlreadyPaid",
+      "msg": "Winners have already been paid."
+    },
+    {
+      "code": 6009,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds in the contest account."
+    },
+    {
+      "code": 6010,
+      "name": "ContestNotFound",
+      "msg": "Contest not found"
+    },
+    {
+      "code": 6011,
+      "name": "NoWinnersToPay",
+      "msg": "No winners to pay"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidContestAccount",
+      "msg": "Invalid Contest account"
+    },
+    {
+      "code": 6013,
+      "name": "InsufficientPrizePool",
+      "msg": "Insufficient prize pool to distribute the prizes."
+    },
+    {
+      "code": 6014,
+      "name": "AlreadyPaid",
+      "msg": "Winners have already been paid."
+    },
+    {
+      "code": 6015,
+      "name": "InsufficientFundsForRent",
+      "msg": "No Rent."
+    },
+    {
+      "code": 6016,
+      "name": "InsufficientFundsForPayout",
+      "msg": "No Funds for Payout."
+    },
+    {
+      "code": 6017,
+      "name": "NoWinnersSpecified",
+      "msg": "No winners were specified for the payout."
+    },
+    {
+      "code": 6018,
+      "name": "InsufficientFundsForCarryover",
+      "msg": "InsufficientFundsForCarryover."
+    },
+    {
+      "code": 6019,
+      "name": "WinnerNotFound",
+      "msg": "WinnerNotFound."
+    },
+    {
+      "code": 6020,
+      "name": "InsufficientCarryoverFunds",
+      "msg": "InsufficientCarryoverFunds."
+    },
+    {
+      "code": 6021,
+      "name": "NoPerfectScore",
+      "msg": "No perfect score."
+    },
+    {
+      "code": 6022,
+      "name": "CarryOverPaid",
+      "msg": "Carry over already paid."
+    },
+    {
+      "code": 6023,
+      "name": "CreatorAlreadyPaid",
+      "msg": "Creator already paid."
+    }
+  ],
+  "types": [
+    {
+      "name": "CarryoverPool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sport",
+            "type": {
+              "defined": {
+                "name": "Sport"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Contest",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": {
+                "name": "ContestState"
+              }
+            }
+          },
+          {
+            "name": "entry_fee",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "winners",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "paid_winners",
+            "type": "bool"
+          },
+          {
+            "name": "paid_creator",
+            "type": "bool"
+          },
+          {
+            "name": "paid_carry_over",
+            "type": "bool"
+          },
+          {
+            "name": "perfect",
+            "type": "bool"
+          },
+          {
+            "name": "winning_hash",
+            "type": "string"
+          },
+          {
+            "name": "sport",
+            "type": {
+              "defined": {
+                "name": "Sport"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ContestCompleted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "contest",
+            "type": "pubkey"
+          },
+          {
+            "name": "winner_hash",
+            "type": "string"
+          },
+          {
+            "name": "is_perfect",
+            "type": "bool"
+          },
+          {
+            "name": "winner_count",
+            "type": "u64"
+          },
+          {
+            "name": "prize_per_winner",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ContestState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "InProgress"
+          },
+          {
+            "name": "Final"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pick",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "contest",
+            "type": "pubkey"
+          },
+          {
+            "name": "pick_hash",
+            "type": "string"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Sport",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NFL"
+          },
+          {
+            "name": "MLB"
+          },
+          {
+            "name": "NBA"
+          },
+          {
+            "name": "NHL"
+          },
+          {
+            "name": "OTHER"
+          }
+        ]
+      }
+    }
+  ]
+}

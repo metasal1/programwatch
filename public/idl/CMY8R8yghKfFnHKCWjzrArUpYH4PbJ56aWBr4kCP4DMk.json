@@ -1,0 +1,615 @@
+{
+  "version": "0.1.2",
+  "name": "nft_candy_machine",
+  "instructions": [
+    {
+      "name": "mintNft",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletLimitInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "walletLimitBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateCandyMachine",
+      "accounts": [
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "goLiveDate",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "notary",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "itemsAvailable",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeConfig",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "ConfigData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeCandyMachine",
+      "accounts": [
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "notary",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "data",
+          "type": {
+            "defined": "CandyMachineData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateAuthority",
+      "accounts": [
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawFunds",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setWalletLimit",
+      "accounts": [
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newLimit",
+          "type": {
+            "option": "u8"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateConfig",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "gateway",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "cid",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CandyMachine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "CandyMachineData"
+            }
+          },
+          {
+            "name": "itemsRedeemed",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "notary",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "WalletLimitInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "redeemed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "ConfigData"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CandyMachineData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "itemsAvailable",
+            "type": "u64"
+          },
+          {
+            "name": "goLiveDate",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "walletLimit",
+            "type": {
+              "option": "u8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gateway",
+            "type": "string"
+          },
+          {
+            "name": "cid",
+            "type": "string"
+          },
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "collectionName",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          },
+          {
+            "name": "maxSupply",
+            "type": "u64"
+          },
+          {
+            "name": "isMutable",
+            "type": "bool"
+          },
+          {
+            "name": "retainAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "maxNumberOfLines",
+            "type": "u16"
+          },
+          {
+            "name": "indices",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Creator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "verified",
+            "type": "bool"
+          },
+          {
+            "name": "share",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "IncorrectOwner",
+      "msg": "Account does not have correct owner!"
+    },
+    {
+      "code": 6001,
+      "name": "Uninitialized",
+      "msg": "Account is not initialized!"
+    },
+    {
+      "code": 6002,
+      "name": "MintMismatch",
+      "msg": "Mint Mismatch!"
+    },
+    {
+      "code": 6003,
+      "name": "IndexGreaterThanLength",
+      "msg": "Index greater than length!"
+    },
+    {
+      "code": 6004,
+      "name": "ConfigMustHaveAtleastOneEntry",
+      "msg": "Config must have atleast one entry!"
+    },
+    {
+      "code": 6005,
+      "name": "NumericalOverflowError",
+      "msg": "Numerical overflow error!"
+    },
+    {
+      "code": 6006,
+      "name": "TooManyCreators",
+      "msg": "Can only provide up to 4 creators to candy machine (because candy machine is one)!"
+    },
+    {
+      "code": 6007,
+      "name": "UuidMustBeExactly6Length",
+      "msg": "Uuid must be exactly of 6 length"
+    },
+    {
+      "code": 6008,
+      "name": "NotEnoughTokens",
+      "msg": "Not enough tokens to pay for this minting"
+    },
+    {
+      "code": 6009,
+      "name": "NotEnoughSOL",
+      "msg": "Not enough SOL to pay for this minting"
+    },
+    {
+      "code": 6010,
+      "name": "TokenTransferFailed",
+      "msg": "Token transfer failed"
+    },
+    {
+      "code": 6011,
+      "name": "CandyMachineEmpty",
+      "msg": "Candy machine is empty!"
+    },
+    {
+      "code": 6012,
+      "name": "CandyMachineNotLiveYet",
+      "msg": "Candy machine is not live yet!"
+    },
+    {
+      "code": 6013,
+      "name": "ConfigLineMismatch",
+      "msg": "Number of config lines must be at least number of items available"
+    },
+    {
+      "code": 6014,
+      "name": "CIDLengthTooLong",
+      "msg": "CID must be less than 255 characters"
+    },
+    {
+      "code": 6015,
+      "name": "CollectionNameTooLong",
+      "msg": "Collection name must be less than 100 characters"
+    },
+    {
+      "code": 6016,
+      "name": "NotarySignatureNotProvided",
+      "msg": "Notary signature not provided"
+    },
+    {
+      "code": 6017,
+      "name": "NotaryPublicKeyInvalid",
+      "msg": "Invalid notary public key provided"
+    },
+    {
+      "code": 6018,
+      "name": "WalletLimitExceeded",
+      "msg": "Wallet limit exceeded"
+    },
+    {
+      "code": 6019,
+      "name": "DerivedKeyInvalid",
+      "msg": "Derived key invalid"
+    }
+  ]
+}

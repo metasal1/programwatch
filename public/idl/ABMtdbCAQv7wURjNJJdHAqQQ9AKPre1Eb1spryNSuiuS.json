@@ -1,0 +1,1450 @@
+{
+  "version": "0.1.0",
+  "name": "solo",
+  "instructions": [
+    {
+      "name": "createSpinConfig",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Address to be set as protocol owner."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Initialize config state account to store protocol owner address and fee rates."
+          ]
+        },
+        {
+          "name": "lookupTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lookupTableProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recentSlothashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Program to create an ATA for receiving position NFT"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "To create a new program account"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Sysvar for program account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "valuePerEntry",
+          "type": "u64"
+        },
+        {
+          "name": "roundDuration",
+          "type": "i64"
+        },
+        {
+          "name": "minDept",
+          "type": "u64"
+        },
+        {
+          "name": "maxDept",
+          "type": "u64"
+        },
+        {
+          "name": "protocolFeeRate",
+          "type": "u32"
+        },
+        {
+          "name": "refFeeRate",
+          "type": "u32"
+        },
+        {
+          "name": "recentSlot",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "startRound",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Address to be set as protocol owner."
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Initialize config state account to store protocol owner address and fee rates."
+          ]
+        },
+        {
+          "name": "currentRound",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Program to create an ATA for receiving position NFT"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Sysvar for program account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "roundNumber",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "fixRound",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Address to be set as protocol owner."
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Initialize config state account to store protocol owner address and fee rates."
+          ]
+        },
+        {
+          "name": "currentRound",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Program to create an ATA for receiving position NFT"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Sysvar for program account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "roundNumber",
+          "type": "u32"
+        },
+        {
+          "name": "firstUser",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "increaseAccountSize",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Address to be set as protocol owner."
+          ]
+        },
+        {
+          "name": "currentRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Program to create an ATA for receiving position NFT"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Sysvar for program account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "len",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "updateSpinConfig",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Address to be set as protocol owner."
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Initialize config state account to store protocol owner address and fee rates."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "valuePerEntry",
+          "type": "u64"
+        },
+        {
+          "name": "roundDuration",
+          "type": "i64"
+        },
+        {
+          "name": "minDept",
+          "type": "u64"
+        },
+        {
+          "name": "maxDept",
+          "type": "u64"
+        },
+        {
+          "name": "protocolFeeRate",
+          "type": "u32"
+        },
+        {
+          "name": "refFeeRate",
+          "type": "u32"
+        },
+        {
+          "name": "currentRound",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "updateRoundStatus",
+      "docs": [
+        "Update round status for given vaule",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx`- The context of accounts",
+        "* `status` - The vaule of status",
+        ""
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "status",
+          "type": {
+            "defined": "RoundStatus"
+          }
+        }
+      ]
+    },
+    {
+      "name": "depositCurrent",
+      "docs": [
+        "Deposit to current round",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The context of accounts",
+        ""
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refFrom",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "affRefFrom",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentRound",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "currentRound",
+          "type": "u32"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositNext",
+      "docs": [
+        "Deposit to current round",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The context of accounts",
+        ""
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userNextRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refFrom",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "affRefFrom",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The address that store sol of spinner"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "totalRound",
+          "type": "u16"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "collectProtocolFee",
+      "docs": [
+        "Collect the protocol fee accrued to the round",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The context of accounts",
+        ""
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Only admin or fund_owner can collect fee now"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Spin config account stores fund_owner"
+          ]
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The mint of wsol"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "collectAffFee",
+      "docs": [
+        "Collect the fund fee accrued to the round",
+        "",
+        "# Arguments",
+        "",
+        "* `ctx` - The context of accounts",
+        ""
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Only admin or fund_owner can collect fee now"
+          ]
+        },
+        {
+          "name": "affBalance",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Pool state stores accumulated protocol fee amount"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Amm config account stores fund_owner"
+          ]
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The mint of wsol"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addLookup",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lookupTable",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lookupTableProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "address",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "drawWinner",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "spinConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentRound",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextRound",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "currentRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "firstUser",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The address that receives the sol"
+          ]
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "randomKey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "getReward",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "currentRound",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "solVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundNumber",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "setBump",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Address to be set as protocol owner."
+          ]
+        },
+        {
+          "name": "currentRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextRoundData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Program to create an ATA for receiving position NFT"
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AffBalance",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "total",
+            "type": "u64"
+          },
+          {
+            "name": "claimed",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SpinConfig",
+      "docs": [
+        "Holds the current owner of the factory"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "docs": [
+              "Bump to identify PDA"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "valuePerEntry",
+            "docs": [
+              "Set min value per entry"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "roundDuration",
+            "docs": [
+              "Config round duration"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "currentRound",
+            "docs": [
+              "Current round"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "minDept",
+            "docs": [
+              "Min deposit"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "maxDept",
+            "docs": [
+              "Max deposit"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "protocolFeeRate",
+            "docs": [
+              "The protocol fee"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "protocolFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "protocolFeeClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "refFeeRate",
+            "docs": [
+              "The ref fee, denominated in hundredths of a bip (10^-6)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "refTotal",
+            "type": "u64"
+          },
+          {
+            "name": "refClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "authBump",
+            "docs": [
+              "Address of the protocol fee owner"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "allowMultiRound",
+            "type": "bool"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "index",
+            "type": "u32"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "RoundStatus"
+            }
+          },
+          {
+            "name": "drawnAt",
+            "type": "i64"
+          },
+          {
+            "name": "startAt",
+            "type": "i64"
+          },
+          {
+            "name": "cutOffTime",
+            "type": "i64"
+          },
+          {
+            "name": "protocolFeeRate",
+            "type": "u32"
+          },
+          {
+            "name": "refFeeRate",
+            "type": "u32"
+          },
+          {
+            "name": "valuePerEntry",
+            "type": "u64"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalUser",
+            "type": "u16"
+          },
+          {
+            "name": "winner",
+            "type": "publicKey"
+          },
+          {
+            "name": "firstUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "claimStatus",
+            "type": {
+              "defined": "ClaimStatus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CurrentRoundData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "totalUser",
+            "type": "u16"
+          },
+          {
+            "name": "deposits",
+            "type": {
+              "array": [
+                {
+                  "defined": "Deposit"
+                },
+                10000
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "NextRoundData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "totalUser",
+            "type": "u16"
+          },
+          {
+            "name": "deposits",
+            "type": {
+              "array": [
+                {
+                  "defined": "NextDeposit"
+                },
+                10000
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "User",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "refFrom",
+            "type": "publicKey"
+          },
+          {
+            "name": "volumne",
+            "type": "u128"
+          },
+          {
+            "name": "totalEntry",
+            "type": "u64"
+          },
+          {
+            "name": "totalRound",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserRoundData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "roundIndex",
+            "type": "u32"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "slot",
+            "type": "u16"
+          },
+          {
+            "name": "totalEntry",
+            "type": "u32"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserNextRoundData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "startRound",
+            "type": "u32"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalRound",
+            "type": "u16"
+          },
+          {
+            "name": "totalEntry",
+            "type": "u32"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Deposit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalEntry",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NextDeposit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "remainingEntry",
+            "type": "u32"
+          },
+          {
+            "name": "remainingRound",
+            "type": "u16"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Drawing"
+          },
+          {
+            "name": "Drawn"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "None"
+          },
+          {
+            "name": "Claimed"
+          },
+          {
+            "name": "Refunded"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "RoundStartEvent",
+      "fields": [
+        {
+          "name": "roundNumber",
+          "type": "u32",
+          "index": true
+        },
+        {
+          "name": "startAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "cutOffTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DrawWinnerEvent",
+      "fields": [
+        {
+          "name": "roundNumber",
+          "type": "u32",
+          "index": true
+        },
+        {
+          "name": "startAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "drawnAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "winner",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DepositEvent",
+      "fields": [
+        {
+          "name": "roundNumber",
+          "type": "u32",
+          "index": true
+        },
+        {
+          "name": "startAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "depositAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "totalRoundAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "roundStatus",
+          "type": {
+            "defined": "RoundStatus"
+          },
+          "index": false
+        },
+        {
+          "name": "isCurrent",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "refFrom",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "refAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DepositMultiRoundEvent",
+      "fields": [
+        {
+          "name": "fromRoundNumber",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "numOfRound",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "refFrom",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotApproved",
+      "msg": "Not approved"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidOwner",
+      "msg": "Input account owner is not the program address"
+    },
+    {
+      "code": 6002,
+      "name": "EmptySupply",
+      "msg": "Input token account empty"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidInput",
+      "msg": "Invalid input"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidVault",
+      "msg": "invaild vault"
+    },
+    {
+      "code": 6005,
+      "name": "MathOverflow",
+      "msg": "Math overflow"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidAccountData",
+      "msg": "Invalid account data"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidRound",
+      "msg": "Invalid round"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidConfig",
+      "msg": "Invalid config"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidSeeds",
+      "msg": "Invalid seed"
+    },
+    {
+      "code": 6010,
+      "name": "MaxDeposit",
+      "msg": "Exceed the number of participants"
+    },
+    {
+      "code": 6011,
+      "name": "HaveNextDeposit",
+      "msg": "You still have turns left"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidAmountInput",
+      "msg": "Invalid amount input"
+    },
+    {
+      "code": 6013,
+      "name": "NotEnoughPlayers",
+      "msg": "Not enough players"
+    },
+    {
+      "code": 6014,
+      "name": "NotYetTimeToTurn",
+      "msg": "Not yet time to turn"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidWinner",
+      "msg": "Invalid winner"
+    },
+    {
+      "code": 6016,
+      "name": "HaveReceivedReward",
+      "msg": "You have received the reward"
+    },
+    {
+      "code": 6017,
+      "name": "NotYetDrawn",
+      "msg": "Not yet drawn"
+    },
+    {
+      "code": 6018,
+      "name": "DisableNextDept",
+      "msg": "Disable Deposit next"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidTime",
+      "msg": "Invalid Time"
+    }
+  ]
+}

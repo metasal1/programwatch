@@ -1,0 +1,343 @@
+{
+  "version": "0.1.0",
+  "name": "ldoracle",
+  "instructions": [
+    {
+      "name": "init",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "boardSet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tag",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "boardSet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "boardSet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rev",
+          "type": "u64"
+        },
+        {
+          "name": "eventId",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "newStatus",
+          "type": {
+            "defined": "BoardStatus"
+          }
+        },
+        {
+          "name": "startIndex",
+          "type": "u64"
+        },
+        {
+          "name": "endIndex",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "results",
+          "type": {
+            "array": [
+              "publicKey",
+              10
+            ]
+          }
+        },
+        {
+          "name": "start",
+          "type": "u64"
+        },
+        {
+          "name": "end",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "insert",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "boardSet",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rev",
+          "type": "u64"
+        },
+        {
+          "name": "eventId",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "start",
+          "type": "u64"
+        },
+        {
+          "name": "end",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "boardSet",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rev",
+          "type": "u64"
+        },
+        {
+          "name": "eventId",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EventBoardSet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "rev",
+            "type": "u64"
+          },
+          {
+            "name": "boards",
+            "type": {
+              "array": [
+                {
+                  "defined": "EventBoard"
+                },
+                100
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "EventBoard",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "eventId",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "start",
+            "type": "u64"
+          },
+          {
+            "name": "end",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "BoardStatus"
+            }
+          },
+          {
+            "name": "revision",
+            "type": "u64"
+          },
+          {
+            "name": "syncing",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "winners",
+            "type": {
+              "array": [
+                "publicKey",
+                100
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoardStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Upcoming"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Finished"
+          },
+          {
+            "name": "Unsync"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "LogicError",
+      "msg": "Some logic error"
+    },
+    {
+      "code": 6001,
+      "name": "RunTooEarly",
+      "msg": "Tried iter before end of period"
+    },
+    {
+      "code": 6002,
+      "name": "WrongTag",
+      "msg": "update wrong tag"
+    },
+    {
+      "code": 6003,
+      "name": "LeaderBoardSetOverflow",
+      "msg": "can't insert, no more rooms"
+    },
+    {
+      "code": 6004,
+      "name": "DuplicateBoard",
+      "msg": "can't insert, duplicate eventid"
+    },
+    {
+      "code": 6005,
+      "name": "NoEventIdFound",
+      "msg": "eventid not found"
+    },
+    {
+      "code": 6006,
+      "name": "WrongRevision",
+      "msg": "WrongRevision not found"
+    }
+  ]
+}

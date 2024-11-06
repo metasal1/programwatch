@@ -1,0 +1,152 @@
+{
+  "version": "1.0.0",
+  "name": "ahoy_version",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "versionHead",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initialVersionNode",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initialVersion",
+          "type": "string"
+        },
+        {
+          "name": "versionedProgramId",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "addVersion",
+      "accounts": [
+        {
+          "name": "versionHead",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "versionNode",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "version",
+          "type": "string"
+        },
+        {
+          "name": "versionedProgramId",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setAuthority",
+      "accounts": [
+        {
+          "name": "versionHead",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VersionNode",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "programId",
+            "type": "publicKey"
+          },
+          {
+            "name": "next",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VersionHead",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "currentVersion",
+            "type": "string"
+          },
+          {
+            "name": "programId",
+            "type": "publicKey"
+          },
+          {
+            "name": "versionList",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ]
+}

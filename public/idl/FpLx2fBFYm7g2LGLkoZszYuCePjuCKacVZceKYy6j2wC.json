@@ -1,0 +1,1479 @@
+{
+  "version": "0.1.1",
+  "name": "gumdrop",
+  "docs": [
+    "The [gumdrop] program."
+  ],
+  "instructions": [
+    {
+      "name": "newDistributor",
+      "docs": [
+        "Creates a new [MerkleDistributor].",
+        "After creating this [MerkleDistributor], the account should be seeded with tokens via",
+        "delegates"
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the distributor."
+          ]
+        },
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "[MerkleDistributor]."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "MerkleDistributor"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "base"
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer to create the distributor."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "temporal",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "closeDistributorTokenAccount",
+      "docs": [
+        "Closes distributor-owned token accounts. Normal tokens should just use a delegate but we",
+        "need to transfer ownership for edition minting ATM."
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the distributor."
+          ]
+        },
+        {
+          "name": "distributor",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "[MerkleDistributor]."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "MerkleDistributor"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "base"
+              }
+            ]
+          }
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Distributor containing the tokens to distribute."
+          ]
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to send the claimed tokens to."
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Who is receiving the remaining rent allocation."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closeDistributor",
+      "docs": [
+        "Closes an existing [MerkleDistributor].",
+        "Moves all tokens from the [MerkleDistributor] to the specified account and closes",
+        "distributor accounts.",
+        "Must `close_distributor_token_account` first"
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the distributor."
+          ]
+        },
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "[MerkleDistributor]."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "MerkleDistributor"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "base"
+              }
+            ]
+          }
+        },
+        {
+          "name": "distributorWallet",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "Wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MerkleDistributor",
+                "path": "distributor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Who is receiving the remaining tokens and rent allocations."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "walletBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "proveClaim",
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "claimProof",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Status of the claim."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "claim_prefix"
+              },
+              {
+                "kind": "arg",
+                "type": "u64",
+                "path": "index"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MerkleDistributor",
+                "path": "distributor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "temporal",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Extra signer expected for claims"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "claimPrefix",
+          "type": "bytes"
+        },
+        {
+          "name": "claimBump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "claimantSecret",
+          "type": "publicKey"
+        },
+        {
+          "name": "resource",
+          "type": "publicKey"
+        },
+        {
+          "name": "resourceNonce",
+          "type": "bytes"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "docs": [
+        "Claims tokens from the [MerkleDistributor]."
+      ],
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "claimStatus",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Status of the claim."
+          ]
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Distributor containing the tokens to distribute."
+          ]
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to send the claimed tokens to."
+          ]
+        },
+        {
+          "name": "temporal",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Extra signer expected for claims"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "claimBump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "claimantSecret",
+          "type": "publicKey"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimCandy",
+      "docs": [
+        "Claims NFTs directly from the candy machine through the [MerkleDistributor]."
+      ],
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "distributorWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor] wallet"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "Wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MerkleDistributor",
+                "path": "distributor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "claimCount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Status of the claim. Created on first invocation of this function"
+          ]
+        },
+        {
+          "name": "temporal",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Extra signer expected for claims"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim. Should be `mint_authority` for `candy_machine_mint` and will be",
+            "`update_authority` for `candy_machine_metadata`"
+          ]
+        },
+        {
+          "name": "candyMachineConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Candy-machine Config"
+          ]
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy-Machine. Verified through CPI"
+          ]
+        },
+        {
+          "name": "candyMachineWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy-Machine-Wallet. Verified through CPI"
+          ]
+        },
+        {
+          "name": "candyMachineMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Generated mint"
+          ]
+        },
+        {
+          "name": "candyMachineMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `candy_machine_mint`"
+          ]
+        },
+        {
+          "name": "candyMachineMasterEdition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `candy_machine_mint`"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [TokenMetadata] program."
+          ]
+        },
+        {
+          "name": "candyMachineProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [CandyMachine] program."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "walletBump",
+          "type": "u8"
+        },
+        {
+          "name": "claimBump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "claimantSecret",
+          "type": "publicKey"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimEdition",
+      "docs": [
+        "Claims NFTs by calling MintNewEditionFromMasterEditionViaToken"
+      ],
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Given a token account containing the master edition token to prove authority, and a brand new non-metadata-ed mint with one token",
+            "make a new Metadata + Edition that is a child of the master edition denoted by this authority token.",
+            "4. `[writable]` Edition pda to mark creation - will be checked for pre-existence. (pda of ['metadata', program id, master metadata mint id, 'edition', edition_number])",
+            "where edition_number is NOT the edition number you pass in args but actually edition_number = floor(edition/EDITION_MARKER_BIT_SIZE).",
+            "8. `[]` token account containing token from master metadata mint",
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "claimCount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Status of the claim. Created on first invocation of this function"
+          ]
+        },
+        {
+          "name": "temporal",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Extra signer expected for claims"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim. Should be `mint_authority` for `candy_machine_mint` and will be",
+            "`update_authority` for `candy_machine_metadata`"
+          ]
+        },
+        {
+          "name": "metadataNewMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `metadata_new_mint`"
+          ]
+        },
+        {
+          "name": "metadataNewEdition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `metadata_new_mint`"
+          ]
+        },
+        {
+          "name": "metadataMasterEdition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `metadata_master_mint`"
+          ]
+        },
+        {
+          "name": "metadataNewMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Generated mint"
+          ]
+        },
+        {
+          "name": "metadataEditionMarkPda",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `metadata_master_mint` and edition number"
+          ]
+        },
+        {
+          "name": "metadataNewMintAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Mint authority for `metadata_new_mint`"
+          ]
+        },
+        {
+          "name": "metadataMasterTokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of token account containing master token (#8)",
+            "distributor",
+            "Token account"
+          ]
+        },
+        {
+          "name": "metadataNewUpdateAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Update authority for new metadata"
+          ]
+        },
+        {
+          "name": "metadataMasterMetadata",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Master record metadata account"
+          ]
+        },
+        {
+          "name": "metadataMasterMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Master metadata mint account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [TokenMetadata] program."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "claimBump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "edition",
+          "type": "u64"
+        },
+        {
+          "name": "claimantSecret",
+          "type": "publicKey"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimCandyProven",
+      "accounts": [
+        {
+          "name": "distributor",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor]."
+          ]
+        },
+        {
+          "name": "distributorWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor] wallet"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "Wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MerkleDistributor",
+                "path": "distributor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "claimProof",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Status of the claim. Created with prove_claim"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Payer of the claim. Should be `mint_authority` for `candy_machine_mint` and will be",
+            "`update_authority` for `candy_machine_metadata`"
+          ]
+        },
+        {
+          "name": "candyMachineConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Candy-machine Config"
+          ]
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy-Machine. Verified through CPI"
+          ]
+        },
+        {
+          "name": "candyMachineWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Candy-Machine-Wallet. Verified through CPI"
+          ]
+        },
+        {
+          "name": "candyMachineMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Generated mint"
+          ]
+        },
+        {
+          "name": "candyMachineMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `candy_machine_mint`"
+          ]
+        },
+        {
+          "name": "candyMachineMasterEdition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA of `candy_machine_mint`"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [Token] program."
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [TokenMetadata] program."
+          ]
+        },
+        {
+          "name": "candyMachineProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [CandyMachine] program."
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "walletBump",
+          "type": "u8"
+        },
+        {
+          "name": "claimBump",
+          "type": "u8"
+        },
+        {
+          "name": "index",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "recoverUpdateAuthority",
+      "accounts": [
+        {
+          "name": "base",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Base key of the distributor."
+          ]
+        },
+        {
+          "name": "distributor",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "[MerkleDistributor]."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "MerkleDistributor"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "base"
+              }
+            ]
+          }
+        },
+        {
+          "name": "distributorWallet",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [MerkleDistributor] wallet"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "Wallet"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MerkleDistributor",
+                "path": "distributor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "newUpdateAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "New update authority"
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metadata account to update authority for"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [System] program."
+          ]
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL [TokenMetadata] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "walletBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MerkleDistributor",
+      "docs": [
+        "State for the account which distributes tokens."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "base",
+            "docs": [
+              "Base key used to generate the PDA."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "root",
+            "docs": [
+              "The 256-bit merkle root."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "temporal",
+            "docs": [
+              "Third-party signer expected on claims. Verified by OTP with off-chain distribution method"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimStatus",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isClaimed",
+            "docs": [
+              "If true, the tokens have been claimed."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "claimant",
+            "docs": [
+              "Authority that claimed the tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "claimedAt",
+            "docs": [
+              "When the tokens were claimed."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount of tokens claimed."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimCount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "docs": [
+              "Number of NFTs claimed. Compared versus `amount` in merkle tree data / proof"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "claimant",
+            "docs": [
+              "Authority that claimed the tokens."
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimProof",
+      "docs": [
+        "Allows for proof and candy minting in separate transactions to avoid transaction-size limit.",
+        "",
+        "Used for all resources (tokens, candy claims, and edition mints)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "docs": [
+              "Total number of NFTs that can be claimed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "count",
+            "docs": [
+              "Number of NFTs claimed. Compared versus `amount` in merkle tree data / proof"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "claimant",
+            "docs": [
+              "Authority that claimed the tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "resource",
+            "docs": [
+              "Resource allocated for this gumdrop. There should only be 1 per gumdrop"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "resourceNonce",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CandyMachine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "CandyMachineData"
+            }
+          },
+          {
+            "name": "itemsRedeemed",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "data",
+            "type": {
+              "defined": "ConfigData"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ConfigData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "docs": [
+              "The symbol for the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "docs": [
+              "Royalty basis points that goes to creators in secondary sales (0-10000)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "vec": {
+                "defined": "Creator"
+              }
+            }
+          },
+          {
+            "name": "maxSupply",
+            "type": "u64"
+          },
+          {
+            "name": "isMutable",
+            "type": "bool"
+          },
+          {
+            "name": "retainAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "maxNumberOfLines",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Creator",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "verified",
+            "type": "bool"
+          },
+          {
+            "name": "share",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CandyMachineData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "itemsAvailable",
+            "type": "u64"
+          },
+          {
+            "name": "goLiveDate",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ClaimedEvent",
+      "fields": [
+        {
+          "name": "index",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "claimant",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidProof",
+      "msg": "Invalid Merkle proof."
+    },
+    {
+      "code": 6001,
+      "name": "DropAlreadyClaimed",
+      "msg": "Drop already claimed."
+    },
+    {
+      "code": 6002,
+      "name": "Unauthorized",
+      "msg": "Account is not authorized to execute this instruction"
+    },
+    {
+      "code": 6003,
+      "name": "OwnerMismatch",
+      "msg": "Token account owner did not match intended owner"
+    },
+    {
+      "code": 6004,
+      "name": "TemporalMismatch",
+      "msg": "Temporal signer did not match distributor"
+    },
+    {
+      "code": 6005,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidClaimBump",
+      "msg": "Invalid Claim Bump"
+    },
+    {
+      "code": 6007,
+      "name": "MustUseOfficialCandyMachine",
+      "msg": "Gumdrop only supports the official Metaplex Candy machine contracts"
+    },
+    {
+      "code": 6008,
+      "name": "BumpSeedNotInHashMap",
+      "msg": "Bump seed not in hash map"
+    }
+  ]
+}

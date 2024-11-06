@@ -1,0 +1,2428 @@
+{
+  "version": "0.0.0",
+  "name": "structured",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "derivativeTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "authorityBump",
+          "type": "u8"
+        },
+        {
+          "name": "derivativeMintBump",
+          "type": "u8"
+        },
+        {
+          "name": "vaultBumps",
+          "type": {
+            "defined": "VaultBumps"
+          }
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "vaultCap",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "createUserAccount",
+      "accounts": [
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closeUserAccount",
+      "accounts": [
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setAdmin",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "pendingAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "acceptAdmin",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pendingAdmin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "raiseVaultCap",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newCap",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpause",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "enableEarlyAccess",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "disableEarlyAccess",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setEarlyAccessMint",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "createOpenOrders",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "createPricePerSharePage",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pricePerSharePage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "pageIndex",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricePerSharePage",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userUnderlyingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEarlyAccessTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimShares",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricePerSharePage",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userDerivativeTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initiateWithdraw",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userDerivativeTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "completeWithdraw",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricePerSharePage",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userUnderlyingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "instantWithdraw",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userUnderlyingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountUnderlying",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "rollToNextOption",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pricePerSharePage",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "derivativeTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "zetaFlexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexUnderlying",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeAuction",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "zetaFlexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionVault",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "timestamp",
+          "type": "u64"
+        },
+        {
+          "name": "auctionBump",
+          "type": "u8"
+        },
+        {
+          "name": "auctionVaultBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "completeAuction",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "zetaFlexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderAuctionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "expectedAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelAuction",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTokenVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "auctionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "auctionVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "zetaFlexProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initOptionParameters",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionParameters",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "optionParametersBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setNextOption",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "optionParameters",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "expiry",
+          "type": "u64"
+        },
+        {
+          "name": "strike",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mintOptions",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionParameters",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "zetaFlexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexUnderlying",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexVaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "optionAccountBump",
+          "type": "u8"
+        },
+        {
+          "name": "optionMintBump",
+          "type": "u8"
+        },
+        {
+          "name": "tokenAccountBump",
+          "type": "u8"
+        },
+        {
+          "name": "vaultBump",
+          "type": "u8"
+        },
+        {
+          "name": "oracleMethod",
+          "type": {
+            "defined": "OracleMethod"
+          }
+        }
+      ]
+    },
+    {
+      "name": "settleExercisedOptions",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionMarket",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "writerTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "writerTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteAssetPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "psyAmericanProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "buyUnderlying",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "requestQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "coinVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pcVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "limitPrice",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelBuyOrder",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "coinVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pcVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settleExpiredOptions",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionMarket",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "writerTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "writerTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "psyAmericanProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createOtcTerms",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcTerms",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintToSell",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintToBuy",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closeOtcTerms",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcTerms",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setOtcTerms",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcTerms",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "totalPrice",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelOtcTerms",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcTerms",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "fillOtcOrder",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcTerms",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerAcquiringTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerPayingTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenToSellVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenToBuyVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setExpireOverride",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "optionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flexUnderlying",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "flexVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "zetaFlexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "overridePrice",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "State",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "pendingAdmin",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "cap",
+            "type": "u128"
+          },
+          {
+            "name": "lockedAmount",
+            "type": "u128"
+          },
+          {
+            "name": "lastLockedAmount",
+            "type": "u128"
+          },
+          {
+            "name": "totalPendingDeposits",
+            "type": "u128"
+          },
+          {
+            "name": "queuedWithdrawShares",
+            "type": "u128"
+          },
+          {
+            "name": "totalShares",
+            "type": "u128"
+          },
+          {
+            "name": "round",
+            "type": "u128"
+          },
+          {
+            "name": "underlyingTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "quoteTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "optionTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nextOptionTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nextOptionTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "writerTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "optionAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "VaultStatus"
+            }
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                31
+              ]
+            }
+          },
+          {
+            "name": "derivativeTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "earlyAccessTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "quoteTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "optionTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "writerTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "derivativeTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "openOrders",
+            "type": "publicKey"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authorityBump",
+            "type": "u8"
+          },
+          {
+            "name": "derivativeMintBump",
+            "type": "u8"
+          },
+          {
+            "name": "vaultBumps",
+            "type": {
+              "defined": "VaultBumps"
+            }
+          },
+          {
+            "name": "pendingVaultBumps",
+            "type": {
+              "defined": "PendingVaultBumps"
+            }
+          },
+          {
+            "name": "isPaused",
+            "type": "bool"
+          },
+          {
+            "name": "onlyEarlyAccess",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserVaultAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "depositData",
+            "type": {
+              "defined": "PendingDepositData"
+            }
+          },
+          {
+            "name": "withdrawData",
+            "type": {
+              "defined": "PendingWithdrawData"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PricePerSharePage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "page",
+            "type": "u128"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "prices",
+            "type": {
+              "array": [
+                "u128",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OptionParameters",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": "publicKey"
+          },
+          {
+            "name": "expiry",
+            "type": "u64"
+          },
+          {
+            "name": "strike",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OtcTerms",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round",
+            "type": "u128"
+          },
+          {
+            "name": "totalPrice",
+            "type": "u64"
+          },
+          {
+            "name": "tokenMintToBuy",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMintToSell",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PendingDepositData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round",
+            "type": "u128"
+          },
+          {
+            "name": "amount",
+            "type": "u128"
+          },
+          {
+            "name": "unredeemedShares",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PendingWithdrawData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round",
+            "type": "u128"
+          },
+          {
+            "name": "shares",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultBumps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "underlying",
+            "type": "u8"
+          },
+          {
+            "name": "quote",
+            "type": "u8"
+          },
+          {
+            "name": "option",
+            "type": "u8"
+          },
+          {
+            "name": "writer",
+            "type": "u8"
+          },
+          {
+            "name": "derivative",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PendingVaultBumps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "option",
+            "type": "u8"
+          },
+          {
+            "name": "writer",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "CompleteAuction"
+          },
+          {
+            "name": "RollToNextOption"
+          },
+          {
+            "name": "SetOptionParameters"
+          },
+          {
+            "name": "MintOptions"
+          },
+          {
+            "name": "InitializeAuction"
+          },
+          {
+            "name": "CancelAuction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleMethod",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "SpotPrint"
+          },
+          {
+            "name": "ManualPrint"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SelfTradeBehavior",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "DecrementTake"
+          },
+          {
+            "name": "CancelProvide"
+          },
+          {
+            "name": "AbortTransaction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Limit"
+          },
+          {
+            "name": "ImmediateOrCancel"
+          },
+          {
+            "name": "PostOnly"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NewSide",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bid"
+          },
+          {
+            "name": "Ask"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Status",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Default"
+          },
+          {
+            "name": "RollToNextOption"
+          },
+          {
+            "name": "MintOptions"
+          },
+          {
+            "name": "SellOptions"
+          },
+          {
+            "name": "SettleOptionSale"
+          },
+          {
+            "name": "BuyUnderlying"
+          },
+          {
+            "name": "SettleExercisedOptions"
+          },
+          {
+            "name": "Settle"
+          },
+          {
+            "name": "SettleExpiredOptions"
+          },
+          {
+            "name": "CommitNextOption"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidUserAmount",
+      "msg": "Invalid amount requested by user"
+    },
+    {
+      "code": 301,
+      "name": "ZeroAmount",
+      "msg": "Must be nonzero"
+    },
+    {
+      "code": 302,
+      "name": "InvalidRound",
+      "msg": "Must be current round"
+    },
+    {
+      "code": 303,
+      "name": "RoundInProgress",
+      "msg": "Round is still in progress"
+    },
+    {
+      "code": 304,
+      "name": "RedeemBeforeWithdraw",
+      "msg": "Must redeem all shares before withdraw"
+    },
+    {
+      "code": 305,
+      "name": "CompleteExistingWithdraw",
+      "msg": "Complete existing withdraw before initiating new withdrawal"
+    },
+    {
+      "code": 306,
+      "name": "IncorrectPricePerSharePage",
+      "msg": "Incorrect price per share page passed in"
+    },
+    {
+      "code": 307,
+      "name": "NextOptionInvalid",
+      "msg": "Next option is not set or invalid"
+    },
+    {
+      "code": 308,
+      "name": "ArithmeticError",
+      "msg": "Arithmetic error"
+    },
+    {
+      "code": 309,
+      "name": "VaultCapExceeded",
+      "msg": "Vault cap exceeded"
+    },
+    {
+      "code": 310,
+      "name": "Paused",
+      "msg": "Vault is paused"
+    },
+    {
+      "code": 311,
+      "name": "LowerVaultCap",
+      "msg": "Vault cap lower than current"
+    },
+    {
+      "code": 312,
+      "name": "FundsInUse",
+      "msg": "Funds are currently in use. Withdrawals must be queued"
+    },
+    {
+      "code": 313,
+      "name": "OnlyTicketHolders",
+      "msg": "Must own an early access token"
+    },
+    {
+      "code": 314,
+      "name": "InvalidOTCTerms",
+      "msg": "OTC terms are invalid"
+    },
+    {
+      "code": 315,
+      "name": "InvalidEarlyAccessMint",
+      "msg": "Invalid early access token used"
+    },
+    {
+      "code": 316,
+      "name": "InvalidEarlyAccessOwner",
+      "msg": "Owner of early access token does not match"
+    },
+    {
+      "code": 317,
+      "name": "InvalidEnableAccess",
+      "msg": "Early access token mint must be set to enable early access"
+    },
+    {
+      "code": 318,
+      "name": "InvalidOTCPair",
+      "msg": "OTC terms must occur between certain pairs of tokens"
+    },
+    {
+      "code": 319,
+      "name": "AuctionTimestampOutofSync",
+      "msg": "Starting timestamp must be close to onchain clock timestamp"
+    },
+    {
+      "code": 320,
+      "name": "PreviousOptionsNotSettled",
+      "msg": "Must collect remaining collateral for the previous option before minting new options"
+    },
+    {
+      "code": 321,
+      "name": "OptionsNotInitialized",
+      "msg": "Must first initialize options before initializing the auction"
+    },
+    {
+      "code": 322,
+      "name": "OptionsMustExpireInFuture",
+      "msg": "Options must expire in the future"
+    },
+    {
+      "code": 323,
+      "name": "OptionsExpiryOutOfRange",
+      "msg": "Options expire too far in the future"
+    },
+    {
+      "code": 324,
+      "name": "OptionsNonzeroAmount",
+      "msg": "Must mint nonzero option amount"
+    },
+    {
+      "code": 325,
+      "name": "InvalidStatusForAction",
+      "msg": "Incorrect state status for action"
+    },
+    {
+      "code": 326,
+      "name": "QuoteTokensExceedThreshold",
+      "msg": "Too many quote tokens remaining"
+    },
+    {
+      "code": 327,
+      "name": "OptionTokensRemaining",
+      "msg": "Option tokens remaining in the vault"
+    }
+  ]
+}

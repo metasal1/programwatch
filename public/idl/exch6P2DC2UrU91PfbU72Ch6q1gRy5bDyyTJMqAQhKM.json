@@ -1,0 +1,685 @@
+{
+  "version": "0.1.1",
+  "name": "token_swapper",
+  "instructions": [
+    {
+      "name": "initExchange",
+      "docs": [
+        "Initialize a new TokenExchange"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The wallet paying for the transaction, will become the admin"
+          ]
+        },
+        {
+          "name": "exchangeAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "A PDA that owns the `target_account`, derived per `token_exchange`"
+          ]
+        },
+        {
+          "name": "tokenExchange",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetPool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will store target tokens until withdrawn"
+          ]
+        },
+        {
+          "name": "basePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will store earned base tokens until withdraw.",
+            "If tokens will be burnt as they are redeemed, does nothing."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uniqueSeed",
+          "type": "u16"
+        },
+        {
+          "name": "exchangeRate",
+          "type": "u32"
+        },
+        {
+          "name": "storeBase",
+          "type": "bool"
+        },
+        {
+          "name": "seizeTargetMint",
+          "type": "bool"
+        },
+        {
+          "name": "withdrawTargetAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "withdrawBaseAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "exchange",
+      "docs": [
+        "Exchange the user's base tokens for target tokens at the predetermined _exchange_rate_."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenExchange",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "exchangeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetPool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will store target tokens until withdrawn"
+          ]
+        },
+        {
+          "name": "basePool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will store earned base tokens until withdraw.",
+            "If tokens will be burnt as they are redeemed, does nothing."
+          ]
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetMint",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Only used if `is_target_mint_seized` is enabled, otherwise may be omitted"
+          ]
+        },
+        {
+          "name": "targetDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Destination for target funds. Use with caution: completely unchecked."
+          ]
+        },
+        {
+          "name": "basePaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Base token account for redemption"
+          ]
+        },
+        {
+          "name": "latestAuditLog",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "minReceived",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "fundExchange",
+      "docs": [
+        "Permissionless funding instruction moves funds from an external account to the target pool.",
+        "Equivalent to transfering funds to the pool directly with spl-token, does no additional logic.",
+        "Warning: ONLY THE `withdraw_target_authority` CAN RECOVER THESE FUNDS"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Must own the source acc, and pays tx fee"
+          ]
+        },
+        {
+          "name": "tokenExchange",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetSource",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Origin of source funds."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawBase",
+      "docs": [
+        "Withdraw base tokens (revenue) from the exchange.",
+        "Passing more than exists (e.g. u64 max) will withdraw all available.",
+        "Warning: ONLY THE `withdraw_base_authority` can call this ix"
+      ],
+      "accounts": [
+        {
+          "name": "withdrawBaseAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenExchange",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "exchangeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "basePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "baseDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Destination for base funds. Use with caution: completely unchecked."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTarget",
+      "docs": [
+        "Withdraw target tokens (the asset users exchange for) from the exchange.",
+        "Passing more than exists (e.g. u64 max) will withdraw all available.",
+        "Note that user withdrawals will fail if there is not enough asset to exchange for.",
+        "Warning: ONLY THE `withdraw_target_authority` can call this ix"
+      ],
+      "accounts": [
+        {
+          "name": "withdrawTargetAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenExchange",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "exchangeAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Destination for target funds. Use with caution: completely unchecked."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "TokenExchange",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "docs": [
+              "Can change token exchange settings"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "withdrawTargetAuthority",
+            "docs": [
+              "Can withdraw funds from the target pool that have already been exchanged"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "withdrawBaseAuthority",
+            "docs": [
+              "Can withdraw funds from the base pool that have already been exchanged"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "authoritySeed",
+            "docs": [
+              "Typically, key of this account (the TokenExchange itself), used to derive `exchange_authority`"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "exchangeAuthority",
+            "docs": [
+              "A PDA derived from the key of the TokenExchange, which has authority over the pool"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "targetMint",
+            "docs": [
+              "The token being exchanged for, the pool will end up with exclusively this token once the",
+              "exchange is complete."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "baseMint",
+            "docs": [
+              "The voucher or exchange coupon that the pool will exchange for."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "targetPool",
+            "docs": [
+              "Target tokens sit in this pool until withdrawn by the authority"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "basePool",
+            "docs": [
+              "Base tokens sit in this pool until withdrawn. If `store_base` is false, tokens are",
+              "burned when redeemed instead, and this pool does nothing"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "exchangeRate",
+            "docs": [
+              "Uses `COMMON_DENOM` decimals.",
+              "",
+              "10_000 = 100%, each base token exchanges for exactly one target.",
+              "20_000 = 200%, each base token is worth 2 target tokens. 5_000 = 50%, each base",
+              "token is worth one half of a target token, etc"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "storeBase",
+            "docs": [
+              "If true, base tokens are stored in the pool. If false, they are burned when redeemed."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "authorityBumpSeed",
+            "docs": [
+              "The bump seed value for generating `exchange_authority`."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "targetDecimals",
+            "docs": [
+              "Decimals of the `target_mint`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "baseDecimals",
+            "docs": [
+              "Decimals of the `base_mint`"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "isTargetMintSeized",
+            "docs": [
+              "If true, the target mint is owned by the exchange authority, and can never be reclaimed.",
+              "This assures that supply of vouchers will never escape the exchange: the only way to obtain",
+              "vouchers is through this exchange."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "reserved0",
+            "docs": [
+              "Buffer space for future use, align to next multiple of 32"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                23
+              ]
+            }
+          },
+          {
+            "name": "initialAuditLog",
+            "docs": [
+              "NOTE: Currently unimplemented",
+              "",
+              "The first audit log (the head) in the linked list of logs can be found at this address,",
+              "then the rest of the list can be followed by visiting list.next_list, and so forth."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "latestAuditLog",
+            "docs": [
+              "NOTE: Currently unimplemented",
+              "",
+              "The last audit log (the tail) in the linked list of logs is found at this address.",
+              "",
+              "New entries to the log are always added here."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nextAuditLog",
+            "docs": [
+              "NOTE: Currently unimplemented",
+              "",
+              "Audit logs are a PDA generated by incrementing this nounce. When a new log is created, this",
+              "number is incremented."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "uniqueSeed",
+            "docs": [
+              "For generating the account PDA: multiple exchanges with the *same* mints cannot co-exist",
+              "unless they use a different unique seed."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "reserved1",
+            "docs": [
+              "Buffer space for future use, align to next multiple of 32"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                60
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LinkedList",
+      "docs": [
+        "A list of data"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "previousList",
+            "docs": [
+              "Pointer to previous list of data"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nextList",
+            "docs": [
+              "Pointer to next list of data, is default Pubkey if this list still has space."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "nextSlot",
+            "docs": [
+              "Next available index in the array"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "reserved0",
+            "docs": [
+              "Buffer space reserve for future use, aligns to next multiple of 32 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                31
+              ]
+            }
+          },
+          {
+            "name": "reserved1",
+            "docs": [
+              "Buffer space reserved for future use"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "auditLog",
+            "type": {
+              "array": [
+                {
+                  "defined": "LogEntry"
+                },
+                255
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "LogEntry",
+      "docs": [
+        "An item in a list of data"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountTraded",
+            "type": "u64"
+          },
+          {
+            "name": "amountReceived",
+            "type": "u64"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "TokenExchangeInit",
+      "fields": [
+        {
+          "name": "tokenExchangeKey",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BadTokenSource",
+      "msg": "Bad token source - check that payer owns this ATA and it uses the correct asset"
+    },
+    {
+      "code": 6001,
+      "name": "BadExchangeAuthority",
+      "msg": "Bad Exchange authority - derive correct auth from the exchange key"
+    },
+    {
+      "code": 6002,
+      "name": "NotAuthorizedToWithdraw",
+      "msg": "Not Authorized to withdraw - the given payer is not the withdraw authority"
+    },
+    {
+      "code": 6003,
+      "name": "MathError",
+      "msg": "Overflow, div by zero, or other math error"
+    },
+    {
+      "code": 6004,
+      "name": "MintSupplyNonZero",
+      "msg": "Mint Supply must be zero for a seized mint"
+    },
+    {
+      "code": 6005,
+      "name": "MintMustHaveAuthority",
+      "msg": "Mint must have a valid mint and freeze authority for a seized mint"
+    },
+    {
+      "code": 6006,
+      "name": "MissingTargetMint",
+      "msg": "Target Mint must be provided if exchange is seized"
+    },
+    {
+      "code": 6007,
+      "name": "RecievedBelowMin",
+      "msg": "Exchange didn't offer enough target token: check your requested min_recieved"
+    }
+  ]
+}

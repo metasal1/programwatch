@@ -1,0 +1,1361 @@
+{
+  "version": "0.1.0",
+  "name": "gigadexv2",
+  "instructions": [
+    {
+      "name": "createMarket",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lotVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initLogs",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyOrderLog",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sellOrderLog",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initFeeMod",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeMod",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRoyaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateFeeMod",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeMod",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRoyaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "baseFeeBp",
+          "type": "u64"
+        },
+        {
+          "name": "collectionFeeBp",
+          "type": "u64"
+        },
+        {
+          "name": "marketMakerFeeBp",
+          "type": "u64"
+        },
+        {
+          "name": "dexFeeBp",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initAdditionalPda",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createAccount",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "limitBuy",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "limitSell",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "baseTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelLimitBuy",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelLimitSell",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "marketBuy",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRoyaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyOrderLog",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeMod",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "marketSell",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "baseTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionRoyaltyAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sellOrderLog",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidLogs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeMod",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimBalance",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "quoteTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "baseTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeMarket",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dest",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "revokeOrders",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "balances",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "askTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "additionalAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "balances",
+            "type": "publicKey"
+          },
+          {
+            "name": "wsolVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "lotVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "asks",
+            "type": "publicKey"
+          },
+          {
+            "name": "bids",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "uid",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketOrderLog",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "totalValueLamports",
+            "type": "u64"
+          },
+          {
+            "name": "counter",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdditionalPdaAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "multiplier",
+            "type": "u64"
+          },
+          {
+            "name": "quoteMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeReceiverWallet",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeMod",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "baseFeeBp",
+            "type": "u64"
+          },
+          {
+            "name": "collectionFeeBp",
+            "type": "u64"
+          },
+          {
+            "name": "marketMakerFeeBp",
+            "type": "u64"
+          },
+          {
+            "name": "dexFeeBp",
+            "type": "u64"
+          },
+          {
+            "name": "collectionRoyaltyAddress",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderBookLogVector",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "counter",
+            "type": "u64"
+          },
+          {
+            "name": "numLogs",
+            "type": "u64"
+          },
+          {
+            "name": "orderBookLogs",
+            "type": {
+              "array": [
+                {
+                  "defined": "OrderBookLog"
+                },
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserBalances",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numUsers",
+            "type": "u64"
+          },
+          {
+            "name": "entries",
+            "type": {
+              "array": [
+                {
+                  "defined": "Entry"
+                },
+                10000
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderTree",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rootIdx",
+            "type": "u64"
+          },
+          {
+            "name": "marketBuy",
+            "type": "u64"
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "array": [
+                {
+                  "defined": "Node"
+                },
+                1000
+              ]
+            }
+          },
+          {
+            "name": "numOrders",
+            "type": "u64"
+          },
+          {
+            "name": "currentSigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "remainingAmount",
+            "type": "u64"
+          },
+          {
+            "name": "numFills",
+            "type": "u64"
+          },
+          {
+            "name": "fills",
+            "type": {
+              "array": [
+                {
+                  "defined": "FilledOrder"
+                },
+                64
+              ]
+            }
+          },
+          {
+            "name": "numDeltas",
+            "type": "u64"
+          },
+          {
+            "name": "nodeDelta",
+            "type": {
+              "array": [
+                {
+                  "defined": "NodeDeltaLog"
+                },
+                64
+              ]
+            }
+          },
+          {
+            "name": "amountCancelled",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "OrderBookLog",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "u64"
+          },
+          {
+            "name": "isDelete",
+            "type": "u64"
+          },
+          {
+            "name": "isInsert",
+            "type": "u64"
+          },
+          {
+            "name": "isDelta",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "uid",
+            "type": "u64"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Entry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lamports",
+            "type": "u64"
+          },
+          {
+            "name": "lots",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Node",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "uid",
+            "type": "u64"
+          },
+          {
+            "name": "left",
+            "type": "u64"
+          },
+          {
+            "name": "right",
+            "type": "u64"
+          },
+          {
+            "name": "next",
+            "type": "u64"
+          },
+          {
+            "name": "height",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FilledOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "uid",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NodeDeltaLog",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "u64"
+          },
+          {
+            "name": "isDelete",
+            "type": "u64"
+          },
+          {
+            "name": "isInsert",
+            "type": "u64"
+          },
+          {
+            "name": "isDelta",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "uid",
+            "type": "u64"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidTransactionType",
+      "msg": "InvalidTransactionType"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMetaplexMetadataPda",
+      "msg": "Invalid metaplex metadata pda."
+    },
+    {
+      "code": 6002,
+      "name": "VerifiedCreatorAddressMismatch",
+      "msg": "Verified creator address mismatch."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAccountOwner",
+      "msg": "Invalid account owner."
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientFeeFunds",
+      "msg": "Insufficient fee funds."
+    },
+    {
+      "code": 6005,
+      "name": "OrderNotFound",
+      "msg": "Order Not Found."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidAuthPda",
+      "msg": "Invalid Authorizer PDA."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidFeeRxAddress",
+      "msg": "Invalid fee receiver address"
+    },
+    {
+      "code": 6008,
+      "name": "LiquidationCriteriaNotMet",
+      "msg": "Liquidation criteria not met"
+    },
+    {
+      "code": 6009,
+      "name": "PriceCrossesSpread",
+      "msg": "Price crosses spread."
+    },
+    {
+      "code": 6010,
+      "name": "BalanceTestFailed",
+      "msg": "Balance Test Failed."
+    },
+    {
+      "code": 6011,
+      "name": "VaultTestFailed",
+      "msg": "Vault Test Failed."
+    },
+    {
+      "code": 6012,
+      "name": "InvalidMarketAdmin",
+      "msg": "Invalid market admin"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidFeeAmounts",
+      "msg": "Invalid fee amounts"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidDecimalsMultiplier",
+      "msg": "Invalid multipler"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidOrderValue",
+      "msg": "Order value too small"
+    },
+    {
+      "code": 6016,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidCollRoyaltyAdd",
+      "msg": "Invalid Collection Royalty Address "
+    },
+    {
+      "code": 6018,
+      "name": "InvalidQuoteMint",
+      "msg": "Quote mint should be different than base mint"
+    }
+  ]
+}

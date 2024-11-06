@@ -1,0 +1,739 @@
+{
+  "version": "0.1.0",
+  "name": "marinade_native_proxy",
+  "instructions": [
+    {
+      "name": "initRoot",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "publicKey"
+        },
+        {
+          "name": "operator",
+          "type": "publicKey"
+        },
+        {
+          "name": "alternateStaker",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setOperator",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newOperator",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setAdmin",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setAlternateStaker",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAlternateStaker",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "merge",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "operator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "destinationStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeHistory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "split",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "operator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splitStake",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "deactivate",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "operator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "delegate",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "operator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "validatorVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeHistory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "redelegate",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "operator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redelegateStake",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "validatorVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeHistory",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "switchStaker",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "operator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "alternateStaker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Root",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "operator",
+            "type": "publicKey"
+          },
+          {
+            "name": "alternateStaker",
+            "type": "publicKey"
+          },
+          {
+            "name": "bumps",
+            "type": {
+              "defined": "Bumps"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DelegationInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "voterPubkey",
+            "docs": [
+              "to whom the stake is delegated"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stake",
+            "docs": [
+              "activated stake amount, set at delegate() time"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "activationEpoch",
+            "docs": [
+              "epoch at which this stake was activated, std::Epoch::MAX if is a bootstrap stake"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "deactivationEpoch",
+            "docs": [
+              "epoch the stake was deactivated, std::Epoch::MAX if not deactivated"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PubkeyValueChange",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old",
+            "type": "publicKey"
+          },
+          {
+            "name": "new",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bumps",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "staker",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "InitRootEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "operator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "alternateStaker",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "staker",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetOperatorEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "operatorChange",
+          "type": {
+            "defined": "PubkeyValueChange"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetAdminEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "adminChange",
+          "type": {
+            "defined": "PubkeyValueChange"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SetAlternateStakerEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "alternateStakerChange",
+          "type": {
+            "defined": "PubkeyValueChange"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "MergeEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "destinationStake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "destinationDelegation",
+          "type": {
+            "option": {
+              "defined": "DelegationInfo"
+            }
+          },
+          "index": false
+        },
+        {
+          "name": "sourceStake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "sourceDelegation",
+          "type": {
+            "option": {
+              "defined": "DelegationInfo"
+            }
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SplitEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "stake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "delegation",
+          "type": {
+            "option": {
+              "defined": "DelegationInfo"
+            }
+          },
+          "index": false
+        },
+        {
+          "name": "splitStake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DeactivateEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "stake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "delegation",
+          "type": {
+            "defined": "DelegationInfo"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DelegateEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "stake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "delegation",
+          "type": {
+            "option": {
+              "defined": "DelegationInfo"
+            }
+          },
+          "index": false
+        },
+        {
+          "name": "validatorVote",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RedelegateEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "stake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "delegation",
+          "type": {
+            "defined": "DelegationInfo"
+          },
+          "index": false
+        },
+        {
+          "name": "validatorVote",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SwitchStakerEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "stake",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "delegation",
+          "type": {
+            "option": {
+              "defined": "DelegationInfo"
+            }
+          },
+          "index": false
+        },
+        {
+          "name": "newStaker",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UninitializedStake"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidStakeStaker"
+    },
+    {
+      "code": 6002,
+      "name": "DelegationRequired"
+    }
+  ]
+}

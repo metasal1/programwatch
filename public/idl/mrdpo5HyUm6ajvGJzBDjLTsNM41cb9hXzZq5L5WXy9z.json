@@ -1,0 +1,356 @@
+{
+  "version": "0.0.0",
+  "name": "maridrop",
+  "instructions": [
+    {
+      "name": "initTreasury",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "adminAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "startTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "setAdmin",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdminAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setStartTime",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newStartTime",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "closeTreasury",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferTokenTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initPromise",
+      "accounts": [
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "promiseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rentPayer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "targetAuthority",
+          "type": "publicKey"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setPromiseAmount",
+      "accounts": [
+        {
+          "name": "promiseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTotalAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "promiseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenStore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferTokenTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closePromise",
+      "accounts": [
+        {
+          "name": "promiseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Promise",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "treasuryAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "targetAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "nonClaimedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Treasury",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adminAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenStore",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalPromised",
+            "type": "u64"
+          },
+          {
+            "name": "totalNonClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "promiseCount",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "tokenAuthorityBump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "TreasuryTokenAuthorityDoesNotMatch",
+      "msg": "Treasury token authority does not match"
+    },
+    {
+      "code": 301,
+      "name": "TreasuryTokenAccountMustNotBeDelegated",
+      "msg": "Treasury token account must not be delegated"
+    },
+    {
+      "code": 302,
+      "name": "TreasuryTokenAccountMustNotBeCloseable",
+      "msg": "Treasury token account must not be closeable"
+    },
+    {
+      "code": 303,
+      "name": "ClosingTreasuryWithPromises",
+      "msg": "Can not close treasury while it has not closed promises"
+    },
+    {
+      "code": 304,
+      "name": "CloseTargetIsSource",
+      "msg": "Can not close by moving tokens to the same account"
+    },
+    {
+      "code": 305,
+      "name": "InsufficientPromiseFunds",
+      "msg": "Insufficient funds to make this promise"
+    },
+    {
+      "code": 306,
+      "name": "NonStarted",
+      "msg": "Airdrop is not started yet"
+    }
+  ]
+}

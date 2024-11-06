@@ -1,0 +1,1899 @@
+{
+  "version": "0.1.0",
+  "name": "pixel_war",
+  "instructions": [
+    {
+      "name": "initCanvas",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrowCanvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelsAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "splTokenFee",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "InitializeCanvasArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "markClosable",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPixel",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "walletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowCanvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenFee",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "leaderboard",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarRecentSlothashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "position",
+          "type": {
+            "array": [
+              "u32",
+              2
+            ]
+          }
+        },
+        {
+          "name": "lockDuration",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "createWalletTracker",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updatePixel",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "walletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lastUserWalletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorWalletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowCanvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "leaderboard",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenFee",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarRecentSlothashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockDuration",
+          "type": "u8"
+        },
+        {
+          "name": "position",
+          "type": {
+            "array": [
+              "u32",
+              2
+            ]
+          }
+        },
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "updateTrackers",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "creatorTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowCanvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenFee",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closePixel",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowCanvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenFee",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "position",
+          "type": {
+            "array": [
+              "u32",
+              2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "initPixel",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "position",
+          "type": {
+            "array": [
+              "u32",
+              2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "createLeaderboardAccount",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "leaderboard",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initSocial",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "canvasAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "walletTrackerAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "twitter",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "discord",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CanvasAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creatorWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "pixelsAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "dimension",
+            "type": "u32"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "CanvasStatus"
+            }
+          },
+          {
+            "name": "feeType",
+            "type": {
+              "defined": "FeeType"
+            }
+          },
+          {
+            "name": "feeToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "creationFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "unirexcityUpdateFee",
+            "type": "u64"
+          },
+          {
+            "name": "unirexcityCreationFee",
+            "type": "u64"
+          },
+          {
+            "name": "unirexcityLockFee",
+            "type": "u64"
+          },
+          {
+            "name": "creationFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateBaseFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "updateBaseFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateMarkupOperation",
+            "type": {
+              "defined": "UpdateMarkupOperation"
+            }
+          },
+          {
+            "name": "lockMinDuration",
+            "type": "u8"
+          },
+          {
+            "name": "lockMaxDuration",
+            "type": "u8"
+          },
+          {
+            "name": "lockIncrementsPerMinute",
+            "type": "u8"
+          },
+          {
+            "name": "lockSolFee",
+            "type": "u64"
+          },
+          {
+            "name": "lockSplFee",
+            "type": "u64"
+          },
+          {
+            "name": "startStamp",
+            "type": "u32"
+          },
+          {
+            "name": "endStamp",
+            "type": "u32"
+          },
+          {
+            "name": "fundsWithdrawnAt",
+            "type": "u32"
+          },
+          {
+            "name": "markedClosableAt",
+            "type": "u32"
+          },
+          {
+            "name": "cooldownDuration",
+            "type": "u8"
+          },
+          {
+            "name": "statsParticipantWallets",
+            "type": "u32"
+          },
+          {
+            "name": "statsParticipantAccounts",
+            "type": "u32"
+          },
+          {
+            "name": "statsTotalAction",
+            "type": "u32"
+          },
+          {
+            "name": "statsTotalUpdates",
+            "type": "u32"
+          },
+          {
+            "name": "isFeatured",
+            "type": "bool"
+          },
+          {
+            "name": "createdPixelsCount",
+            "type": "u32"
+          },
+          {
+            "name": "poweredCandyMachine",
+            "type": "bool"
+          },
+          {
+            "name": "feeDistrStrat",
+            "type": {
+              "defined": "FeeDistributionStartegy"
+            }
+          },
+          {
+            "name": "cfProjectSplTotal",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSolTotal",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSolPc",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSplPc",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSolPu",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSplPu",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSolPl",
+            "type": "u64"
+          },
+          {
+            "name": "cfProjectSplPl",
+            "type": "u64"
+          },
+          {
+            "name": "cfUnirexcitySolPc",
+            "type": "u64"
+          },
+          {
+            "name": "cfUnirexcitySolPu",
+            "type": "u64"
+          },
+          {
+            "name": "cfUnirexcitySolPl",
+            "type": "u64"
+          },
+          {
+            "name": "limitPlayer",
+            "type": "u8"
+          },
+          {
+            "name": "totalWithdrawnUsersSol",
+            "type": "u64"
+          },
+          {
+            "name": "totalWithdrawnUsersSpl",
+            "type": "u64"
+          },
+          {
+            "name": "totalWithdrawals",
+            "type": "u64"
+          },
+          {
+            "name": "whitelistedCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "canvasMetadataJson",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "creatorTwitter",
+            "type": "string"
+          },
+          {
+            "name": "creatorDiscord",
+            "type": "string"
+          },
+          {
+            "name": "finalStateImage",
+            "type": "string"
+          },
+          {
+            "name": "timelapsVideo",
+            "type": "string"
+          },
+          {
+            "name": "creationExp",
+            "type": {
+              "vec": {
+                "defined": "Experience"
+              }
+            }
+          },
+          {
+            "name": "initialExp",
+            "type": "u8"
+          },
+          {
+            "name": "updateExp",
+            "type": {
+              "vec": {
+                "defined": "Experience"
+              }
+            }
+          },
+          {
+            "name": "rentExp",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EscrowCandyMachine",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "canvasAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EscrowCanvasAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "canvasAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelsAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "canvasId",
+            "type": "publicKey"
+          },
+          {
+            "name": "values",
+            "type": "bytes"
+          },
+          {
+            "name": "lastUpdateStamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "square01pc",
+            "type": "u16"
+          },
+          {
+            "name": "square1pc",
+            "type": "u16"
+          },
+          {
+            "name": "square10pc",
+            "type": "u16"
+          },
+          {
+            "name": "x",
+            "type": "u32"
+          },
+          {
+            "name": "y",
+            "type": "u32"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "nft",
+            "type": "publicKey"
+          },
+          {
+            "name": "updatesCounter",
+            "type": "u16"
+          },
+          {
+            "name": "unlockedAt",
+            "type": "u32"
+          },
+          {
+            "name": "lastUpdator",
+            "type": "publicKey"
+          },
+          {
+            "name": "creation",
+            "type": "u32"
+          },
+          {
+            "name": "updateStamp",
+            "type": "u32"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "canvas",
+            "type": "publicKey"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "name": "exp",
+            "type": "u32"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "PixelStatus"
+            }
+          },
+          {
+            "name": "allFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "allFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateFeesSol",
+            "type": "u64"
+          },
+          {
+            "name": "updateFeesSpl",
+            "type": "u64"
+          },
+          {
+            "name": "locksCounter",
+            "type": "u16"
+          },
+          {
+            "name": "updatedGt5",
+            "type": "bool"
+          },
+          {
+            "name": "updatedGt10",
+            "type": "bool"
+          },
+          {
+            "name": "updatedGt15",
+            "type": "bool"
+          },
+          {
+            "name": "updatedGt20",
+            "type": "bool"
+          },
+          {
+            "name": "lockedGt2",
+            "type": "bool"
+          },
+          {
+            "name": "lockedGt4",
+            "type": "bool"
+          },
+          {
+            "name": "lockedGt6",
+            "type": "bool"
+          },
+          {
+            "name": "lockedGt8",
+            "type": "bool"
+          },
+          {
+            "name": "nftUri",
+            "type": "string"
+          },
+          {
+            "name": "nftName",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WalletTrackerAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "userNft",
+            "type": "publicKey"
+          },
+          {
+            "name": "canvas",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalCreated",
+            "type": "u32"
+          },
+          {
+            "name": "hasCreated",
+            "type": "bool"
+          },
+          {
+            "name": "hasPlayed",
+            "type": "bool"
+          },
+          {
+            "name": "cooledUntil",
+            "type": "u32"
+          },
+          {
+            "name": "battleWons",
+            "type": "u32"
+          },
+          {
+            "name": "battleLosts",
+            "type": "u32"
+          },
+          {
+            "name": "lastAction",
+            "type": {
+              "array": [
+                "u32",
+                2
+              ]
+            }
+          },
+          {
+            "name": "exp",
+            "type": "u16"
+          },
+          {
+            "name": "lastExpChange",
+            "type": "u16"
+          },
+          {
+            "name": "lastExpChangeStamp",
+            "type": "u32"
+          },
+          {
+            "name": "lastUpdateStamp",
+            "type": "i64"
+          },
+          {
+            "name": "lastUpdateDate",
+            "type": "i64"
+          },
+          {
+            "name": "totalUpdated",
+            "type": "u32"
+          },
+          {
+            "name": "socialConnected",
+            "type": "bool"
+          },
+          {
+            "name": "totalMinLocked",
+            "type": "u32"
+          },
+          {
+            "name": "mt10",
+            "type": "bool"
+          },
+          {
+            "name": "mt20",
+            "type": "bool"
+          },
+          {
+            "name": "mt30",
+            "type": "bool"
+          },
+          {
+            "name": "mt50",
+            "type": "bool"
+          },
+          {
+            "name": "mt70",
+            "type": "bool"
+          },
+          {
+            "name": "mt100",
+            "type": "bool"
+          },
+          {
+            "name": "mt130",
+            "type": "bool"
+          },
+          {
+            "name": "mt160",
+            "type": "bool"
+          },
+          {
+            "name": "mt200",
+            "type": "bool"
+          },
+          {
+            "name": "mt250",
+            "type": "bool"
+          },
+          {
+            "name": "mt300",
+            "type": "bool"
+          },
+          {
+            "name": "twitter",
+            "type": "string"
+          },
+          {
+            "name": "lastValue",
+            "type": "string"
+          },
+          {
+            "name": "discord",
+            "type": "string"
+          },
+          {
+            "name": "nftImage",
+            "type": "string"
+          },
+          {
+            "name": "nftName",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LeaderBoard",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "canvas",
+            "type": "publicKey"
+          },
+          {
+            "name": "leaderboard",
+            "type": {
+              "array": [
+                {
+                  "defined": "LeaderBoardItem"
+                },
+                6
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Experience",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "exp",
+            "type": "u8"
+          },
+          {
+            "name": "threeshold",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LeaderBoardItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "exp",
+            "type": "u16"
+          },
+          {
+            "name": "creationCount",
+            "type": "u32"
+          },
+          {
+            "name": "updateCount",
+            "type": "u32"
+          },
+          {
+            "name": "lockCount",
+            "type": "u32"
+          },
+          {
+            "name": "battleWons",
+            "type": "u32"
+          },
+          {
+            "name": "battleLost",
+            "type": "u32"
+          },
+          {
+            "name": "totalActions",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeCanvasArgs",
+      "docs": [
+        "ARGUMENTS //////////////////////////"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dimension",
+            "type": "u32"
+          },
+          {
+            "name": "feeType",
+            "type": {
+              "defined": "FeeType"
+            }
+          },
+          {
+            "name": "creationFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "creationFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateBaseFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "updateBaseFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateMarkupOperation",
+            "type": {
+              "defined": "UpdateMarkupOperation"
+            }
+          },
+          {
+            "name": "lockMinDuration",
+            "type": "u8"
+          },
+          {
+            "name": "lockMaxDuration",
+            "type": "u8"
+          },
+          {
+            "name": "lockIncrementsPerMinute",
+            "type": "u8"
+          },
+          {
+            "name": "lockSolFee",
+            "type": "u64"
+          },
+          {
+            "name": "lockSplFee",
+            "type": "u64"
+          },
+          {
+            "name": "whitelistedCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "startStamp",
+            "type": "u32"
+          },
+          {
+            "name": "endStamp",
+            "type": "u32"
+          },
+          {
+            "name": "cooldownDuration",
+            "type": "u8"
+          },
+          {
+            "name": "limitPlayer",
+            "type": "u8"
+          },
+          {
+            "name": "isFeatured",
+            "type": "bool"
+          },
+          {
+            "name": "poweredCandyMachine",
+            "type": "bool"
+          },
+          {
+            "name": "feeDistrStrat",
+            "type": {
+              "defined": "FeeDistributionStartegy"
+            }
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "canvasMetadataJson",
+            "type": "string"
+          },
+          {
+            "name": "creationExp",
+            "type": {
+              "vec": {
+                "defined": "Experience"
+              }
+            }
+          },
+          {
+            "name": "updateExp",
+            "type": {
+              "vec": {
+                "defined": "Experience"
+              }
+            }
+          },
+          {
+            "name": "initExp",
+            "type": "u8"
+          },
+          {
+            "name": "rentExp",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateCanvasArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creatorTwitter",
+            "type": "string"
+          },
+          {
+            "name": "creatorDiscord",
+            "type": "string"
+          },
+          {
+            "name": "feeType",
+            "type": {
+              "defined": "FeeType"
+            }
+          },
+          {
+            "name": "creationFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "creationFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateBaseFeeSol",
+            "type": "u64"
+          },
+          {
+            "name": "updateBaseFeeSpl",
+            "type": "u64"
+          },
+          {
+            "name": "updateMarkupOperation",
+            "type": {
+              "defined": "UpdateMarkupOperation"
+            }
+          },
+          {
+            "name": "lockMinDuration",
+            "type": "u16"
+          },
+          {
+            "name": "lockMaxDuration",
+            "type": "u16"
+          },
+          {
+            "name": "lockIncrementsPerMinute",
+            "type": "u8"
+          },
+          {
+            "name": "lockSolFee",
+            "type": "u64"
+          },
+          {
+            "name": "lockSplFee",
+            "type": "u64"
+          },
+          {
+            "name": "creators",
+            "type": {
+              "defined": "CreatorsRules"
+            }
+          },
+          {
+            "name": "whitelistedCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "updaters",
+            "type": {
+              "defined": "UpdatersRules"
+            }
+          },
+          {
+            "name": "startStamp",
+            "type": "u32"
+          },
+          {
+            "name": "endStamp",
+            "type": "u32"
+          },
+          {
+            "name": "cooldownDuration",
+            "type": "u32"
+          },
+          {
+            "name": "isFeatured",
+            "type": "bool"
+          },
+          {
+            "name": "poweredCandyMachine",
+            "type": "bool"
+          },
+          {
+            "name": "feeDistrStrat",
+            "type": {
+              "defined": "FeeDistributionStartegy"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePixelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "type": {
+              "array": [
+                "u16",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdatePixelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "name": "position",
+            "type": {
+              "array": [
+                "u16",
+                2
+              ]
+            }
+          },
+          {
+            "name": "lockDuration",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStrategy",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Battle"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeDistributionStartegy",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Admin"
+          },
+          {
+            "name": "PixelLatestUpdater"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CanvasStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Ready"
+          },
+          {
+            "name": "Closable"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Objective",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "War"
+          },
+          {
+            "name": "Mint"
+          },
+          {
+            "name": "Stacking"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelValueType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Letters"
+          },
+          {
+            "name": "Palette"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelSize",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "OnePx"
+          },
+          {
+            "name": "TenPx"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Sol"
+          },
+          {
+            "name": "Spl"
+          },
+          {
+            "name": "SolAndSpl"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateMarkupOperation",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Add"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatorsRules",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Anyone"
+          },
+          {
+            "name": "AnyoneWithNft"
+          },
+          {
+            "name": "Collections"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdatersRules",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NonModifiable"
+          },
+          {
+            "name": "SameWallet"
+          },
+          {
+            "name": "SameCollection"
+          },
+          {
+            "name": "OppositeCollection"
+          },
+          {
+            "name": "Default"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NonWithdraw"
+          },
+          {
+            "name": "Withdrawn"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StatusWalletTracker",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NonLinked"
+          },
+          {
+            "name": "Linked"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "LimitPlayerExceed",
+      "msg": "Limit of player attempt"
+    },
+    {
+      "code": 6001,
+      "name": "PixelAlreadyCreated",
+      "msg": "Pixel already created !"
+    },
+    {
+      "code": 6002,
+      "name": "SameValue",
+      "msg": "Same Value"
+    },
+    {
+      "code": 6003,
+      "name": "NotBetweenXAndY",
+      "msg": "Compared value is not between x & y"
+    },
+    {
+      "code": 6004,
+      "name": "FeeArgsDontMatch",
+      "msg": "Fee arguments doesn't match"
+    },
+    {
+      "code": 6005,
+      "name": "WrongStatus",
+      "msg": "Wrong Status"
+    },
+    {
+      "code": 6006,
+      "name": "WrongPaletteValue",
+      "msg": "Wrong Palette value"
+    },
+    {
+      "code": 6007,
+      "name": "ObjectiveNotAvailable",
+      "msg": "Objective still not available"
+    },
+    {
+      "code": 6008,
+      "name": "SocialMediaNotAvailable",
+      "msg": "Social media not available"
+    },
+    {
+      "code": 6009,
+      "name": "WrongLockDuration",
+      "msg": "Wrong lock duration pass in args"
+    },
+    {
+      "code": 6010,
+      "name": "WrongFeeDistributionStrategy",
+      "msg": "Wrong FeeDistributionStrategy"
+    },
+    {
+      "code": 6011,
+      "name": "WalletNotLinked",
+      "msg": "Wallet not linked"
+    },
+    {
+      "code": 6012,
+      "name": "InsufficientFundsForTransaction",
+      "msg": "Need more sol for pursuing the transaction"
+    },
+    {
+      "code": 6013,
+      "name": "KeyIsNotAuth",
+      "msg": "Key is not authority"
+    },
+    {
+      "code": 6014,
+      "name": "UpdatersRulesStrategyNotAvailable",
+      "msg": "UpdatersRules strategy you choose is not still available"
+    },
+    {
+      "code": 6015,
+      "name": "NumericalOverflow",
+      "msg": "Numerical overflow"
+    },
+    {
+      "code": 6016,
+      "name": "WrongSumThreeshold",
+      "msg": "Sum of the threeshold is not equal to 100"
+    },
+    {
+      "code": 6017,
+      "name": "CollectionNotListed",
+      "msg": "Collection Id of the nft is not whitelisted"
+    },
+    {
+      "code": 6018,
+      "name": "AlreadyOwnByTheCollection",
+      "msg": "Already own by the collection id of the NFT"
+    },
+    {
+      "code": 6019,
+      "name": "CollectionIdNotVerified",
+      "msg": "Collection Id is not verified"
+    },
+    {
+      "code": 6020,
+      "name": "UserTokenAccountDontBelongToUser",
+      "msg": "UserTokenAccount don't belong to user"
+    },
+    {
+      "code": 6021,
+      "name": "UserTokenAccountIsNotFromMint",
+      "msg": "UserTokenAccount is not affiliated to the mint"
+    },
+    {
+      "code": 6022,
+      "name": "TwitterAndDiscordAreNull",
+      "msg": "Both twitter and discord are null"
+    },
+    {
+      "code": 6023,
+      "name": "OldStateCannotUpdate",
+      "msg": "Old state, cannot update"
+    },
+    {
+      "code": 6024,
+      "name": "WrongOwnershipTokenAccount",
+      "msg": "the token account provided is not own, by the user"
+    },
+    {
+      "code": 6025,
+      "name": "MintFieldNotEqual",
+      "msg": "the field `mint` is not belonging to this mint account"
+    },
+    {
+      "code": 6026,
+      "name": "TokenAccountAmountNotEqualTo1",
+      "msg": "The amount of token own by the token account is not equal to 1"
+    },
+    {
+      "code": 6027,
+      "name": "MetadataMintNotEqualToMintAccount",
+      "msg": "The Metadata `mint` field is not equal to this mint account"
+    }
+  ]
+}

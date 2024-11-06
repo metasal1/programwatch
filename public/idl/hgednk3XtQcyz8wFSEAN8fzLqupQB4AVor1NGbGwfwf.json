@@ -1,0 +1,1392 @@
+{
+  "version": "0.1.1",
+  "name": "holygrails",
+  "instructions": [
+    {
+      "name": "withdrawFromFee",
+      "docs": [
+        "Withdraw `amount` from the Holy House Fee Account to a provided destination account."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority key for the Holy House."
+          ]
+        },
+        {
+          "name": "feeWithdrawalDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that pays for fees if the marketplace executes sales."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawFromTreasury",
+      "docs": [
+        "Withdraw `amount` from the Holy House Treasury Account to a provided destination account."
+      ],
+      "accounts": [
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Treasury mint account, either native SOL mint or a SPL token mint."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority key for the Holy House."
+          ]
+        },
+        {
+          "name": "treasuryWithdrawalDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SOL or SPL token account to receive Holy House fees. If treasury mint is native this will be the same as the `treasury_withdrawl_destination_owner`."
+          ]
+        },
+        {
+          "name": "holyHouseTreasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House treasury PDA account."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateHouse",
+      "docs": [
+        "Update Holy House values such as seller fee basis points, update authority, treasury account, etc."
+      ],
+      "accounts": [
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Treasury mint account, either native SOL mint or a SPL token mint."
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Key paying SOL fees for setting up the Holy House."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority key for the Holy House."
+          ]
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "New authority key for the Holy House."
+          ]
+        },
+        {
+          "name": "feeWithdrawalDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that pays for fees if the marketplace executes sales."
+          ]
+        },
+        {
+          "name": "treasuryWithdrawalDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SOL or SPL token account to receive Holy House fees. If treasury mint is native this will be the same as the `treasury_withdrawl_destination_owner`."
+          ]
+        },
+        {
+          "name": "treasuryWithdrawalDestinationOwner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of the `treasury_withdrawal_destination` account or the same address if the `treasury_mint` is native."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "requiresSignOff",
+          "type": {
+            "option": "bool"
+          }
+        },
+        {
+          "name": "canChangeSalePrice",
+          "type": {
+            "option": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createHouse",
+      "docs": [
+        "Create a new Holy House instance."
+      ],
+      "accounts": [
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Treasury mint account, either native SOL mint or a SPL token mint."
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Key paying SOL fees for setting up the Holy House."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeWithdrawalDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account that pays for fees if the marketplace executes sales."
+          ]
+        },
+        {
+          "name": "treasuryWithdrawalDestination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SOL or SPL token account to receive Holy House fees. If treasury mint is native this will be the same as the `treasury_withdrawl_destination_owner`."
+          ]
+        },
+        {
+          "name": "treasuryWithdrawalDestinationOwner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Owner of the `treasury_withdrawal_destination` account or the same address if the `treasury_mint` is native."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "holyHouseTreasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance treasury PDA account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "feePayerBump",
+          "type": "u8"
+        },
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": "u16"
+        },
+        {
+          "name": "requiresSignOff",
+          "type": "bool"
+        },
+        {
+          "name": "canChangeSalePrice",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "delist",
+      "docs": [
+        "Cancel a bid or ask by revoking the token delegate, transferring all lamports from the trade state account to the fee payer, and setting the trade state account data to zero so it can be garbage collected."
+      ],
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account containing the token of the sale to be canceled."
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token mint account of SPL token."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance authority account."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Trade state PDA account representing the bid or ask to be canceled."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "buyerPrice",
+          "type": "u64"
+        },
+        {
+          "name": "tokenSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "offer",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyerTradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tradeStateBump",
+          "type": "u8"
+        },
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        },
+        {
+          "name": "buyerPrice",
+          "type": "u64"
+        },
+        {
+          "name": "tokenSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "docs": [
+        "Deposit `amount` into the escrow payment account for your specific wallet."
+      ],
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User SOL or SPL account to transfer funds from."
+          ]
+        },
+        {
+          "name": "transferAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "SPL token account transfer authority."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer escrow payment account PDA."
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance treasury mint account."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance authority account."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "nativeSale",
+      "accounts": [
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer user wallet account."
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller user wallet account."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token account where the SPL token is stored."
+          ]
+        },
+        {
+          "name": "predefineWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token mint account for the SPL token."
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House treasury mint account."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer escrow payment account."
+          ]
+        },
+        {
+          "name": "sellerPaymentReceiptAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller SOL or SPL account to receive payment at."
+          ]
+        },
+        {
+          "name": "buyerReceiptTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer SPL token account to receive purchased item at."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance authority."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "holyHouseTreasury",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance treasury account."
+          ]
+        },
+        {
+          "name": "buyerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer trade state PDA account encoding the buy order."
+          ]
+        },
+        {
+          "name": "sellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller trade state PDA account enco ding the sell order."
+          ]
+        },
+        {
+          "name": "freeTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Free seller trade state PDA account encoding a free sell order."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programAsSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        },
+        {
+          "name": "freeTradeStateBump",
+          "type": "u8"
+        },
+        {
+          "name": "programAsSignerBump",
+          "type": "u8"
+        },
+        {
+          "name": "buyerPrice",
+          "type": "u64"
+        },
+        {
+          "name": "tokenSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account containing token for sale."
+          ]
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metaplex metadata account decorating SPL mint account."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House authority account."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "sellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller trade state PDA account encoding the sell order."
+          ]
+        },
+        {
+          "name": "freeSellerTradeState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Free seller trade state PDA account encoding a free sell order."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programAsSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tradeStateBump",
+          "type": "u8"
+        },
+        {
+          "name": "freeTradeStateBump",
+          "type": "u8"
+        },
+        {
+          "name": "programAsSignerBump",
+          "type": "u8"
+        },
+        {
+          "name": "buyerPrice",
+          "type": "u64"
+        },
+        {
+          "name": "tokenSize",
+          "type": "u64"
+        },
+        {
+          "name": "isListed",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "docs": [
+        "Withdraw `amount` from the escrow payment account for your specific wallet."
+      ],
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "receiptAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "SPL token account or native SOL account to transfer funds to. If the account is a native SOL account, this is the same as the wallet address."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer escrow payment account PDA."
+          ]
+        },
+        {
+          "name": "treasuryMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance treasury mint account."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance authority account."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "holyHouseFeeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance fee account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeEscrowAccount",
+      "docs": [
+        "Close the escrow account of the user."
+      ],
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "User wallet account."
+          ]
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Buyer escrow payment account PDA."
+          ]
+        },
+        {
+          "name": "holyHouse",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Holy House instance PDA account."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "HolyHouse",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "holyHouseFeeAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "holyHouseTreasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryWithdrawalDestination",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeWithdrawalDestination",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "treasuryBump",
+            "type": "u8"
+          },
+          {
+            "name": "feePayerBump",
+            "type": "u8"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "requiresSignOff",
+            "type": "bool"
+          },
+          {
+            "name": "canChangeSalePrice",
+            "type": "bool"
+          },
+          {
+            "name": "escrowPaymentBump",
+            "type": "u8"
+          },
+          {
+            "name": "hasHolyeer",
+            "type": "bool"
+          },
+          {
+            "name": "holyeerPdaBump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "BidType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PublicSale"
+          },
+          {
+            "name": "PrivateSale"
+          },
+          {
+            "name": "AuctioneerPublicSale"
+          },
+          {
+            "name": "AuctioneerPrivateSale"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ListingType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Sell"
+          },
+          {
+            "name": "AuctioneerSell"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PurchaseType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ExecuteSale"
+          },
+          {
+            "name": "AuctioneerExecuteSale"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CancelType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Cancel"
+          },
+          {
+            "name": "AuctioneerCancel"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PublicKeyMismatch",
+      "msg": "PublicKeyMismatch"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMintAuthority",
+      "msg": "InvalidMintAuthority"
+    },
+    {
+      "code": 6002,
+      "name": "UninitializedAccount",
+      "msg": "UninitializedAccount"
+    },
+    {
+      "code": 6003,
+      "name": "IncorrectOwner",
+      "msg": "IncorrectOwner"
+    },
+    {
+      "code": 6004,
+      "name": "PublicKeysShouldBeUnique",
+      "msg": "PublicKeysShouldBeUnique"
+    },
+    {
+      "code": 6005,
+      "name": "StatementFalse",
+      "msg": "StatementFalse"
+    },
+    {
+      "code": 6006,
+      "name": "NotRentExempt",
+      "msg": "NotRentExempt"
+    },
+    {
+      "code": 6007,
+      "name": "NumericalOverflow",
+      "msg": "NumericalOverflow"
+    },
+    {
+      "code": 6008,
+      "name": "ExpectedSolAccount",
+      "msg": "Expected a sol account but got an spl token account instead"
+    },
+    {
+      "code": 6009,
+      "name": "CannotExchangeSOLForSol",
+      "msg": "Cannot exchange sol for sol"
+    },
+    {
+      "code": 6010,
+      "name": "SOLWalletMustSign",
+      "msg": "If paying with sol, sol wallet must be signer"
+    },
+    {
+      "code": 6011,
+      "name": "CannotTakeThisActionWithoutHolyHouseSignOff",
+      "msg": "Cannot take this action without holy house signing too"
+    },
+    {
+      "code": 6012,
+      "name": "NoPayerPresent",
+      "msg": "No payer present on this txn"
+    },
+    {
+      "code": 6013,
+      "name": "DerivedKeyInvalid",
+      "msg": "Derived key invalid"
+    },
+    {
+      "code": 6014,
+      "name": "MetadataDoesntExist",
+      "msg": "Metadata doesn't exist"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidTokenAmount",
+      "msg": "Invalid token amount"
+    },
+    {
+      "code": 6016,
+      "name": "BothPartiesNeedToAgreeToSale",
+      "msg": "Both parties need to agree to this sale"
+    },
+    {
+      "code": 6017,
+      "name": "CannotMatchFreeSalesWithoutHolyHouseOrSellerSignoff",
+      "msg": "Cannot match free sales unless the holy house or seller signs off"
+    },
+    {
+      "code": 6018,
+      "name": "SaleRequiresSigner",
+      "msg": "This sale requires a signer"
+    },
+    {
+      "code": 6019,
+      "name": "OldSellerNotInitialized",
+      "msg": "Old seller not initialized"
+    },
+    {
+      "code": 6020,
+      "name": "SellerATACannotHaveDelegate",
+      "msg": "Seller ata cannot have a delegate set"
+    },
+    {
+      "code": 6021,
+      "name": "BuyerATACannotHaveDelegate",
+      "msg": "Buyer ata cannot have a delegate set"
+    },
+    {
+      "code": 6022,
+      "name": "NoValidSignerPresent",
+      "msg": "No valid signer present"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidBasisPoints",
+      "msg": "BP must be less than or equal to 10000"
+    },
+    {
+      "code": 6024,
+      "name": "TradeStateDoesntExist",
+      "msg": "The trade state account does not exist"
+    },
+    {
+      "code": 6025,
+      "name": "TradeStateIsNotEmpty",
+      "msg": "The trade state is not empty"
+    },
+    {
+      "code": 6026,
+      "name": "ReceiptIsEmpty",
+      "msg": "The receipt is empty"
+    },
+    {
+      "code": 6027,
+      "name": "InstructionMismatch",
+      "msg": "The instruction does not match"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidHolyeer",
+      "msg": "Invalid Holyeer for this Holy House instance."
+    },
+    {
+      "code": 6029,
+      "name": "MissingHolyeerScope",
+      "msg": "The Holyeer does not have the correct scope for this action."
+    },
+    {
+      "code": 6030,
+      "name": "MustUseHolyeerHandler",
+      "msg": "Must use holyeer handler."
+    },
+    {
+      "code": 6031,
+      "name": "NoHolyeerProgramSet",
+      "msg": "No Holyeer program set."
+    },
+    {
+      "code": 6032,
+      "name": "TooManyScopes",
+      "msg": "Too many scopes."
+    },
+    {
+      "code": 6033,
+      "name": "HolyHouseNotDelegated",
+      "msg": "Holy House not delegated."
+    },
+    {
+      "code": 6034,
+      "name": "BumpSeedNotInHashMap",
+      "msg": "Bump seed not in hash map."
+    },
+    {
+      "code": 6035,
+      "name": "EscrowUnderRentExemption",
+      "msg": "The instruction would drain the escrow below rent exemption threshold"
+    },
+    {
+      "code": 6036,
+      "name": "InvalidSeedsOrHolyHouseNotDelegated",
+      "msg": "Invalid seeds or Holy House not delegated"
+    },
+    {
+      "code": 6037,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds in escrow account to purchase."
+    }
+  ]
+}

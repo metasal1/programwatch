@@ -1,0 +1,848 @@
+{
+  "version": "0.1.0",
+  "name": "goatswap",
+  "instructions": [
+    {
+      "name": "initializePair",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionVerification",
+          "type": {
+            "defined": "CollectionVerification"
+          }
+        },
+        {
+          "name": "poolType",
+          "type": {
+            "defined": "PoolType"
+          }
+        },
+        {
+          "name": "bondingCurve",
+          "type": {
+            "defined": "BondingCurve"
+          }
+        },
+        {
+          "name": "spotPrice",
+          "type": "u64"
+        },
+        {
+          "name": "delta",
+          "type": "u64"
+        },
+        {
+          "name": "feeBps",
+          "type": "u32"
+        },
+        {
+          "name": "assetRecipient",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "swapTokenForNft",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairNftIdentity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assetRecipient",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "protocolFee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxExpectedTokenAmount",
+          "type": "u64"
+        },
+        {
+          "name": "indexAndProof",
+          "type": {
+            "option": {
+              "defined": "IndexAndProof"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "swapNftForToken",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetRecipientNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetRecipientNftIdentity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "protocolFee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minExpectedTokenOutput",
+          "type": "u64"
+        },
+        {
+          "name": "indexAndProof",
+          "type": {
+            "option": {
+              "defined": "IndexAndProof"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawNft",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pairNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairNftIdentity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ownerNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "indexAndProof",
+          "type": {
+            "option": {
+              "defined": "IndexAndProof"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositNft",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pairNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairNftIdentity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ownerNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "indexAndProof",
+          "type": {
+            "option": {
+              "defined": "IndexAndProof"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "updatePair",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "spotPrice",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "delta",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "feeBps",
+          "type": {
+            "option": "u32"
+          }
+        },
+        {
+          "name": "minimumOutputAmount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateAssetRecipient",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "assetRecipient",
+          "type": {
+            "option": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closePair",
+      "accounts": [
+        {
+          "name": "pair",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pairAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Pair",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionVerification",
+            "type": {
+              "defined": "CollectionVerification"
+            }
+          },
+          {
+            "name": "poolType",
+            "type": {
+              "defined": "PoolType"
+            }
+          },
+          {
+            "name": "bondingCurve",
+            "type": {
+              "defined": "BondingCurve"
+            }
+          },
+          {
+            "name": "spotPrice",
+            "type": "u64"
+          },
+          {
+            "name": "delta",
+            "type": "u64"
+          },
+          {
+            "name": "feeBps",
+            "type": "u32"
+          },
+          {
+            "name": "assetRecipient",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "nfts",
+            "type": "u32"
+          },
+          {
+            "name": "minimumOutputAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "IndexAndProof",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "index",
+            "type": "u64"
+          },
+          {
+            "name": "proof",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BondingCurve",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Linear"
+          },
+          {
+            "name": "Exponential"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Token"
+          },
+          {
+            "name": "Nft"
+          },
+          {
+            "name": "Trade"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionVerification",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Collection",
+            "fields": [
+              {
+                "name": "collection",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "Goatkeeper",
+            "fields": [
+              {
+                "name": "goatkeeper",
+                "type": "publicKey"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "InitializePair",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SwapTokenForNFT",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nft",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "protocolFee",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SwapNFTForToken",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nft",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "outputAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "protocolFee",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Withdraw",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawNFT",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nft",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Deposit",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "DepositNFT",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nft",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdatePair",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "spotPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "delta",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "feeBps",
+          "type": "u32",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdateAssetRecipient",
+      "fields": [
+        {
+          "name": "pair",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "assetRecipient",
+          "type": {
+            "option": "publicKey"
+          },
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "OnlyTradePoolsCanHaveNonZeroFee"
+    },
+    {
+      "code": 6001,
+      "name": "TradeFeeMustBeLessThanMax"
+    },
+    {
+      "code": 6002,
+      "name": "WrongPoolType"
+    },
+    {
+      "code": 6003,
+      "name": "InputAmountIsMoreThanMax"
+    },
+    {
+      "code": 6004,
+      "name": "OutputAmountIsLessThanMin"
+    },
+    {
+      "code": 6005,
+      "name": "IncorrectMetadataAccount"
+    },
+    {
+      "code": 6006,
+      "name": "NftHasNoCollection"
+    },
+    {
+      "code": 6007,
+      "name": "CollectionIsNotVerified"
+    },
+    {
+      "code": 6008,
+      "name": "CollectionDoesNotMatchPairCollection"
+    },
+    {
+      "code": 6009,
+      "name": "CannotSetAssetRecipientForPoolTypeTrade"
+    },
+    {
+      "code": 6010,
+      "name": "SpotPriceOverflow"
+    },
+    {
+      "code": 6011,
+      "name": "BondingCurveNotSupported"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidProof"
+    },
+    {
+      "code": 6013,
+      "name": "MissingIndexAndProof"
+    },
+    {
+      "code": 6014,
+      "name": "WrongGoatkeeper"
+    },
+    {
+      "code": 6015,
+      "name": "GoatkeeperIsDisabled"
+    },
+    {
+      "code": 6016,
+      "name": "TooManyNfts"
+    },
+    {
+      "code": 6017,
+      "name": "PairIsNotEmpty"
+    },
+    {
+      "code": 6018,
+      "name": "CalculationError"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidSpotPriceForCurve"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidDeltaForCurve"
+    }
+  ]
+}

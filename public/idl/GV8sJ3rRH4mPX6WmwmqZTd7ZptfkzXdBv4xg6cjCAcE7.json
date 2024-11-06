@@ -1,0 +1,422 @@
+{
+  "version": "0.1.0",
+  "name": "jup_trading_wallet",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "applicationIdx",
+          "type": "u64"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "swapApprove",
+      "accounts": [
+        {
+          "name": "keeper",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "inputMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inputVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "outputVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructionsSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inputTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "inputAmount",
+          "type": "u64"
+        },
+        {
+          "name": "inputPrice",
+          "type": {
+            "option": "f64"
+          }
+        },
+        {
+          "name": "maxSlippageBps",
+          "type": "u16"
+        },
+        {
+          "name": "orderExpireAt",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "walletTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "revoke",
+      "accounts": [
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "eventAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Wallet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "idx",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "revokedApprovalsAt",
+            "type": "i64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Approval",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "expireAt",
+            "type": "u32"
+          },
+          {
+            "name": "createdAt",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Initialize",
+      "fields": [
+        {
+          "name": "walletKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userKey",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Withdraw",
+      "fields": [
+        {
+          "name": "walletKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "Swap",
+      "fields": [
+        {
+          "name": "walletKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "userKey",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "outputMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "inputPrice",
+          "type": "f64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MathOverflow"
+    },
+    {
+      "code": 6001,
+      "name": "AddressMismatch"
+    },
+    {
+      "code": 6002,
+      "name": "UnauthorizedKeeper"
+    },
+    {
+      "code": 6003,
+      "name": "ProgramMismatch"
+    },
+    {
+      "code": 6004,
+      "name": "UnexpectedSwapProgram"
+    },
+    {
+      "code": 6005,
+      "name": "UnexpectedSwapInstruction"
+    },
+    {
+      "code": 6006,
+      "name": "WrongSwapOutAccount"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidSwapMint"
+    },
+    {
+      "code": 6008,
+      "name": "ExceedSlippageSetting"
+    },
+    {
+      "code": 6009,
+      "name": "AmountMismatch"
+    },
+    {
+      "code": 6010,
+      "name": "MissingSwapInstructions"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidPublicKey"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidApproval"
+    },
+    {
+      "code": 6013,
+      "name": "ExpiredApproval"
+    },
+    {
+      "code": 6014,
+      "name": "ExpiredOrder"
+    }
+  ]
+}

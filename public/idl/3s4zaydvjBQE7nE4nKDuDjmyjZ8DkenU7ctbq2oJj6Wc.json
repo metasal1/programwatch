@@ -1,0 +1,535 @@
+{
+  "version": "0.1.0",
+  "name": "lp_staking",
+  "instructions": [
+    {
+      "name": "initializePool",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolTokensAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rate",
+          "type": "u64"
+        },
+        {
+          "name": "lockingPeriod",
+          "type": "u64"
+        },
+        {
+          "name": "startTimeStamp",
+          "type": "i64"
+        },
+        {
+          "name": "extraSeed",
+          "type": {
+            "array": [
+              "u8",
+              8
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateRate",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rate",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addRewards",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsFromAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initStake",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakeDays",
+          "type": "u8"
+        },
+        {
+          "name": "randomSeed",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolTokensAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokensFromAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "getReward",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsToAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "poolState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolTokensAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokensToAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeUserState",
+      "accounts": [
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializerUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakedTokenBalance",
+            "type": "u128"
+          },
+          {
+            "name": "stakedTokenWeight",
+            "type": "u128"
+          },
+          {
+            "name": "rewardPerWeightPaid",
+            "type": "u128"
+          },
+          {
+            "name": "rewards",
+            "type": "u64"
+          },
+          {
+            "name": "releaseTime",
+            "type": "i64"
+          },
+          {
+            "name": "lastRewardGetTime",
+            "type": "i64"
+          },
+          {
+            "name": "randomSeed",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "userStateBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializer",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalTokenSupply",
+            "type": "u128"
+          },
+          {
+            "name": "totalTokenWeight",
+            "type": "u128"
+          },
+          {
+            "name": "rewardPerWeightStored",
+            "type": "u128"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardRate",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdateTime",
+            "type": "i64"
+          },
+          {
+            "name": "rewardDistributed",
+            "type": "u128"
+          },
+          {
+            "name": "lockingPeriod",
+            "type": "u64"
+          },
+          {
+            "name": "startTimeStamp",
+            "type": "i64"
+          },
+          {
+            "name": "extraSeed",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "poolStateBump",
+            "type": "u8"
+          },
+          {
+            "name": "poolTokensBump",
+            "type": "u8"
+          },
+          {
+            "name": "rewardsAccountBump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ReleaseTimeHasNotPassed",
+      "msg": "Staking release time has not passed yet!"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidDepositAmount",
+      "msg": "The staking deposit amount must be greater than zero."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidStakeDays",
+      "msg": "The staking days must be less or equal to 180."
+    },
+    {
+      "code": 6003,
+      "name": "ZeroWithdrawAmount",
+      "msg": "The staking withdraw amount must be greater than zero."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidWithdrawAmount",
+      "msg": "The staking withdraw amount is greater than user staked!"
+    },
+    {
+      "code": 6005,
+      "name": "WithdrawBeforeClose",
+      "msg": "Need to withdraw staked tokens before closing account!"
+    },
+    {
+      "code": 6006,
+      "name": "RewardLockingTimeHasNotPassed",
+      "msg": "Rewards locking period has not passed yet!"
+    },
+    {
+      "code": 6007,
+      "name": "GetRewardBeforeClose",
+      "msg": "Need to get rewards before closing account!"
+    },
+    {
+      "code": 6008,
+      "name": "StakingNotStarted",
+      "msg": "Staking is not started!"
+    }
+  ]
+}

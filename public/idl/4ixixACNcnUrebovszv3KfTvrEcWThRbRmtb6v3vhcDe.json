@@ -1,0 +1,346 @@
+{
+  "version": "0.1.0",
+  "name": "gold_farm",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "timeStart",
+          "type": "u64"
+        },
+        {
+          "name": "compoundBonus",
+          "type": "f64"
+        },
+        {
+          "name": "refferalBonus",
+          "type": "u64"
+        },
+        {
+          "name": "farmPower",
+          "type": "f64"
+        },
+        {
+          "name": "investCooldown",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createAccount",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refferer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refferer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "invest",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "playerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "allocate",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "configure",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "timeStart",
+          "type": "u64"
+        },
+        {
+          "name": "compoundBonus",
+          "type": "f64"
+        },
+        {
+          "name": "refferalBonus",
+          "type": "u64"
+        },
+        {
+          "name": "farmPower",
+          "type": "f64"
+        },
+        {
+          "name": "investCooldown",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PlayerAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "refferer",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountDeposited",
+            "type": "u64"
+          },
+          {
+            "name": "lastDepositTime",
+            "type": "u64"
+          },
+          {
+            "name": "lastAction",
+            "type": "u64"
+          },
+          {
+            "name": "lastInvestedTime",
+            "type": "u64"
+          },
+          {
+            "name": "investedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "gameToken",
+            "type": "u64"
+          },
+          {
+            "name": "gameStarted",
+            "type": "u64"
+          },
+          {
+            "name": "totalEarned",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timeStart",
+            "type": "u64"
+          },
+          {
+            "name": "investCooldown",
+            "type": "u64"
+          },
+          {
+            "name": "refferalBonus",
+            "type": "u64"
+          },
+          {
+            "name": "compoundBonus",
+            "type": "f64"
+          },
+          {
+            "name": "farmPower",
+            "type": "f64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GameLowBalance",
+      "msg": "Game doen't have enough balance"
+    },
+    {
+      "code": 6001,
+      "name": "WrongTimer",
+      "msg": "Something wrong with time var"
+    },
+    {
+      "code": 6002,
+      "name": "InvestCooldown",
+      "msg": "Invest action is on cooldown"
+    },
+    {
+      "code": 6003,
+      "name": "ClaimCooldown",
+      "msg": "Claim action is on cooldown"
+    },
+    {
+      "code": 6004,
+      "name": "ExceededAMount",
+      "msg": "Too much"
+    },
+    {
+      "code": 6005,
+      "name": "WrongParams",
+      "msg": "Wrong params"
+    },
+    {
+      "code": 6006,
+      "name": "TooLow",
+      "msg": "Amount is too low"
+    },
+    {
+      "code": 6007,
+      "name": "NotStarted",
+      "msg": "Game hasn't started"
+    }
+  ]
+}

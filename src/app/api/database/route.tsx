@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
                 error_messages,
                 mutable,
                 idl,
+                idl_address,
                 deployed,
                 verified
             FROM programs

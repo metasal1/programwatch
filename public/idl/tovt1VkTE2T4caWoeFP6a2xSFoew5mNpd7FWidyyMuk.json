@@ -1,0 +1,2167 @@
+{
+  "version": "0.1.0",
+  "name": "escrow_relocker",
+  "instructions": [
+    {
+      "name": "initRealm",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "publicKey"
+        },
+        {
+          "name": "govMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setAdmin",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCreatorNativeFees",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "target",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCreatorTokenFees",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creatorFees",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "target",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initSimpleNftKind",
+      "accounts": [
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "govMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nftKind",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cooldown",
+          "type": "i64"
+        },
+        {
+          "name": "multiplier",
+          "type": "u32"
+        },
+        {
+          "name": "minGovAmount",
+          "type": "u64"
+        },
+        {
+          "name": "isRelockable",
+          "type": "bool"
+        },
+        {
+          "name": "nameTemplate",
+          "type": "string"
+        },
+        {
+          "name": "symbolTemplate",
+          "type": "string"
+        },
+        {
+          "name": "lockedUriTemplate",
+          "type": "string"
+        },
+        {
+          "name": "unlockingUriTemplate",
+          "type": "string"
+        },
+        {
+          "name": "mintLimit",
+          "type": "u64"
+        },
+        {
+          "name": "editionIndex",
+          "type": "u32"
+        },
+        {
+          "name": "lockedCollection",
+          "type": "publicKey"
+        },
+        {
+          "name": "unlockingCollection",
+          "type": "publicKey"
+        },
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "setDisabled",
+      "accounts": [
+        {
+          "name": "nftKind",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "isDisabled",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "createSimpleNftEscrow",
+      "accounts": [
+        {
+          "name": "createEscrow",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "realm",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "mintNftAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "vault",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "rentPayer",
+              "isMut": true,
+              "isSigner": true
+            },
+            {
+              "name": "rent",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "associatedTokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftKind",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createSimpleNftMetadata",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftKind",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintNftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenMetadata",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateLockAmount",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "startUnlocking",
+      "accounts": [
+        {
+          "name": "startCancelUnlocking",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "freezeNftAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftKind",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenMetadata",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelUnlocking",
+      "accounts": [
+        {
+          "name": "startCancelUnlocking",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "freezeNftAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftKind",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenMetadata",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "exitEscrow",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "freezeNftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "activateProposal",
+      "accounts": [
+        {
+          "name": "control",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [Governor]."
+          ]
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Proposal]."
+          ]
+        },
+        {
+          "name": "electorate",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [govern] program."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "castVote",
+      "accounts": [
+        {
+          "name": "control",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Proposal] being voted on."
+          ]
+        },
+        {
+          "name": "vote",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Vote]."
+          ]
+        },
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [Governor]."
+          ]
+        },
+        {
+          "name": "electorate",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [govern] program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "side",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initGaugemeister",
+      "accounts": [
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "foreman",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setForeman",
+      "accounts": [
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newForeman",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "configGaugemeisterSnapshot",
+      "accounts": [
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newSnapshotTime",
+          "type": "i64"
+        },
+        {
+          "name": "newSnapshotSlot",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeGaugemeister",
+      "accounts": [
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initGauge",
+      "accounts": [
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "info",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "createGauge",
+      "accounts": [
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "info",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "gaugeEnable",
+      "accounts": [
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [Gaugemeister]."
+          ]
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Gauge] to enable."
+          ]
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The [Gaugemeister::foreman]."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "gaugeDisable",
+      "accounts": [
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [Gaugemeister]."
+          ]
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Gauge] to enable."
+          ]
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The [Gaugemeister::foreman]."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configGaugeSnapshot",
+      "accounts": [
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newSnapshotTime",
+          "type": "i64"
+        },
+        {
+          "name": "newSnapshotSlot",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeGauge",
+      "accounts": [
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setGaugeInfo",
+      "accounts": [
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "info",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "createGaugeVoter",
+      "accounts": [
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "controlEscrow",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeGaugeVoter",
+      "accounts": [
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "controlEscrow",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftOwner",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createGaugeVote",
+      "accounts": [
+        {
+          "name": "gaugeVote",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [GaugeVote] to be created."
+          ]
+        },
+        {
+          "name": "controlEscrow",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge voter."
+          ]
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge."
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "gaugeSetVote",
+      "accounts": [
+        {
+          "name": "gaugeVote",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [GaugeVote]."
+          ]
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [GaugeVoter]."
+          ]
+        },
+        {
+          "name": "controlEscrow",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [Gauge]."
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newWeight",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeGaugeVote",
+      "accounts": [
+        {
+          "name": "gaugeVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "controlEscrow",
+          "accounts": [
+            {
+              "name": "escrow",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "nftMint",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftToken",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "nftOwner",
+              "isMut": false,
+              "isSigner": true
+            }
+          ]
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge voter."
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge."
+          ]
+        },
+        {
+          "name": "nftOwner",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "forcedCloseGaugeVote",
+      "accounts": [
+        {
+          "name": "gaugeVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftOwner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "just to be 100% sure it is closeable in any case"
+          ]
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge voter."
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "foreman",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeDeadGaugeVote",
+      "accounts": [
+        {
+          "name": "gaugeVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gaugeVoter",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge voter."
+          ]
+        },
+        {
+          "name": "gaugemeister",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gauge",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Gauge."
+          ]
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "migrateEscrow",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "govMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "freezeNftAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Escrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftKind",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "EscrowState"
+            }
+          },
+          {
+            "name": "index",
+            "type": "u64"
+          },
+          {
+            "name": "globalIndex",
+            "type": "u64"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount of tokens locked."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultOwnerBump",
+            "type": "u8"
+          },
+          {
+            "name": "freezeNftAuthorityBump",
+            "type": "u8"
+          },
+          {
+            "name": "cooldown",
+            "type": "i64"
+          },
+          {
+            "name": "multiplier",
+            "type": "u32"
+          },
+          {
+            "name": "claimTime",
+            "type": "i64"
+          },
+          {
+            "name": "isRelockable",
+            "type": "bool"
+          },
+          {
+            "name": "gaugeVoterCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GaugeVote",
+      "docs": [
+        "A [GaugeVote] is a user's vote for a given [Gauge]."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gaugeVoter",
+            "docs": [
+              "The [GaugeVoter]."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "gauge",
+            "docs": [
+              "The [Gauge] being voted on."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "weight",
+            "docs": [
+              "Proportion of votes that the voter is applying to this gauge."
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GaugeVoter",
+      "docs": [
+        "A [GaugeVoter] represents an [locked_voter::Escrow] that can vote on gauges."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gaugemeister",
+            "docs": [
+              "The [Gaugemeister]."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "escrow",
+            "docs": [
+              "The EscrowWrapper of the [GaugeVoter]."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "totalWeight",
+            "docs": [
+              "Total number of parts that the voter has distributed."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "voteCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Gauge",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gaugemeister",
+            "docs": [
+              "The [Gaugemeister]."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "totalWeight",
+            "type": "u64"
+          },
+          {
+            "name": "voteCount",
+            "type": "u64"
+          },
+          {
+            "name": "isDisabled",
+            "docs": [
+              "If true, this Gauge cannot receive any more votes"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "snapshotTime",
+            "type": "i64"
+          },
+          {
+            "name": "snapshotSlot",
+            "type": "u64"
+          },
+          {
+            "name": "snapshotTotalWeight",
+            "type": "u64"
+          },
+          {
+            "name": "info",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Gaugemeister",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "foreman",
+            "docs": [
+              "Admin of gaugemeister"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "totalWeight",
+            "type": "u64"
+          },
+          {
+            "name": "snapshotTime",
+            "type": "i64"
+          },
+          {
+            "name": "snapshotSlot",
+            "type": "u64"
+          },
+          {
+            "name": "snapshotTotalWeight",
+            "type": "u64"
+          },
+          {
+            "name": "gaugeCount",
+            "type": "u64"
+          },
+          {
+            "name": "voterCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Realm",
+      "docs": [
+        "wrapper over governor"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "governor",
+            "type": "publicKey"
+          },
+          {
+            "name": "govMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "creatorBump",
+            "type": "u8"
+          },
+          {
+            "name": "electorateBump",
+            "type": "u8"
+          },
+          {
+            "name": "collectionAuthorityBump",
+            "type": "u8"
+          },
+          {
+            "name": "lockedSupply",
+            "type": "u64"
+          },
+          {
+            "name": "nftKindCount",
+            "type": "u64"
+          },
+          {
+            "name": "escrowCount",
+            "type": "u64"
+          },
+          {
+            "name": "nextGlobalEscrowIndex",
+            "type": "u64"
+          },
+          {
+            "name": "gaugemeisterCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SimpleNftKind",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "realm",
+            "type": "publicKey"
+          },
+          {
+            "name": "cooldown",
+            "type": "i64"
+          },
+          {
+            "name": "multiplier",
+            "type": "u32"
+          },
+          {
+            "name": "minGovAmount",
+            "type": "u64"
+          },
+          {
+            "name": "isDisabled",
+            "type": "bool"
+          },
+          {
+            "name": "isRelockable",
+            "type": "bool"
+          },
+          {
+            "name": "escrowCount",
+            "type": "u64"
+          },
+          {
+            "name": "nameTemplate",
+            "type": "string"
+          },
+          {
+            "name": "symbolTemplate",
+            "type": "string"
+          },
+          {
+            "name": "lockedUriTemplate",
+            "type": "string"
+          },
+          {
+            "name": "unlockingUriTemplate",
+            "type": "string"
+          },
+          {
+            "name": "mintLimit",
+            "type": "u64"
+          },
+          {
+            "name": "editionIndex",
+            "type": "u32"
+          },
+          {
+            "name": "lockedCollection",
+            "type": "publicKey"
+          },
+          {
+            "name": "unlockingCollection",
+            "type": "publicKey"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "EscrowState",
+      "docs": [
+        "Note: These struct INSTRUCTIONS are not accessible from the outside. Only NFTKind can call these instructions",
+        "The instructions are not listed in lib.rs so they're not accessible from the outside",
+        "see Simpl_nff_kind.rs"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Initializing"
+          },
+          {
+            "name": "Locked"
+          },
+          {
+            "name": "Unlocking"
+          },
+          {
+            "name": "Exited"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "CreateSimpleNftEscrowEvent",
+      "fields": [
+        {
+          "name": "realm",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "index",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "globalIndex",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "nftKind",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "nftMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "escrow",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "lockedUri",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "unlockingUri",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "govAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "cooldown",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "multiplier",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "isRelockable",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CalculationError",
+      "msg": "Calculation error"
+    },
+    {
+      "code": 6001,
+      "name": "NonRelockable",
+      "msg": "Non relockable"
+    },
+    {
+      "code": 6002,
+      "name": "VaultIsNotInitialized",
+      "msg": "Vault is not initialized"
+    },
+    {
+      "code": 6003,
+      "name": "VaultIsFrozen",
+      "msg": "Vault is frozen"
+    },
+    {
+      "code": 6004,
+      "name": "VaultIsDelegated",
+      "msg": "Vault is delegated"
+    },
+    {
+      "code": 6005,
+      "name": "VaultIsCloseable",
+      "msg": "Vault is closeable"
+    },
+    {
+      "code": 6006,
+      "name": "VaultHasWrongMint",
+      "msg": "Vault has wrong mint"
+    },
+    {
+      "code": 6007,
+      "name": "WrongVaultOwner",
+      "msg": "Wrong vault owner"
+    },
+    {
+      "code": 6008,
+      "name": "MultipleNFTsDetected",
+      "msg": "Multiple NFTs detected"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidMetadataAccount",
+      "msg": "Invalid metadata account"
+    },
+    {
+      "code": 6010,
+      "name": "EscrowNotEnded",
+      "msg": "Escrow has not ended."
+    },
+    {
+      "code": 6011,
+      "name": "ClosingEscrowWithGaugeVoters",
+      "msg": "Closing escrow with gauge voters. Please unvote all gauges and close all voters"
+    },
+    {
+      "code": 6012,
+      "name": "GaugeIsDisabled",
+      "msg": "Gauge is disabled"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidEscrowAddress",
+      "msg": "Invalid escrow address"
+    },
+    {
+      "code": 6014,
+      "name": "PastSnapshot",
+      "msg": "Past snapshot. Please use time/slot from future"
+    },
+    {
+      "code": 6015,
+      "name": "NegativeCooldown",
+      "msg": "Negative cooldown"
+    },
+    {
+      "code": 6016,
+      "name": "TooLowGovTokenAmount",
+      "msg": "Too low gov token amount"
+    },
+    {
+      "code": 6017,
+      "name": "TooBigMultiplier",
+      "msg": "Too big multiplier"
+    },
+    {
+      "code": 6018,
+      "name": "ShrinkingUnlockingPeriod",
+      "msg": "Srinking unlocking period by lowering cooldown"
+    },
+    {
+      "code": 6019,
+      "name": "LoweringMultiplier",
+      "msg": "Lowering multiplier"
+    },
+    {
+      "code": 6020,
+      "name": "NotEnoughVotingPower",
+      "msg": "Not enogh voting power"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidVoteVoter",
+      "msg": "Invalid vote. Use vote with escrow voter"
+    },
+    {
+      "code": 6022,
+      "name": "WrongMintNftAuthority",
+      "msg": "Wrong mint nft authority"
+    },
+    {
+      "code": 6023,
+      "name": "WrongFreezeNftAuthority",
+      "msg": "Wrong freeze nft authority"
+    },
+    {
+      "code": 6024,
+      "name": "CanNotReduceEscrowCount",
+      "msg": "There are escrows created more than you are trying to set limit to"
+    },
+    {
+      "code": 6025,
+      "name": "OutOfLimitedEdition",
+      "msg": "Out of limited edition"
+    },
+    {
+      "code": 6026,
+      "name": "OnlyLockedEscrowMayBeUlocked",
+      "msg": "Only locked escrow may be ulocked"
+    },
+    {
+      "code": 6027,
+      "name": "OnlyUnlockingEscrowMayBeRelocked",
+      "msg": "Only unlocking escrow may be relocked"
+    },
+    {
+      "code": 6028,
+      "name": "WrongEscrowState",
+      "msg": "Wrong escrow state"
+    },
+    {
+      "code": 6029,
+      "name": "WrongCollectionMint",
+      "msg": "Wrong collection mint"
+    },
+    {
+      "code": 6030,
+      "name": "WrongCollectionAuthority",
+      "msg": "Wrong collection authority"
+    },
+    {
+      "code": 6031,
+      "name": "NotImplemented",
+      "msg": "Not implemented"
+    },
+    {
+      "code": 6032,
+      "name": "WrongCollectionInfo",
+      "msg": "Wrong collection info"
+    },
+    {
+      "code": 6033,
+      "name": "WrongCollectionMasterEdition",
+      "msg": "Wrong collection master edition"
+    },
+    {
+      "code": 6034,
+      "name": "ChangingCollectionIsNotSupported",
+      "msg": "Changing collection is not supported"
+    },
+    {
+      "code": 6035,
+      "name": "NextInstructionMustBeMarinadeVoterStakeRegistryDeposit",
+      "msg": "Next instruction must be marinade voter stake registry deposit"
+    },
+    {
+      "code": 6036,
+      "name": "NextInstructionMustDepositAllTokens",
+      "msg": "Next instruction must deposit all tokens"
+    },
+    {
+      "code": 6037,
+      "name": "WrongMarinadeVoterStakeRegistryDepositRegistrar",
+      "msg": "Marinade voter stake registry deposit has wrong registrar"
+    },
+    {
+      "code": 6038,
+      "name": "WrongMarinadeVoterStakeRegistryDepositToken",
+      "msg": "Marinade voter stake registry deposit has wrong deposit token account"
+    }
+  ]
+}

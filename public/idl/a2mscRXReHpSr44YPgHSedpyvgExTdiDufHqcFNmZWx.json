@@ -1,0 +1,287 @@
+{
+  "version": "0.1.0",
+  "name": "multisig_controller",
+  "instructions": [
+    {
+      "name": "initializeMultisigConfigV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisigConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeMultisigArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "voteV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "voter",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "voteController",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stateController",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onVoteHook",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposalProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "VoteV0Args"
+          }
+        }
+      ]
+    },
+    {
+      "name": "relinquishVoteV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "voter",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "multisigConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteController",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voteRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposal",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stateController",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onVoteHook",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "proposalProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MultisigConfigV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "useReputation",
+            "type": "bool"
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "members",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteRecordV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "voter",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "choice",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "votedAt",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeMultisigArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "useReputation",
+            "type": "bool"
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "members",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteV0Args",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "choice",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AlreadyVoted",
+      "msg": "Already voted for this proposal"
+    },
+    {
+      "code": 6001,
+      "name": "NoVoteForThisChoice",
+      "msg": "No vote to relinquish for this choice"
+    }
+  ]
+}

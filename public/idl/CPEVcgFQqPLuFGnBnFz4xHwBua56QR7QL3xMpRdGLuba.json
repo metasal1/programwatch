@@ -1,0 +1,825 @@
+{
+  "address": "CPEVcgFQqPLuFGnBnFz4xHwBua56QR7QL3xMpRdGLuba",
+  "metadata": {
+    "name": "capult_eternal_vaults",
+    "version": "1.0.0",
+    "spec": "0.1.0",
+    "description": "Capult Eternal Vaults"
+  },
+  "instructions": [
+    {
+      "name": "burn_locked_tokens",
+      "discriminator": [
+        139,
+        63,
+        59,
+        237,
+        80,
+        127,
+        172,
+        191
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault"
+        },
+        {
+          "name": "withdraw_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault_ata",
+          "writable": true
+        },
+        {
+          "name": "token_mint",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_amount",
+          "type": "u64"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "cancel_unlock",
+      "discriminator": [
+        116,
+        58,
+        36,
+        132,
+        24,
+        104,
+        170,
+        228
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "cancel_authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close_vault",
+      "discriminator": [
+        141,
+        103,
+        17,
+        126,
+        72,
+        75,
+        29,
+        29
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "vault_ata"
+        },
+        {
+          "name": "token_mint"
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_fee_config",
+      "discriminator": [
+        214,
+        172,
+        105,
+        64,
+        8,
+        228,
+        209,
+        204
+      ],
+      "accounts": [
+        {
+          "name": "fee_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "program"
+        },
+        {
+          "name": "program_data"
+        },
+        {
+          "name": "fee_recipient"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "create_vault_fee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_vault",
+      "discriminator": [
+        29,
+        237,
+        247,
+        208,
+        193,
+        82,
+        54,
+        135
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "vault_init_key"
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "withdraw_authority"
+        },
+        {
+          "name": "initiate_unlock_authority"
+        },
+        {
+          "name": "config_authority",
+          "optional": true
+        },
+        {
+          "name": "from_ata",
+          "writable": true
+        },
+        {
+          "name": "vault_ata",
+          "writable": true
+        },
+        {
+          "name": "token_mint"
+        },
+        {
+          "name": "capult_fee_config"
+        },
+        {
+          "name": "capult_fee_recipient",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "unlock_delay",
+          "type": "u64"
+        },
+        {
+          "name": "token_amount",
+          "type": "u64"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "transfer_fee_amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initiate_unlock",
+      "discriminator": [
+        41,
+        118,
+        177,
+        198,
+        27,
+        237,
+        231,
+        69
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "initiate_unlock_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault_ata"
+        },
+        {
+          "name": "token_mint"
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "unlock_amount",
+          "type": "u64"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "unlock_delay",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_authority",
+      "discriminator": [
+        133,
+        250,
+        37,
+        21,
+        110,
+        163,
+        26,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "current_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "new_authority",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "authority_type",
+          "type": {
+            "defined": {
+              "name": "AuthorityType"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_fee_config",
+      "discriminator": [
+        221,
+        222,
+        52,
+        206,
+        114,
+        198,
+        64,
+        91
+      ],
+      "accounts": [
+        {
+          "name": "fee_config",
+          "writable": true
+        },
+        {
+          "name": "fee_recipient"
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "create_vault_fee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "set_fee_config_authority",
+      "discriminator": [
+        40,
+        140,
+        167,
+        0,
+        88,
+        73,
+        202,
+        142
+      ],
+      "accounts": [
+        {
+          "name": "fee_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "new_authority",
+          "optional": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "set_unlock_delay",
+      "discriminator": [
+        218,
+        20,
+        106,
+        149,
+        153,
+        126,
+        219,
+        50
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "config_authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "unlock_delay",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_other_tokens",
+      "discriminator": [
+        211,
+        165,
+        18,
+        53,
+        66,
+        49,
+        234,
+        111
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "withdraw_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault_ata",
+          "writable": true
+        },
+        {
+          "name": "ata_authority"
+        },
+        {
+          "name": "to_ata",
+          "writable": true
+        },
+        {
+          "name": "token_mint"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_amount",
+          "type": "u64"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "transfer_fee_amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw_tokens",
+      "discriminator": [
+        2,
+        4,
+        225,
+        61,
+        19,
+        182,
+        106,
+        170
+      ],
+      "accounts": [
+        {
+          "name": "eternal_vault",
+          "writable": true
+        },
+        {
+          "name": "withdraw_authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault_ata",
+          "writable": true
+        },
+        {
+          "name": "ata_authority"
+        },
+        {
+          "name": "to_ata",
+          "writable": true
+        },
+        {
+          "name": "token_mint"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "associated_token_program"
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_amount",
+          "type": "u64"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        },
+        {
+          "name": "transfer_fee_amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EternalVault",
+      "discriminator": [
+        30,
+        182,
+        20,
+        105,
+        227,
+        222,
+        218,
+        182
+      ]
+    },
+    {
+      "name": "FeeConfig",
+      "discriminator": [
+        143,
+        52,
+        146,
+        187,
+        219,
+        123,
+        76,
+        155
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotAuthorized",
+      "msg": "You are not authorized to perform this action."
+    },
+    {
+      "code": 6001,
+      "name": "FeeTooHigh",
+      "msg": "Fee is above the maximum allowed."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTokenProgram",
+      "msg": "Invalid token program"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidStartDate",
+      "msg": "Invalid start date"
+    },
+    {
+      "code": 6004,
+      "name": "TokenProgramMismatch",
+      "msg": "Token program mismatch"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidDecimals",
+      "msg": "Invalid decimals"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidMintExtension",
+      "msg": "Invalid mint extension"
+    },
+    {
+      "code": 6007,
+      "name": "TransferFeeAmountRequired",
+      "msg": "Transfer fee amount required"
+    },
+    {
+      "code": 6008,
+      "name": "UnlockAlreadyInitiated",
+      "msg": "Unlock already initiated"
+    },
+    {
+      "code": 6009,
+      "name": "UnlockNotInitiated",
+      "msg": "Unlock not initiated"
+    },
+    {
+      "code": 6010,
+      "name": "UnlockDelayMismatch",
+      "msg": "Unlock delay mismatch"
+    },
+    {
+      "code": 6011,
+      "name": "UnlockDateNotReached",
+      "msg": "Unlock date not reached"
+    },
+    {
+      "code": 6012,
+      "name": "InsufficientVaultBalance",
+      "msg": "Insufficient vault balance"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority"
+    },
+    {
+      "code": 6014,
+      "name": "VaultNotEmpty",
+      "msg": "Vault not empty"
+    },
+    {
+      "code": 6015,
+      "name": "UnlockDelayNotMultipleOf60",
+      "msg": "Unlock delay must be a multiple of 60"
+    },
+    {
+      "code": 6016,
+      "name": "UnlockDelayTooShort",
+      "msg": "Unlock delay is too short"
+    },
+    {
+      "code": 6017,
+      "name": "UnlockDelayTooLong",
+      "msg": "Unlock delay is too long"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidTokenMint",
+      "msg": "Invalid token mint"
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorityType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Withdraw"
+          },
+          {
+            "name": "InitiateUnlock"
+          },
+          {
+            "name": "Config"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EternalVault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "withdraw_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "initiate_unlock_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "config_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "token_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "older_unlock_delay",
+            "type": "u64"
+          },
+          {
+            "name": "newer_unlock_delay",
+            "type": "u64"
+          },
+          {
+            "name": "newer_delay_valid_from",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "unlock_allowed_from",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "unlock_allowed_amount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "vault_init_key",
+            "type": "pubkey"
+          },
+          {
+            "name": "initialized_at",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "create_vault_fee",
+            "type": "u64"
+          },
+          {
+            "name": "initialized_at",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "CAPULT_SEED",
+      "type": "bytes",
+      "value": "[67, 65, 80, 85, 76, 84, 95, 83, 69, 69, 68]"
+    },
+    {
+      "name": "ETERNAL_VAULT_SEED",
+      "type": "bytes",
+      "value": "[69, 84, 69, 82, 78, 65, 76, 95, 86, 65, 85, 76, 84, 95, 83, 69, 69, 68]"
+    },
+    {
+      "name": "FEE_CONFIG_SEED",
+      "type": "bytes",
+      "value": "[70, 69, 69, 95, 67, 79, 78, 70, 73, 71, 95, 83, 69, 69, 68]"
+    },
+    {
+      "name": "MAX_FEE",
+      "type": "u64",
+      "value": "5000000000"
+    },
+    {
+      "name": "MAX_UNLOCK_DELAY",
+      "type": "u64",
+      "value": "315360000"
+    },
+    {
+      "name": "MIN_UNLOCK_DELAY",
+      "type": "u64",
+      "value": "3600"
+    }
+  ]
+}

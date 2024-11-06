@@ -1,0 +1,484 @@
+{
+  "version": "1.0.0",
+  "name": "jet_control",
+  "constants": [
+    {
+      "name": "FEE_DESTINATION",
+      "type": {
+        "defined": "&[u8]"
+      },
+      "value": "b\"margin-pool-fee-destination\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "createAuthority",
+      "docs": [
+        "Create the master authority account"
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createMarginPool",
+      "docs": [
+        "Register an SPL token for use with the protocol, by creating",
+        "a margin pool which can accept deposits for the token.",
+        "",
+        "Does not require special permission"
+      ],
+      "accounts": [
+        {
+          "name": "requester",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositNoteMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loanNoteMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositNoteMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loanNoteMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginPoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "registerAdapter",
+      "docs": [
+        "Register a program to be allowed for use as margin adapter in the",
+        "protocol."
+      ],
+      "accounts": [
+        {
+          "name": "requester",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adapter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configureMarginPool",
+      "docs": [
+        "Configure details about a margin pool"
+      ],
+      "accounts": [
+        {
+          "name": "requester",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loanMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythProduct",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythPrice",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginPoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "metadata",
+          "type": {
+            "option": {
+              "defined": "TokenMetadataParams"
+            }
+          }
+        },
+        {
+          "name": "poolConfig",
+          "type": {
+            "option": {
+              "defined": "MarginPoolConfig"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "setLiquidator",
+      "docs": [
+        "Configure an address as being allowed to perform the functions",
+        "of a liquidator."
+      ],
+      "accounts": [
+        {
+          "name": "requester",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "liquidator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "isLiquidator",
+          "type": "bool"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Authority",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seed",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TokenMetadataParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenKind",
+            "docs": [
+              "Description of this token"
+            ],
+            "type": {
+              "defined": "TokenKind"
+            }
+          },
+          {
+            "name": "collateralWeight",
+            "docs": [
+              "The weight of the asset's value relative to other tokens when used as collateral."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "maxLeverage",
+            "docs": [
+              "The maximum leverage allowed on loans for the token"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "AuthorityCreated",
+      "fields": [
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seed",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LiquidatorSet",
+      "fields": [
+        {
+          "name": "requester",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "liquidatorMetadata",
+          "type": {
+            "defined": "LiquidatorMetadata"
+          },
+          "index": false
+        },
+        {
+          "name": "metadataAccount",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AdapterRegistered",
+      "fields": [
+        {
+          "name": "requester",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "adapter",
+          "type": {
+            "defined": "MarginAdapterMetadata"
+          },
+          "index": false
+        },
+        {
+          "name": "metadataAccount",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "TokenMetadataConfigured",
+      "fields": [
+        {
+          "name": "requester",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "metadataAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "TokenMetadata"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PositionTokenMetadataConfigured",
+      "fields": [
+        {
+          "name": "requester",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "metadataAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "metadata",
+          "type": {
+            "defined": "PositionTokenMetadata"
+          },
+          "index": false
+        }
+      ]
+    }
+  ]
+}

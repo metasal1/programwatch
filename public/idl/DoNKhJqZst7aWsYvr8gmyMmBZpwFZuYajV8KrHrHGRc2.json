@@ -1,0 +1,335 @@
+{
+  "version": "0.1.0",
+  "name": "donkey_swap",
+  "instructions": [
+    {
+      "name": "initFlipper",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "flipperState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapNft",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "vaultData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "flipperState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "counter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft1",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "nft1AssociatedToken",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "houseAssociatedToken",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "uris",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "randomnessOne",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "randomnessTwo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "randomnessThree",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "bapeFeeAddy",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK",
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "floorPrice",
+          "type": "i32"
+        }
+      ]
+    },
+    {
+      "name": "claimNft",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "flipperState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fromAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "destAta",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "vaultData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "uris",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "FlipperState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "ataWonNft",
+            "type": "string"
+          },
+          {
+            "name": "timesSwapped",
+            "type": "u64"
+          },
+          {
+            "name": "nftIndex",
+            "type": "u16"
+          },
+          {
+            "name": "nftToClaim",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Counter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongToken",
+      "msg": "You have used an incorrect Token Account"
+    },
+    {
+      "code": 6001,
+      "name": "WrongHouseWallet",
+      "msg": "You have entered the wrong House Wallet ID"
+    },
+    {
+      "code": 6002,
+      "name": "WrongRandomness",
+      "msg": "You have entered a wrong randomness oracle"
+    },
+    {
+      "code": 6003,
+      "name": "BetTooHigh",
+      "msg": "You have entered a bet greater than the maximum"
+    },
+    {
+      "code": 6004,
+      "name": "BetTooLow",
+      "msg": "You have entered a bet lower than the minimum"
+    },
+    {
+      "code": 6005,
+      "name": "UnauthorizedAccess",
+      "msg": "You are not authorized to sign this transaction"
+    },
+    {
+      "code": 6006,
+      "name": "NoMoreNFTs",
+      "msg": "No more NFTs available."
+    },
+    {
+      "code": 6007,
+      "name": "WrongSolAddress",
+      "msg": "Wrong Sol address"
+    },
+    {
+      "code": 6008,
+      "name": "ClaimNftFirst",
+      "msg": "Must claim your nft you won first."
+    },
+    {
+      "code": 6009,
+      "name": "InvalidAction",
+      "msg": "You are doing it wrong."
+    },
+    {
+      "code": 6010,
+      "name": "AtaMismatch",
+      "msg": "Mismatch in the atas."
+    }
+  ]
+}

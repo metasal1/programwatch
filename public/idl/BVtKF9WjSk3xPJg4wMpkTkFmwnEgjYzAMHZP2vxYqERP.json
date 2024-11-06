@@ -1,0 +1,268 @@
+{
+  "version": "0.1.0",
+  "name": "qstn_survey",
+  "instructions": [
+    {
+      "name": "initSurvey",
+      "accounts": [
+        {
+          "name": "surveyAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "surveyId",
+          "type": "u64"
+        },
+        {
+          "name": "surveyUuid",
+          "type": "string"
+        },
+        {
+          "name": "controller",
+          "type": "publicKey"
+        },
+        {
+          "name": "participantsLimit",
+          "type": "u64"
+        },
+        {
+          "name": "rewardAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "fundSurvey",
+      "accounts": [
+        {
+          "name": "surveyAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "controller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "fee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "payout",
+      "accounts": [
+        {
+          "name": "surveyAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "participation",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "participantAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "zkpClaim",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "changeController",
+      "accounts": [
+        {
+          "name": "surveyAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "controller",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "emergencyWithdraw",
+      "accounts": [
+        {
+          "name": "surveyAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Survey",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "surveyId",
+            "type": "u64"
+          },
+          {
+            "name": "surveyUuid",
+            "type": "string"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "controller",
+            "type": "publicKey"
+          },
+          {
+            "name": "participantsLimit",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAmount",
+            "type": "u64"
+          },
+          {
+            "name": "participantsCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Participation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "zkp",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongController",
+      "msg": "Caller is not survey controller"
+    },
+    {
+      "code": 6001,
+      "name": "NotTheOwner",
+      "msg": "Not the owner"
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds for funding survey"
+    },
+    {
+      "code": 6003,
+      "name": "ParticipantsLimitReached",
+      "msg": "Participants limit reached"
+    }
+  ]
+}

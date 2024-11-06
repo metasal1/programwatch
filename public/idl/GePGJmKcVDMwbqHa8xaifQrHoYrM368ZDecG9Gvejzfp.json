@@ -1,0 +1,376 @@
+{
+  "version": "0.0.0",
+  "name": "donor_wall_of_fame",
+  "instructions": [
+    {
+      "name": "createStateAccount",
+      "accounts": [
+        {
+          "name": "stateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "addDonationList",
+      "accounts": [
+        {
+          "name": "stateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "donationList",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "createBaseAccount",
+      "accounts": [
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "totalDonors",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addDonor",
+      "accounts": [
+        {
+          "name": "stateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "baseAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "donorTwitterHandle",
+          "type": "string"
+        },
+        {
+          "name": "donorName",
+          "type": "string"
+        },
+        {
+          "name": "donatedSol",
+          "type": "u64"
+        },
+        {
+          "name": "donatedUsdc",
+          "type": "u64"
+        },
+        {
+          "name": "donatedToken",
+          "type": "publicKey"
+        },
+        {
+          "name": "donatedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "isNft",
+          "type": "bool"
+        },
+        {
+          "name": "arweaveLink",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "closeBaseAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "accToClose",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "donorProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sendSol",
+      "accounts": [
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "sendSpl",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StateAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "totalDonorLists",
+            "type": "u8"
+          },
+          {
+            "name": "donorLists",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BaseAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "head",
+            "type": "u64"
+          },
+          {
+            "name": "tail",
+            "type": "u64"
+          },
+          {
+            "name": "totalDonors",
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "type": {
+              "array": [
+                "u8",
+                280
+              ]
+            }
+          },
+          {
+            "name": "space",
+            "type": "u64"
+          },
+          {
+            "name": "donorList",
+            "type": {
+              "array": [
+                {
+                  "defined": "DonorStruct"
+                },
+                1000
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DonorStruct",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "donorTwitterHandle",
+            "type": {
+              "array": [
+                "u8",
+                280
+              ]
+            }
+          },
+          {
+            "name": "donorName",
+            "type": {
+              "array": [
+                "u8",
+                280
+              ]
+            }
+          },
+          {
+            "name": "donatedSol",
+            "type": "u64"
+          },
+          {
+            "name": "donatedUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "donorUserAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "donatedToken",
+            "type": {
+              "defined": "DonatedTokens"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DonatedTokens",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "donatedToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "donatedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "isNft",
+            "type": "bool"
+          },
+          {
+            "name": "arweaveLink",
+            "type": {
+              "array": [
+                "u8",
+                280
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "NotAuthorized",
+      "msg": "Not authorized!"
+    }
+  ]
+}

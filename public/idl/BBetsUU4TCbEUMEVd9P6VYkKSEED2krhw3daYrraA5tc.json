@@ -1,0 +1,2686 @@
+{
+  "version": "0.1.0",
+  "name": "colosseum_escrow",
+  "constants": [
+    {
+      "name": "STATE_SEED",
+      "type": "string",
+      "value": "\"ColosseumStateV1\""
+    },
+    {
+      "name": "BET_TOKEN_VAULT_SEED",
+      "type": "string",
+      "value": "\"ColosseumBetTokenVaultV1\""
+    },
+    {
+      "name": "MAIN_SLIP_SEED",
+      "type": "string",
+      "value": "\"ColosseumMainSlipV1\""
+    },
+    {
+      "name": "BET_SLIP_SEED",
+      "type": "string",
+      "value": "\"ColosseumBetSlipV1\""
+    },
+    {
+      "name": "BETTOR_SEED",
+      "type": "string",
+      "value": "\"ColosseumBettorV1\""
+    },
+    {
+      "name": "CREDIT_TOKEN_MINT_ADDRESS",
+      "type": "publicKey",
+      "value": "solana_program :: pubkey ! (\"TCTNxGGSUk9C7JVW1sPcxTRsXsKXQiNYKWV8n8r3rLD\")"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initState",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetTokenVaultV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "State",
+                "path": "state"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "bet_token"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "limit",
+          "type": "u64"
+        },
+        {
+          "name": "maxBetPayout",
+          "type": "u64"
+        },
+        {
+          "name": "breakerThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "maxPotentialPayout",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initBettor",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetTokenVaultV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "bet_token"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "toEscrow",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "initBettorSecp256K1",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetTokenVaultV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "bet_token"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initMainSlip",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "limit",
+          "type": "u64"
+        },
+        {
+          "name": "secondaryLimit",
+          "type": "u64"
+        },
+        {
+          "name": "timeSecondaryActive",
+          "type": "u64"
+        },
+        {
+          "name": "gameTimeStart",
+          "type": "u64"
+        },
+        {
+          "name": "gameTimeEnd",
+          "type": "u64"
+        },
+        {
+          "name": "maxBetPayout",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initBet",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          },
+          "relations": [
+            "initializer"
+          ]
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetSlipV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MainSlip",
+                "path": "main_slip"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializerBetTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "amountBet",
+          "type": "u64"
+        },
+        {
+          "name": "payout",
+          "type": "u64"
+        },
+        {
+          "name": "lineTarget",
+          "type": "u32"
+        },
+        {
+          "name": "potentialTotalPayout",
+          "type": "u64"
+        },
+        {
+          "name": "inputToken",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initBetStakeless",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          },
+          "relations": [
+            "initializer"
+          ]
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetSlipV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MainSlip",
+                "path": "main_slip"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "amountBet",
+          "type": "u64"
+        },
+        {
+          "name": "payout",
+          "type": "u64"
+        },
+        {
+          "name": "lineTarget",
+          "type": "u32"
+        },
+        {
+          "name": "potentialTotalPayout",
+          "type": "u64"
+        },
+        {
+          "name": "inputToken",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateBet",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          },
+          "relations": [
+            "initializer"
+          ]
+        },
+        {
+          "name": "mainSlip",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetSlipV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MainSlip",
+                "path": "main_slip"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "payout",
+          "type": "u64"
+        },
+        {
+          "name": "lineTarget",
+          "type": "u32"
+        },
+        {
+          "name": "inputToken",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "closeBettor",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeLine",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "gradeBet",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor.initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetSlipV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MainSlip",
+                "path": "main_slip"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              }
+            ]
+          },
+          "relations": [
+            "main_slip",
+            "bettor"
+          ]
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializerBetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "outcome",
+          "type": {
+            "defined": "BetOutcome"
+          }
+        }
+      ]
+    },
+    {
+      "name": "gradeBetSecp256K1",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor.initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetSlipV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "MainSlip",
+                "path": "main_slip"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor"
+              }
+            ]
+          },
+          "relations": [
+            "main_slip",
+            "bettor"
+          ]
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "outcome",
+          "type": {
+            "defined": "BetOutcome"
+          }
+        }
+      ]
+    },
+    {
+      "name": "toggleLinePause",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "pauseLine",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "emrgWithdrawBettorFunds",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Bettor",
+                "path": "bettor.initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "adminBetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateAdmin",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newAdmin",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateGradingAuthority",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newGradingAuthority",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateBettorLimits",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "limit",
+          "type": "u64"
+        },
+        {
+          "name": "maxBetPayout",
+          "type": "u64"
+        },
+        {
+          "name": "maxPotentialPayout",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateBettorReferrer",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newReferrer",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateBettorToggles",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "bettor",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "toggleFlagged",
+          "type": "bool"
+        },
+        {
+          "name": "toggleBackedOff",
+          "type": "bool"
+        },
+        {
+          "name": "toggleToEscrow",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateLineLimits",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "grading_authority"
+          ]
+        },
+        {
+          "name": "mainSlip",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumMainSlipV1"
+              },
+              {
+                "kind": "arg",
+                "type": "u32",
+                "path": "rot_num"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BetType"
+                },
+                "path": "bet_type"
+              },
+              {
+                "kind": "arg",
+                "type": "u8",
+                "path": "period"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "rotNum",
+          "type": "u32"
+        },
+        {
+          "name": "betType",
+          "type": {
+            "defined": "BetType"
+          }
+        },
+        {
+          "name": "period",
+          "type": "u8"
+        },
+        {
+          "name": "limit",
+          "type": "u64"
+        },
+        {
+          "name": "secondaryLimit",
+          "type": "u64"
+        },
+        {
+          "name": "maxBetPayout",
+          "type": "u64"
+        },
+        {
+          "name": "secondaryLimitActive",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateState",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "limit",
+          "type": "u64"
+        },
+        {
+          "name": "maxBetPayout",
+          "type": "u64"
+        },
+        {
+          "name": "maxPotentialPayout",
+          "type": "u64"
+        },
+        {
+          "name": "breakerThreshold",
+          "type": "u64"
+        },
+        {
+          "name": "maxPayoutSentryEnabled",
+          "type": "bool"
+        },
+        {
+          "name": "potentialPayoutSentryEnabled",
+          "type": "bool"
+        },
+        {
+          "name": "breakerEnabled",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "migrateState",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newGradingAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "withdrawBettorFunds",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bettor",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializerBetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transferBettorFunds",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bettor",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBettorV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bettorPrimaryVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gradingAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawAdminFunds",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          },
+          "relations": [
+            "admin"
+          ]
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminBetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountToWithdraw",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositAdminFunds",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "depositorBetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountToDeposit",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initTokenVault",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumStateV1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "betToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betTokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "ColosseumBetTokenVaultV1"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "State",
+                "path": "state"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "bet_token"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BetSlip",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mainSlip",
+            "type": "publicKey"
+          },
+          {
+            "name": "bettor",
+            "type": "publicKey"
+          },
+          {
+            "name": "rotNum",
+            "type": "u32"
+          },
+          {
+            "name": "betType",
+            "type": {
+              "defined": "BetType"
+            }
+          },
+          {
+            "name": "period",
+            "type": "u8"
+          },
+          {
+            "name": "timeBet",
+            "type": "u64"
+          },
+          {
+            "name": "amountBet",
+            "type": "u64"
+          },
+          {
+            "name": "payout",
+            "type": "u64"
+          },
+          {
+            "name": "lineTarget",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "inputToken",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bettor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializer",
+            "type": "publicKey"
+          },
+          {
+            "name": "referrer",
+            "type": "publicKey"
+          },
+          {
+            "name": "toEscrow",
+            "type": "bool"
+          },
+          {
+            "name": "limit",
+            "type": "u64"
+          },
+          {
+            "name": "maxBetPayout",
+            "type": "u64"
+          },
+          {
+            "name": "maxPotentialPayout",
+            "type": "u64"
+          },
+          {
+            "name": "flagged",
+            "type": "bool"
+          },
+          {
+            "name": "backedOff",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MainSlip",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rotNum",
+            "type": "u32"
+          },
+          {
+            "name": "betType",
+            "type": {
+              "defined": "BetType"
+            }
+          },
+          {
+            "name": "period",
+            "type": "u8"
+          },
+          {
+            "name": "timeInit",
+            "type": "u64"
+          },
+          {
+            "name": "timeSecondaryActive",
+            "type": "u64"
+          },
+          {
+            "name": "gameTimeStart",
+            "type": "u64"
+          },
+          {
+            "name": "gameTimeEnd",
+            "type": "u64"
+          },
+          {
+            "name": "limit",
+            "type": "u64"
+          },
+          {
+            "name": "secondaryLimit",
+            "type": "u64"
+          },
+          {
+            "name": "maxBetPayout",
+            "type": "u64"
+          },
+          {
+            "name": "linePaused",
+            "type": "bool"
+          },
+          {
+            "name": "secondaryLimitIsActive",
+            "type": "bool"
+          },
+          {
+            "name": "currentBetCount",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "State",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "betTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "limit",
+            "type": "u64"
+          },
+          {
+            "name": "maxBetPayout",
+            "type": "u64"
+          },
+          {
+            "name": "maxPayoutSentryEnabled",
+            "type": "bool"
+          },
+          {
+            "name": "maxPotentialPayout",
+            "type": "u64"
+          },
+          {
+            "name": "potentialPayoutSentryEnabled",
+            "type": "bool"
+          },
+          {
+            "name": "breakerThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "breakerEnabled",
+            "type": "bool"
+          },
+          {
+            "name": "lossRecoveryValue",
+            "type": "u16"
+          },
+          {
+            "name": "lossRecoveryDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "lossRecoveryEnabled",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "gradingAuthority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "BetOutcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Incomplete"
+          },
+          {
+            "name": "Win"
+          },
+          {
+            "name": "Loss"
+          },
+          {
+            "name": "Push"
+          },
+          {
+            "name": "Cancel"
+          },
+          {
+            "name": "HalfWin"
+          },
+          {
+            "name": "HalfLoss"
+          },
+          {
+            "name": "PartialWin"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PointSpreadOver"
+          },
+          {
+            "name": "PointSpreadUnder"
+          },
+          {
+            "name": "MoneyLineOver"
+          },
+          {
+            "name": "MoneyLineUnder"
+          },
+          {
+            "name": "GameTotalOver"
+          },
+          {
+            "name": "GameTotalUnder"
+          },
+          {
+            "name": "TeamTotalOver"
+          },
+          {
+            "name": "TeamTotalUnder"
+          },
+          {
+            "name": "DrawMoneyLine"
+          },
+          {
+            "name": "Parlay"
+          },
+          {
+            "name": "Teaser"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnexpectedAccounts",
+      "msg": "Unexpected remaining accounts provided."
+    },
+    {
+      "code": 6001,
+      "name": "BettorPrimaryVaultNotEmpty",
+      "msg": "Bettor vault must be empty prior to closing."
+    },
+    {
+      "code": 6002,
+      "name": "BettorPrimaryVaultEmpty",
+      "msg": "Bettor vault must not be empty prior to withdrawing."
+    },
+    {
+      "code": 6003,
+      "name": "LinePaused",
+      "msg": "This line is currently paused. There are no new bets allowed on this line at this time."
+    },
+    {
+      "code": 6004,
+      "name": "BettorBackedOff",
+      "msg": "Bettor is not allowed to bet at this time. Please contact support if you believe this is an error."
+    },
+    {
+      "code": 6005,
+      "name": "BetLimitExceeded",
+      "msg": "Amount to win exceeds the currently configured limits. Please reduce your bet risk or contact support to increase your limits."
+    },
+    {
+      "code": 6006,
+      "name": "BetAmountMustBeGreaterThanZero",
+      "msg": "The stake amount of this bet must exceed 0."
+    },
+    {
+      "code": 6007,
+      "name": "MaxPayoutExceeded",
+      "msg": "The payout of this bet exceeds configured max payout limits. Please contact support to increase your maximum payout limits."
+    },
+    {
+      "code": 6008,
+      "name": "PotentialPayoutExceeded",
+      "msg": "The potential payout of this bet would cause your open bets to exceed the maximum potential payout limit. Please allow your bets to grade before attempting to place more, or contact support to request a limit increase."
+    },
+    {
+      "code": 6009,
+      "name": "LineGraded",
+      "msg": "This line is already graded."
+    },
+    {
+      "code": 6010,
+      "name": "LineNotGraded",
+      "msg": "This bet's line is not yet graded, please allow the line to grade before attempting to grade."
+    },
+    {
+      "code": 6011,
+      "name": "InvalidOutcome",
+      "msg": "The provided outcome is an invalid outcome."
+    },
+    {
+      "code": 6012,
+      "name": "InvalidBetType",
+      "msg": "The provided bet type is an invalid bet type."
+    },
+    {
+      "code": 6013,
+      "name": "InvalidBetPeriod",
+      "msg": "The provided bet period is an invalid bet period."
+    },
+    {
+      "code": 6014,
+      "name": "NotAllBetsGraded",
+      "msg": "Ungraded bets remain on this line, please allow all bets to grade before attempting to close this line."
+    },
+    {
+      "code": 6015,
+      "name": "BettorNotAllowedToWithdraw",
+      "msg": "Bettor is not allowed to withdraw at this time. Please contact support if you believe this is an error."
+    },
+    {
+      "code": 6016,
+      "name": "GameNotStarted",
+      "msg": "Game has not yet started, please wait until the game has started before attempting to grade bets."
+    },
+    {
+      "code": 6017,
+      "name": "NoBetsOnSlip",
+      "msg": "No bets remain on this line, please close the line instead of attempting to grade a bet."
+    },
+    {
+      "code": 6018,
+      "name": "AmountToWithdrawExceedsBalance",
+      "msg": "Amount to withdraw exceeds current balance."
+    }
+  ]
+}

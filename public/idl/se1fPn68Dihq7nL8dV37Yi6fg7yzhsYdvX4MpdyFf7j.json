@@ -1,0 +1,139 @@
+{
+  "version": "0.1.0",
+  "name": "self_staking_program",
+  "instructions": [
+    {
+      "name": "initPayment",
+      "accounts": [
+        {
+          "name": "paymentData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "makePayment",
+      "accounts": [
+        {
+          "name": "paymentData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "programType",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PaymentData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "programType",
+            "type": "u16"
+          },
+          {
+            "name": "payments",
+            "type": "u16"
+          },
+          {
+            "name": "totalPaid",
+            "type": "u64"
+          },
+          {
+            "name": "programDeployed",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedAccess",
+      "msg": "Unauthorized Access"
+    },
+    {
+      "code": 6001,
+      "name": "WrongDestination",
+      "msg": "Wrong Vault Destination"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidProgramType",
+      "msg": "Invalid Program Type"
+    }
+  ]
+}

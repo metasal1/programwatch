@@ -1,0 +1,1194 @@
+{
+  "version": "0.2.0",
+  "name": "pyescrow",
+  "constants": [
+    {
+      "name": "BATTLE_STATE_SEED",
+      "type": "string",
+      "value": "\"pybattle\""
+    },
+    {
+      "name": "ESCROW_SEED",
+      "type": "string",
+      "value": "\"pyescrow\""
+    },
+    {
+      "name": "USER_PROFILE_SEED",
+      "type": "string",
+      "value": "\"profile\""
+    },
+    {
+      "name": "GAME_HUB_SEED",
+      "type": "string",
+      "value": "\"game\""
+    },
+    {
+      "name": "WRAPPED_SOL_MINT",
+      "type": "publicKey",
+      "value": "solana_program :: pubkey ! (\"So11111111111111111111111111111111111111112\")"
+    },
+    {
+      "name": "DUST_MINT",
+      "type": "publicKey",
+      "value": "solana_program :: pubkey ! (\"DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ\")"
+    },
+    {
+      "name": "FEE_ACCOUNT",
+      "type": "publicKey",
+      "value": "solana_program :: pubkey ! (\"C8PEdWE6GuxNWB9RzDzjsn78HKSWqH6JKEuntdbFgTM5\")"
+    },
+    {
+      "name": "NOTARY",
+      "type": "publicKey",
+      "value": "solana_program :: pubkey ! (\"PEPEwspygcyqVY9d4jk6zAH86iMDw9HTNxyQyLXyn9b\")"
+    },
+    {
+      "name": "GAME_MASTER",
+      "type": "publicKey",
+      "value": "solana_program :: pubkey ! (\"ADM1NwQvVChiZdbBnCfLE6ARnctmYdivFk46eY6mjzDf\")"
+    },
+    {
+      "name": "PYMONS_FEE_BASIS_POINTS",
+      "type": "u16",
+      "value": "1000"
+    },
+    {
+      "name": "REFERRALS_FEE_BASIS_POINTS",
+      "type": "u16",
+      "value": "500"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "createSolBattle",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "battleState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pybattle"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pyescrow"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "BattleEscrow",
+                "path": "battle_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "referral",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gameHub",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        },
+        {
+          "name": "wager",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "enterSolBattle",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "battleState",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pybattle"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pyescrow"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "BattleEscrow",
+                "path": "battle_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "referral",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        },
+        {
+          "name": "wager",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelSolBattle",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "battleState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pybattle"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pyescrow"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "BattleEscrow",
+                "path": "battle_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gameHub",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "claimWinningsSol",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "notary",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "battleState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pybattle"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pyescrow"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "BattleEscrow",
+                "path": "battle_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerOneReferral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerTwoReferral",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "winnerProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "playerOneReferralProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player_one_referral"
+              }
+            ]
+          }
+        },
+        {
+          "name": "playerTwoReferralProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player_two_referral"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gameHub",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "priceOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createUserProfile",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "profile"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateUserProfile",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "notary",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "profile"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newTierLevel",
+          "type": "u8"
+        },
+        {
+          "name": "newAmountWonUnderReferral",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createGameHub",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameHub",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "houseFee",
+          "type": "u16"
+        },
+        {
+          "name": "promoFee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "updateGameHub",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gameHub",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newHouseFee",
+          "type": "u16"
+        },
+        {
+          "name": "newPromoFee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "emergencyPayout",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "notary",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payout",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "battleState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pybattle"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pyescrow"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "BattleEscrow",
+                "path": "battle_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerOneReferral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerTwoReferral",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "winnerProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payout"
+              }
+            ]
+          }
+        },
+        {
+          "name": "playerOneReferralProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player_one_referral"
+              }
+            ]
+          }
+        },
+        {
+          "name": "playerTwoReferralProfile",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "profile"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player_two_referral"
+              }
+            ]
+          }
+        },
+        {
+          "name": "gameHub",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "priceOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "emergencyRefund",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "notary",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "playerOne",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerTwo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "battleState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pybattle"
+              },
+              {
+                "kind": "arg",
+                "type": "string",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pyescrow"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "BattleEscrow",
+                "path": "battle_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BattleEscrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "battleId",
+            "type": "string"
+          },
+          {
+            "name": "spoils",
+            "type": "u64"
+          },
+          {
+            "name": "playerOne",
+            "type": "publicKey"
+          },
+          {
+            "name": "playerTwo",
+            "type": "publicKey"
+          },
+          {
+            "name": "playerOneReferrer",
+            "type": "publicKey"
+          },
+          {
+            "name": "playerTwoReferrer",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FundEscrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "battleId",
+            "type": "string"
+          },
+          {
+            "name": "playerOne",
+            "type": "publicKey"
+          },
+          {
+            "name": "playerTwo",
+            "type": "publicKey"
+          },
+          {
+            "name": "wagerAmount",
+            "type": "u64"
+          },
+          {
+            "name": "spoils",
+            "type": "u64"
+          },
+          {
+            "name": "isPlayerOneFunded",
+            "type": "bool"
+          },
+          {
+            "name": "isPlayerTwoFunded",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserProfile",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "battlesDeposited",
+            "type": "u64"
+          },
+          {
+            "name": "battlesWon",
+            "type": "u64"
+          },
+          {
+            "name": "referralCodeTierLevel",
+            "type": "u8"
+          },
+          {
+            "name": "amountDepositedUnderReferralCode",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameHub",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalGamesCreated",
+            "type": "u64"
+          },
+          {
+            "name": "houseFee",
+            "type": "u16"
+          },
+          {
+            "name": "promoFee",
+            "type": "u16"
+          },
+          {
+            "name": "referralDiscountMultiplier",
+            "type": "u16"
+          },
+          {
+            "name": "emergencyAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "tier0",
+            "type": "u64"
+          },
+          {
+            "name": "tier1",
+            "type": "u64"
+          },
+          {
+            "name": "tier2",
+            "type": "u64"
+          },
+          {
+            "name": "tier3",
+            "type": "u64"
+          },
+          {
+            "name": "tier4",
+            "type": "u64"
+          },
+          {
+            "name": "tier5",
+            "type": "u64"
+          },
+          {
+            "name": "tier6",
+            "type": "u64"
+          },
+          {
+            "name": "tier7",
+            "type": "u64"
+          },
+          {
+            "name": "tier8",
+            "type": "u64"
+          },
+          {
+            "name": "tier9",
+            "type": "u64"
+          },
+          {
+            "name": "totalSolWagered",
+            "type": "u64"
+          },
+          {
+            "name": "totalUsdWagered",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AccountAlreadyExists",
+      "msg": "This account is already initialized."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidCurrency",
+      "msg": "The only supported token currently is DUST."
+    },
+    {
+      "code": 6002,
+      "name": "NotEnoughSol",
+      "msg": "Not enough lamports."
+    },
+    {
+      "code": 6003,
+      "name": "UuidOverflow",
+      "msg": "UUID is too long."
+    },
+    {
+      "code": 6004,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow."
+    },
+    {
+      "code": 6005,
+      "name": "DuplicatePlayer",
+      "msg": "Second Player in battle cannot be creator of the battle."
+    },
+    {
+      "code": 6006,
+      "name": "IncorrectWager",
+      "msg": "Incorrect Wager for Battle!"
+    },
+    {
+      "code": 6007,
+      "name": "BattleIdMismatch",
+      "msg": "Battle Id given does not match the battle id on chain!"
+    },
+    {
+      "code": 6008,
+      "name": "WagerMustBeNonZero",
+      "msg": "Wager must be greater than 0!"
+    },
+    {
+      "code": 6009,
+      "name": "CancelNotAuthorized",
+      "msg": "Signer is not authorized to cancel the battle."
+    },
+    {
+      "code": 6010,
+      "name": "TooLateToCancel",
+      "msg": "It is too late to cancel, a player has already joined."
+    },
+    {
+      "code": 6011,
+      "name": "AssertFundedError",
+      "msg": "Cannot claim winnings, one or both parties have not funded their wager."
+    },
+    {
+      "code": 6012,
+      "name": "IncorrectFeeAccount",
+      "msg": "Fee account passed in is incorrect."
+    },
+    {
+      "code": 6013,
+      "name": "InvalidNotary",
+      "msg": "Invalid Notary"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidGameMaster",
+      "msg": "Invalid Game Master"
+    },
+    {
+      "code": 6015,
+      "name": "PlayerTwoNotFunded",
+      "msg": "Player Two has not funded the escrow."
+    },
+    {
+      "code": 6016,
+      "name": "PlayerTwoFunded",
+      "msg": "Player Two has already funded the escrow."
+    },
+    {
+      "code": 6017,
+      "name": "InvalidReferral",
+      "msg": "Referral Address inputted does not match what is stored in battle state."
+    }
+  ]
+}

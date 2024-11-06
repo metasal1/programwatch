@@ -1,0 +1,325 @@
+{
+  "version": "0.1.0",
+  "name": "fee_check_contract",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addNewDapp",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dappName",
+          "type": "string"
+        },
+        {
+          "name": "newDappFees",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addNewDappWhitelist",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dappWhitelistName",
+          "type": "string"
+        },
+        {
+          "name": "newDappWhitelistFees",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeDappFees",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dappName",
+          "type": "string"
+        },
+        {
+          "name": "newDappFees",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeDappWhitelistFees",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dappWhitelistName",
+          "type": "string"
+        },
+        {
+          "name": "newDappWhitelistFees",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "getFees",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dappName",
+          "type": "string"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "getWhitelistFees",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dappName",
+          "type": "string"
+        }
+      ],
+      "returns": "u64"
+    }
+  ],
+  "accounts": [
+    {
+      "name": "FeeCheckContract",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stableFee",
+            "type": "bool"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "feesMapBool",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "whitelistMapBool",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "version",
+            "type": "u64"
+          },
+          {
+            "name": "feesMap",
+            "type": {
+              "vec": {
+                "defined": "FeesMap"
+              }
+            }
+          },
+          {
+            "name": "feesMapNative",
+            "type": {
+              "vec": {
+                "defined": "FeesMapNative"
+              }
+            }
+          },
+          {
+            "name": "whitelistFeesMap",
+            "type": {
+              "vec": {
+                "defined": "WhitelistFeeMap"
+              }
+            }
+          },
+          {
+            "name": "whitelistFeesMapNative",
+            "type": {
+              "vec": {
+                "defined": "WhitelistFeeMapNative"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "FeesMap",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dappName",
+            "type": "string"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeesMapNative",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dappName",
+            "type": "string"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistFeeMap",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dappWhitelistName",
+            "type": "string"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WhitelistFeeMapNative",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dappWhitelistName",
+            "type": "string"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotOwner",
+      "msg": "Caller is not a Owner"
+    },
+    {
+      "code": 6001,
+      "name": "DappAlreadyAdded",
+      "msg": "dapp is already added"
+    }
+  ]
+}

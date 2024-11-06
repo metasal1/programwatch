@@ -1,0 +1,827 @@
+{
+  "version": "0.1.0",
+  "name": "staking",
+  "instructions": [
+    {
+      "name": "assetConfigInit",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority of the created config"
+          ]
+        },
+        {
+          "name": "assetConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for configuration"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "assetConfigUpdateTiers",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "assetConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attributeKey",
+          "type": "string"
+        },
+        {
+          "name": "tiersRewards",
+          "type": {
+            "vec": {
+              "defined": "TierRewardsConfig"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "assetConfigTransfer",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "assetConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "assetUserInit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "assetConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assetUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "assetUserClaim",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetConfigToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assetUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "token2022Program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "claimOnly",
+          "type": {
+            "option": {
+              "vec": "u16"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "assetStakeInit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "assetConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "assetStakeClose",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetConfigToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "token2022Program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "vestingConfigInit",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority of the created vesting_config"
+          ]
+        },
+        {
+          "name": "vestingConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for configuration"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "configType",
+          "type": {
+            "defined": "ConfigType"
+          }
+        },
+        {
+          "name": "totalShares",
+          "type": "u64"
+        },
+        {
+          "name": "rewards",
+          "type": {
+            "defined": "RewardsConfig"
+          }
+        }
+      ]
+    },
+    {
+      "name": "vestingConfigUpdateRewards",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vestingConfig",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "totalShares",
+          "type": "u64"
+        },
+        {
+          "name": "rewards",
+          "type": {
+            "defined": "RewardsConfig"
+          }
+        }
+      ]
+    },
+    {
+      "name": "vestingConfigTransfer",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vestingConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "vestingRewardsInit",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vestingConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vestingRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "shares",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "vestingRewardsUpdate",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "vestingConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vestingRewards",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "shares",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "vestingRewardsClaim",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vestingConfigToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vestingRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "token2022Program",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AssetConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "configType",
+            "type": {
+              "defined": "ConfigType"
+            }
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "staked",
+            "type": "u16"
+          },
+          {
+            "name": "claimed",
+            "type": "u64"
+          },
+          {
+            "name": "attributeKey",
+            "type": "string"
+          },
+          {
+            "name": "tiersRewards",
+            "type": {
+              "vec": {
+                "defined": "TierRewardsConfig"
+              }
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "configType",
+            "type": {
+              "defined": "ConfigType"
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalShares",
+            "type": "u64"
+          },
+          {
+            "name": "rewards",
+            "type": {
+              "defined": "RewardsConfig"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetUser",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "assetConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "claimed",
+            "type": "u64"
+          },
+          {
+            "name": "stakedLen",
+            "type": "u64"
+          },
+          {
+            "name": "staked",
+            "type": {
+              "array": [
+                {
+                  "defined": "AssetUserStake"
+                },
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "assetConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeIndex",
+            "type": "u64"
+          },
+          {
+            "name": "tierId",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingRewards",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configType",
+            "type": {
+              "defined": "ConfigType"
+            }
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "shares",
+            "type": "u64"
+          },
+          {
+            "name": "claimed",
+            "type": "u64"
+          },
+          {
+            "name": "lastClaimTime",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TierRewardsConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u8"
+          },
+          {
+            "name": "count",
+            "type": "u16"
+          },
+          {
+            "name": "attributeValue",
+            "type": "string"
+          },
+          {
+            "name": "rewards",
+            "type": {
+              "vec": {
+                "defined": "RewardsConfig"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardsConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "endTime",
+            "type": "i64"
+          },
+          {
+            "name": "supply",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetUserStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tierId",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "claimed",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Asset"
+          },
+          {
+            "name": "Airdrop"
+          },
+          {
+            "name": "Presale"
+          },
+          {
+            "name": "Team"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAuthority",
+      "msg": "Invalid config authority"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidTiersConfig",
+      "msg": "Invalid tiers for config"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTier",
+      "msg": "Tier not found in config"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidCollection",
+      "msg": "Invalid collection for NFT to stake"
+    },
+    {
+      "code": 6004,
+      "name": "AssetAttributeNotFound",
+      "msg": "Attribute not found on asset"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner for NFT"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidClaim",
+      "msg": "Cannot claim rewards"
+    }
+  ]
+}

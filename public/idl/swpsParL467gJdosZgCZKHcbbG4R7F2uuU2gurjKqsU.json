@@ -1,0 +1,347 @@
+{
+  "version": "0.1.0",
+  "name": "swap",
+  "instructions": [
+    {
+      "name": "whitelistCollection",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "creators0",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "wlData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initiateSwap",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "signerA",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userB",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "requestedNfts",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "nftsTrading",
+          "type": "u8"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "swapPartTwo",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "signerA",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userA",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tradeStateAddy",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reclaimExpiredNfts",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "signerA",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userA",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userB",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tradeStateAddress",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Counter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WLData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creators0",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TradeState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userA",
+            "type": "publicKey"
+          },
+          {
+            "name": "userB",
+            "type": "publicKey"
+          },
+          {
+            "name": "userANfts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "userBNfts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "totalSentFromEscrow",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "tradeState",
+            "type": "u8"
+          },
+          {
+            "name": "userANftCount",
+            "type": "u8"
+          },
+          {
+            "name": "userANftsTrading",
+            "type": "u8"
+          },
+          {
+            "name": "userBNftCount",
+            "type": "u8"
+          },
+          {
+            "name": "userBNftsSent",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongToken",
+      "msg": "You have used an incorrect Token Account"
+    },
+    {
+      "code": 6001,
+      "name": "UnauthorizedAccess",
+      "msg": "You are not authorized to sign this transaction"
+    },
+    {
+      "code": 6002,
+      "name": "WrongSolAddress",
+      "msg": "Wrong Sol address"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAction",
+      "msg": "You are doing it wrong."
+    },
+    {
+      "code": 6004,
+      "name": "WrongNftRequested",
+      "msg": "You may not request this nft."
+    },
+    {
+      "code": 6005,
+      "name": "ReclaimingTooSoon",
+      "msg": "You are reclaiming too soon."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidCMID",
+      "msg": "Invalid CMID"
+    },
+    {
+      "code": 6007,
+      "name": "OutOfTime",
+      "msg": "Out of time"
+    }
+  ]
+}

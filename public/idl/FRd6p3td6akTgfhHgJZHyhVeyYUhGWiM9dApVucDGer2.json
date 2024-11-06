@@ -1,0 +1,346 @@
+{
+  "version": "0.1.0",
+  "name": "nft_barter",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "taker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initializerAdditionalSolAmount",
+          "type": "u64"
+        },
+        {
+          "name": "takerAdditionalSolAmount",
+          "type": "u64"
+        },
+        {
+          "name": "initializerNftAmount",
+          "type": "u8"
+        },
+        {
+          "name": "takerNftAmount",
+          "type": "u8"
+        },
+        {
+          "name": "vaultAccountBumps",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "exchange",
+      "accounts": [
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "initializerAdditionalSolAmount",
+          "type": "u64"
+        },
+        {
+          "name": "takerAdditionalSolAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelByInitializer",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "taker",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelByTaker",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "taker",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EscrowAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializerKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "initializerAdditionalSolAmount",
+            "type": "u64"
+          },
+          {
+            "name": "initializerNftTokenAccounts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "takerKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "takerAdditionalSolAmount",
+            "type": "u64"
+          },
+          {
+            "name": "takerNftTokenAccounts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "vaultAccountBumps",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultAuthority",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NftAmountMismatch",
+      "msg": "NftAmountMismatch"
+    },
+    {
+      "code": 6001,
+      "name": "NotProvidedInitializerAssets",
+      "msg": "NotProvidedInitializerAssets"
+    },
+    {
+      "code": 6002,
+      "name": "NotProvidedTakerAssets",
+      "msg": "NotProvidedTakerAssets"
+    },
+    {
+      "code": 6003,
+      "name": "UninitializedAssociatedToken",
+      "msg": "UninitializedAssociatedToken"
+    },
+    {
+      "code": 6004,
+      "name": "IncorrectAccountInfoOwner",
+      "msg": "IncorrectAccountInfoOwner"
+    },
+    {
+      "code": 6005,
+      "name": "AssociatedTokenPublicKeyMismatch",
+      "msg": "AssociatedTokenPublicKeyMismatch"
+    },
+    {
+      "code": 6006,
+      "name": "NotFoundNft",
+      "msg": "NotFoundNft"
+    },
+    {
+      "code": 6007,
+      "name": "VaultAccountBumpsMismatch",
+      "msg": "VaultAccountBumpsMismatch"
+    },
+    {
+      "code": 6008,
+      "name": "PdaPublicKeyMismatch",
+      "msg": "PdaPublicKeyMismatch"
+    },
+    {
+      "code": 6009,
+      "name": "AssociatedAuthorityMismatch",
+      "msg": "AssociatedAuthorityMismatch"
+    },
+    {
+      "code": 6010,
+      "name": "InitializerAdditionalSolAmountMismatch",
+      "msg": "InitializerAdditionalSolAmountMismatch"
+    },
+    {
+      "code": 6011,
+      "name": "TakerAdditionalSolAmountMismatch",
+      "msg": "TakerAdditionalSolAmountMismatch"
+    },
+    {
+      "code": 6012,
+      "name": "FoundNft",
+      "msg": "FoundNft"
+    },
+    {
+      "code": 6013,
+      "name": "MintPublicKeyMismatch",
+      "msg": "MintPublicKeyMismatch"
+    },
+    {
+      "code": 6014,
+      "name": "InitializerInsufficientFunds",
+      "msg": "InitializerInsufficientFunds"
+    },
+    {
+      "code": 6015,
+      "name": "TakerInsufficientFunds",
+      "msg": "TakerInsufficientFunds"
+    },
+    {
+      "code": 6016,
+      "name": "InitializerPublicKeyMismatch",
+      "msg": "InitializerPublicKeyMismatch"
+    },
+    {
+      "code": 6017,
+      "name": "TakerPublicKeyMismatch",
+      "msg": "TakerPublicKeyMismatch"
+    },
+    {
+      "code": 6018,
+      "name": "NotRentExempt",
+      "msg": "NotRentExempt"
+    },
+    {
+      "code": 6019,
+      "name": "NotFoundRemainingAccounts",
+      "msg": "NotFoundRemainingAccounts"
+    }
+  ]
+}

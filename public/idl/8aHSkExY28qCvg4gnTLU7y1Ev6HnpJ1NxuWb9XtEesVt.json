@@ -1,0 +1,967 @@
+{
+  "version": "0.1.2",
+  "name": "vyper_otc",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "otcState",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Vault Configuration initialized"
+          ]
+        },
+        {
+          "name": "otcAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcSeniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "OTC senior reserve token account"
+          ]
+        },
+        {
+          "name": "otcJuniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "OTC junior reserve token account"
+          ]
+        },
+        {
+          "name": "otcSeniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "OTC senior tranche token account"
+          ]
+        },
+        {
+          "name": "otcJuniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "OTC junior tranche token account"
+          ]
+        },
+        {
+          "name": "reserveMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Reserve Token mint"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "vyperTrancheConfig",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core Tranche Configuration"
+          ]
+        },
+        {
+          "name": "vyperCore",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program"
+          ]
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "InitializeInputData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "userReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User reserve token account"
+          ]
+        },
+        {
+          "name": "beneficiaryTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User reserve token account"
+          ]
+        },
+        {
+          "name": "otcState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault Configuration initialized"
+          ]
+        },
+        {
+          "name": "otcAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcSeniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior reserve token account"
+          ]
+        },
+        {
+          "name": "otcJuniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior reserve token account"
+          ]
+        },
+        {
+          "name": "otcSeniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior tranche token account"
+          ]
+        },
+        {
+          "name": "otcJuniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior tranche token account"
+          ]
+        },
+        {
+          "name": "reserveMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Reserve Token mint"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "vyperTrancheConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core Tranche Configuration"
+          ]
+        },
+        {
+          "name": "vyperTrancheAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core tranche configuration authority"
+          ]
+        },
+        {
+          "name": "vyperReserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core reserve token account"
+          ]
+        },
+        {
+          "name": "vyperCore",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program"
+          ]
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "inputData",
+          "type": {
+            "defined": "DepositInputData"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "userReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User reserve token account"
+          ]
+        },
+        {
+          "name": "beneficiaryTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User reserve token account"
+          ]
+        },
+        {
+          "name": "otcState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault Configuration initialized"
+          ]
+        },
+        {
+          "name": "otcAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcSeniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior reserve token account"
+          ]
+        },
+        {
+          "name": "otcJuniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior reserve token account"
+          ]
+        },
+        {
+          "name": "reserveMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Reserve Token mint"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent program",
+            "System program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program"
+          ]
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        },
+        {
+          "name": "otcState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault Configuration initialized"
+          ]
+        },
+        {
+          "name": "otcAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcSeniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior reserve token account"
+          ]
+        },
+        {
+          "name": "otcJuniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior reserve token account"
+          ]
+        },
+        {
+          "name": "otcSeniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior tranche token account"
+          ]
+        },
+        {
+          "name": "otcJuniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior tranche token account"
+          ]
+        },
+        {
+          "name": "reserveMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Reserve Token mint"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "vyperTrancheConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core Tranche Configuration"
+          ]
+        },
+        {
+          "name": "vyperTrancheAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core tranche configuration authority"
+          ]
+        },
+        {
+          "name": "vyperReserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core reserve token account"
+          ]
+        },
+        {
+          "name": "vyperCore",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "otcState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vault Configuration initialized"
+          ]
+        },
+        {
+          "name": "otcAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "beneficiaryTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "User reserve token account"
+          ]
+        },
+        {
+          "name": "otcSeniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault senior reserve token account"
+          ]
+        },
+        {
+          "name": "otcJuniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vault junior reserve token account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program"
+          ]
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close",
+      "accounts": [
+        {
+          "name": "otcState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "otc_state configuration"
+          ]
+        },
+        {
+          "name": "otcAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "otcSeniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior reserve token account"
+          ]
+        },
+        {
+          "name": "otcJuniorReserveTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior reserve token account"
+          ]
+        },
+        {
+          "name": "otcSeniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC senior tranche token account"
+          ]
+        },
+        {
+          "name": "otcJuniorTrancheTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "OTC junior tranche token account"
+          ]
+        },
+        {
+          "name": "seniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Senior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "juniorTrancheMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Junior Tranche Token mint"
+          ]
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "vyper core reserve ta"
+          ]
+        },
+        {
+          "name": "vyperTrancheConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core Tranche Configuration"
+          ]
+        },
+        {
+          "name": "vyperTrancheAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core tranche configuration authority"
+          ]
+        },
+        {
+          "name": "userReserveToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Signer account"
+          ]
+        },
+        {
+          "name": "vyperCore",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Vyper Core program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "System program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Rent program"
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "OtcState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "created",
+            "type": "i64"
+          },
+          {
+            "name": "depositStart",
+            "type": "i64"
+          },
+          {
+            "name": "depositEnd",
+            "type": "i64"
+          },
+          {
+            "name": "settleStart",
+            "type": "i64"
+          },
+          {
+            "name": "settleExecuted",
+            "type": "bool"
+          },
+          {
+            "name": "seniorDepositAmount",
+            "type": "u64"
+          },
+          {
+            "name": "juniorDepositAmount",
+            "type": "u64"
+          },
+          {
+            "name": "seniorSideBeneficiary",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "juniorSideBeneficiary",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "vyperTrancheConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "vyperCore",
+            "type": "publicKey"
+          },
+          {
+            "name": "otcSeniorReserveTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "otcJuniorReserveTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "otcSeniorTrancheTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "otcJuniorTrancheTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "otcAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "authoritySeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "authorityBump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": {
+              "array": [
+                "u8",
+                3
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DepositInputData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isSeniorSide",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeInputData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seniorDepositAmount",
+            "type": "u64"
+          },
+          {
+            "name": "juniorDepositAmount",
+            "type": "u64"
+          },
+          {
+            "name": "depositStart",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "depositEnd",
+            "type": "i64"
+          },
+          {
+            "name": "settleStart",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "ContractClosed",
+      "fields": [
+        {
+          "name": "otcState",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "signer",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "InitializeEvent",
+      "fields": [
+        {
+          "name": "otcState",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seniorDepositAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "juniorDepositAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "depositExpiration",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "settleAvailableFrom",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GenericError",
+      "msg": "generic error"
+    },
+    {
+      "code": 6001,
+      "name": "InitializationError",
+      "msg": "initialization error"
+    },
+    {
+      "code": 6002,
+      "name": "SideAlreadyTaken",
+      "msg": "side already taken"
+    },
+    {
+      "code": 6003,
+      "name": "DepositOpen",
+      "msg": "deposit is open"
+    },
+    {
+      "code": 6004,
+      "name": "DepositClosed",
+      "msg": "deposit is closed"
+    },
+    {
+      "code": 6005,
+      "name": "BothPositionsTaken",
+      "msg": "both positions taken"
+    },
+    {
+      "code": 6006,
+      "name": "OtcClosed",
+      "msg": "otc is closed"
+    },
+    {
+      "code": 6007,
+      "name": "BeneficiaryNotFound",
+      "msg": "beneficiary not found"
+    },
+    {
+      "code": 6008,
+      "name": "SettleNotExecutedYet",
+      "msg": "settle not executed yet"
+    },
+    {
+      "code": 6009,
+      "name": "SettleAlreadyExecuted",
+      "msg": "settle already executed"
+    }
+  ]
+}

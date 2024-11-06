@@ -1,0 +1,545 @@
+{
+  "version": "0.1.0",
+  "name": "pocket_aces",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pocketAcesFeeAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pocketAcesTreasuryAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeWithdrawalDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryWithdrawalDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "feeAccountBump",
+          "type": "u8"
+        },
+        {
+          "name": "treasuryAccountBump",
+          "type": "u8"
+        },
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newFeeWithdrawalDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newTreasuryWithdrawalDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": {
+            "option": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pocketAcesFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pocketAcesTreasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvarAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "cards",
+          "type": {
+            "vec": {
+              "defined": "CardData"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "receiptAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowPaymentAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "escrowPaymentBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "withdrawFromFee",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pocketAcesFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "feeWithdrawalDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawFromTreasury",
+      "accounts": [
+        {
+          "name": "pocketAces",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pocketAcesTreasuryAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "treasuryWithdrawalDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PocketAces",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pocketAcesFeeAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "pocketAcesTreasuryAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeWithdrawalDestination",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryWithdrawalDestination",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "feeAccountBump",
+            "type": "u8"
+          },
+          {
+            "name": "treasuryAccountBump",
+            "type": "u8"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Card",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": {
+              "defined": "CardValue"
+            }
+          },
+          {
+            "name": "suit",
+            "type": {
+              "defined": "CardSuit"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CardData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "name": "suit",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CardValue",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Two"
+          },
+          {
+            "name": "Three"
+          },
+          {
+            "name": "Four"
+          },
+          {
+            "name": "Five"
+          },
+          {
+            "name": "Six"
+          },
+          {
+            "name": "Seven"
+          },
+          {
+            "name": "Eight"
+          },
+          {
+            "name": "Nine"
+          },
+          {
+            "name": "Ten"
+          },
+          {
+            "name": "Jack"
+          },
+          {
+            "name": "Queen"
+          },
+          {
+            "name": "King"
+          },
+          {
+            "name": "Ace"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CardSuit",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Spades"
+          },
+          {
+            "name": "Hearts"
+          },
+          {
+            "name": "Diamonds"
+          },
+          {
+            "name": "Clubs"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidBasisPoints",
+      "msg": "InvalidBasisPoints"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAmount",
+      "msg": "InvalidAmount"
+    },
+    {
+      "code": 6002,
+      "name": "NotEnoughSOL",
+      "msg": "NotEnoughSOL"
+    },
+    {
+      "code": 6003,
+      "name": "PublicKeyMismatch",
+      "msg": "PublicKeyMismatch"
+    },
+    {
+      "code": 6004,
+      "name": "NumericalOverflow",
+      "msg": "NumericalOverflow"
+    },
+    {
+      "code": 6005,
+      "name": "SuspiciousTransaction",
+      "msg": "SuspiciousTransaction"
+    },
+    {
+      "code": 6006,
+      "name": "EmptyTreasury",
+      "msg": "EmptyTreasury"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidCards",
+      "msg": "InvalidCards"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidCardValue",
+      "msg": "InvalidCardValue"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidCardSuit",
+      "msg": "InvalidCardSuit"
+    },
+    {
+      "code": 6010,
+      "name": "DuplicateCards",
+      "msg": "DuplicateCards"
+    }
+  ]
+}

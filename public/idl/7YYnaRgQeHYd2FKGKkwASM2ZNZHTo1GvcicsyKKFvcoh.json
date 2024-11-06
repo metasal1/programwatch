@@ -1,0 +1,964 @@
+{
+  "version": "0.1.0",
+  "name": "multisig",
+  "instructions": [
+    {
+      "name": "multisigCreate",
+      "docs": [
+        "Create a multisig."
+      ],
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The creator of the multisig."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "MultisigCreateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "multisigAddMember",
+      "docs": [
+        "Add a new member to the multisig."
+      ],
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "We might need it in case reallocation is needed."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "MultisigAddMemberArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "transactionCreate",
+      "docs": [
+        "Create a new multisig transaction."
+      ],
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "TransactionCreateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "transactionApprove",
+      "docs": [
+        "Approve the transaction on behalf of the `member`.",
+        "The transaction must be `Active`."
+      ],
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "TransactionVoteArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "transactionReject",
+      "docs": [
+        "Reject the transaction on behalf of the `member`.",
+        "The transaction must be `Active`."
+      ],
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "TransactionVoteArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "transactionExecute",
+      "docs": [
+        "Execute the multisig transaction.",
+        "The transaction must be `ExecuteReady`."
+      ],
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "member",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Multisig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configAuthority",
+            "docs": [
+              "The authority that can change the multisig config.",
+              "This is a very important parameter as this authority can change the members and threshold.",
+              "",
+              "The convention is to set this to a PDA derived from the multisig address and an authority index (typically 0)",
+              "using the following seeds: [\"multisig\", multisig_address, authority_index, \"authority\"].",
+              "In this case, the multisig becomes autonomous, so every config change goes through",
+              "the normal process of voting by the members.",
+              "",
+              "However, this parameter can be set to any key. This allows for the multisig to be controlled",
+              "by a higher central authority or even another multisig."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "threshold",
+            "docs": [
+              "Threshold for signatures."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "members",
+            "docs": [
+              "Members of the multisig."
+            ],
+            "type": {
+              "vec": {
+                "defined": "Member"
+              }
+            }
+          },
+          {
+            "name": "authorityIndex",
+            "docs": [
+              "Index to seed other authorities under this multisig."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "transactionIndex",
+            "docs": [
+              "Last transaction index. 0 means no transactions have been created."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "staleTransactionIndex",
+            "docs": [
+              "Last stale transaction index. All transactions up until this index are stale.",
+              "This index is updated when multisig config (members/threshold) changes."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "docs": [
+              "Reserved for future use."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "createKey",
+            "docs": [
+              "Key that is used to seed the multisig PDA.",
+              "Used solely as bytes for the seed, doesn't have any other meaning or function."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump for the multisig PDA seed."
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MultisigTransaction",
+      "docs": [
+        "Represents data required for tracking the voting status, and execution of a multisig transaction."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "docs": [
+              "Creator, used to seed pda."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "multisig",
+            "docs": [
+              "The multisig this belongs to."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "transactionIndex",
+            "docs": [
+              "Used for seed."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "authorityIndex",
+            "docs": [
+              "Index of the authority/vault this transaction belongs to."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "authorityBump",
+            "docs": [
+              "Derivation bump of the authority/vault this transaction belongs to."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "additionalSignerBumps",
+            "docs": [
+              "Derivation bumps for additional signers.",
+              "Some transactions require multiple signers. Often these additional signers are \"ephemeral\" keypairs",
+              "that are generated on the client with a sole purpose of signing the transaction and be discarded immediately after.",
+              "When wrapping such transactions into multisig ones, we replace these \"ephemeral\" signing keypairs",
+              "with PDAs derived from the MultisigTransaction's `transaction_index` and controlled by the Multisig Program;",
+              "during execution the program includes the seeds of these PDAs into the `invoke_signed` calls,",
+              "thus \"signing\" on behalf of these PDAs."
+            ],
+            "type": "bytes"
+          },
+          {
+            "name": "status",
+            "docs": [
+              "The status of the transaction."
+            ],
+            "type": {
+              "defined": "TransactionStatus"
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "bump for the seed."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "approved",
+            "docs": [
+              "keys that have approved/signed."
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "rejected",
+            "docs": [
+              "keys that have rejected."
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "cancelled",
+            "docs": [
+              "keys that have cancelled (ExecuteReady only)."
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "message",
+            "docs": [
+              "data required for executing the transaction."
+            ],
+            "type": {
+              "defined": "MultisigTransactionMessage"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "MultisigAddMemberArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newMember",
+            "type": {
+              "defined": "Member"
+            }
+          },
+          {
+            "name": "memo",
+            "docs": [
+              "Memo isn't used for anything, but is included in `CreatedEvent` that can later be parsed and indexed."
+            ],
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MultisigCreateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "configAuthority",
+            "docs": [
+              "The authority that can configure the multisig: add/remove members, change the threshold, etc."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "threshold",
+            "docs": [
+              "The number of signatures required to execute a transaction."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "members",
+            "docs": [
+              "The members of the multisig."
+            ],
+            "type": {
+              "vec": {
+                "defined": "Member"
+              }
+            }
+          },
+          {
+            "name": "createKey",
+            "docs": [
+              "Any key that is used to seed the multisig pda. Used solely as bytes for the seed, doesn't have any other meaning."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "memo",
+            "docs": [
+              "Memo isn't used for anything, but is included in `CreatedEvent` that can later be parsed and indexed."
+            ],
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionCreateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authorityIndex",
+            "docs": [
+              "Index of the authority/vault this transaction belongs to."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "additionalSigners",
+            "docs": [
+              "Number of additional signing PDAs required by the transaction."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "transactionMessage",
+            "type": "bytes"
+          },
+          {
+            "name": "memo",
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionVoteArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "memo",
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Member",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "publicKey"
+          },
+          {
+            "name": "permissions",
+            "type": {
+              "defined": "Permissions"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Permissions",
+      "docs": [
+        "Bitmask for permissions."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mask",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MultisigTransactionMessage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numSigners",
+            "docs": [
+              "The number of signer pubkeys in the account_keys vec."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "numWritableSigners",
+            "docs": [
+              "The number of writable signer pubkeys in the account_keys vec."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "numWritableNonSigners",
+            "docs": [
+              "The number of writable non-signer pubkeys in the account_keys vec."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "accountKeys",
+            "docs": [
+              "Unique account pubkeys (including program IDs) required for execution of the tx.",
+              "The signer pubkeys appear at the beginning of the vec, with writable pubkeys first, and read-only pubkeys following.",
+              "The non-signer pubkeys follow with writable pubkeys first and read-only ones following.",
+              "Program IDs are also stored at the end of the vec along with other non-signer non-writable pubkeys:",
+              "",
+              "```plaintext",
+              "[pubkey1, pubkey2, pubkey3, pubkey4, pubkey5, pubkey6, pubkey7, pubkey8]",
+              "|---writable---|  |---readonly---|  |---writable---|  |---readonly---|",
+              "|------------signers-------------|  |----------non-singers-----------|",
+              "```"
+            ],
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "instructions",
+            "docs": [
+              "List of instructions making up the tx."
+            ],
+            "type": {
+              "vec": {
+                "defined": "MultisigCompiledInstruction"
+              }
+            }
+          },
+          {
+            "name": "addressTableLookups",
+            "docs": [
+              "List of address table lookups used to load additional accounts",
+              "for this transaction."
+            ],
+            "type": {
+              "vec": {
+                "defined": "MultisigMessageAddressTableLookup"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MultisigCompiledInstruction",
+      "docs": [
+        "Concise serialization schema for instructions that make up a transaction.",
+        "Closely mimics the Solana transaction wire format."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programIdIndex",
+            "type": "u8"
+          },
+          {
+            "name": "accountIndexes",
+            "docs": [
+              "Indices into the tx's `account_keys` list indicating which accounts to pass to the instruction."
+            ],
+            "type": "bytes"
+          },
+          {
+            "name": "data",
+            "docs": [
+              "Instruction data."
+            ],
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MultisigMessageAddressTableLookup",
+      "docs": [
+        "Address table lookups describe an on-chain address lookup table to use",
+        "for loading more readonly and writable accounts into a transaction."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "accountKey",
+            "docs": [
+              "Address lookup table account key."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "writableIndexes",
+            "docs": [
+              "List of indexes used to load writable accounts."
+            ],
+            "type": "bytes"
+          },
+          {
+            "name": "readonlyIndexes",
+            "docs": [
+              "List of indexes used to load readonly accounts."
+            ],
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigUpdateType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "AddMember",
+            "fields": [
+              {
+                "name": "reallocated",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "RemoveMember"
+          },
+          {
+            "name": "ChangeThreshold"
+          },
+          {
+            "name": "ChangeConfigAuthority"
+          },
+          {
+            "name": "ChangeAllowExternalExecute"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Permission",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Initiate"
+          },
+          {
+            "name": "Vote"
+          },
+          {
+            "name": "Execute"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "ExecuteReady"
+          },
+          {
+            "name": "Executed"
+          },
+          {
+            "name": "Rejected"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "MultisigCreated",
+      "fields": [
+        {
+          "name": "multisig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "memo",
+          "type": {
+            "option": "string"
+          },
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "MultisigConfigUpdated",
+      "fields": [
+        {
+          "name": "multisig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "update",
+          "type": {
+            "defined": "ConfigUpdateType"
+          },
+          "index": true
+        },
+        {
+          "name": "memo",
+          "type": {
+            "option": "string"
+          },
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "TransactionCreated",
+      "fields": [
+        {
+          "name": "multisig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "transaction",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "memo",
+          "type": {
+            "option": "string"
+          },
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "TransactionApproved",
+      "fields": [
+        {
+          "name": "multisig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "transaction",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "memo",
+          "type": {
+            "option": "string"
+          },
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "TransactionRejected",
+      "fields": [
+        {
+          "name": "multisig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "transaction",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "memo",
+          "type": {
+            "option": "string"
+          },
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "TransactionExecuted",
+      "fields": [
+        {
+          "name": "multisig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "transaction",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "DuplicateMember",
+      "msg": "Found multiple members with the same pubkey"
+    },
+    {
+      "code": 6001,
+      "name": "MemberAlreadyExists",
+      "msg": "Member is already in multisig"
+    },
+    {
+      "code": 6002,
+      "name": "EmptyMembers",
+      "msg": "Members array is empty"
+    },
+    {
+      "code": 6003,
+      "name": "TooManyMembers",
+      "msg": "Too many members, can be up to 65535"
+    },
+    {
+      "code": 6004,
+      "name": "MaxMembersReached",
+      "msg": "Maximum number of members already reached"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidThreshold",
+      "msg": "Invalid threshold, must be between 1 and number of members with Vote permission"
+    },
+    {
+      "code": 6006,
+      "name": "Unauthorized",
+      "msg": "Attempted to perform an unauthorized action"
+    },
+    {
+      "code": 6007,
+      "name": "NotAMember",
+      "msg": "Provided pubkey is not a member of multisig"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidTransactionMessage",
+      "msg": "TransactionMessage is malformed."
+    },
+    {
+      "code": 6009,
+      "name": "StaleTransaction",
+      "msg": "Transaction is stale"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidTransactionStatus",
+      "msg": "Invalid transaction status"
+    },
+    {
+      "code": 6011,
+      "name": "TransactionNotForMultisig",
+      "msg": "Transaction does not belong to the multisig"
+    },
+    {
+      "code": 6012,
+      "name": "AlreadyApproved",
+      "msg": "Member already approved the transaction"
+    },
+    {
+      "code": 6013,
+      "name": "AlreadyRejected",
+      "msg": "Member already rejected the transaction"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidNumberOfAccounts",
+      "msg": "Wrong number of accounts provided"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidAccount",
+      "msg": "Invalid account provided"
+    },
+    {
+      "code": 6016,
+      "name": "ExecuteReentrancy",
+      "msg": "transaction_execute reentrancy is forbidden"
+    }
+  ]
+}

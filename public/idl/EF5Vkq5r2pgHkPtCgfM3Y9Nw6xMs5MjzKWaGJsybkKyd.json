@@ -1,0 +1,291 @@
+{
+  "version": "0.1.0",
+  "name": "egg_factory",
+  "instructions": [
+    {
+      "name": "mintEgg",
+      "accounts": [
+        {
+          "name": "eggFactory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configurationFactory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "egg",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eternaldragonsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recentBlockhashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructionSysvarAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "creatorBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "accounts": [
+        {
+          "name": "configFactory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cost",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "initializeEggFactory",
+      "accounts": [
+        {
+          "name": "eggFactory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": "EggData"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ConfigurationEggFactory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemsRedeemed",
+            "type": "u64"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "sellerFeeBasisPoints",
+            "type": "u16"
+          },
+          {
+            "name": "wallet",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EggFactory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "itemsRedeemed",
+            "type": "u64"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "dna",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    3
+                  ]
+                },
+                16
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "EggData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "dna",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    3
+                  ]
+                },
+                16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EggError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "IncorrectOwner"
+          },
+          {
+            "name": "PublicKeyMismatch"
+          },
+          {
+            "name": "TokenBurnFailed"
+          },
+          {
+            "name": "SuspiciousTransaction"
+          },
+          {
+            "name": "MetadataAccountMustBeEmpty"
+          },
+          {
+            "name": "IncorrectSlotHashesPubkey"
+          },
+          {
+            "name": "NumericalOverflowError"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "version": "0.1.0",
+  "name": "lockdrop",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createProgram",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateProgramArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateProgram",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateProgramArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lockTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lockedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userBalance",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "LockTokensArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unlockTokens",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lockedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userBalance",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UnlockTokensArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "numPrograms",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProgramConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u8"
+          },
+          {
+            "name": "depositDeadline",
+            "type": "u64"
+          },
+          {
+            "name": "unlockDate",
+            "type": "u64"
+          },
+          {
+            "name": "lockedMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserBalance",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programId",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateProgramArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programId",
+            "type": "u8"
+          },
+          {
+            "name": "lockedMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "depositDeadline",
+            "type": "u64"
+          },
+          {
+            "name": "unlockDate",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateProgramArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programId",
+            "type": "u8"
+          },
+          {
+            "name": "depositDeadline",
+            "type": "u64"
+          },
+          {
+            "name": "unlockDate",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LockTokensArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programId",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnlockTokensArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "programId",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ContractAlreadyInitialized",
+      "msg": "contract already initialized"
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectGlobalConfigBump",
+      "msg": "incorrect global_config_bump"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectProgramConfigBump",
+      "msg": "incorrect program_config_bump"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidProgramId",
+      "msg": "invalid program_id, must be global_config.num_programs + 1"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidUserTokenAccountOwner",
+      "msg": "invalid owner for user_token_account"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidUserTokenAccountMint",
+      "msg": "invalid mint for user_token_account"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidUserBalanceAccount",
+      "msg": "invalid user_balance account"
+    },
+    {
+      "code": 6007,
+      "name": "SignerIsNotAdmin",
+      "msg": "Transaction signer is not admin"
+    },
+    {
+      "code": 6008,
+      "name": "DepositDeadlineOver",
+      "msg": "Deposit deadline over"
+    },
+    {
+      "code": 6009,
+      "name": "TokensAreLocked",
+      "msg": "Tokens are locked"
+    }
+  ]
+}

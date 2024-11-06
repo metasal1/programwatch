@@ -1,0 +1,670 @@
+{
+  "version": "0.1.0",
+  "name": "neo_swap",
+  "instructions": [
+    {
+      "name": "initInitialize",
+      "accounts": [
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "sentData",
+          "type": {
+            "defined": "SwapData"
+          }
+        },
+        {
+          "name": "nbOfItems",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "initializeAdd",
+      "accounts": [
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "tradeToAdd",
+          "type": {
+            "defined": "NftSwapItem"
+          }
+        }
+      ]
+    },
+    {
+      "name": "validateInitialize",
+      "accounts": [
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "depositNft",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "itemFromDeposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "itemToDeposit",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "depositSol",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "validateDeposit",
+      "accounts": [
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "claimSol",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "claimNft",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "itemFromDeposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "itemToDeposit",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "validateClaimed",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "cancelSol",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "cancelNft",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "itemFromDeposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "itemToDeposit",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "validateCancel",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "swapDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "bytes"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SwapData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializer",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "items",
+            "type": {
+              "vec": {
+                "defined": "NftSwapItem"
+              }
+            }
+          },
+          {
+            "name": "nbItems",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftSwapItem",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isNft",
+            "type": "bool"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "i64"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "destinary",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TradeStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Initializing"
+          },
+          {
+            "name": "WaitingToDeposit"
+          },
+          {
+            "name": "WaitingToClaim"
+          },
+          {
+            "name": "Closed"
+          },
+          {
+            "name": "Cancelling"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ItemStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NFTPending"
+          },
+          {
+            "name": "NFTDeposited"
+          },
+          {
+            "name": "NFTClaimed"
+          },
+          {
+            "name": "NFTCancelled"
+          },
+          {
+            "name": "NFTCancelledRecovered"
+          },
+          {
+            "name": "SolPending"
+          },
+          {
+            "name": "SolDeposited"
+          },
+          {
+            "name": "SolToClaim"
+          },
+          {
+            "name": "SolClaimed"
+          },
+          {
+            "name": "SolCancelled"
+          },
+          {
+            "name": "SolCancelledRecovered"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UserNotPartOfTrade",
+      "msg": "User not part of the trade"
+    },
+    {
+      "code": 6001,
+      "name": "MintIncorrect",
+      "msg": "Incorrect Mint"
+    },
+    {
+      "code": 6002,
+      "name": "AmountIncorrect",
+      "msg": "Amount given isn't correct"
+    },
+    {
+      "code": 6003,
+      "name": "ShouldntSend",
+      "msg": "User shouldn't be sending funds"
+    },
+    {
+      "code": 6004,
+      "name": "NoSend",
+      "msg": "Nothing was found in the smart contract to be sent to you"
+    },
+    {
+      "code": 6005,
+      "name": "SumNotNull",
+      "msg": "Sum of trade isn't null"
+    },
+    {
+      "code": 6006,
+      "name": "NotReady",
+      "msg": "Not ready for claim"
+    },
+    {
+      "code": 6007,
+      "name": "UnexpectedData",
+      "msg": "Given data isn't fitting"
+    },
+    {
+      "code": 6008,
+      "name": "NotSystemProgram",
+      "msg": "wrong system program Id passed"
+    },
+    {
+      "code": 6009,
+      "name": "NotTokenProgram",
+      "msg": "wrong token program Id passed"
+    },
+    {
+      "code": 6010,
+      "name": "NotPda",
+      "msg": "wrong Pda program Id passed"
+    },
+    {
+      "code": 6011,
+      "name": "NotInit",
+      "msg": "wrong signer, should be initializer to perform this action"
+    },
+    {
+      "code": 6012,
+      "name": "NotBump",
+      "msg": "wrong bump"
+    },
+    {
+      "code": 6013,
+      "name": "UnexpectedState",
+      "msg": "The status given is not correct"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidAccountData",
+      "msg": "owner checks unsuccessfuls"
+    },
+    {
+      "code": 6015,
+      "name": "IncorrectLength",
+      "msg": "Incorrect init data length"
+    },
+    {
+      "code": 6016,
+      "name": "NotEnoughFunds",
+      "msg": "Not enough funds"
+    },
+    {
+      "code": 6017,
+      "name": "IncorrectOwner",
+      "msg": "Owner Given is incorrect"
+    }
+  ]
+}

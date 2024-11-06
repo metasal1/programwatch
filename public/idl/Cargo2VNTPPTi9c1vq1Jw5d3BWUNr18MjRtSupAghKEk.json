@@ -1,0 +1,1473 @@
+{
+  "version": "0.1.0",
+  "name": "cargo",
+  "docs": [
+    "The `cargo` program"
+  ],
+  "instructions": [
+    {
+      "name": "addCargo",
+      "docs": [
+        "Adds cargo to a [`CargoPod`](state::CargoPod).",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the cargo pod"
+          ]
+        },
+        {
+          "name": "signerOriginAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Signer for Cargo Token Transfer"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Type Account"
+          ]
+        },
+        {
+          "name": "originTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Origin Token Account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Token Account"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "cargoAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closeCargoPod",
+      "docs": [
+        "Closes the [`CargoPod`](state::CargoPod) if it has no open token accounts.",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account to return the rent"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The authority for the pod account"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system Program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeTokenAccount",
+      "docs": [
+        "Closes and burns any excess tokens in a given token account within a [`CargoPod`](state::CargoPod).",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account to return the rent"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The authority for [CargoPod] account"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Token Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Type Account",
+            "If the token account belongs to a registered Cargo Type then this account must be a valid Cargo Type",
+            "However, to allow closing token account that are not valid Cargo this is an unchecked account"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Token Mint"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Token Program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "consumeCargo",
+      "docs": [
+        "Consumes cargo from a [`CargoPod`](state::CargoPod), burning the amount.",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the cargo pod"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Type Account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Token Account"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Token Mint"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "cargoAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initCargoPod",
+      "docs": [
+        "Inits a new [`CargoPod`](state::CargoPod) account for the given [`CargoStatsDefinition`](state::CargoStatsDefinition) and authority."
+      ],
+      "accounts": [
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new cargo pod"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The authority for the new cargo pod"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The new cargo pod"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The definition of tracked stats"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "podSeeds",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "initCargoType",
+      "docs": [
+        "Inits a new [`CargoType`](state::CargoType) account for the given [`CargoStatsDefinition`](state::CargoStatsDefinition)."
+      ],
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The cargo permissions [`Profile`].",
+            "Is going to act as the authority for the new definition."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the cargo type"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint for the new cargo type"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The definition for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The cargo type to init"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "InitCargoTypeInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initCargoTypeForNextSeqId",
+      "docs": [
+        "Creates a new cargo type for the next `seq_id`."
+      ],
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The cargo permissions [`Profile`].",
+            "Is going to act as the authority for the new definition."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the cargo type"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint for the new cargo type"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The definition for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The cargo type to init"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "InitCargoTypeInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initCargoTypeFromOldCargoType",
+      "docs": [
+        "Creates a new cargo type for the next `seq_id` from a given cargo type."
+      ],
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The cargo permissions [`Profile`].",
+            "Is going to act as the authority for the new definition."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the cargo type"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The definition for the cargo type"
+          ]
+        },
+        {
+          "name": "oldCargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The old Cargo Type Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The cargo type to init"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "InitCargoTypeFromOldCargoTypeInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initDefinition",
+      "docs": [
+        "Inits a [`CargoStatsDefinition`](state::CargoStatsDefinition) account."
+      ],
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The cargo permissions [`Profile`](Profile).",
+            "Is going to act as the authority for the new definition."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new definition"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The new definition"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "InitDefinitionInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "legitimizeCargo",
+      "docs": [
+        "Legitimizes cargo in a [`CargoPod`](state::CargoPod) that was added outside of [`add_cargo`] or other cargo ix.",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the cargo pod"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Type Account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Token Account"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "cargoAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mintTo",
+      "docs": [
+        "Mints tokens directly to a [`CargoPod`](state::CargoPod).",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the [`CargoPod`] Account"
+          ]
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The mint Authority"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [`CargoPod`] Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [`CargoType`] Account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Token Account"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo token mint"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "mintAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "removeCargo",
+      "docs": [
+        "Removes cargo from a [`CargoPod`](state::CargoPod) to a given token account.",
+        "Requires the authority to sign."
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the cargo pod"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Type Account"
+          ]
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Destination Token Account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Cargo Token Account"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "cargoAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transferAuthority",
+      "docs": [
+        "Transfers authority of a [`CargoPod`](state::CargoPod) to a new authority.",
+        "Requires both authorities to sign."
+      ],
+      "accounts": [
+        {
+          "name": "originPodAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the cargo pod"
+          ]
+        },
+        {
+          "name": "newPodAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "New authority for the cargo pod"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferCargo",
+      "docs": [
+        "Transfers cargo between [`CargoPod`](state::CargoPod)s.",
+        "Requires both authorities to sign."
+      ],
+      "accounts": [
+        {
+          "name": "originPodAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the origin cargo pod"
+          ]
+        },
+        {
+          "name": "destinationPodAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Authority for the destination cargo pod"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "originCargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Origin [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "destinationCargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Destination [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Type Account"
+          ]
+        },
+        {
+          "name": "originTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Origin Token Account"
+          ]
+        },
+        {
+          "name": "destinationTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Destination Token Account"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "cargoAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateCargoPod",
+      "docs": [
+        "Updates a [`CargoPod`](state::CargoPod) account to have the newest sequence id from the [`CargoDefinition`](state::CargoStatsDefinition).",
+        "This is the first step to update a [`CargoPod`](state::CargoPod) to a new [`CargoStatsDefinition`](state::CargoStatsDefinition).",
+        "Permissionless function."
+      ],
+      "accounts": [
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The cargo pod to update"
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The definition of tracked stats"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateDefinition",
+      "docs": [
+        "Updates a [`CargoStatsDefinition`](state::CargoStatsDefinition) account.",
+        "Will advance the `seq_id` unless `rollback` is set to true."
+      ],
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The cargo permissions [`Profile`](Profile).",
+            "Is going to act as the authority for the new definition."
+          ]
+        },
+        {
+          "name": "statsDefinition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition]"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "UpdateDefinitionInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updatePodTokenAccount",
+      "docs": [
+        "Updates a [`CargoPod`](state::CargoPod)'s token account to have the same sequence id as the [`CargoPod`](state::CargoPod).",
+        "This must be called after [`update_cargo_pod`].",
+        "Permissionless function."
+      ],
+      "accounts": [
+        {
+          "name": "statsDefinition",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [CargoStatsDefinition] for the cargo type"
+          ]
+        },
+        {
+          "name": "cargoPod",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [CargoPod] Account"
+          ]
+        },
+        {
+          "name": "oldCargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The previous version(`seq_id`) Cargo Type"
+          ]
+        },
+        {
+          "name": "cargoType",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The updated Cargo Type Account"
+          ]
+        },
+        {
+          "name": "cargoTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Cargo Token Account"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Token Program"
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CargoPod",
+      "docs": [
+        "A pod that can store any number of resources and tracks stats given a definition."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of this account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "statsDefinition",
+            "docs": [
+              "The definition of tracked stats."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "The authority for this pod."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "openTokenAccounts",
+            "docs": [
+              "The number of open token accounts in this pod."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "podSeeds",
+            "docs": [
+              "The seeds of the signer for this pod."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "podBump",
+            "docs": [
+              "The bump of the signer for this pod."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "seqId",
+            "docs": [
+              "The sequence id for the definition"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "unupdatedTokenAccounts",
+            "docs": [
+              "The number of unupdated token accounts in this pod. If this is greater than zero means the pod is frozen and only can withdraw cargo but not deposit."
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CargoStatsDefinition",
+      "docs": [
+        "A definition of cargo stats."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of this account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "The authority for this definition."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "defaultCargoType",
+            "docs": [
+              "The default cargo type. System program (all 0s) if none."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "statsCount",
+            "docs": [
+              "The number of stats in this definition."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "seqId",
+            "docs": [
+              "The sequence id for the definition"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CargoType",
+      "docs": [
+        "The stats for a given cargo type (token mint)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of this account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "statsDefinition",
+            "docs": [
+              "The definition this follows"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "The mint the cargo type is for"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "docs": [
+              "TODO: remove this"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump for this account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "statsCount",
+            "docs": [
+              "The number of stats in this definition."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "seqId",
+            "docs": [
+              "The sequence id for the definition"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitCargoTypeFromOldCargoTypeInput",
+      "docs": [
+        "Struct for data input for this IX"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the cargo permissions profile"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "newValues",
+            "docs": [
+              "vector with values for all stats tracked by the definition"
+            ],
+            "type": {
+              "option": {
+                "vec": "u64"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitCargoTypeInput",
+      "docs": [
+        "Struct for data input for this IX"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the cargo permissions profile"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "values",
+            "docs": [
+              "vector with values for all stats tracked by the definition"
+            ],
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitDefinitionInput",
+      "docs": [
+        "Struct for data input for [`InitDefinition`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cargoStats",
+            "docs": [
+              "the count of stats the definition has"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateDefinitionInput",
+      "docs": [
+        "Struct for data input for this IX"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the cargo permissions profile"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "rollback",
+            "docs": [
+              "flag that if present means we need to decrease the definition seq_id"
+            ],
+            "type": {
+              "option": "bool"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "StatOutOfBounds",
+      "msg": "A given stat was out of bounds"
+    },
+    {
+      "code": 6001,
+      "name": "TooManyStats",
+      "msg": "There are too many stats"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidRentFunder",
+      "msg": "Rent funder was not owned by the system program or this program"
+    },
+    {
+      "code": 6003,
+      "name": "TooFewStats",
+      "msg": "Popped a stat when there are no stats left"
+    },
+    {
+      "code": 6004,
+      "name": "MissingSystemProgram",
+      "msg": "System program is missing when needed"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidCargoStat",
+      "msg": "Cargo stat data was invalid"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidCargoStatSize",
+      "msg": "Cargo stat size data was invalid"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidCargoType",
+      "msg": "Cargo type is invalid"
+    },
+    {
+      "code": 6008,
+      "name": "WrongNumberOfDefinitions",
+      "msg": "Wrong number of definitions provided to init a cargo type"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidValueForStat",
+      "msg": "Invalid value provided for stat"
+    },
+    {
+      "code": 6010,
+      "name": "NumericOverflow",
+      "msg": "Math overflow"
+    },
+    {
+      "code": 6011,
+      "name": "AuthorityMismatch",
+      "msg": "Authority mismatch"
+    },
+    {
+      "code": 6012,
+      "name": "StatsDefinitionMismatch",
+      "msg": "Stats definition mismatch"
+    },
+    {
+      "code": 6013,
+      "name": "MintMismatch",
+      "msg": "Mint mismatch"
+    },
+    {
+      "code": 6014,
+      "name": "OwnerMismatch",
+      "msg": "Owner mismatch"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidDelegation",
+      "msg": "Delegated amount is invalid"
+    },
+    {
+      "code": 6016,
+      "name": "FrozenPod",
+      "msg": "The pod is frozen"
+    },
+    {
+      "code": 6017,
+      "name": "UnupdatedCargoPodAccount",
+      "msg": "Unupdated CargoPod Account"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidSeqId",
+      "msg": "Invalid seq_id"
+    },
+    {
+      "code": 6019,
+      "name": "UnupdatedTokenAccount",
+      "msg": "Unupdated token account"
+    },
+    {
+      "code": 6020,
+      "name": "OpenTokenAccounts",
+      "msg": "Cargo Pod has token accounts open"
+    },
+    {
+      "code": 6021,
+      "name": "NonZeroDelegation",
+      "msg": "Non Zero Delegated Amount"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidPreviousType",
+      "msg": "Invalid previous cargo_type account"
+    },
+    {
+      "code": 6023,
+      "name": "InsufficientCargoAmount",
+      "msg": "Insufficient cargo amount"
+    },
+    {
+      "code": 6024,
+      "name": "InsufficientTokenAmount",
+      "msg": "Insufficient token amount"
+    },
+    {
+      "code": 6025,
+      "name": "PodTokenAccountAlreadyUpdated",
+      "msg": "Pod Token Account Already Updated"
+    }
+  ]
+}

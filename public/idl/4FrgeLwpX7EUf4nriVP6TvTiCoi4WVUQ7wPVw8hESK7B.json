@@ -1,0 +1,1361 @@
+{
+  "version": "0.1.0",
+  "name": "soga_raffle_ticket",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mainSigningAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createTicketConfig",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mainSigningAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "configBump",
+          "type": "u8"
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "winnerTicketLimit",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateTicketConfig",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "ticketPurchaseEnable",
+          "type": "bool"
+        },
+        {
+          "name": "ticketRefundEnable",
+          "type": "bool"
+        },
+        {
+          "name": "winnerTicketLimit",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createPaymentConfig",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "ticketPrice",
+          "type": "u64"
+        },
+        {
+          "name": "refundAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updatePaymentConfig",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "paymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "ticketPrice",
+          "type": "u64"
+        },
+        {
+          "name": "refundAmount",
+          "type": "u64"
+        },
+        {
+          "name": "enable",
+          "type": "bool"
+        },
+        {
+          "name": "ticketPurchaseEnable",
+          "type": "bool"
+        },
+        {
+          "name": "ticketRefundEnable",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "addPaymentSupply",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "supplyProvider",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "supplyProviderTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "paymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawPaymentSupply",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "paymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "buyTicket",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPaymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "paymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addTicketWinner",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPaymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "paymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "userConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "userPaymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addClaimedTicket",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "userConfigBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "refundTicket",
+      "accounts": [
+        {
+          "name": "feeAndRentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signingAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userPaymentConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentConfigTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ticketConfigName",
+          "type": "string"
+        },
+        {
+          "name": "ticketConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "paymentConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "userConfigBump",
+          "type": "u8"
+        },
+        {
+          "name": "userPaymentConfigBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PaymentConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "ticketPrice",
+            "type": "u64"
+          },
+          {
+            "name": "refundAmount",
+            "type": "u64"
+          },
+          {
+            "name": "enable",
+            "type": "bool"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "currentBalance",
+            "type": "u64"
+          },
+          {
+            "name": "totalBuy",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefund",
+            "type": "u64"
+          },
+          {
+            "name": "totalAddedSupply",
+            "type": "u64"
+          },
+          {
+            "name": "totalWithdrawSupply",
+            "type": "u64"
+          },
+          {
+            "name": "ticketPurchaseEnable",
+            "type": "bool"
+          },
+          {
+            "name": "ticketRefundEnable",
+            "type": "bool"
+          },
+          {
+            "name": "totalTicketPurchased",
+            "type": "u64"
+          },
+          {
+            "name": "totalTicketRefunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalWinnerTicket",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SogaRaffleTicketConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "mainSigningAuthority",
+            "docs": [
+              "program main signing authority"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TicketConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "signingAuthority",
+            "docs": [
+              "program main signing authority"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketPurchaseEnable",
+            "type": "bool"
+          },
+          {
+            "name": "ticketRefundEnable",
+            "type": "bool"
+          },
+          {
+            "name": "totalTicketPurchased",
+            "type": "u64"
+          },
+          {
+            "name": "totalTicketRefunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalWinnerTicket",
+            "type": "u64"
+          },
+          {
+            "name": "totalWinnerClaimedTicket",
+            "type": "u64"
+          },
+          {
+            "name": "winnerTicketLimit",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "totalTickets",
+            "type": "u64"
+          },
+          {
+            "name": "totalWinTickets",
+            "type": "u64"
+          },
+          {
+            "name": "totalWinClaimedTickets",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefundedTickets",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserPaymentConfigAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lastBlockTimestamp",
+            "docs": [
+              "timestamp when account updated"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "totalTickets",
+            "type": "u64"
+          },
+          {
+            "name": "totalWinTickets",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefundedTickets",
+            "type": "u64"
+          },
+          {
+            "name": "totalPurchaseAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefundAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "AddClaimedWinnerEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AddPaymentSupplyEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "supplyProvider",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AddTicketWinnerEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "quantity",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BuyTicketEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "quantity",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "ticketPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "purchaseAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreatePaymentConfigEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "ticketPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "refundAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreateTicketConfigEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "signingAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "winnerTicketLimit",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RefundTicketEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "user",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "refundTicketsQuantity",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "ticketRefundAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "totalTicketRefundAmount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdatePaymentConfigEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "ticketPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "refundAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "enable",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "ticketPurchaseEnable",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "ticketRefundEnable",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdateTicketConfigEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "winnerTicketLimit",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "ticketPurchaseEnable",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "ticketRefundEnable",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawPaymentSupplyEvent",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "ticketConfigName",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "tokenMintAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "receiver",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMainSigningAuthority",
+      "msg": "Invalid main signing authority"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidSigningAuthority",
+      "msg": "Invalid signing authority"
+    },
+    {
+      "code": 6002,
+      "name": "ValueIsZero",
+      "msg": "Value is zero"
+    },
+    {
+      "code": 6003,
+      "name": "TicketPurchaseIsDisable",
+      "msg": "Ticket purchase is disable"
+    },
+    {
+      "code": 6004,
+      "name": "TicketRefundIsDisable",
+      "msg": "Ticket refund is disable"
+    },
+    {
+      "code": 6005,
+      "name": "PaymentIsDisable",
+      "msg": "Payment is disable"
+    },
+    {
+      "code": 6006,
+      "name": "PaymentTicketPurchaseIsDisable",
+      "msg": "Payment ticket purchase is disable"
+    },
+    {
+      "code": 6007,
+      "name": "PaymentTicketRefundIsDisable",
+      "msg": "Payment ticket refund is disable"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidPaymentSupply",
+      "msg": "Invalid payment supply"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidTicketWinnerLimit",
+      "msg": "Invalid ticket winner limit"
+    },
+    {
+      "code": 6010,
+      "name": "ExceedTicketWinnerLimit",
+      "msg": "Exceed ticket winner limit"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidUserTicketQuantity",
+      "msg": "Invalid user ticket quantity"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidTicketClaim",
+      "msg": "Invalid ticket claim"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidRefundAmount",
+      "msg": "Invalid refund amount"
+    }
+  ]
+}

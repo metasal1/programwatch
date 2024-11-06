@@ -1,0 +1,7331 @@
+{
+  "version": "0.1.0",
+  "name": "cashier",
+  "instructions": [
+    {
+      "name": "houseInitialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "arg",
+                "type": "u64",
+                "path": "house_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "superAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "superAuthorityPermission",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "super_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "houseUpdate",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseUpdateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "houseAddToken",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseAddTokenArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "houseUpdateToken",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseUpdateTokenArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "houseAddOrUpdateCallingProgram",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "callingProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "callingSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseAddOrUpdateCallingProgramArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "houseAddOrUpdateAuthority",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "newOrChangingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newOrChangingAuthorityPermission",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "new_or_changing_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseAddOrUpdateAuthorityArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "houseWithdrawRevenue",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HouseWithdrawRevenueArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformInitialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseAuthorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "arg",
+                "type": "u64",
+                "path": "platform_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "platformRanks",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_ranks"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "platformSuperAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platformSuperAuthorityPermission",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "platform_super_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformConfig",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformConfigArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformConfigRanks",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformRanks",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformConfigRanksArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformAddToken",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformAddTokenArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformAwardPlayerXp",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AwardXpArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformAwardPlayerRakebackBoost",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AwardRakebackBoostArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformEnhanceReferral",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "referral",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "EnhanceReferralArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformDepositRewardTokens",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformDepositRewardTokensArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformWithdrawRewardTokens",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformWithdrawRewardTokensArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformAddOrUpdateAuthority",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "newOrChangingAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newOrChangingAuthorityPermission",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "new_or_changing_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformAddOrUpdateAuthorityArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformNftStakingUpdate",
+      "accounts": [
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformNftStakingUpdateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "platformWithdrawRevenue",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlatformWithdrawRevenueArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeLiquidityProviderPermissioned",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint"
+          ]
+        },
+        {
+          "name": "housePermission",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "authority"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityProvider",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "liquidity_provider"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitLpPermissionedArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lpDeposit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "liquidityProvider",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "liquidity_provider"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "owner",
+            "token_mint",
+            "house"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "LpDepositArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lpWithdraw",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "liquidityProvider",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "liquidity_provider"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "owner",
+            "token_mint",
+            "house"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "LpWithdrawArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializePlayer",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformRanks",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "player"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "username",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "username"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "array": [
+                    "u8",
+                    20
+                  ]
+                },
+                "path": "username_bytes"
+              }
+            ]
+          }
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitPlayerArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "playerDeposit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "house",
+            "platform"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlayerDepositArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "playerWithdraw",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "house"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlayerWithdrawArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "playerAcceptTerms",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "platform",
+            "owner"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlayerAcceptTermsArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "playerUpdate",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "house",
+            "platform"
+          ]
+        },
+        {
+          "name": "oldUsername",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "username"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": {
+                  "array": [
+                    "u8",
+                    20
+                  ]
+                },
+                "account": "Player",
+                "path": "player.username"
+              }
+            ]
+          }
+        },
+        {
+          "name": "newUsername",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "username"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "array": [
+                    "u8",
+                    20
+                  ]
+                },
+                "path": "username_bytes"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlayerUpdateArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "playerClaimRewards",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformRanks",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "platform"
+          ]
+        },
+        {
+          "name": "rewardCalendar",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "reward_calendar"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlayerClaimRewardsArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "playerSyncBenefits",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformRanks",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "platform"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "platform"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "PlayerSyncBenefitsArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "referralInitialize",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "platform"
+          ]
+        },
+        {
+          "name": "referral",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "referral"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "array": [
+                    "u8",
+                    20
+                  ]
+                },
+                "path": "identifier_bytes"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ReferralInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "referralInitializeByAdmin",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "authorityPermission",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_permission"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          },
+          "relations": [
+            "platform",
+            "authority"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "platform"
+          ]
+        },
+        {
+          "name": "referral",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "referral"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "array": [
+                    "u8",
+                    20
+                  ]
+                },
+                "path": "identifier_bytes"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ReferralInitByAdminArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "referralClaim",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "platform"
+          ]
+        },
+        {
+          "name": "referral",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform",
+            "owner"
+          ]
+        },
+        {
+          "name": "rewardCalendar",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "reward_calendar"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ReferralClaimArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rewardCollect",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform",
+            "house",
+            "owner"
+          ]
+        },
+        {
+          "name": "rewardCalendar",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "platform",
+            "player",
+            "token_mint"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RewardCollectArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rewardClose",
+      "accounts": [
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "platform",
+            "house"
+          ]
+        },
+        {
+          "name": "rewardCalendar",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house",
+            "platform",
+            "player"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RewardCloseArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "handleWager",
+      "accounts": [
+        {
+          "name": "callingSigner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint",
+            "oracle"
+          ]
+        },
+        {
+          "name": "platform",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "platformPayer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "platform_payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Platform",
+                "path": "platform"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "owner",
+            "house",
+            "platform",
+            "referrer"
+          ]
+        },
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HandleWagerArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "handleSettleSoloWithTransfer",
+      "accounts": [
+        {
+          "name": "callingSigner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "houseToken",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house_token"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "House",
+                "path": "house"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "token_mint"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "token_mint"
+          ]
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "player"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player.platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player.owner"
+              }
+            ]
+          },
+          "relations": [
+            "house"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccountOrWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "HandleSettleSoloWithTransferArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "airdrop",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "house",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "house"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "House",
+                "path": "house.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "player"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player.platform"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Player",
+                "path": "player.owner"
+              }
+            ]
+          },
+          "relations": [
+            "house",
+            "owner"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "AirdropArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "HousePermission",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "AuthorityStatus"
+            }
+          },
+          {
+            "name": "isSuperAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "canChangeHouseStatus",
+            "type": "bool"
+          },
+          {
+            "name": "canManagePermissions",
+            "type": "bool"
+          },
+          {
+            "name": "canManageLiquidityProviders",
+            "type": "bool"
+          },
+          {
+            "name": "canManageCallingPrograms",
+            "type": "bool"
+          },
+          {
+            "name": "canManageTokenConfigs",
+            "type": "bool"
+          },
+          {
+            "name": "canProvideTokenRates",
+            "type": "bool"
+          },
+          {
+            "name": "canManagePlatforms",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdrawLamports",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdawTokens",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseToken",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "houseTokenIdx",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "TokenStatus"
+            }
+          },
+          {
+            "name": "tokenType",
+            "type": {
+              "defined": "TokenType"
+            }
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "fxRatePerBillion",
+            "type": "u64"
+          },
+          {
+            "name": "fxRateLastUpdate",
+            "type": "i64"
+          },
+          {
+            "name": "minBetUnit",
+            "type": "u64"
+          },
+          {
+            "name": "incrementUnit",
+            "type": "u64"
+          },
+          {
+            "name": "unitGasCost",
+            "type": "u64"
+          },
+          {
+            "name": "userBalance",
+            "type": "u64"
+          },
+          {
+            "name": "availableTradingBalance",
+            "type": "u64"
+          },
+          {
+            "name": "openLiabilityBalance",
+            "type": "u64"
+          },
+          {
+            "name": "lpExpectedRevenue",
+            "type": "u64"
+          },
+          {
+            "name": "gasReclaimBalance",
+            "type": "u64"
+          },
+          {
+            "name": "platformRewardAccrualBalance",
+            "type": "u64"
+          },
+          {
+            "name": "platformRewardPayoutBalance",
+            "type": "u64"
+          },
+          {
+            "name": "platformRevenueShareBalance",
+            "type": "u64"
+          },
+          {
+            "name": "protocolRevenueShareBalance",
+            "type": "u64"
+          },
+          {
+            "name": "nftStakerRevenueShareBalance",
+            "type": "u64"
+          },
+          {
+            "name": "tokenStakerRevenueShareBalance",
+            "type": "u64"
+          },
+          {
+            "name": "reserved1RevenueShareBalance",
+            "type": "u64"
+          },
+          {
+            "name": "reserved2RevenueShareBalance",
+            "type": "u64"
+          },
+          {
+            "name": "outstandingLpTokens",
+            "type": "u64"
+          },
+          {
+            "name": "pendingLpWithdrawals",
+            "type": "u64"
+          },
+          {
+            "name": "pendingLpDeposits",
+            "type": "u64"
+          },
+          {
+            "name": "activeLpCount",
+            "type": "u64"
+          },
+          {
+            "name": "openWagers",
+            "type": "u64"
+          },
+          {
+            "name": "openBetCount",
+            "type": "u64"
+          },
+          {
+            "name": "pastWagered",
+            "type": "u64"
+          },
+          {
+            "name": "pastPaidOut",
+            "type": "u64"
+          },
+          {
+            "name": "pastBetCount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "House",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "HouseStatus"
+            }
+          },
+          {
+            "name": "latestTermsVersion",
+            "type": "u8"
+          },
+          {
+            "name": "lpProtocolMinimumSharePerMillion",
+            "type": "u64"
+          },
+          {
+            "name": "protocolSplitPerMillion",
+            "type": "u64"
+          },
+          {
+            "name": "platformRewardsAccruedBase",
+            "type": "u64"
+          },
+          {
+            "name": "platformRewardsClaimedOrForfeitBase",
+            "type": "u64"
+          },
+          {
+            "name": "pastWagered",
+            "type": "u64"
+          },
+          {
+            "name": "pastPaidOut",
+            "type": "u64"
+          },
+          {
+            "name": "pastBetCount",
+            "type": "u64"
+          },
+          {
+            "name": "playerCount",
+            "type": "u64"
+          },
+          {
+            "name": "platformCount",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityProvisionIsPermissioned",
+            "type": "bool"
+          },
+          {
+            "name": "numActiveCallingPrograms",
+            "type": "u8"
+          },
+          {
+            "name": "callingPrograms",
+            "type": {
+              "vec": {
+                "defined": "CallingProgram"
+              }
+            }
+          },
+          {
+            "name": "numActiveTokens",
+            "type": "u8"
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "vec": {
+                "defined": "HouseTokenSummary"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidityProvider",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "LpStatus"
+            }
+          },
+          {
+            "name": "lpTokens",
+            "type": "u64"
+          },
+          {
+            "name": "tokensDeposited",
+            "type": "u64"
+          },
+          {
+            "name": "tokensWithdrawn",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformPermission",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "platform",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "AuthorityStatus"
+            }
+          },
+          {
+            "name": "isSuperAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "canChangePlatformStatus",
+            "type": "bool"
+          },
+          {
+            "name": "canUpdateTerms",
+            "type": "bool"
+          },
+          {
+            "name": "canManagePermissions",
+            "type": "bool"
+          },
+          {
+            "name": "canManageTokens",
+            "type": "bool"
+          },
+          {
+            "name": "canManageRewards",
+            "type": "bool"
+          },
+          {
+            "name": "canManageReferrals",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdrawLamports",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdawTokens",
+            "type": "bool"
+          },
+          {
+            "name": "canUpdateUserMeta",
+            "type": "bool"
+          },
+          {
+            "name": "canGrantUserXp",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformRanks",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "platform",
+            "type": "publicKey"
+          },
+          {
+            "name": "rankThresholds",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "rankBenefits",
+            "type": {
+              "vec": {
+                "defined": "RankConfig"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Platform",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "PlatformStatus"
+            }
+          },
+          {
+            "name": "latestTermsVersion",
+            "type": "u8"
+          },
+          {
+            "name": "revenueSharePerMillion",
+            "type": "u64"
+          },
+          {
+            "name": "playerCount",
+            "type": "u64"
+          },
+          {
+            "name": "referralSchemeCount",
+            "type": "u64"
+          },
+          {
+            "name": "created",
+            "type": "i64"
+          },
+          {
+            "name": "maxCombinedRewardAccrualRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "referralConfig",
+            "type": {
+              "defined": "ReferralConfig"
+            }
+          },
+          {
+            "name": "rakebackConfig",
+            "type": {
+              "defined": "RewardConfig"
+            }
+          },
+          {
+            "name": "dailyBonusConfig",
+            "type": {
+              "defined": "RewardConfig"
+            }
+          },
+          {
+            "name": "weeklyBonusConfig",
+            "type": {
+              "defined": "RewardConfig"
+            }
+          },
+          {
+            "name": "monthlyBonusConfig",
+            "type": {
+              "defined": "RewardConfig"
+            }
+          },
+          {
+            "name": "levelUpBonusConfig",
+            "type": {
+              "defined": "RewardConfig"
+            }
+          },
+          {
+            "name": "rewardsAccruedBase",
+            "type": "u64"
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "vec": {
+                "defined": "TokenPlatform"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Username",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Player",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "platform",
+            "type": "publicKey"
+          },
+          {
+            "name": "referrer",
+            "type": "publicKey"
+          },
+          {
+            "name": "username",
+            "type": {
+              "array": [
+                "u8",
+                20
+              ]
+            }
+          },
+          {
+            "name": "hidden",
+            "type": "bool"
+          },
+          {
+            "name": "isVerifed",
+            "type": "bool"
+          },
+          {
+            "name": "avatarType",
+            "type": {
+              "defined": "AvatarSource"
+            }
+          },
+          {
+            "name": "avatar",
+            "type": "publicKey"
+          },
+          {
+            "name": "team",
+            "type": "publicKey"
+          },
+          {
+            "name": "rank",
+            "type": "u8"
+          },
+          {
+            "name": "xpForNextRank",
+            "type": "u64"
+          },
+          {
+            "name": "benefits",
+            "type": {
+              "defined": "Benefits"
+            }
+          },
+          {
+            "name": "houseTermsVersion",
+            "type": "u8"
+          },
+          {
+            "name": "platformTermsVersion",
+            "type": "u8"
+          },
+          {
+            "name": "referralSchemeCount",
+            "type": "u8"
+          },
+          {
+            "name": "xpAllTime",
+            "type": "u64"
+          },
+          {
+            "name": "xpSpent",
+            "type": "u64"
+          },
+          {
+            "name": "sevenDayRollingWagered",
+            "type": {
+              "array": [
+                "u64",
+                7
+              ]
+            }
+          },
+          {
+            "name": "dailyRakebackAlternating",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "dailyBonusAlternating",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "weeklyBonusAlternating",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "monthlyBonusAlternating",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "levelUpBonusAlternating",
+            "type": {
+              "array": [
+                "u64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "pastWagered",
+            "type": "u64"
+          },
+          {
+            "name": "pastPaidOut",
+            "type": "u64"
+          },
+          {
+            "name": "pastWinCount",
+            "type": "u32"
+          },
+          {
+            "name": "pastLossCount",
+            "type": "u32"
+          },
+          {
+            "name": "pastRewardsEarned",
+            "type": "u64"
+          },
+          {
+            "name": "pastRewardsForfeit",
+            "type": "u64"
+          },
+          {
+            "name": "pastRewardsClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "instanceNonce",
+            "type": "u64"
+          },
+          {
+            "name": "created",
+            "type": "i64"
+          },
+          {
+            "name": "lastActivity",
+            "type": "i64"
+          },
+          {
+            "name": "maxReferralSchemes",
+            "type": "u8"
+          },
+          {
+            "name": "reserved1",
+            "type": "u8"
+          },
+          {
+            "name": "reserved2",
+            "type": "u8"
+          },
+          {
+            "name": "reserved3",
+            "type": "u8"
+          },
+          {
+            "name": "reserved4",
+            "type": "u8"
+          },
+          {
+            "name": "reserved5",
+            "type": "u8"
+          },
+          {
+            "name": "reserved6",
+            "type": "u8"
+          },
+          {
+            "name": "reserved7",
+            "type": "u8"
+          },
+          {
+            "name": "lastRewardRefresh",
+            "type": "i64"
+          },
+          {
+            "name": "excludeUntil",
+            "type": "i64"
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "vec": {
+                "defined": "TokenPlayer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Referral",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "platform",
+            "type": "publicKey"
+          },
+          {
+            "name": "identifier",
+            "type": {
+              "array": [
+                "u8",
+                20
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "ReferralSchemeStatus"
+            }
+          },
+          {
+            "name": "bespokeTerms",
+            "type": "bool"
+          },
+          {
+            "name": "defaultReferralRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "enhancedReferralRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "upFrontClaimPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "daySpreadForClaimRemainder",
+            "type": "u8"
+          },
+          {
+            "name": "enhancedAccrualExpiryDate",
+            "type": "i64"
+          },
+          {
+            "name": "accrualExpiryDate",
+            "type": "i64"
+          },
+          {
+            "name": "minReferredPlayersToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "minReferredWagerValueToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "referredPlayerCount",
+            "type": "u64"
+          },
+          {
+            "name": "referredPlayerBetCount",
+            "type": "u64"
+          },
+          {
+            "name": "referredPlayerWageredBase",
+            "type": "u64"
+          },
+          {
+            "name": "referralRewardAccruedBase",
+            "type": "u64"
+          },
+          {
+            "name": "referralRewardDrawndownBase",
+            "type": "u64"
+          },
+          {
+            "name": "created",
+            "type": "i64"
+          },
+          {
+            "name": "lastActivity",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardCalendar",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "house",
+            "type": "publicKey"
+          },
+          {
+            "name": "platform",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalValue",
+            "type": "u64"
+          },
+          {
+            "name": "lastRefresh",
+            "type": "i64"
+          },
+          {
+            "name": "lastBonusExpires",
+            "type": "i64"
+          },
+          {
+            "name": "days",
+            "type": {
+              "array": [
+                "u64",
+                28
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AirdropArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandleSettleSoloWithTransferArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numberOfBets",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfWins",
+            "type": "u8"
+          },
+          {
+            "name": "numberOfLosses",
+            "type": "u8"
+          },
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "liabilityReleased",
+            "type": "u64"
+          },
+          {
+            "name": "payout",
+            "type": "u64"
+          },
+          {
+            "name": "splTransfer",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HandleWagerArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numberOfBets",
+            "type": "u8"
+          },
+          {
+            "name": "minUnitsRequired",
+            "type": "u8"
+          },
+          {
+            "name": "wager",
+            "type": "u64"
+          },
+          {
+            "name": "liability",
+            "type": "u64"
+          },
+          {
+            "name": "expectedEdge",
+            "type": "u64"
+          },
+          {
+            "name": "xpDriver",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseAddOrUpdateAuthorityArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "isSuperAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "canChangeHouseStatus",
+            "type": "bool"
+          },
+          {
+            "name": "canManagePermissions",
+            "type": "bool"
+          },
+          {
+            "name": "canManageLiquidityProviders",
+            "type": "bool"
+          },
+          {
+            "name": "canManageCallingPrograms",
+            "type": "bool"
+          },
+          {
+            "name": "canManageTokenConfigs",
+            "type": "bool"
+          },
+          {
+            "name": "canProvideTokenRates",
+            "type": "bool"
+          },
+          {
+            "name": "canManagePlatforms",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdrawLamports",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdawTokens",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseAddOrUpdateCallingProgramArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseAddTokenArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "tokenType",
+            "type": "u8"
+          },
+          {
+            "name": "minBetUnit",
+            "type": "u64"
+          },
+          {
+            "name": "incrementUnit",
+            "type": "u64"
+          },
+          {
+            "name": "unitGasCost",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseCloseArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "HouseInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "houseId",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityProvisionIsPermissioned",
+            "type": "bool"
+          },
+          {
+            "name": "lpProtocolMinimumSharePerMillion",
+            "type": "u64"
+          },
+          {
+            "name": "lpSplitPerMillion",
+            "type": "u64"
+          },
+          {
+            "name": "protocolSplitPerMillion",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseUpdateTokenArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "tokenType",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "minBetUnit",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "incrementUnit",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "unitGasCost",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "latestTermsVersion",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "lpProtocolMinimumSharePerMillion",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "protocolSplitPerMillion",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "liquidityProvisionIsPermissioned",
+            "type": {
+              "option": "bool"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseWithdrawRevenueArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "revenueShareAmount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "gasReclaimAmount",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LpDepositArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitLpPermissionedArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LpWithdrawArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformAddOrUpdateAuthorityArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "isSuperAuthority",
+            "type": "bool"
+          },
+          {
+            "name": "canChangePlatformStatus",
+            "type": "bool"
+          },
+          {
+            "name": "canUpdateTerms",
+            "type": "bool"
+          },
+          {
+            "name": "canManagePermissions",
+            "type": "bool"
+          },
+          {
+            "name": "canManageTokens",
+            "type": "bool"
+          },
+          {
+            "name": "canManageRewards",
+            "type": "bool"
+          },
+          {
+            "name": "canManageReferrals",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdrawLamports",
+            "type": "bool"
+          },
+          {
+            "name": "canWithdawTokens",
+            "type": "bool"
+          },
+          {
+            "name": "canUpdateUserMeta",
+            "type": "bool"
+          },
+          {
+            "name": "canGrantUserXp",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformAddTokenArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "isRewardToken",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AwardRakebackBoostArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "boostedRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "until",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AwardXpArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "xpToAward",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformCloseArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "PlatformConfigRanksArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rankConfigs",
+            "type": {
+              "vec": {
+                "defined": "InputRankConfig"
+              }
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "option": "u8"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformConfigArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "latestTermsVersion",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "referralConfig",
+            "type": {
+              "option": {
+                "defined": "ReferralConfig"
+              }
+            }
+          },
+          {
+            "name": "maxCombinedRewardAccrualRatePerThousand",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "rakebackConfig",
+            "type": {
+              "option": {
+                "defined": "RewardConfig"
+              }
+            }
+          },
+          {
+            "name": "dailyBonusConfig",
+            "type": {
+              "option": {
+                "defined": "RewardConfig"
+              }
+            }
+          },
+          {
+            "name": "weeklyBonusConfig",
+            "type": {
+              "option": {
+                "defined": "RewardConfig"
+              }
+            }
+          },
+          {
+            "name": "monthlyBonusConfig",
+            "type": {
+              "option": {
+                "defined": "RewardConfig"
+              }
+            }
+          },
+          {
+            "name": "levelUpBonusConfig",
+            "type": {
+              "option": {
+                "defined": "RewardConfig"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformDepositRewardTokensArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EnhanceReferralArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "enhancedRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "enhancedAccrualExpiryDate",
+            "type": "i64"
+          },
+          {
+            "name": "defaultRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "accrualExpiryDate",
+            "type": "i64"
+          },
+          {
+            "name": "minReferredPlayersToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "minReferredWagerValueToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "upFrontClaimPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "daySpreadForClaimRemainder",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "platformId",
+            "type": "u64"
+          },
+          {
+            "name": "latestTermsVersion",
+            "type": "u8"
+          },
+          {
+            "name": "revenueSharePerMillion",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformNftStakingUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftRakebackBoostPerThousand",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "avatarPubkey",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformWithdrawRevenueArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "revenueShareAmount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "rewardAccrualAmount",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformWithdrawRewardTokensArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerAcceptTermsArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "houseTermsVersionAccepted",
+            "type": "u8"
+          },
+          {
+            "name": "platformTermsVersionAccepted",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerClaimRewardsArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ClosePlayerArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "PlayerDepositArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitPlayerArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "username",
+            "type": {
+              "array": [
+                "u8",
+                20
+              ]
+            }
+          },
+          {
+            "name": "houseTermsVersionAccepted",
+            "type": "u8"
+          },
+          {
+            "name": "platformTermsVersionAccepted",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerSyncBenefitsArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "PlayerUpdateArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "username",
+            "type": {
+              "array": [
+                "u8",
+                20
+              ]
+            }
+          },
+          {
+            "name": "hidden",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "excludeUntil",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "avatar",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerWithdrawArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReferralClaimArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ReferralCloseArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ReferralInitByAdminArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifierBytes",
+            "type": {
+              "array": [
+                "u8",
+                20
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReferralInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "identifierBytes",
+            "type": {
+              "array": [
+                "u8",
+                20
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardCloseArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "RewardCollectArgs",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "CallingProgram",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "signerPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "programPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "CallingProgramStatus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseTokenSummary",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "TokenStatus"
+            }
+          },
+          {
+            "name": "tokenType",
+            "type": {
+              "defined": "TokenType"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InputRankConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "idx",
+            "type": "u8"
+          },
+          {
+            "name": "xpThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "rakebackBoostPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "rakebackBoostDurationSeconds",
+            "type": "u16"
+          },
+          {
+            "name": "defaultRakebackRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "dailyBonusAccrualRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "weeklyBonusAccrualRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "monthlyBonusAccrualRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "levelUpBonusAccrualRatePerThousand",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenPlatform",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "houseTokenIdx",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "PlatformTokenStatus"
+            }
+          },
+          {
+            "name": "isRewardToken",
+            "type": "bool"
+          },
+          {
+            "name": "revenueShareBalanceAccrued",
+            "type": "u64"
+          },
+          {
+            "name": "revenueShareDrawndown",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAccrualBalanceAccrued",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAccrualDrawndown",
+            "type": "u64"
+          },
+          {
+            "name": "rewardFundingBalanceAvailable",
+            "type": "u64"
+          },
+          {
+            "name": "rewardFundingReserved",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isOffered",
+            "type": "bool"
+          },
+          {
+            "name": "defaultAccrualRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "maxAccrualRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "upFrontClaimPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "daySpreadForClaimRemainder",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReferralConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isOffered",
+            "type": "bool"
+          },
+          {
+            "name": "defaultMaxReferralSchemesPerPlayer",
+            "type": "u8"
+          },
+          {
+            "name": "defaultRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "maxRatePerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "minReferredPlayersToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "minReferredWagerValueToCollect",
+            "type": "u64"
+          },
+          {
+            "name": "upFrontClaimPerThousand",
+            "type": "u16"
+          },
+          {
+            "name": "daySpreadForClaimRemainder",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenPlayer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "houseTokenIdx",
+            "type": "u8"
+          },
+          {
+            "name": "openBetCount",
+            "type": "u8"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "pastWagered",
+            "type": "u64"
+          },
+          {
+            "name": "pastPaidOut",
+            "type": "u64"
+          },
+          {
+            "name": "pastWinCount",
+            "type": "u32"
+          },
+          {
+            "name": "pastLossCount",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Suspended"
+          },
+          {
+            "name": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "OutFlowsSuspended"
+          },
+          {
+            "name": "InFlowsSuspended"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "BaseTradingCurrency"
+          },
+          {
+            "name": "OtherTradingCurrency"
+          },
+          {
+            "name": "WrappedSolTradingCurrency"
+          },
+          {
+            "name": "OtherWrappedTradingCurrency"
+          },
+          {
+            "name": "PlayTradingCurrency"
+          },
+          {
+            "name": "ProjectTokenTradingCurrency"
+          },
+          {
+            "name": "ProjectTokenNonTradingCurrency"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HouseStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Frozen"
+          },
+          {
+            "name": "OutFlowsSuspended"
+          },
+          {
+            "name": "InFlowsSuspended"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CallingProgramStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "OutFlowsSuspended"
+          },
+          {
+            "name": "InFlowsSuspended"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LpStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "OutFlowsSuspended"
+          },
+          {
+            "name": "InFlowsSuspended"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AvatarSource",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "None"
+          },
+          {
+            "name": "VerifiedZeebro"
+          },
+          {
+            "name": "SolanaNftOther"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReferralSchemeStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "CollectionSuspended"
+          },
+          {
+            "name": "AccrualsSuspended"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "NoNewPlayers"
+          },
+          {
+            "name": "NoNewPlayersOrBets"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlatformTokenStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NoNewPlayerActivity"
+          },
+          {
+            "name": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "Referral"
+          },
+          {
+            "name": "Rakeback"
+          },
+          {
+            "name": "DailyBonus"
+          },
+          {
+            "name": "WeeklyBonus"
+          },
+          {
+            "name": "MonthlyBonus"
+          },
+          {
+            "name": "LevelUpBonus"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RankConfig",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "V0",
+            "fields": [
+              {
+                "name": "rakeback_boost_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_boost_duration_seconds",
+                "type": "u16"
+              },
+              {
+                "name": "default_rakeback_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "daily_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "weekly_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "monthly_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "level_up_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Benefits",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Undefined"
+          },
+          {
+            "name": "V0",
+            "fields": [
+              {
+                "name": "rakeback_base_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_nft_add_on_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_staking_add_on_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_boost_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_boost_until",
+                "type": "i64"
+              },
+              {
+                "name": "daily_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "weekly_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "monthly_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "level_up_bonus_accrual_rate_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_boost_on_claim_per_thousand",
+                "type": "u16"
+              },
+              {
+                "name": "rakeback_boost_on_claim_duration_seconds",
+                "type": "u16"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "PlayerDeposit",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PlayerWithdrawal",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LpDeposit",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "liquidityProvider",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "lpTokens",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LpWithdrawal",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "liquidityProvider",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "lpTokens",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WagerHandled",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "referrer",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "fxRatePerBillion",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "liabilityToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "wagerToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "xp",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rakebackAccruedBase",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "bonusAccruedBase",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "referralAccruedBase",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rewardReserveToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "platformRevenueShareToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "protocolRevenueShareToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "lpExpectedEdgeToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "gasReclaimedToken",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WagerReverted",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "referrer",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "liabilityReleased",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "wagerReturned",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "xpReverted",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rakebackReverted",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "platformRevenueShareReverted",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "referralRevenueShareReverted",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "protocolRevenueShareReverted",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "lpExpectedEdgeReverted",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WagerSettle",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "referrer",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "fxRatePerBillion",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "wagerToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "liabilityReleasedToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "payoutToken",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RewardClaimed",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardType",
+          "type": {
+            "defined": "RewardType"
+          },
+          "index": false
+        },
+        {
+          "name": "relatesTo",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "valueBase",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenAmountUpFront",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tokenAmountSpread",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "spreadDays",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RewardForfeit",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "rewardType",
+          "type": {
+            "defined": "RewardType"
+          },
+          "index": false
+        },
+        {
+          "name": "relatesTo",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "valueBase",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RewardCalendarCollection",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rewardDate",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RewardCalendarForfeit",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rewardDate",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "HouseRevenueWithdrawal",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "revenueShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "gasReclaimAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PlatformRevenueWithdrawal",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "token",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "revenueShareAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "rewardAccrualAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RakebackBoostActivated",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "boostPerThousand",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "boostUntil",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LeveledUp",
+      "fields": [
+        {
+          "name": "house",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "platform",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newRank",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "xpForNextRank",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "benefits",
+          "type": {
+            "defined": "Benefits"
+          },
+          "index": false
+        },
+        {
+          "name": "timestamp",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnspecifiedError",
+      "msg": "Unspecified Error"
+    },
+    {
+      "code": 6001,
+      "name": "NotPermittedForThisAuthority",
+      "msg": "The requested action is not permitted for this authority"
+    },
+    {
+      "code": 6002,
+      "name": "BaseCurrencyFxRateMustBeOneToOne",
+      "msg": "FX Rate for a base currency must be 1-to-1"
+    },
+    {
+      "code": 6003,
+      "name": "PlayCurrencyFxRateMustBeZeroToOne",
+      "msg": "FX Rate for a play currency must be 0-to-1"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidRevenueShareConfiguration",
+      "msg": "Invalid or inconsistent revenue share parameters providers"
+    },
+    {
+      "code": 6005,
+      "name": "MinBetUnitMustBeAMultipleOfIncrementUnit",
+      "msg": "The minBetUnit for a token must be a multiple of the incrementUnit"
+    },
+    {
+      "code": 6006,
+      "name": "MinBetUnitAndIncrementUnitMustBeGreaterThanZero",
+      "msg": "minBetUnit and incrementUnit must be greater than zero"
+    },
+    {
+      "code": 6007,
+      "name": "TokenAlreadyListed",
+      "msg": "Token already listed"
+    },
+    {
+      "code": 6008,
+      "name": "TransferOfZeroTokensAttempted",
+      "msg": "A transfer of zero tokens was attempted"
+    },
+    {
+      "code": 6009,
+      "name": "TokenNotFound",
+      "msg": "Token with this pubkey not found"
+    },
+    {
+      "code": 6010,
+      "name": "TokenNotSupportedByHouse",
+      "msg": "The house configuration does not support this token"
+    },
+    {
+      "code": 6011,
+      "name": "HouseDoesNotAllowOutflows",
+      "msg": "The house config does not permit outflows currently"
+    },
+    {
+      "code": 6012,
+      "name": "HouseDoesNotAllowInflows",
+      "msg": "The house config does not permit inflows currently"
+    },
+    {
+      "code": 6013,
+      "name": "TokenDoesNotAllowOutflows",
+      "msg": "The house token config does not permit outflows of this token currently"
+    },
+    {
+      "code": 6014,
+      "name": "TokenDoesNotAllowInflows",
+      "msg": "The house token config does not permit inflows of this token currently"
+    },
+    {
+      "code": 6015,
+      "name": "CallingProgramNotFound",
+      "msg": "Calling Program with this pubkey not found"
+    },
+    {
+      "code": 6016,
+      "name": "CallingProgramDoesNotAllowInflows",
+      "msg": "The Calling Program config does not permit inflows currently"
+    },
+    {
+      "code": 6017,
+      "name": "CallingProgramDoesNotAllowOutflows",
+      "msg": "The Calling Program config does not permit outflows currently"
+    },
+    {
+      "code": 6018,
+      "name": "LiabilityExceedsAvailableTradingBalance",
+      "msg": "The liability created exceeds the available trading balance"
+    },
+    {
+      "code": 6019,
+      "name": "BetExceedsKellyCriteriaMaximum",
+      "msg": "The bet exceeds the Kelly Criteria maximum"
+    },
+    {
+      "code": 6020,
+      "name": "PlayerMustAcceptLatestHouseTerms",
+      "msg": "Player must accept the latest house terms"
+    },
+    {
+      "code": 6021,
+      "name": "PlayerMustAcceptLatestPlatformTerms",
+      "msg": "Player must accept the latest platform terms"
+    },
+    {
+      "code": 6022,
+      "name": "PlatformNotAcceptingNewPlayers",
+      "msg": "The platform status does not allow new player accounts"
+    },
+    {
+      "code": 6023,
+      "name": "PlatformNotAcceptingNewBets",
+      "msg": "The platform status does not allow new bets"
+    },
+    {
+      "code": 6024,
+      "name": "PlatformDoesNotSupportThisToken",
+      "msg": "The platform does not support this token"
+    },
+    {
+      "code": 6025,
+      "name": "PlatformDoesNotPermitReferrals",
+      "msg": "The platform does not permit referral schemes to be created"
+    },
+    {
+      "code": 6026,
+      "name": "PlatformReferralSchemesMaximumReached",
+      "msg": "The platform does not permit players to have this many referral schemes"
+    },
+    {
+      "code": 6027,
+      "name": "HouseStatusDoesNotPermitThisAction",
+      "msg": "The house status does not permit this action"
+    },
+    {
+      "code": 6028,
+      "name": "ReferrerAccountIsInvalid",
+      "msg": "The provided referrer account does not correspond to this platform, house or player or is otherwise invalid"
+    },
+    {
+      "code": 6029,
+      "name": "ReferralAccountWasNotProvided",
+      "msg": "The referral account corresponding to this player was not provided"
+    },
+    {
+      "code": 6030,
+      "name": "DateMustBeInTheFuture",
+      "msg": "The expiry date must be in the future"
+    },
+    {
+      "code": 6031,
+      "name": "EnhancedRateMustBeBetterThanDefaultOrExisting",
+      "msg": "An enhanced benefit must be better than the existing or default rate"
+    },
+    {
+      "code": 6032,
+      "name": "PlatformDoesNotOfferRakeback",
+      "msg": "This platform does not offer rakeback"
+    },
+    {
+      "code": 6033,
+      "name": "RateExceedsMaximumAllowedForPlatform",
+      "msg": "The rate provided exceeds the maximum allowed for the platform"
+    },
+    {
+      "code": 6034,
+      "name": "TokenAccountNotOwnedByTokenProgram",
+      "msg": "The associated token account is not owned by the token program"
+    },
+    {
+      "code": 6035,
+      "name": "TokenAccountNotOwnedBySigner",
+      "msg": "The associated token account is not owned by signer"
+    },
+    {
+      "code": 6036,
+      "name": "TokenAccountNotForThisMint",
+      "msg": "The associated token account does not correspond to this token mint"
+    },
+    {
+      "code": 6037,
+      "name": "TransferCouldNotBeProcessed",
+      "msg": "The reqeusted transfer could not be processed"
+    },
+    {
+      "code": 6038,
+      "name": "WagerMustExceedTheGamesSpecifiedMinimum",
+      "msg": "The total wager must exceed the game's specified minimum"
+    },
+    {
+      "code": 6039,
+      "name": "InvalidUsername",
+      "msg": "Invalid username. Must be 8-20 characters long and contain only a-z, A-Z, 0-9, and _ values."
+    },
+    {
+      "code": 6040,
+      "name": "CannotReduceSelfExcludeTime",
+      "msg": "It is not possible to change the self-exclusion time to be sooner than the existing value."
+    },
+    {
+      "code": 6041,
+      "name": "PlayerHasSelfExcluded",
+      "msg": "The player has chosen to self-exclude from playing."
+    },
+    {
+      "code": 6042,
+      "name": "PlayerHasRewardSlotsThatNeedToBeSettled",
+      "msg": "The player account has reward accrual slots that need to be settled first."
+    },
+    {
+      "code": 6043,
+      "name": "TimestampProvidedNotWithinRelevantWindow",
+      "msg": "The time provided is not within the recording window"
+    },
+    {
+      "code": 6044,
+      "name": "HouseTokenAccountNotProvided",
+      "msg": "The HouseToken account was not provided in remaining_accounts"
+    },
+    {
+      "code": 6045,
+      "name": "HouseTokenAccountDoesNotMatchTheHouseTokenIdx",
+      "msg": "The HouseToken account provided does not match the house_token_idx"
+    },
+    {
+      "code": 6046,
+      "name": "ReferralRateCannotExceedPlatformRateMinusMaxRakebackRate",
+      "msg": "A referral rate cannot exceed the platform's rate minus the maximum rakeback rate"
+    },
+    {
+      "code": 6047,
+      "name": "InvalidPerMillionRate",
+      "msg": "Invalid perMillion rate"
+    },
+    {
+      "code": 6048,
+      "name": "RakebackRateCannotExceedPlatformRevenueShare",
+      "msg": "The maximum rakeback rate cannot exceed the platform's revenue share"
+    },
+    {
+      "code": 6049,
+      "name": "ReferralHasNotMetCriteriaToCollect",
+      "msg": "This referral scheme has not met the criteria to collect"
+    },
+    {
+      "code": 6050,
+      "name": "InvalidDaysToSpreadBonusAcross",
+      "msg": "The bonus must be spread over a minimum of one future day and a maximum of 27 future days"
+    },
+    {
+      "code": 6051,
+      "name": "TimeProvidedIsBeforeTheLastRefresh",
+      "msg": "The update timestamp provided is before the last_refresh. Should not be possible."
+    },
+    {
+      "code": 6052,
+      "name": "RewardCalendarProvidedDoesNotCorrespondToAccounts",
+      "msg": "The reward calendar provided does not match the other accounts in context."
+    },
+    {
+      "code": 6053,
+      "name": "CannotCloseRewardCalendarWithRemainingValue",
+      "msg": "Cannot close a player's reward calendar while uncollected value remains."
+    },
+    {
+      "code": 6054,
+      "name": "CombinedRewardsRateExceedsPlatformRevenueShare",
+      "msg": "The combined referral and rewards rate cannot exceed the platform's own revenue share rate."
+    },
+    {
+      "code": 6055,
+      "name": "PlatformRewardsTokenMustBeSpecifiedIfAnyRewardsAreOffered",
+      "msg": "The platform must specify a reward token if any rewards are to be offered."
+    },
+    {
+      "code": 6056,
+      "name": "ReferralRateCannotExceedPlatformStatedMaximumReferralRate",
+      "msg": "A referral rate cannot exceed the platform's stated maximum referral rate."
+    },
+    {
+      "code": 6057,
+      "name": "RewardSpreadConfigNotAcceptable",
+      "msg": "A reward spread config is not acceptable. It must be <100% up front and spread between 1 and 27 days."
+    },
+    {
+      "code": 6058,
+      "name": "RewardsExceedPlatformRevenueShare",
+      "msg": "The combined player rewards and referral commission (in tokens) exceeds the platform's own revenue share amount."
+    },
+    {
+      "code": 6059,
+      "name": "EdgeDistributionDoesNotTieUp",
+      "msg": "The distribution of the expected edge does not tie-up. (Player rakeback, bonus reserves, referral commission, gas reclaim, platform rev share and protocol rev share)"
+    },
+    {
+      "code": 6060,
+      "name": "TokenProvidedIsNotThePlatformRewardToken",
+      "msg": "The token provided is not the platform reward token."
+    },
+    {
+      "code": 6061,
+      "name": "NothingToClaim",
+      "msg": "There is no reward or referral to claim at this time."
+    },
+    {
+      "code": 6062,
+      "name": "CannotApplyBonusUntilCalendarIsUpToDate",
+      "msg": "Cannot apply new bonuses to the calendar unless the calendar has been refreshed."
+    },
+    {
+      "code": 6063,
+      "name": "InvalidPlatformRankIdx",
+      "msg": "Invalid Platform Rank Idx must exist already or be the next in sequence"
+    },
+    {
+      "code": 6064,
+      "name": "PlatformRankThresholdMustExceedPreviousThreshold",
+      "msg": "A platform rank's XP threshold must exceed the previous threshold"
+    },
+    {
+      "code": 6065,
+      "name": "RankBenefitsExceedPlatformMaxCombinedRewardRate",
+      "msg": "A rank benefit config exceeds the platform's max combined benefit accrual rate"
+    },
+    {
+      "code": 6066,
+      "name": "PlayerHasNotReachedXpRequiredForLevelUp",
+      "msg": "The player has not reached the required XP to levelup ranks"
+    },
+    {
+      "code": 6067,
+      "name": "NothingToCollectOrForfeit",
+      "msg": "There are no collects or forfeits to update for on this reward calendar."
+    },
+    {
+      "code": 6068,
+      "name": "CannotSyncBenefitsIfLevelUpIsRequired",
+      "msg": "Cannot sync levels where player's currenk rank is not consistent with their XP"
+    },
+    {
+      "code": 6069,
+      "name": "StaleOracleFeed",
+      "msg": "The oracle price feed is stale"
+    },
+    {
+      "code": 6070,
+      "name": "TransferExceedsAvailableAmount",
+      "msg": "The transfer amount requested exceeds the amount available"
+    },
+    {
+      "code": 6071,
+      "name": "MaxNumberOfHouseTokensReached",
+      "msg": "The max allowable number of tokens has been added to the house"
+    },
+    {
+      "code": 6072,
+      "name": "MaxNumberOfRanksReached",
+      "msg": "The max allowable number of ranks has been added to the house"
+    },
+    {
+      "code": 6073,
+      "name": "TermsVersionOutOfSequence",
+      "msg": "The new terms version provided is out of sequence"
+    }
+  ]
+}

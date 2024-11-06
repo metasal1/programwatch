@@ -1,0 +1,810 @@
+{
+  "version": "0.1.0",
+  "name": "nftshorting",
+  "instructions": [
+    {
+      "name": "addCollection",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "verifiedCreatorAddress",
+          "type": "publicKey"
+        },
+        {
+          "name": "floorPriceLamports",
+          "type": "u64"
+        },
+        {
+          "name": "isSimulation",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateFloorPrice",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "floorPriceLamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "limitLend",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexMetadataPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lenderNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lendLimitOrder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "listPriceLamports",
+          "type": "u64"
+        },
+        {
+          "name": "premiumPriceLamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "limitBorrow",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralWsolVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "premiumWsolVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeWsolVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "borrowLimitOrder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "listPriceLamports",
+          "type": "u64"
+        },
+        {
+          "name": "premiumPriceLamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "marketLend",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrowLimitOrder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexMetadataPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lenderNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrowerNftAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "premiumWsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeWsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "activeLoan",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "marketBorrow",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lendLimitOrder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lenderAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrowerNftAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralWsolVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "activeLoan",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelLend",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lendLimitOrder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lenderNftAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelBorrow",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "borrowLimitOrder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "premiumWsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralWsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeWsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "repayLoan",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "activeLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexMetadataPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "borrowerNftAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lenderNftAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "liquidateLoan",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "activeLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsolVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "simulateCreateMetadata",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "verifiedCreatorAddress",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "SolVault",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "verifiedCreatorAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "floorPriceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdateTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "isSimulation",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LendLimitOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lenderAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMintAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftVaultAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "listPriceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "premiumPriceLamports",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BorrowLimitOrder",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "borrowerAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralWsolVaultAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "premiumWsolVaultAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeWsolVaultAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "listPriceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "premiumPriceLamports",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ActiveLoan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lenderAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "borrowerAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftMintAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "wsolVaultAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "listPriceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "premiumPriceLamports",
+            "type": "u64"
+          },
+          {
+            "name": "expirationTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "isMarketBorrow",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidTransactionType",
+      "msg": "InvalidTransactionType"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMetaplexMetadataPda",
+      "msg": "Invalid metaplex metadata pda."
+    },
+    {
+      "code": 6002,
+      "name": "VerifiedCreatorAddressMismatch",
+      "msg": "Verified creator address mismatch."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAccountOwner",
+      "msg": "Invalid account owner."
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientFeeFunds",
+      "msg": "Insufficient fee funds."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidAuthPda",
+      "msg": "Invalid Authorizer PDA."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidFeeRxAddress",
+      "msg": "Invalid fee receiver address"
+    },
+    {
+      "code": 6007,
+      "name": "LiquidationCriteriaNotMet",
+      "msg": "Liquidation criteria not met"
+    }
+  ]
+}

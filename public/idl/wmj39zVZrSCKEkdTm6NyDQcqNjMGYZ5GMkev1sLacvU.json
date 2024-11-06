@@ -1,0 +1,822 @@
+{
+  "address": "wmj39zVZrSCKEkdTm6NyDQcqNjMGYZ5GMkev1sLacvU",
+  "metadata": {
+    "name": "solana_cefi_sd",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "close_native_transfer_account",
+      "discriminator": [
+        195,
+        17,
+        177,
+        12,
+        249,
+        164,
+        67,
+        117
+      ],
+      "accounts": [
+        {
+          "name": "transfer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "transfer_account"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "close_spl_transfer_accounts",
+      "discriminator": [
+        145,
+        171,
+        156,
+        121,
+        238,
+        102,
+        171,
+        78
+      ],
+      "accounts": [
+        {
+          "name": "transfer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              },
+              {
+                "kind": "arg",
+                "path": "mint_address"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "transfer_account"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_mint",
+          "writable": true
+        },
+        {
+          "name": "fee_receiver_token_account",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "mint_address",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "execute_native_transfer",
+      "discriminator": [
+        142,
+        60,
+        62,
+        249,
+        47,
+        183,
+        215,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "transfer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "writable": true
+        },
+        {
+          "name": "fee_receiver",
+          "writable": true,
+          "address": "4XNiRtCFjs5kaLnP2Ax1AkDyEptUdZp7r7PTPME8qBvB"
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "transfer_account"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "execute_spl_transfer",
+      "discriminator": [
+        217,
+        43,
+        41,
+        90,
+        186,
+        51,
+        242,
+        30
+      ],
+      "accounts": [
+        {
+          "name": "transfer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              },
+              {
+                "kind": "arg",
+                "path": "mint_address"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "receiver_token_account",
+          "writable": true
+        },
+        {
+          "name": "fee_receiver_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  52,
+                  91,
+                  9,
+                  152,
+                  91,
+                  22,
+                  216,
+                  199,
+                  222,
+                  182,
+                  98,
+                  133,
+                  233,
+                  156,
+                  21,
+                  51,
+                  221,
+                  129,
+                  20,
+                  141,
+                  129,
+                  79,
+                  204,
+                  193,
+                  67,
+                  39,
+                  157,
+                  143,
+                  190,
+                  180,
+                  165,
+                  132
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "token_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "transfer_account"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_mint",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "mint_address",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "prepare_native_transfer",
+      "discriminator": [
+        152,
+        104,
+        10,
+        103,
+        127,
+        206,
+        166,
+        73
+      ],
+      "accounts": [
+        {
+          "name": "transfer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "native_transfer_preview",
+          "type": {
+            "defined": {
+              "name": "NativeTransfer"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "prepare_spl_transfer",
+      "discriminator": [
+        12,
+        23,
+        43,
+        219,
+        201,
+        49,
+        60,
+        174
+      ],
+      "accounts": [
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_mint"
+        },
+        {
+          "name": "transfer_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "transfer_id"
+              },
+              {
+                "kind": "arg",
+                "path": "mint_address"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "mint_address",
+          "type": "pubkey"
+        },
+        {
+          "name": "spl_transfer_preview",
+          "type": {
+            "defined": {
+              "name": "SplTransfer"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NativeTransferAccount",
+      "discriminator": [
+        99,
+        59,
+        134,
+        157,
+        178,
+        201,
+        42,
+        253
+      ]
+    },
+    {
+      "name": "SplTransferAccount",
+      "discriminator": [
+        94,
+        137,
+        199,
+        247,
+        46,
+        56,
+        105,
+        59
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidReceiverAddress",
+      "msg": "Receiver address cannot be the zero address."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidFeeAmount",
+      "msg": "Fee cannot exceed the transfer amount."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidTransferAmount",
+      "msg": "Transfer amount is out of allowed range."
+    },
+    {
+      "code": 6003,
+      "name": "UninitializedAccount",
+      "msg": "Transfer account is uninitialized."
+    },
+    {
+      "code": 6004,
+      "name": "TimeLockWindowNotMet",
+      "msg": "The transaction cannot be processed before the minimum delay."
+    },
+    {
+      "code": 6005,
+      "name": "NativeAmountMismatch",
+      "msg": "The transfer account received lamports does not match the NativeTransfer amount"
+    },
+    {
+      "code": 6006,
+      "name": "InsufficientFundsForRent",
+      "msg": "Insufficient funds to keep the account rent-exempt."
+    },
+    {
+      "code": 6007,
+      "name": "MismatchTransferId",
+      "msg": "The given Transfer-Id does not match with transfer account transfer_id."
+    },
+    {
+      "code": 6008,
+      "name": "MintAddressMismatch",
+      "msg": "The token mint does not match the provided mint address."
+    },
+    {
+      "code": 6009,
+      "name": "InvalidTransferId",
+      "msg": "Transfer Id cannot be null (all zeros)."
+    },
+    {
+      "code": 6010,
+      "name": "TransferAccountNotInitialized",
+      "msg": "Transfer Account is not initialized."
+    },
+    {
+      "code": 6011,
+      "name": "TokenAccountNotInitialized",
+      "msg": "Token Account is not initialized or contains no tokens."
+    },
+    {
+      "code": 6012,
+      "name": "TokenAmountMismatch",
+      "msg": "The transfer account received tokens does not match the SplTransfer amount"
+    },
+    {
+      "code": 6013,
+      "name": "ReceiverAtaNotInitialized",
+      "msg": "Receiver associated token account (ATA) is not created or has no balance."
+    }
+  ],
+  "types": [
+    {
+      "name": "NativeTransfer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "receiver",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NativeTransferAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "native_transfer",
+            "type": {
+              "defined": {
+                "name": "NativeTransfer"
+              }
+            }
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "created_at",
+            "type": "u64"
+          },
+          {
+            "name": "transfer_id",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "initial_lamports",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SplTransfer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "receiver_ata",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_mint",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SplTransferAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "spl_transfer",
+            "type": {
+              "defined": {
+                "name": "SplTransfer"
+              }
+            }
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "created_at",
+            "type": "u64"
+          },
+          {
+            "name": "transfer_id",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "token_bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "FEE_RECEIVER",
+      "type": "pubkey",
+      "value": "4XNiRtCFjs5kaLnP2Ax1AkDyEptUdZp7r7PTPME8qBvB"
+    },
+    {
+      "name": "MAX_SOL_TRANSFER",
+      "type": "u64",
+      "value": "10000000000000"
+    },
+    {
+      "name": "MINIMUM_DELAY_SECONDS",
+      "type": "u64",
+      "value": "0"
+    },
+    {
+      "name": "MIN_SOL_TRANSFER",
+      "type": "u64",
+      "value": "10000"
+    }
+  ]
+}

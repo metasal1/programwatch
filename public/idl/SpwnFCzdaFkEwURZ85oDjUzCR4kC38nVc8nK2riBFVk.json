@@ -1,0 +1,1178 @@
+{
+  "version": "0.1.0",
+  "name": "stake_pool",
+  "instructions": [
+    {
+      "name": "initializeProgram",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authorityMint",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authorityAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializePool",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authorityAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "reward"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rewardDuration",
+          "type": "u64"
+        },
+        {
+          "name": "minStakeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minStakeDuration",
+          "type": "u64"
+        },
+        {
+          "name": "maxStakedToken",
+          "type": "u64"
+        },
+        {
+          "name": "maxUserPercentOfPool",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updatePool",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rewardDuration",
+          "type": "u64"
+        },
+        {
+          "name": "minStakeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minStakeDuration",
+          "type": "u64"
+        },
+        {
+          "name": "maxStakedToken",
+          "type": "u64"
+        },
+        {
+          "name": "maxUserPercentOfPool",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "createUser",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pause",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpause",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "commitNfts",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lockAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "lock"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userNftStake",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nftLockerProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "uncommitNfts",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lockAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "lock"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userNftStake",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nftLockerProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "stakeFromAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "stakeFromAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sptAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "authorizeFunder",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "funderToAdd",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "deauthorizeFunder",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "funderToRemove",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "reward"
+              }
+            ]
+          }
+        },
+        {
+          "name": "funder",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "reward"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeUser",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "owner"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closePool",
+      "accounts": [
+        {
+          "name": "refundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingRefundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardRefundee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "stakingVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "staking"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Pool",
+                "path": "pool"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "reward"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": {
+              "defined": "PoolVersion"
+            }
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "stakingMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardDuration",
+            "type": "u64"
+          },
+          {
+            "name": "rewardDurationEnd",
+            "type": "u64"
+          },
+          {
+            "name": "minStakeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "minStakeDuration",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdateTime",
+            "type": "u64"
+          },
+          {
+            "name": "rewardRate",
+            "type": "u64"
+          },
+          {
+            "name": "rewardPerTokenStored",
+            "type": "u128"
+          },
+          {
+            "name": "userStakeCount",
+            "type": "u32"
+          },
+          {
+            "name": "userStakeBonusTotals",
+            "type": "u64"
+          },
+          {
+            "name": "funders",
+            "type": {
+              "array": [
+                "publicKey",
+                4
+              ]
+            }
+          },
+          {
+            "name": "maxStakedToken",
+            "type": "u64"
+          },
+          {
+            "name": "maxUserPercentOfPool",
+            "type": "u8"
+          },
+          {
+            "name": "trailer",
+            "type": {
+              "array": [
+                "u8",
+                23
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "User",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "pool",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardPerTokenComplete",
+            "type": "u128"
+          },
+          {
+            "name": "rewardPerTokenPending",
+            "type": "u64"
+          },
+          {
+            "name": "balanceStaked",
+            "type": "u64"
+          },
+          {
+            "name": "balanceStakedNftBonus",
+            "type": "u64"
+          },
+          {
+            "name": "lastStakeTime",
+            "type": "u64"
+          },
+          {
+            "name": "countCommitedNfts",
+            "type": "u16"
+          },
+          {
+            "name": "bpsCommitedNfts",
+            "type": "u32"
+          },
+          {
+            "name": "trailer",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PoolVersion",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "V1"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientFundUnstake",
+      "msg": "Insufficient funds to unstake."
+    },
+    {
+      "code": 6001,
+      "name": "AmountMustBeGreaterThanZero",
+      "msg": "Amount must be greater than zero."
+    },
+    {
+      "code": 6002,
+      "name": "PoolPaused",
+      "msg": "Pool is paused."
+    },
+    {
+      "code": 6003,
+      "name": "DurationTooShort",
+      "msg": "Duration cannot be shorter than one day."
+    },
+    {
+      "code": 6004,
+      "name": "FunderAlreadyAuthorized",
+      "msg": "Provided funder is already authorized to fund."
+    },
+    {
+      "code": 6005,
+      "name": "MaxFunders",
+      "msg": "Maximum funders already authorized."
+    },
+    {
+      "code": 6006,
+      "name": "CannotDeauthorizePoolAuthority",
+      "msg": "Cannot deauthorize the primary pool authority."
+    },
+    {
+      "code": 6007,
+      "name": "CannotDeauthorizeMissingAuthority",
+      "msg": "Authority not found for deauthorization."
+    },
+    {
+      "code": 6008,
+      "name": "UnstakeTooSoon",
+      "msg": "Minimum stake time not reached."
+    },
+    {
+      "code": 6009,
+      "name": "MinStakeRequired",
+      "msg": "Minimum stake amount not reached."
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyCommited",
+      "msg": "Already commited NFTs."
+    },
+    {
+      "code": 6011,
+      "name": "NotCommited",
+      "msg": "NFTs not commited."
+    },
+    {
+      "code": 6012,
+      "name": "MaxStakedExceeded",
+      "msg": "Max pool size exceeded."
+    },
+    {
+      "code": 6013,
+      "name": "MaxUserStakedExceeded",
+      "msg": "Max user share of pool exceeded."
+    }
+  ]
+}

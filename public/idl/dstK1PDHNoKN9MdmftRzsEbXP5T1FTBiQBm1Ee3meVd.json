@@ -1,0 +1,306 @@
+{
+  "version": "0.1.0",
+  "name": "directed_stake",
+  "constants": [
+    {
+      "name": "STAKE_DIRECTION_SEED",
+      "type": "bytes",
+      "value": "[115, 116, 97, 107, 101, 45, 100, 105, 114, 101, 99, 116, 105, 111, 110]"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "createVote",
+      "accounts": [
+        {
+          "name": "voteRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "vote record that will be created"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "pubkey that the directed stake vote record will be created for"
+          ]
+        },
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "root account that the vote record belongs under"
+          ]
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "rent payer for creation of the vote record account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateVote",
+      "accounts": [
+        {
+          "name": "voteRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "vote record that will be updated"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "pubkey that the directed stake vote record belongs to"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "target",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "removeVote",
+      "accounts": [
+        {
+          "name": "voteRecord",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "vote record that will be closed"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "pubkey that the directed stake vote record belongs to"
+          ]
+        },
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "root account the directed stake vote record PDA account was derived from"
+          ]
+        },
+        {
+          "name": "rentCollector",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "account to obtain rent for closing the vote record account"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createRoot",
+      "accounts": [
+        {
+          "name": "root",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "root account that will be created"
+          ]
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "to deduct rent for account creation from"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Root",
+      "docs": [
+        "Directed Stake Root account",
+        "Used as a root account for PDA calculation of the vote record accounts, storing a statistic information."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "voteCount",
+            "docs": [
+              "how many vote records created the directed stake contract with this root account"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteRecord",
+      "docs": [
+        "Account storing information to direct the stake directly to a validator",
+        "An user can create one vote record account directing to a validator"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "root",
+            "docs": [
+              "root account that the vote record belongs under"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "the pubkey that the directed stake vote recorded will be created for"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "target",
+            "docs": [
+              "target pubkey that the owner's stake directs to"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump this account was created with"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "CreateRootEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreateVoteRecordEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "target",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bump",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "newVoteCount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "RemoveVoteRecordEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "target",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newVoteCount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "UpdateVoteRecordEvent",
+      "fields": [
+        {
+          "name": "root",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "oldTarget",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "newTarget",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,557 @@
+{
+  "version": "0.1.0",
+  "name": "gig_hub_coin_test",
+  "constants": [
+    {
+      "name": "FEE_ACCOUNT_TAG",
+      "type": "bytes",
+      "value": "[49, 49, 66, 51, 50, 67, 68, 56, 66, 51, 51, 57, 65, 55, 49, 68, 56, 66, 54, 54, 55]"
+    },
+    {
+      "name": "COUNTER_TAG",
+      "type": "bytes",
+      "value": "[52, 67, 51, 54, 54, 67, 65, 54, 50, 68, 56, 70, 57, 68, 55, 53, 56, 69, 66, 49, 67]"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initcounter",
+      "accounts": [
+        {
+          "name": "counterPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initfeeaccount",
+      "accounts": [
+        {
+          "name": "counterPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializestatepda",
+      "accounts": [
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "counterPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "assignTo",
+          "type": "publicKey"
+        },
+        {
+          "name": "feePayerFreelancer",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "initialisetokenpda",
+      "accounts": [
+        {
+          "name": "tokenpda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "depositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump1",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "sendsoltopda",
+      "accounts": [
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccountPubkey",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccountPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sendusdctopda",
+      "accounts": [
+        {
+          "name": "tokenpda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "depositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccountPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump1",
+          "type": "u8"
+        },
+        {
+          "name": "bump2",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "sendusdctoreciever",
+      "accounts": [
+        {
+          "name": "tokenpda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletToDepositTo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reciever",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK not read write to this account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump1",
+          "type": "u8"
+        },
+        {
+          "name": "bump2",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "sendsoltoreciever",
+      "accounts": [
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump1",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateStatus",
+      "accounts": [
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "isProblem",
+          "type": "bool"
+        },
+        {
+          "name": "adminAccount",
+          "type": "publicKey"
+        },
+        {
+          "name": "solvingTo",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updatePda",
+      "accounts": [
+        {
+          "name": "statepda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "updatedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "feePayerFreelancer",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "addDiscountAccount",
+      "accounts": [
+        {
+          "name": "feePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeAccountOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateDiscountAccount",
+      "accounts": [
+        {
+          "name": "feePda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeAccountOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeAmount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "State",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "assignWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "assignedCounter",
+            "type": "u32"
+          },
+          {
+            "name": "pdaAtaAdress",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "feePayerFreelancer",
+            "type": "bool"
+          },
+          {
+            "name": "assignedAdmin",
+            "type": "publicKey"
+          },
+          {
+            "name": "pdaTotalAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Counter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DiscountAccounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "discountwalletadress",
+            "type": "publicKey"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidAccount",
+      "msg": "Accounts doenst't mach"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidCalculation",
+      "msg": "Amount couldn't calculated"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidStatus",
+      "msg": "PDA State is invalid Status"
+    }
+  ]
+}

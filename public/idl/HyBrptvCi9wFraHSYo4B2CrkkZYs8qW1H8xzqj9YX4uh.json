@@ -1,0 +1,678 @@
+{
+  "version": "0.1.0",
+  "name": "hybrid",
+  "instructions": [
+    {
+      "name": "configInit",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority of the created config"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for configuration"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u16"
+        },
+        {
+          "name": "hybridConfig",
+          "type": {
+            "defined": "HybridConfig"
+          }
+        },
+        {
+          "name": "tokenFeesWallet",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "configUpdateHybrid",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "hybridConfig",
+          "type": {
+            "defined": "HybridConfig"
+          }
+        },
+        {
+          "name": "tokenFeesWallet",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "configTransfer",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAuthority",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configClose",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority of the created config"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for configuration"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapTokensForAsset",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Core program accounts"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Programs"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "swapAssetForTokens",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Core program accounts"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Programs"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintWrap",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "coreCandyMachineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachineAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintUnwrap",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "coreCandyMachineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachineAuthority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintAssetWithTokens",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachineAuthorityPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "PROGRAMS"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "coreCandyMachineProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructionsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarRecentSlothashesProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Escrow",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u16"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "hybridConfig",
+            "type": {
+              "defined": "HybridConfig"
+            }
+          },
+          {
+            "name": "tokenFeesWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "HybridConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "inPrice",
+            "type": {
+              "defined": "Pricing"
+            }
+          },
+          {
+            "name": "inReserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "outPrice",
+            "type": {
+              "defined": "Pricing"
+            }
+          },
+          {
+            "name": "outReserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "mintCandyMachine",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "mintPrice",
+            "type": {
+              "defined": "Pricing"
+            }
+          },
+          {
+            "name": "mintReserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pricing",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Fixed",
+            "fields": [
+              {
+                "name": "tokenAmount",
+                "type": "u64"
+              },
+              {
+                "name": "solAmount",
+                "type": "u64"
+              },
+              {
+                "name": "tokenFeeAmount",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidConfig",
+      "msg": "Invalid config"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidConfigAuthority",
+      "msg": "Invalid config authority"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidCollection",
+      "msg": "Invalid collection to stake"
+    },
+    {
+      "code": 6003,
+      "name": "ConfigUnstable",
+      "msg": "Config is unstable"
+    },
+    {
+      "code": 6004,
+      "name": "NotOwnerOfMint",
+      "msg": "NFT mint belongs to another user"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 6006,
+      "name": "StakeMaxLevelReached",
+      "msg": "Staked asset has reached max level"
+    },
+    {
+      "code": 6007,
+      "name": "StakeLevelUpNotReady",
+      "msg": "Staked asset is not ready to level up"
+    },
+    {
+      "code": 6008,
+      "name": "StakeAlreadyStopped",
+      "msg": "Stake has already been stopped"
+    },
+    {
+      "code": 6009,
+      "name": "StakeLocked",
+      "msg": "Stake is locked"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidAsset",
+      "msg": "Invalid asset"
+    },
+    {
+      "code": 6011,
+      "name": "DropInUse",
+      "msg": "Drop is in use"
+    },
+    {
+      "code": 6012,
+      "name": "DropInvalid",
+      "msg": "Drop is invalid"
+    },
+    {
+      "code": 6013,
+      "name": "DropInvalidMint",
+      "msg": "Drop mint is invalid"
+    },
+    {
+      "code": 6014,
+      "name": "DropDistributeNoShares",
+      "msg": "Drop distribute has no shares"
+    },
+    {
+      "code": 6015,
+      "name": "DropDistributeNotReady",
+      "msg": "Drop distribute is not ready"
+    },
+    {
+      "code": 6016,
+      "name": "MintAlreadyWrapped",
+      "msg": "Mint has already been wrapped"
+    },
+    {
+      "code": 6017,
+      "name": "MintNotWrapped",
+      "msg": "Mint is not wrapped"
+    }
+  ]
+}

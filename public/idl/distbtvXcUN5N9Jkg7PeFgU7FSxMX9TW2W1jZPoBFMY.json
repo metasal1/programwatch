@@ -1,0 +1,1231 @@
+{
+  "version": "0.1.0",
+  "name": "distributooor_program",
+  "instructions": [
+    {
+      "name": "init",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "subscriptionUsdcAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "subscriptionWallet",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "usdc",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "removeBranding",
+          "type": "bool"
+        },
+        {
+          "name": "ownDomain",
+          "type": "bool"
+        },
+        {
+          "name": "subscription",
+          "type": {
+            "defined": "Subscription"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initDistribution",
+      "accounts": [
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "numShares",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "distribute",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "shareRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "shareRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "toggleMain",
+      "accounts": [
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "active",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "toggleDistribution",
+      "accounts": [
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "active",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "cancelShare",
+      "accounts": [
+        {
+          "name": "distributooor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "shareRecord",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeDistribution",
+      "accounts": [
+        {
+          "name": "distributooor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distribution",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "paySubscription",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "usdcAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriptionUsdcAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriptionWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdc",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initProgramConfig",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "subscriptionUsdcAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "subscriptionWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "usdc",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "claimFee",
+          "type": "u64"
+        },
+        {
+          "name": "distributeFeeBasisPoints",
+          "type": "u16"
+        },
+        {
+          "name": "basicFee",
+          "type": "u64"
+        },
+        {
+          "name": "advancedFee",
+          "type": "u64"
+        },
+        {
+          "name": "proFee",
+          "type": "u64"
+        },
+        {
+          "name": "extraCollectionFee",
+          "type": "u64"
+        },
+        {
+          "name": "removeBranding",
+          "type": "u64"
+        },
+        {
+          "name": "ownDomain",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigDistributeFeeBasisPoints",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "unstakeFee",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigClaimFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "claimFee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigBasicSubscriptionFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "basicSubscriptionFee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigAdvancedSubscriptionFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "advancedSubscriptionFee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigProSubscriptionFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "proSubscriptionFee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigExtraCollectionFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "extraCollectionFee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigRemoveBrandingFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "removeBrandingFee",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProgramConfigOwnDomainFee",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "ownDomain",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setNextPaymentTime",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nextPaymentTime",
+          "type": {
+            "option": "i64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setSubscription",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "subscription",
+          "type": {
+            "defined": "Subscription"
+          }
+        }
+      ]
+    },
+    {
+      "name": "adminUpdateSubscriptionOverrides",
+      "accounts": [
+        {
+          "name": "programConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "distributooor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "program",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "programData",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "subscriptionOverride",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "distributeFeeBasisPointsOverride",
+          "type": {
+            "option": "u16"
+          }
+        },
+        {
+          "name": "claimFeeOverride",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Distribution",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "distributooor",
+            "docs": [
+              "distributooor this distribution belongs to (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "label",
+            "docs": [
+              "descriptor (4 + 20)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "uri link to offchain distribution log (4 + 63)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "totalAmount",
+            "docs": [
+              "total amount of this distribution (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "balance",
+            "docs": [
+              "current balance of this distribution (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "numShares",
+            "docs": [
+              "total number of shares (4)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "sharesFunded",
+            "docs": [
+              "number of funded shares (4)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "createdAt",
+            "docs": [
+              "timestamp (8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "claimedAmount",
+            "docs": [
+              "amount claimed (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "complete",
+            "docs": [
+              "have all NFTs been assigned a balance? (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "active",
+            "docs": [
+              "can users claim? (1)"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Distributooor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "authority of the distributooor (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "removeBranding",
+            "docs": [
+              "Branding removed (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "ownDomain",
+            "docs": [
+              "Branding removed (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "subscription",
+            "docs": [
+              "Subscription level (1)"
+            ],
+            "type": {
+              "defined": "Subscription"
+            }
+          },
+          {
+            "name": "active",
+            "docs": [
+              "active toggle (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "startDate",
+            "docs": [
+              "staking start time  (8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "nextPaymentTime",
+            "docs": [
+              "timestamp the next payment is due (1 + 8)"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "subscriptionOverride",
+            "docs": [
+              "override for subscription amount (1 + 8)"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "distributeFeeBasisPointsOverride",
+            "docs": [
+              "override for subscription amount (1 + 2)"
+            ],
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "claimFeeOverride",
+            "docs": [
+              "override for claim fee (1 + 8)"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "bump (1)"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProgramConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "claimFee",
+            "docs": [
+              "tx fee for claiming (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "distributeFeeBasisPoints",
+            "docs": [
+              "percentage fee for distributing (2)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "basicSubscriptionFee",
+            "docs": [
+              "monthly fee for basic (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "advancedSubscriptionFee",
+            "docs": [
+              "monthly fee for advanced (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "proSubscriptionFee",
+            "docs": [
+              "monthly fee for pro (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "extraCollectionFee",
+            "docs": [
+              "monthly fee for additional collections (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "removeBrandingFee",
+            "docs": [
+              "monthly fee for removing branding (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ownDomainFee",
+            "docs": [
+              "monthly fee for own domain (8)"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ShareRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftMint",
+            "docs": [
+              "owner of this NFT can claim (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "distribution",
+            "docs": [
+              "distribution this record belongs to (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "amount in lamports (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "bump of the share_record account (1)"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Subscription",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Penalty"
+          },
+          {
+            "name": "Basic"
+          },
+          {
+            "name": "Advanced"
+          },
+          {
+            "name": "Pro"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ProgramSubError",
+      "msg": "Cannot subtract numbers"
+    },
+    {
+      "code": 6001,
+      "name": "ProgramSumError",
+      "msg": "Cannot add numbers"
+    },
+    {
+      "code": 6002,
+      "name": "ProgramDivError",
+      "msg": "Cannot divide numbers"
+    },
+    {
+      "code": 6003,
+      "name": "TokenNotNFT",
+      "msg": "Token not an NFT"
+    },
+    {
+      "code": 6004,
+      "name": "TokenAccountEmpty",
+      "msg": "Only the holder can claim"
+    },
+    {
+      "code": 6005,
+      "name": "AlreadyFunded",
+      "msg": "Distributooor has already funded this item"
+    },
+    {
+      "code": 6006,
+      "name": "Inactive",
+      "msg": "This distributooor is currently inactive"
+    },
+    {
+      "code": 6007,
+      "name": "Incomplete",
+      "msg": "This distribution is not yet complete"
+    },
+    {
+      "code": 6008,
+      "name": "TotalSharesFunded",
+      "msg": "This distribution has been fully allocated"
+    },
+    {
+      "code": 6009,
+      "name": "LabelTooLong",
+      "msg": "Label must be max 20 chars"
+    },
+    {
+      "code": 6010,
+      "name": "LabelTooShort",
+      "msg": "Label is required"
+    },
+    {
+      "code": 6011,
+      "name": "Unauthorized",
+      "msg": "This action is not permitted for signer"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidAuthority",
+      "msg": "An invalid distributooor authority account was provided"
+    },
+    {
+      "code": 6013,
+      "name": "StillFunded",
+      "msg": "Cant close this distribution as it's still funded"
+    },
+    {
+      "code": 6014,
+      "name": "AdminOnly",
+      "msg": "Only the system admin can perform this action"
+    },
+    {
+      "code": 6015,
+      "name": "PaymentNotDueYet",
+      "msg": "payment isn't yet due"
+    },
+    {
+      "code": 6016,
+      "name": "NoPaymentDue",
+      "msg": "no payment due"
+    },
+    {
+      "code": 6017,
+      "name": "InArrears",
+      "msg": "Distributooor monthly subscription in arrears!"
+    },
+    {
+      "code": 6018,
+      "name": "NoSubscription",
+      "msg": "There is no subscription in place"
+    }
+  ]
+}

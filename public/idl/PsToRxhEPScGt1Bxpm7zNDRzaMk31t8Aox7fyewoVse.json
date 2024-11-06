@@ -1,0 +1,1484 @@
+{
+  "version": "0.1.0",
+  "name": "points_store",
+  "instructions": [
+    {
+      "name": "addRedemptionEpoch",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [`Profile`] that handles the points store program permissions"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "AddRedemptionEpochInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "buy",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "This is a key in the `user_profile` that is authorized to spend user points."
+          ]
+        },
+        {
+          "name": "userProfile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The user's [`Profile`]"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The store to buy from."
+          ]
+        },
+        {
+          "name": "storeSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The store's signer."
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The store's bank."
+          ]
+        },
+        {
+          "name": "userPointsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's points account."
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account where the tokens will be sent."
+          ]
+        },
+        {
+          "name": "pointCategory",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The category of points to spend."
+          ]
+        },
+        {
+          "name": "pointsProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points program."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        },
+        {
+          "name": "expectedPrice",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeStorePrice",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The store to change the price of."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "ChangeStorePriceInputUnpacked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimTokens",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "fundsTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where the user_redemption_account's funds will be sent."
+          ]
+        },
+        {
+          "name": "userProfile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The player's [`Profile`]"
+          ]
+        },
+        {
+          "name": "userRedemptionAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [`UserRedemption`]"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "configSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The config's signer."
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The config's bank."
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account where the tokens will be sent."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "ClaimTokensInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeRedemptionConfig",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig` to close."
+          ]
+        },
+        {
+          "name": "configSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The config's signer"
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The config's bank."
+          ]
+        },
+        {
+          "name": "fundsTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where the config's funds will be sent."
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where the remaining config items are sent."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "closeStore",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The store to close."
+          ]
+        },
+        {
+          "name": "storeSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The store's signer"
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The store's bank."
+          ]
+        },
+        {
+          "name": "fundsTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where the store's funds will be sent."
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where the remaining store items are sent."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "contributeToRedemption",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The player's [`Profile`]"
+          ]
+        },
+        {
+          "name": "profileFaction",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The faction that the profile belongs to."
+          ]
+        },
+        {
+          "name": "pointCategory",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The category of points to spend."
+          ]
+        },
+        {
+          "name": "userPointsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's points account."
+          ]
+        },
+        {
+          "name": "userRedemptionAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The [`UserRedemption`]"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig` to be created."
+          ]
+        },
+        {
+          "name": "pointsProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "ContributeToRedemptionInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createPointsStore",
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [`Profile`] that handles the points store program permissions"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The store to be created."
+          ]
+        },
+        {
+          "name": "storeSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The signer for the store."
+          ]
+        },
+        {
+          "name": "pointCategory",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The category for points to spend."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new store."
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The bank for the tokens that can be bought"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "CreatePointsStoreInputUnpacked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createRedemptionConfig",
+      "accounts": [
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [`Profile`] that handles the points store program permissions"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The `RedemptionConfig` to be created."
+          ]
+        },
+        {
+          "name": "configSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The signer for the `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "pointCategory",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The category for points to redeem."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The bank for the tokens that can be redeemed"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "CreateRedemptionConfigInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeRedemptionEpoch",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [`Profile`] that handles the points store program permissions"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig`."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "RemoveRedemptionEpochInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeStoreItems",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points permissions [`Profile`]"
+          ]
+        },
+        {
+          "name": "store",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The store to remove items from."
+          ]
+        },
+        {
+          "name": "storeSigner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The store's signer."
+          ]
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The store's bank."
+          ]
+        },
+        {
+          "name": "tokensTo",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where the removed items will be sent."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "startRedemption",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder - pays for account rent"
+          ]
+        },
+        {
+          "name": "userProfile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The player's [`Profile`]"
+          ]
+        },
+        {
+          "name": "profileFaction",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The faction that the profile belongs to."
+          ]
+        },
+        {
+          "name": "pointCategory",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The category of points to spend."
+          ]
+        },
+        {
+          "name": "userPointsAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The user's points account."
+          ]
+        },
+        {
+          "name": "userRedemptionAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The [`UserRedemption`]"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig` to be created."
+          ]
+        },
+        {
+          "name": "pointsProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The points program."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System Program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "StartRedemptionInput"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateRedemptionEpoch",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key authorized for this instruction"
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The [`Profile`] that handles the points store program permissions"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The `RedemptionConfig`."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "input",
+          "type": {
+            "defined": "UpdateRedemptionEpochInput"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PointsStore",
+      "docs": [
+        "A set of tokens that can be bought with points from a category."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The version of data in this struct."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "pointCategory",
+            "docs": [
+              "The category of points that can be spent"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "profile",
+            "docs": [
+              "The [`Profile`] that handles the points store program permissions"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bank",
+            "docs": [
+              "The token wallet that stores the purchasable tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "docs": [
+              "The points cost of each token."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "signerBump",
+            "docs": [
+              "The bump of the signer for the points store."
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedemptionConfig",
+      "docs": [
+        "Configuration to allow use of points to redeem tokens."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The version of data in this struct."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "pointCategory",
+            "docs": [
+              "The category of points that can be used to redeem tokens"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "profile",
+            "docs": [
+              "The [`Profile`] that handles the points store program permissions"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "faction",
+            "docs": [
+              "The faction"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bank",
+            "docs": [
+              "The token account that stores the redeemable tokens."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "signerBump",
+            "docs": [
+              "The bump of the signer for the points store."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "allowOnlyCurrentEpoch",
+            "docs": [
+              "Allow only the current epoch to be redeemed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserRedemption",
+      "docs": [
+        "User account for token redemptions for a certain epoch"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The version of data in this struct."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "profile",
+            "docs": [
+              "The profile this account is for"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pointCategory",
+            "docs": [
+              "The category of points that are being redeemed"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "userPointsAccount",
+            "docs": [
+              "The user points account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "config",
+            "docs": [
+              "The redemption config account"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "points",
+            "docs": [
+              "The points submitted by the user to be redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dayIndex",
+            "docs": [
+              "The index of the day (24-hour period) that represents this epoch"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AddRedemptionEpochInput",
+      "docs": [
+        "Input for `AddRedemptionEpoch`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalTokens",
+            "docs": [
+              "The total tokens that can redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dayIndex",
+            "docs": [
+              "The index of the day (24 hour period) that represents this epoch"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the player profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChangeStorePriceInput",
+      "docs": [
+        "Input to [`ChangeStorePrice`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newPrice",
+            "docs": [
+              "The price for the store"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "The key permissions index"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChangeStorePriceInputUnpacked",
+      "docs": [
+        "Unpacked version of [`ChangeStorePriceInput`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newPrice",
+            "docs": [
+              "The price for the store"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "The key permissions index"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimTokensInput",
+      "docs": [
+        "Input for `ClaimTokens`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochIndex",
+            "docs": [
+              "the index of the epoch in the `RedemptionConfig` account"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the player profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ContributeToRedemptionInput",
+      "docs": [
+        "Input for `StartRedemption`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "points",
+            "docs": [
+              "The number of points to submit"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "epochIndex",
+            "docs": [
+              "the index of the epoch in the `RedemptionConfig` account"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key that can spend points in the player profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePointsStoreInput",
+      "docs": [
+        "Input to [`CreatePointsStore`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "docs": [
+              "The price for the store"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePointsStoreInputUnpacked",
+      "docs": [
+        "Unpacked version of [`CreatePointsStoreInput`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "docs": [
+              "The price for the store"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRedemptionConfigInput",
+      "docs": [
+        "Input for `CreateRedemptionConfig`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "faction",
+            "docs": [
+              "the faction that uses this `RedemptionConfig"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "allowOnlyCurrentEpoch",
+            "docs": [
+              "Allow only the current epoch to be redeemed"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedemptionEpoch",
+      "docs": [
+        "Represents token redemptions for a 24-hour period"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalPoints",
+            "docs": [
+              "The total points submitted by all users to be redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "redeemedPoints",
+            "docs": [
+              "The total tokens have been redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "totalTokens",
+            "docs": [
+              "The total tokens that can redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "redeemedTokens",
+            "docs": [
+              "The tokens that have been redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dayIndex",
+            "docs": [
+              "The index of the day (24-hour period) that represents this epoch"
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RemoveRedemptionEpochInput",
+      "docs": [
+        "Input for `RemoveRedemptionEpoch`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochIndex",
+            "docs": [
+              "The index of epoch in the `RedemptionConfig` epoch array"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the player profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StartRedemptionInput",
+      "docs": [
+        "Input for `StartRedemption`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "points",
+            "docs": [
+              "The number of points to submit"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "epochIndex",
+            "docs": [
+              "the index of the epoch in the `RedemptionConfig` account"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key that can spend points in the player profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateRedemptionEpochInput",
+      "docs": [
+        "Input for `UpdateRedemptionEpoch`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalTokens",
+            "docs": [
+              "The total tokens that can redeemed for this epoch"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "epochIndex",
+            "docs": [
+              "The index of epoch in the `RedemptionConfig` epoch array"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "keyIndex",
+            "docs": [
+              "the index of the key in the player profile"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "IncorrectProfileAddress",
+      "msg": "Incorrect profile address."
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectBankAddress",
+      "msg": "Incorrect bank address."
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectMintAddress",
+      "msg": "Incorrect mint address."
+    },
+    {
+      "code": 6003,
+      "name": "EpochHasRedemptions",
+      "msg": "Epoch Has Redemptions."
+    },
+    {
+      "code": 6004,
+      "name": "EpochHasSubmissions",
+      "msg": "Epoch Has Submissions."
+    },
+    {
+      "code": 6005,
+      "name": "MustRemoveAllEpochs",
+      "msg": "Must Remove All Epochs."
+    },
+    {
+      "code": 6006,
+      "name": "FactionMismatch",
+      "msg": "Faction mismatch"
+    },
+    {
+      "code": 6007,
+      "name": "EpochHasNoTokensAvailable",
+      "msg": "Epoch Has No Tokens Available."
+    },
+    {
+      "code": 6008,
+      "name": "EpochHasNoPointsAvailable",
+      "msg": "Epoch Has No Points Available."
+    },
+    {
+      "code": 6009,
+      "name": "EpochMismatch",
+      "msg": "Epoch Mismatch."
+    },
+    {
+      "code": 6010,
+      "name": "ConfigMismatch",
+      "msg": "Config Mismatch."
+    }
+  ]
+}

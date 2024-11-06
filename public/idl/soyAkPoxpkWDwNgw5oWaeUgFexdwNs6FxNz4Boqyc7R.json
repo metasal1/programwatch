@@ -1,0 +1,726 @@
+{
+  "version": "0.1.0",
+  "name": "soylicon_valley_soy",
+  "instructions": [
+    {
+      "name": "init",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "prizeAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "teamWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "gameType",
+          "type": {
+            "defined": "GameType"
+          }
+        },
+        {
+          "name": "duration",
+          "type": "u32"
+        },
+        {
+          "name": "endgame",
+          "type": "u8"
+        },
+        {
+          "name": "burnPct",
+          "type": "u16"
+        },
+        {
+          "name": "teamPct",
+          "type": "u16"
+        },
+        {
+          "name": "prizePct",
+          "type": "u16"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "autoplay",
+          "type": "bool"
+        },
+        {
+          "name": "startingBalance",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "enter",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "entry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "entrant",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "endGame",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextGame",
+          "isMut": true,
+          "isSigner": true,
+          "isOptional": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "winner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feesWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "teamTokenWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "teamWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reclaimWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "prizeAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nextPrizeVault",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "nextPrizeAuth",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setAutoplay",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "autoplay",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "cancelGame",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "prizeAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "entry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "entrant",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeAuth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "prizeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Entry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game",
+            "docs": [
+              "the game the entry relates to(32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "entrant",
+            "docs": [
+              "the pubkey of the entrant (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "the amount of entries (4)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "boosts",
+            "docs": [
+              "the amount of boosted entries (4)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "cooldownEnds",
+            "docs": [
+              "the timestamp of when cooldown ends (1 + 8)"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "the bump if the entry account (1)"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "The authority of the game (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "docs": [
+              "The token that can be used (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "teamWallet",
+            "docs": [
+              "The wallet that will receive the team share (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "gameType",
+            "docs": [
+              "The type of game (1)"
+            ],
+            "type": {
+              "defined": "GameType"
+            }
+          },
+          {
+            "name": "burnPct",
+            "docs": [
+              "Percent basis points to burn (2)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "teamPct",
+            "docs": [
+              "Percent basis points to send to team (2)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "prizePct",
+            "docs": [
+              "Percent basis points to prize pool (2)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "price",
+            "docs": [
+              "ticket price (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "docs": [
+              "Time the game started (8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "endTime",
+            "docs": [
+              "Time the game ends (8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "endgame",
+            "docs": [
+              "The duration of the endgame period in seconds (1)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "duration",
+            "docs": [
+              "Length of the game in seconds (4)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "lastPurchaseTime",
+            "docs": [
+              "The time of the last purchase (8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "lastPurchaseBy",
+            "docs": [
+              "The pubkey of the most recent purchase (32)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "gameState",
+            "docs": [
+              "The current state of the game (1 + 32)"
+            ],
+            "type": {
+              "defined": "GameState"
+            }
+          },
+          {
+            "name": "entries",
+            "docs": [
+              "The total number of entries (4)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "balance",
+            "docs": [
+              "The cumulative balance in basis_points (8)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "startingBalance",
+            "docs": [
+              "The starting balance of the game (1 + 8)"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "autoplay",
+            "docs": [
+              "Does a new game start automatically after the last one finishes (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "complete",
+            "docs": [
+              "Is the game concluded (1)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "prizeAuthBump",
+            "docs": [
+              "The bump of the prize vault (1)"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "GameState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NotStarted"
+          },
+          {
+            "name": "InProgress"
+          },
+          {
+            "name": "EndGame"
+          },
+          {
+            "name": "Ended",
+            "fields": [
+              {
+                "name": "winner",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Rollover"
+          },
+          {
+            "name": "Volume"
+          },
+          {
+            "name": "Rebate"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GameNotStarted",
+      "msg": "This game has not started yet"
+    },
+    {
+      "code": 6001,
+      "name": "GameEnded",
+      "msg": "This game has ended"
+    },
+    {
+      "code": 6002,
+      "name": "CannotStartInThePast",
+      "msg": "A game cannot start in the past"
+    },
+    {
+      "code": 6003,
+      "name": "GameNotEnded",
+      "msg": "Cannot claim until game ended"
+    },
+    {
+      "code": 6004,
+      "name": "NotWinner",
+      "msg": "Only the winner can claim"
+    },
+    {
+      "code": 6005,
+      "name": "DivError",
+      "msg": "Cannot divide the given numbers"
+    },
+    {
+      "code": 6006,
+      "name": "NewGameMissing",
+      "msg": "Key for new game needed"
+    },
+    {
+      "code": 6007,
+      "name": "GameAlreadyConcluded",
+      "msg": "This game is already concluded"
+    },
+    {
+      "code": 6008,
+      "name": "GameNotCancelled",
+      "msg": "You can only withdraw from a cancelled game"
+    },
+    {
+      "code": 6009,
+      "name": "SomethingWentWrong",
+      "msg": "Operation cannot be completed do to an unknown error"
+    },
+    {
+      "code": 6010,
+      "name": "GameAlreadyCancelled",
+      "msg": "This game has already been cancelled"
+    },
+    {
+      "code": 6011,
+      "name": "CannotCancelInEndgame",
+      "msg": "Cannot cancel a game in the endgame phase"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidShares",
+      "msg": "Shares cannot add up to more than 100%"
+    }
+  ]
+}

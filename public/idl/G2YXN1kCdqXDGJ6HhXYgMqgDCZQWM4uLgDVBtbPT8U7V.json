@@ -1,0 +1,434 @@
+{
+  "version": "0.1.0",
+  "name": "sol_airdrop",
+  "instructions": [
+    {
+      "name": "createAirdrop",
+      "accounts": [
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airdrop",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createReceiver",
+      "accounts": [
+        {
+          "name": "airdrop",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferAdmin",
+      "accounts": [
+        {
+          "name": "airdrop",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nextAdmin",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "acceptAdmin",
+      "accounts": [
+        {
+          "name": "airdrop",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pendingAdmin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The previous admin."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "airdrop",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The airdrop account."
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Receiver account"
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Admin account."
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Owner account."
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountRewarded",
+          "type": "u64"
+        },
+        {
+          "name": "amountToClaim",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "airdrop",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The airdrop account."
+          ]
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Admin account."
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Airdrop",
+      "docs": [
+        "--------------------------------",
+        "Account Structs",
+        "--------------------------------"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "pendingAdmin",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "numReceivers",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Receiver",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "airdrop",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountClaimed",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "NewAirdropEvent",
+      "fields": [
+        {
+          "name": "airdrop",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AirdropAdminProposeEvent",
+      "fields": [
+        {
+          "name": "airdrop",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "currentAdmin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pendingAdmin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "AirdropAdminUpdateEvent",
+      "fields": [
+        {
+          "name": "airdrop",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "previousAdmin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "NewReceiverEvent",
+      "fields": [
+        {
+          "name": "airdrop",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "receiver",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        }
+      ]
+    },
+    {
+      "name": "ClaimEvent",
+      "fields": [
+        {
+          "name": "airdrop",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "receiver",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "destination",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "WithdrawEvent",
+      "fields": [
+        {
+          "name": "airdrop",
+          "type": "publicKey",
+          "index": true
+        },
+        {
+          "name": "admin",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "destination",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedAdmin",
+      "msg": "Unauthorized admin"
+    },
+    {
+      "code": 6001,
+      "name": "UnauthorizedPendingAdmin",
+      "msg": "Unauthorized pending admin"
+    },
+    {
+      "code": 6002,
+      "name": "UnauthorizedOwner",
+      "msg": "Unauthorized owner"
+    },
+    {
+      "code": 6003,
+      "name": "AmountExceeded",
+      "msg": "Cannot claim over rewarded amount"
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientFund",
+      "msg": "Insufficient fund"
+    }
+  ]
+}

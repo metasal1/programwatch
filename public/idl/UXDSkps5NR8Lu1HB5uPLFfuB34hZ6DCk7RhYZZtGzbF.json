@@ -1,0 +1,1033 @@
+{
+  "version": "2.0.0",
+  "name": "single_side_staking",
+  "instructions": [
+    {
+      "name": "initializeStakingCampaign",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityRewardAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "startTs",
+          "type": "u64"
+        },
+        {
+          "name": "endTs",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "rewardDepositAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initializeStakingAccount",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakingOptionIdentifier",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "finalizeStakingCampaign",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityRewardAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakedVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userStakedAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governanceGoverningTokenHolding",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceGoverningTokenOwnerRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakingAmount",
+          "type": "u64"
+        },
+        {
+          "name": "stakingOptionIdentifier",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userRewardAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userStakedAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governanceGoverningTokenHolding",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceGoverningTokenOwnerRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "addStakingOption",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakingOptionParams",
+          "type": {
+            "vec": {
+              "defined": "StakingOptionParam"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "activateStakingOption",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "stakingOptionIdentifier",
+          "type": "u8"
+        },
+        {
+          "name": "activate",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "refillRewardVault",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authorityRewardAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rewardRefillAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "migrateStakingCampaignFromV1ToV2",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "migrateStakingAccountFromV1ToV2",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "stakingCampaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakedMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakedVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceRealm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "governanceGoverningTokenHolding",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceGoverningTokenOwnerRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "governanceProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StakingAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakingOptionIdentifier",
+            "type": "u8"
+          },
+          {
+            "name": "stakeEndTs",
+            "type": "u64"
+          },
+          {
+            "name": "stakedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAmount",
+            "type": "u64"
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "governingTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "governingTokenVaultBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakingCampaign",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "rewardVaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "stakedVaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "isFinalized",
+            "type": "bool"
+          },
+          {
+            "name": "startTs",
+            "type": "u64"
+          },
+          {
+            "name": "endTs",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "initialRewardAmount",
+            "type": "u64"
+          },
+          {
+            "name": "remainingRewardAmount",
+            "type": "u64"
+          },
+          {
+            "name": "rewardMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardMintDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "rewardVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakedMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakedMintDecimals",
+            "type": "u8"
+          },
+          {
+            "name": "stakedVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakingOptions",
+            "type": {
+              "array": [
+                {
+                  "defined": "StakingOption"
+                },
+                16
+              ]
+            }
+          },
+          {
+            "name": "stakingOptionsCount",
+            "type": "u8"
+          },
+          {
+            "name": "totalCurrentStakingAccounts",
+            "type": "u32"
+          },
+          {
+            "name": "totalCreatedStakingAccounts",
+            "type": "u32"
+          },
+          {
+            "name": "governanceProgram",
+            "type": "publicKey"
+          },
+          {
+            "name": "governanceRealm",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakedAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "StakingOption",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "identifier",
+            "type": "u8"
+          },
+          {
+            "name": "lockupSecs",
+            "type": "u64"
+          },
+          {
+            "name": "apr",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakingOptionParam",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "lockupSecs",
+            "type": "u64"
+          },
+          {
+            "name": "apr",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "InitializeStakingCampaignEvent",
+      "fields": [
+        {
+          "name": "version",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "stakingCampaign",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "authority",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidStartTs",
+      "msg": "Start time is not after current time."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidEndTs",
+      "msg": "End time is not after start time."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidRewardDepositAmount",
+      "msg": "Amount of Reward deposited into staking_campaign is invalid"
+    },
+    {
+      "code": 6003,
+      "name": "BumpError",
+      "msg": "A bump was expected but is missing."
+    },
+    {
+      "code": 6004,
+      "name": "CampaignNotFinished",
+      "msg": "The staking campaign has not reached its end_ts yet"
+    },
+    {
+      "code": 6005,
+      "name": "FinalizedError",
+      "msg": "Error with the state of the is_finalized variable"
+    },
+    {
+      "code": 6006,
+      "name": "StakingAccountNotEnded",
+      "msg": "Staking Account has not been finished. Can't unstake"
+    },
+    {
+      "code": 6007,
+      "name": "StakingCampaignMismatch",
+      "msg": "Staking Campaign doesn't match the one set in Staking Account"
+    },
+    {
+      "code": 6008,
+      "name": "StakingAccountNotOngoing",
+      "msg": "Staking Account has already been claimed or is not valid"
+    },
+    {
+      "code": 6009,
+      "name": "StakingOptionMismatch",
+      "msg": "Staking Option doesn't match the one set in Staking Account"
+    },
+    {
+      "code": 6010,
+      "name": "StakingOptionNotFound",
+      "msg": "Did not found Staking Option on Staking Account when unstaking"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidGovernanceTokenVault",
+      "msg": "The governance-token vault does not match that of the Staking Account"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidRewardMint",
+      "msg": "The reward mint does not match that of the Staking Campaign"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidStakedMint",
+      "msg": "The staked mint does not match that of the Staking Campaign"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidRewardVault",
+      "msg": "The reward vault does not match the staking_campaign's"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidStakedVault",
+      "msg": "The staked vault does not match the staking_campaign's"
+    },
+    {
+      "code": 6016,
+      "name": "IllegalUnstaking",
+      "msg": "Calling unstake without any on_going staking"
+    },
+    {
+      "code": 6017,
+      "name": "StakingCampaignNotStarted",
+      "msg": "Staking Campaign not started yet. Can't Stake"
+    },
+    {
+      "code": 6018,
+      "name": "StakingCampaignEnded",
+      "msg": "Staking Campaign has ended. Can't Stake"
+    },
+    {
+      "code": 6019,
+      "name": "StakingCampaignFinished",
+      "msg": "Staking Campaign has finished. Can't Stake"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidStakingOption",
+      "msg": "Current Staking Campaign doesn't contain the given Staking Option"
+    },
+    {
+      "code": 6021,
+      "name": "StakingAccountAuthorityViolation",
+      "msg": "Staking Account's authority violated"
+    },
+    {
+      "code": 6022,
+      "name": "StakingOptionNotActive",
+      "msg": "Staking Option is not active"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidStakingAmount",
+      "msg": "Amount of Staking into Staking Account is invalid"
+    },
+    {
+      "code": 6024,
+      "name": "StakingHasEnded",
+      "msg": "Can't start a stake or add fund after the current staking has ended"
+    },
+    {
+      "code": 6025,
+      "name": "NotEnoughReward",
+      "msg": "Not enough reward remaining for staking"
+    },
+    {
+      "code": 6026,
+      "name": "EmptyStakingOptionParams",
+      "msg": "Empty staking option params"
+    },
+    {
+      "code": 6027,
+      "name": "MaxNumberOfStakingOptionsReached",
+      "msg": "Can't add more staking option to current staking campaign"
+    },
+    {
+      "code": 6028,
+      "name": "StakingOptionInvalidActivation",
+      "msg": "Staking Option has already activate / deactivated"
+    },
+    {
+      "code": 6029,
+      "name": "InvalidAccountMint",
+      "msg": "The token account's mint is not correct"
+    },
+    {
+      "code": 6030,
+      "name": "InvalidAccountOwner",
+      "msg": "The token account's owner is not correct"
+    },
+    {
+      "code": 6031,
+      "name": "MathError",
+      "msg": "Math error."
+    },
+    {
+      "code": 6032,
+      "name": "InvalidGovernanceProgram",
+      "msg": "The governance program does not match the one configured on the staking campaign"
+    },
+    {
+      "code": 6033,
+      "name": "InvalidGovernanceRealmAccount",
+      "msg": "The governance realm account does not match the one configured on the staking campaign"
+    },
+    {
+      "code": 6034,
+      "name": "StakingAccountNonInitialized",
+      "msg": "The staking account should be initialized already"
+    },
+    {
+      "code": 6035,
+      "name": "InvalidStakingCampaignVersion",
+      "msg": "The staking campaign version is invalid"
+    },
+    {
+      "code": 6036,
+      "name": "InvalidStakingAccountVersion",
+      "msg": "The staking account version is invalid"
+    },
+    {
+      "code": 6037,
+      "name": "InvalidATAMint",
+      "msg": "The mint of the provided ATA is invalid"
+    },
+    {
+      "code": 6038,
+      "name": "InvalidATAOwner",
+      "msg": "The owner of the provided ATA is invalid"
+    },
+    {
+      "code": 6039,
+      "name": "Default",
+      "msg": "Default - Check the source code for more info"
+    }
+  ]
+}

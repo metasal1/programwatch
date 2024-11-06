@@ -1,0 +1,356 @@
+{
+  "address": "6ZHDCwMV29d8N1bxeKAm9aZMx2nW2i1SA416WxxvMPtT",
+  "metadata": {
+    "name": "delegate_proxy_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Delegate Proxy with Transfer Target List"
+  },
+  "instructions": [
+    {
+      "name": "activate",
+      "discriminator": [
+        194,
+        203,
+        35,
+        100,
+        151,
+        55,
+        170,
+        82
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "signer": true
+        },
+        {
+          "name": "transfer_authority"
+        },
+        {
+          "name": "delegate_proxy",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101,
+                  45,
+                  112,
+                  114,
+                  111,
+                  120,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "transfer_authority"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deactivate",
+      "discriminator": [
+        44,
+        112,
+        33,
+        172,
+        113,
+        28,
+        142,
+        13
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "signer": true
+        },
+        {
+          "name": "transfer_authority"
+        },
+        {
+          "name": "delegate_proxy",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101,
+                  45,
+                  112,
+                  114,
+                  111,
+                  120,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "transfer_authority"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "delegate_proxy",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101,
+                  45,
+                  112,
+                  114,
+                  111,
+                  120,
+                  121
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "transfer_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transfer_authority",
+          "type": "pubkey"
+        },
+        {
+          "name": "deactivate_authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "proxy_transfer",
+      "discriminator": [
+        96,
+        85,
+        66,
+        154,
+        46,
+        148,
+        7,
+        152
+      ],
+      "accounts": [
+        {
+          "name": "transfer_authority",
+          "signer": true
+        },
+        {
+          "name": "delegate_proxy",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101,
+                  45,
+                  112,
+                  114,
+                  111,
+                  120,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "transfer_authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "from",
+          "writable": true
+        },
+        {
+          "name": "to",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DelegateProxy",
+      "discriminator": [
+        146,
+        47,
+        22,
+        62,
+        192,
+        61,
+        197,
+        244
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongParameters",
+      "msg": "Wrong parameters"
+    },
+    {
+      "code": 6001,
+      "name": "EmptyWhiteList",
+      "msg": "Allowed Target List is empty"
+    },
+    {
+      "code": 6002,
+      "name": "WhiteListTooLong",
+      "msg": "Allowed Target List is too long"
+    },
+    {
+      "code": 6003,
+      "name": "UnknownAccount",
+      "msg": "Unknown account"
+    },
+    {
+      "code": 6004,
+      "name": "MintsMismatch",
+      "msg": "To and From account mints are not the same"
+    },
+    {
+      "code": 6005,
+      "name": "DeactivatedProxy",
+      "msg": "Proxy is deactivated"
+    },
+    {
+      "code": 6006,
+      "name": "SameAccounts",
+      "msg": "Transfer authority should be different from Deactivate authority"
+    },
+    {
+      "code": 6007,
+      "name": "WrongDeactivateAccount",
+      "msg": "Not allowed to deactivate"
+    },
+    {
+      "code": 6008,
+      "name": "NotAllowedToActivate",
+      "msg": "Not allowed to activate"
+    }
+  ],
+  "types": [
+    {
+      "name": "DelegateProxy",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "transfer_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "deactivate_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "allowed_transfer_targets",
+            "type": {
+              "array": [
+                "pubkey",
+                10
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

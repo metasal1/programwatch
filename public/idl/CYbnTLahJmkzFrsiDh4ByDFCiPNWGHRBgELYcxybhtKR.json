@@ -1,0 +1,1622 @@
+{
+  "version": "0.1.0",
+  "name": "cyberz_game",
+  "instructions": [],
+  "accounts": [
+    {
+      "name": "AccountBotDocks",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "docks",
+            "type": {
+              "array": [
+                {
+                  "defined": "AccountBotDock"
+                },
+                4
+              ]
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotLocation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "locationRewardType",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "durations",
+            "type": {
+              "vec": {
+                "defined": "BotLocationDuration"
+              }
+            }
+          },
+          {
+            "name": "bitsPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "minJunkPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "maxJunkPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "successChance",
+            "type": "u16"
+          },
+          {
+            "name": "failureChance",
+            "type": "u16"
+          },
+          {
+            "name": "xpPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "failureXpPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "failureBitsPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "energyCostPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "botsAtLocation",
+            "type": "u32"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotRechargeStation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "secondsPerEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "bitsCostPerEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "botsAtLocation",
+            "type": "u32"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "inactiveReason",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotRechargeInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "botId",
+            "type": "publicKey"
+          },
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "rechargeDurationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "energyStart",
+            "type": "u32"
+          },
+          {
+            "name": "energyGained",
+            "type": "u32"
+          },
+          {
+            "name": "energyEnd",
+            "type": "u32"
+          },
+          {
+            "name": "bitsCost",
+            "type": "u32"
+          },
+          {
+            "name": "rechargeStart",
+            "type": "i64"
+          },
+          {
+            "name": "rechargeEnd",
+            "type": "i64"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "botType",
+            "type": "u8"
+          },
+          {
+            "name": "rarity",
+            "type": "u8"
+          },
+          {
+            "name": "currentEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "maxEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "resilience",
+            "type": "u32"
+          },
+          {
+            "name": "level",
+            "type": "u8"
+          },
+          {
+            "name": "totalExp",
+            "type": "u64"
+          },
+          {
+            "name": "size",
+            "type": "u8"
+          },
+          {
+            "name": "haste",
+            "type": "u8"
+          },
+          {
+            "name": "critical",
+            "type": "u8"
+          },
+          {
+            "name": "unspentStatPoints",
+            "type": "u8"
+          },
+          {
+            "name": "canLevelUp",
+            "type": "bool"
+          },
+          {
+            "name": "canUpgrade",
+            "type": "bool"
+          },
+          {
+            "name": "isOnMission",
+            "type": "bool"
+          },
+          {
+            "name": "isRecharging",
+            "type": "bool"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                60
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssociatedBotAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "bot",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "isHolder",
+            "type": "bool"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotTripInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "botId",
+            "type": "publicKey"
+          },
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationId",
+            "type": "u8"
+          },
+          {
+            "name": "isSuccess",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "bitsReward",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "bitsBonusReward",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "junkReward",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "junkBonusReward",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "rewardType",
+            "type": "u8"
+          },
+          {
+            "name": "rngSeed",
+            "type": "u64"
+          },
+          {
+            "name": "totalRewardAmount",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "bonusRewardAmount",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "xpEarned",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "tripStart",
+            "type": "i64"
+          },
+          {
+            "name": "tripEnd",
+            "type": "i64"
+          },
+          {
+            "name": "tripDurationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "energySpent",
+            "type": "u32"
+          },
+          {
+            "name": "botDestroyed",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "GameStatus"
+            }
+          },
+          {
+            "name": "nextBotLocationId",
+            "type": "u8"
+          },
+          {
+            "name": "nextNftLocationId",
+            "type": "u8"
+          },
+          {
+            "name": "feAdmin",
+            "type": "publicKey"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftLocation",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "durations",
+            "type": {
+              "vec": {
+                "defined": "NftLocationDuration"
+              }
+            }
+          },
+          {
+            "name": "xpPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "failureXpPercent",
+            "type": "u32"
+          },
+          {
+            "name": "energyCostPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "nftsAtLocation",
+            "type": "u32"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "nftAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "level",
+            "type": "u8"
+          },
+          {
+            "name": "totalExp",
+            "type": "u64"
+          },
+          {
+            "name": "maxEnergy",
+            "type": "u16"
+          },
+          {
+            "name": "currentEnergy",
+            "type": "u16"
+          },
+          {
+            "name": "efficiency",
+            "type": "u16"
+          },
+          {
+            "name": "advantage",
+            "type": "u16"
+          },
+          {
+            "name": "perception",
+            "type": "u16"
+          },
+          {
+            "name": "unspentStatPoints",
+            "type": "u16"
+          },
+          {
+            "name": "canLevelUp",
+            "type": "bool"
+          },
+          {
+            "name": "isOnMission",
+            "type": "bool"
+          },
+          {
+            "name": "isResting",
+            "type": "bool"
+          },
+          {
+            "name": "totalMissions",
+            "type": "u16"
+          },
+          {
+            "name": "totalSuccessfulMissions",
+            "type": "u16"
+          },
+          {
+            "name": "totalFailedMissions",
+            "type": "u16"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftMissionInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "nftInfoAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationId",
+            "type": "u8"
+          },
+          {
+            "name": "isSuccess",
+            "type": {
+              "option": "bool"
+            }
+          },
+          {
+            "name": "successType",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "tokenRewardType",
+            "type": {
+              "defined": "NftLocationRewardType"
+            }
+          },
+          {
+            "name": "tokenReward",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "bonusTokenReward",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "rngSeed",
+            "type": "u64"
+          },
+          {
+            "name": "xpEarned",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "bonusXpEarned",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "missionStart",
+            "type": "i64"
+          },
+          {
+            "name": "missionEnd",
+            "type": "i64"
+          },
+          {
+            "name": "missionDurationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "energySpent",
+            "type": "u32"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CyberzAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "maxBotDocks",
+            "type": "u8"
+          },
+          {
+            "name": "totalBotDocks",
+            "type": "u8"
+          },
+          {
+            "name": "level",
+            "type": "u8"
+          },
+          {
+            "name": "totalExp",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AccountAssets",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "bits",
+            "type": "u64"
+          },
+          {
+            "name": "junk",
+            "type": "u64"
+          },
+          {
+            "name": "silicon",
+            "type": "u64"
+          },
+          {
+            "name": "metal",
+            "type": "u64"
+          },
+          {
+            "name": "plastic",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerAchievements",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "achievement1",
+            "type": "i64"
+          },
+          {
+            "name": "achievement2",
+            "type": "i64"
+          },
+          {
+            "name": "achievement3",
+            "type": "i64"
+          },
+          {
+            "name": "achievement4",
+            "type": "i64"
+          },
+          {
+            "name": "achievement5",
+            "type": "i64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintAuth",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "canMint",
+            "type": "bool"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitGameStateParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AccountBotDock",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u8"
+          },
+          {
+            "name": "isPaid",
+            "type": "bool"
+          },
+          {
+            "name": "associatedBotAccount",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "count",
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "paidAt",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotLocationDuration",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationString",
+            "type": "string"
+          },
+          {
+            "name": "durationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "minRewardAmount",
+            "type": "u32"
+          },
+          {
+            "name": "maxRewardAmount",
+            "type": "u32"
+          },
+          {
+            "name": "xpBonusPercent",
+            "type": "u32"
+          },
+          {
+            "name": "additionalEnergyCost",
+            "type": "u32"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitBotLocationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "locationRewardType",
+            "type": "u8"
+          },
+          {
+            "name": "bitsPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "minJunkPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "maxJunkPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "successChance",
+            "type": "u16"
+          },
+          {
+            "name": "failureChance",
+            "type": "u16"
+          },
+          {
+            "name": "xpPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "failureXpPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "failureBitsPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "energyCostPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "durations",
+            "type": {
+              "vec": {
+                "defined": "InitBotLocationDurationParams"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitBotLocationDurationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationString",
+            "type": "string"
+          },
+          {
+            "name": "durationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "minRewardAmount",
+            "type": "u32"
+          },
+          {
+            "name": "maxRewardAmount",
+            "type": "u32"
+          },
+          {
+            "name": "xpBonusPercent",
+            "type": "u32"
+          },
+          {
+            "name": "additionalEnergyCost",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SendBotLocationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationId",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitBotRechargeStationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "secondsPerEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "bitsCostPerEnergy",
+            "type": "u32"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          },
+          {
+            "name": "inactiveReason",
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UseRechargeStationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "energyToRecharge",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PurchaseBotParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "botDockIndex",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimBotLocationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "destSeed",
+            "type": "u64"
+          },
+          {
+            "name": "critSeed",
+            "type": "u64"
+          },
+          {
+            "name": "staticSeed",
+            "type": "u64"
+          },
+          {
+            "name": "hourlySeed",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AllocateBotStatPointsParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "size",
+            "type": "u8"
+          },
+          {
+            "name": "haste",
+            "type": "u8"
+          },
+          {
+            "name": "critical",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftLocationDuration",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationString",
+            "type": "string"
+          },
+          {
+            "name": "durationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "tokenRewardAmount",
+            "type": "u32"
+          },
+          {
+            "name": "bonusTokenReward",
+            "type": "u32"
+          },
+          {
+            "name": "baseSuccessChance",
+            "type": "u32"
+          },
+          {
+            "name": "doubleSuccessChance",
+            "type": "u32"
+          },
+          {
+            "name": "quintupleSuccessChance",
+            "type": "u32"
+          },
+          {
+            "name": "failureChance",
+            "type": "u32"
+          },
+          {
+            "name": "xpBonusPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "additionalEnergyCost",
+            "type": "u32"
+          },
+          {
+            "name": "createdAt",
+            "type": "i64"
+          },
+          {
+            "name": "updatedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitNftLocationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "locationName",
+            "type": "string"
+          },
+          {
+            "name": "xpPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "failureXpPercent",
+            "type": "u32"
+          },
+          {
+            "name": "energyCostPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "nftsAtLocation",
+            "type": "u32"
+          },
+          {
+            "name": "durations",
+            "type": {
+              "vec": {
+                "defined": "InitNftLocationDurationParams"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitNftLocationDurationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationString",
+            "type": "string"
+          },
+          {
+            "name": "durationInSeconds",
+            "type": "u32"
+          },
+          {
+            "name": "tokenRewardAmount",
+            "type": "u32"
+          },
+          {
+            "name": "bonusTokenReward",
+            "type": "u32"
+          },
+          {
+            "name": "baseSuccessChance",
+            "type": "u32"
+          },
+          {
+            "name": "doubleSuccessChance",
+            "type": "u32"
+          },
+          {
+            "name": "quintupleSuccessChance",
+            "type": "u32"
+          },
+          {
+            "name": "failureChance",
+            "type": "u32"
+          },
+          {
+            "name": "xpBonusPerHour",
+            "type": "u32"
+          },
+          {
+            "name": "additionalEnergyCost",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SendNftLocationParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "locationId",
+            "type": "u8"
+          },
+          {
+            "name": "durationId",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotLocationOutcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Success"
+          },
+          {
+            "name": "Failure"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotLocationRewardType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Silicon"
+          },
+          {
+            "name": "Metal"
+          },
+          {
+            "name": "Plastic"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotRarity",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Common"
+          },
+          {
+            "name": "Uncommon"
+          },
+          {
+            "name": "Rare"
+          },
+          {
+            "name": "Epic"
+          },
+          {
+            "name": "Legendary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BotType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bob"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Inactive"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftLocationOutcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Base"
+          },
+          {
+            "name": "Double"
+          },
+          {
+            "name": "Quintuple"
+          },
+          {
+            "name": "Failure"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftLocationRewardType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Byte"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

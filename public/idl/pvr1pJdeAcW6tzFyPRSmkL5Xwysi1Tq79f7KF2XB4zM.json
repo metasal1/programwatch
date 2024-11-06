@@ -1,0 +1,1047 @@
+{
+  "version": "0.0.1",
+  "name": "position_voting_rewards",
+  "instructions": [
+    {
+      "name": "initializeVetokenTrackerV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vetokenTracker",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "vetoken_tracker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Registrar",
+                "path": "registrar"
+              }
+            ]
+          }
+        },
+        {
+          "name": "proposalNamespace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "realm_authority"
+          ]
+        },
+        {
+          "name": "rewardsMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rewardsAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeVeTokenTrackerArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateVetokenTrackerV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vetokenTracker",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "registrar"
+          ]
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "realm_authority"
+          ]
+        },
+        {
+          "name": "realmAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateVeTokenTrackerArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "enrollV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "vsr_program"
+            }
+          },
+          "relations": [
+            "mint",
+            "registrar"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "positionAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vetokenTracker",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "registrar"
+          ]
+        },
+        {
+          "name": "vsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "closingTimeVsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "genesisEndVsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "enrolledPosition",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "enrolled_position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "PositionV0",
+                "path": "position"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vsrProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimRewardsV0",
+      "accounts": [
+        {
+          "name": "vetokenTracker",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "rewards_mint",
+            "registrar"
+          ]
+        },
+        {
+          "name": "position",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "vsr_program"
+            }
+          },
+          "relations": [
+            "mint",
+            "registrar"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "positionAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "enrolledPosition",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "enrolled_position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "PositionV0",
+                "path": "position"
+              }
+            ]
+          },
+          "relations": [
+            "vetoken_tracker"
+          ]
+        },
+        {
+          "name": "rewardsMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vsrEpochInfo",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "vsr_epoch_info"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "VeTokenTrackerV0",
+                "path": "vetoken_tracker"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "ClaimRewardsArgsV0"
+                },
+                "path": "args.epoch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardsPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "enrolledAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vsrProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ClaimRewardsArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rewardForEpochV0",
+      "accounts": [
+        {
+          "name": "rewardsAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rewardsPayer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rentPayer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vetokenTracker",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "rewards_authority",
+            "rewards_mint",
+            "registrar"
+          ]
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vsrEpochInfo",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "vsr_epoch_info"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "VeTokenTrackerV0",
+                "path": "vetoken_tracker"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "RewardForEpochArgsV0"
+                },
+                "path": "args.epoch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardsMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsPool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "RewardForEpochArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unenrollV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rentRefund",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "vsr_program"
+            }
+          },
+          "relations": [
+            "mint",
+            "registrar"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "positionTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "positionAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vetokenTracker",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "registrar"
+          ]
+        },
+        {
+          "name": "enrolledPosition",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "enrolled_position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "PositionV0",
+                "path": "position"
+              }
+            ]
+          },
+          "relations": [
+            "vetoken_tracker",
+            "position"
+          ]
+        },
+        {
+          "name": "vsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "closingTimeVsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "genesisEndVsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vsrProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "trackVoteV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "proposal",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "registrar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "position",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "mint",
+            "registrar"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marker",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "marker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "ProposalV0",
+                "path": "proposal"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vetokenTracker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "enrolledPosition",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "enrolled_position"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "PositionV0",
+                "path": "position"
+              }
+            ]
+          },
+          "relations": [
+            "vetoken_tracker"
+          ]
+        },
+        {
+          "name": "vsrEpochInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vsrProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EnrolledPositionV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vetokenTracker",
+            "type": "publicKey"
+          },
+          {
+            "name": "registrar",
+            "type": "publicKey"
+          },
+          {
+            "name": "position",
+            "type": "publicKey"
+          },
+          {
+            "name": "startTs",
+            "type": "i64"
+          },
+          {
+            "name": "isRewardsEnrolled",
+            "type": "bool"
+          },
+          {
+            "name": "lastClaimedEpoch",
+            "type": "u64"
+          },
+          {
+            "name": "claimedEpochsBitmap",
+            "type": "u128"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "recentProposals",
+            "type": {
+              "vec": {
+                "defined": "RecentProposal"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VsrEpochInfoV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch",
+            "type": "u64"
+          },
+          {
+            "name": "vetokenTracker",
+            "type": "publicKey"
+          },
+          {
+            "name": "registrar",
+            "type": "publicKey"
+          },
+          {
+            "name": "initialized",
+            "type": "bool"
+          },
+          {
+            "name": "recentProposals",
+            "type": {
+              "array": [
+                {
+                  "defined": "RecentProposal"
+                },
+                4
+              ]
+            }
+          },
+          {
+            "name": "vetokensAtEpochStart",
+            "type": "u128"
+          },
+          {
+            "name": "rewardsAmount",
+            "docs": [
+              "The number of enrollment rewards issued this epoch, so that enrollies can claim their share of the rewards"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "vetokensInClosingPositions",
+            "docs": [
+              "The vetokens amount associated with positions that are closing this epoch. This is the amount that will be subtracted from the tracker",
+              "total vetokens after the epoch passes. Typically these positions close somewhere between the epoch start and end time, so we cannot rely",
+              "on fall rate calculations alone without knowing the exact end date of each position. Instead, just keep track of what needs to be",
+              "removed."
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "fallRatesFromClosingPositions",
+            "docs": [
+              "The vetokens amount that is decaying per second, with 12 decimals of extra precision. Associated with positions that are closing this epoch,",
+              "which means they must be subtracted from the total fall rate on the tracker after this epoch passes"
+            ],
+            "type": "u128"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "rewardsIssuedAt",
+            "docs": [
+              "The program only needs to know whether or not rewards were issued, however having a history of when they were issued could prove",
+              "useful in the future, or at least for debugging purposes"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VeTokenTrackerV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "registrar",
+            "type": "publicKey"
+          },
+          {
+            "name": "proposalNamespace",
+            "docs": [
+              "The org to track proposals from"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "vetokenLastCalculatedTs",
+            "type": "i64"
+          },
+          {
+            "name": "vetokenFallRate",
+            "type": "u128"
+          },
+          {
+            "name": "totalVetokens",
+            "type": "u128"
+          },
+          {
+            "name": "recentProposals",
+            "type": {
+              "array": [
+                {
+                  "defined": "RecentProposal"
+                },
+                4
+              ]
+            }
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "votingRewardsTiers",
+            "type": {
+              "vec": {
+                "defined": "VotingRewardsTierV0"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ClaimRewardsArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeVeTokenTrackerArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "votingRewardsTiers",
+            "type": {
+              "vec": {
+                "defined": "VotingRewardsTierV0"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardForEpochArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateVeTokenTrackerArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "votingRewardsTiers",
+            "type": {
+              "option": {
+                "vec": {
+                  "defined": "VotingRewardsTierV0"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RecentProposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal",
+            "type": "publicKey"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VotingRewardsTierV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numVetokens",
+            "type": "u128"
+          },
+          {
+            "name": "percent",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MustCalculateVehntLinearly"
+    },
+    {
+      "code": 6001,
+      "name": "DisableRewardsEnrollment",
+      "msg": "Rewards enrollment must be disabled to make changes to a position"
+    },
+    {
+      "code": 6002,
+      "name": "EpochNotClosed",
+      "msg": "Epoch must be closed to claim rewards"
+    },
+    {
+      "code": 6003,
+      "name": "EpochNotOver",
+      "msg": "Epoch must be over to claim rewards"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidClaimEpoch",
+      "msg": "Rewards need to be claimed in the correct epoch order"
+    },
+    {
+      "code": 6005,
+      "name": "NoEnrollEndingPosition",
+      "msg": "Cannot enroll on a position ending this epoch"
+    },
+    {
+      "code": 6006,
+      "name": "PositionChangeWhileEnrolled",
+      "msg": "Cannot change position while enrolled"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidMarker",
+      "msg": "Marker has incorrect registrar"
+    },
+    {
+      "code": 6008,
+      "name": "ArithmeticError"
+    }
+  ]
+}

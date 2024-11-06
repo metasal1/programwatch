@@ -1,0 +1,109 @@
+{
+  "version": "0.1.0",
+  "name": "notification",
+  "instructions": [
+    {
+      "name": "notify",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatekeeper",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gatekeeperAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gatewayToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "notificationAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epochs",
+          "type": "u64"
+        },
+        {
+          "name": "notificationType",
+          "type": "u8"
+        },
+        {
+          "name": "notificationAccountBump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Notification",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gatekeeperNetwork",
+            "type": "publicKey"
+          },
+          {
+            "name": "gatewayToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "notificationType",
+            "type": {
+              "defined": "NotificationType"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NotificationType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "REVOKED"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidGatewayToken",
+      "msg": "The passed gateway token was not valid"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidGatekeeperAccount",
+      "msg": "The passed gatekeeper account does not match the derived value from the gatekeeper network and gatekeeper"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidNotification",
+      "msg": "The notification type is invalid for the gateway token state"
+    }
+  ]
+}

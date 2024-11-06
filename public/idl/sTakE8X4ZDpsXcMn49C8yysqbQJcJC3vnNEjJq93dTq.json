@@ -1,0 +1,1188 @@
+{
+  "version": "0.1.0",
+  "name": "staking",
+  "instructions": [
+    {
+      "name": "configInit",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Authority of the created config"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for configuration"
+          ]
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u16"
+        },
+        {
+          "name": "stakeConfig",
+          "type": {
+            "defined": "StakeConfig"
+          }
+        },
+        {
+          "name": "dropsUserFunded",
+          "type": "u16"
+        },
+        {
+          "name": "dropsCreator",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "configUpdateStake",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "unstable",
+          "type": "bool"
+        },
+        {
+          "name": "stakeConfig",
+          "type": {
+            "defined": "StakeConfig"
+          }
+        }
+      ]
+    },
+    {
+      "name": "configUpdateDrops",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dropsUserFunded",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "configClose",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "dropInit",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dropRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dropIndex",
+          "type": "u8"
+        },
+        {
+          "name": "args",
+          "type": {
+            "defined": "DropInitArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dropDistribute",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dropRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dropIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "dropClaim",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dropRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dropIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "dropClose",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dropRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dropIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "userInit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "User to store info for"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for storing user info"
+          ]
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "userRecompute",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "userClose",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeInit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Owner of the asset to stake"
+          ]
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedAsset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Core program accounts"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Programs"
+          ]
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeLevelUp",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedAsset",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asset",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Programs"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeStop",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedAsset",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Core program accounts"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeClose",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolShares",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakedAsset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Core program accounts"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Programs"
+          ]
+        },
+        {
+          "name": "coreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapperProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Escrow",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "id",
+            "type": "u16"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolShares",
+            "type": "publicKey"
+          },
+          {
+            "name": "unstable",
+            "type": "bool"
+          },
+          {
+            "name": "userCount",
+            "type": "u32"
+          },
+          {
+            "name": "userIndex",
+            "type": "u32"
+          },
+          {
+            "name": "stakeConfig",
+            "type": {
+              "defined": "StakeConfig"
+            }
+          },
+          {
+            "name": "dropsConfig",
+            "type": {
+              "defined": "DropsConfig"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                96
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "id",
+            "type": "u8"
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewards",
+            "type": "publicKey"
+          },
+          {
+            "name": "users",
+            "type": "u32"
+          },
+          {
+            "name": "amountPerPeriod",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "periodTime",
+            "type": "i64"
+          },
+          {
+            "name": "expirationTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "paymentsTotal",
+            "type": "u16"
+          },
+          {
+            "name": "paymentsDone",
+            "type": "u16"
+          },
+          {
+            "name": "claimed",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolShares",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "shares",
+            "type": {
+              "array": [
+                "u64",
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropRewards",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewards",
+            "type": {
+              "array": [
+                "u64",
+                0
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "User",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "index",
+            "type": "u32"
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "staked",
+            "type": {
+              "vec": {
+                "option": {
+                  "defined": "StakeInfo"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakedAsset",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "asset",
+            "type": "publicKey"
+          },
+          {
+            "name": "index",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "DropInitArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amountPerPeriod",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "periodTime",
+            "type": "i64"
+          },
+          {
+            "name": "expirationTime",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "paymentsTotal",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "warmupTime",
+            "type": "i64"
+          },
+          {
+            "name": "cooldownTime",
+            "type": "i64"
+          },
+          {
+            "name": "promotionTime",
+            "type": "i64"
+          },
+          {
+            "name": "maxLevel",
+            "type": "u8"
+          },
+          {
+            "name": "sharesBase",
+            "type": "u64"
+          },
+          {
+            "name": "sharesBonusPerLevel",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DropsConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "inUse",
+            "type": "u16"
+          },
+          {
+            "name": "userFunded",
+            "type": "u16"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "level",
+            "type": "u8"
+          },
+          {
+            "name": "stopped",
+            "type": "bool"
+          },
+          {
+            "name": "multiplier",
+            "type": "u32"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidConfig",
+      "msg": "Invalid config"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidConfigAuthority",
+      "msg": "Invalid config authority"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidCollection",
+      "msg": "Invalid collection to stake"
+    },
+    {
+      "code": 6003,
+      "name": "ConfigUnstable",
+      "msg": "Config is unstable"
+    },
+    {
+      "code": 6004,
+      "name": "NotOwnerOfMint",
+      "msg": "NFT mint belongs to another user"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 6006,
+      "name": "StakeMaxLevelReached",
+      "msg": "Staked asset has reached max level"
+    },
+    {
+      "code": 6007,
+      "name": "StakeLevelUpNotReady",
+      "msg": "Staked asset is not ready to level up"
+    },
+    {
+      "code": 6008,
+      "name": "StakeAlreadyStopped",
+      "msg": "Stake has already been stopped"
+    },
+    {
+      "code": 6009,
+      "name": "StakeNoCooldown",
+      "msg": "Stake does not require cooldown"
+    },
+    {
+      "code": 6010,
+      "name": "StakeLocked",
+      "msg": "Stake is locked"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidAsset",
+      "msg": "Invalid asset"
+    },
+    {
+      "code": 6012,
+      "name": "DropMaxReached",
+      "msg": "Drop max reached. Close unused drops or increase user funded drops to create more drops"
+    },
+    {
+      "code": 6013,
+      "name": "DropInvalid",
+      "msg": "Drop is invalid"
+    },
+    {
+      "code": 6014,
+      "name": "DropInvalidAuthority",
+      "msg": "Drop authority is invalid"
+    },
+    {
+      "code": 6015,
+      "name": "DropInvalidMint",
+      "msg": "Drop mint is invalid"
+    },
+    {
+      "code": 6016,
+      "name": "DropDistributeNoShares",
+      "msg": "Drop distribute has no shares"
+    },
+    {
+      "code": 6017,
+      "name": "DropDistributeNotReady",
+      "msg": "Drop distribute is not ready"
+    },
+    {
+      "code": 6018,
+      "name": "DropNoRewards",
+      "msg": "Drop no rewards"
+    },
+    {
+      "code": 6019,
+      "name": "DropExpired",
+      "msg": "Drop expired"
+    }
+  ]
+}

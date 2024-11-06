@@ -1,0 +1,638 @@
+{
+  "version": "0.6.2",
+  "name": "alt_name_service",
+  "instructions": [
+    {
+      "name": "create",
+      "accounts": [
+        {
+          "name": "payerAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "nameOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        },
+        {
+          "name": "parentNameOwner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The parent name owner"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        },
+        {
+          "name": "space",
+          "type": "u32"
+        },
+        {
+          "name": "expiresAt",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "name owner or parent owner"
+          ]
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        },
+        {
+          "name": "offset",
+          "type": "u32"
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "transfer",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        },
+        {
+          "name": "nameAccountBump",
+          "type": "u8"
+        },
+        {
+          "name": "newOwner",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The name owner"
+          ]
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "refundTarget",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Refund target"
+          ]
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        },
+        {
+          "name": "nameAccountBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "name owner or parent owner"
+          ]
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        },
+        {
+          "name": "newSize",
+          "type": "u32"
+        },
+        {
+          "name": "nameAccountBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "extend",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "name owner or parent owner"
+          ]
+        },
+        {
+          "name": "parentNameOwner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Parent name account"
+          ]
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "NameRecordHeader",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        },
+        {
+          "name": "expiresAt",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "immutableOwner",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "name owner or parent owner"
+          ]
+        },
+        {
+          "name": "parentNameOwner",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Parent name account"
+          ]
+        },
+        {
+          "name": "nameAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The name account key"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "type": "bytes",
+                "path": "hashed_name"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "name_class_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "NameRecordHeader",
+                "path": "parent_name_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nameClassAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Name class"
+          ]
+        },
+        {
+          "name": "parentNameAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Parent name account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "hashedName",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NameRecordHeader",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "parentName",
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "nclass",
+            "type": "publicKey"
+          },
+          {
+            "name": "expiresAt",
+            "type": "u64"
+          },
+          {
+            "name": "createdAt",
+            "type": "u64"
+          },
+          {
+            "name": "nonTransferable",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PublicKeyMismatch",
+      "msg": "PublicKey Mismatch"
+    },
+    {
+      "code": 6001,
+      "name": "NameAccountExists",
+      "msg": "The name account already exists."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidArgument",
+      "msg": "Invalid hash name seed length"
+    },
+    {
+      "code": 6003,
+      "name": "WrongNameAccount",
+      "msg": "Wrong name account"
+    },
+    {
+      "code": 6004,
+      "name": "WrongAccountOwner",
+      "msg": "Wrong account owner"
+    },
+    {
+      "code": 6005,
+      "name": "NameClassNotSigner",
+      "msg": "The name class is not a signer."
+    },
+    {
+      "code": 6006,
+      "name": "NameParentNotSigner",
+      "msg": "The parent name account owner is not a signer."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidParentNameOwner",
+      "msg": "The parent name account owner is not correct."
+    },
+    {
+      "code": 6008,
+      "name": "DerivedKeyInvalid",
+      "msg": "Invalid Derived Key"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidAccountData",
+      "msg": "Invalid Account Data"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidNameOwner",
+      "msg": "The owner cannot be default."
+    },
+    {
+      "code": 6011,
+      "name": "InvalidParentName",
+      "msg": "The parent name account owner is not correct."
+    },
+    {
+      "code": 6012,
+      "name": "ImmutableOwner",
+      "msg": "Domain is non transferable."
+    }
+  ]
+}

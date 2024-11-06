@@ -1,0 +1,611 @@
+{
+  "version": "0.4.0",
+  "name": "atlas_fee_payer",
+  "instructions": [
+    {
+      "name": "closeFeePayer",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The payment account for the fee payer"
+          ]
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The recipient of the fee payer and payment_account lamports"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createFeePayer",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "rates",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The rates for the new fee payer"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new fee payer"
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The payment account for the fee payer"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token vault for the fee payer"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createFeePayerRates",
+      "accounts": [
+        {
+          "name": "rates",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The new rates"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the new fee payer"
+          ]
+        },
+        {
+          "name": "owningProfile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The profile with authority over the rates"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The mint for these rates."
+          ]
+        },
+        {
+          "name": "tokenOwner",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The owner of all token vaults on fee payers."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenLimit",
+          "type": "u64"
+        },
+        {
+          "name": "conversionRate",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "postTransaction",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "rates",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The fee payer rates"
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The payment account in the fee payer"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token vault for the fee payer"
+          ]
+        },
+        {
+          "name": "funderProfile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The funder's profile"
+          ]
+        },
+        {
+          "name": "funderKey",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder's key"
+          ]
+        },
+        {
+          "name": "funderVaultAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The funder's vault authority"
+          ]
+        },
+        {
+          "name": "funderVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The funder's vault"
+          ]
+        },
+        {
+          "name": "instructionSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The instructions sysvar"
+          ]
+        },
+        {
+          "name": "vaultProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The vault program"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "funderKeyIndex",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "postTransactionNoVault",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "rates",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The fee payer rates"
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The payment account in the fee payer"
+          ]
+        },
+        {
+          "name": "tokenVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The token vault for the fee payer"
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder's key"
+          ]
+        },
+        {
+          "name": "funderTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The funder's token account"
+          ]
+        },
+        {
+          "name": "instructionSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The instructions sysvar"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "preTransaction",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "paymentAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The payment account in the fee payer"
+          ]
+        },
+        {
+          "name": "instructionSysvar",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The instructions sysvar"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "signerCount",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setFeePayerRates",
+      "accounts": [
+        {
+          "name": "feePayer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The fee payer account"
+          ]
+        },
+        {
+          "name": "owningProfile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The profile that will own this fee payer"
+          ]
+        },
+        {
+          "name": "owningKey",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key with proper permissions"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "setData",
+          "type": {
+            "defined": "SetFeePayerData"
+          }
+        },
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "FeePayer",
+      "docs": [
+        "A given fee payer"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version for this account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "rates",
+            "docs": [
+              "The rates for this fee payer"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenVault",
+            "docs": [
+              "The vault for tokens to be sent to"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "paymentAccount",
+            "docs": [
+              "The account sol is stored in"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "lastPayerValue",
+            "docs": [
+              "Used to track the last value of the payment account"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeePayerRates",
+      "docs": [
+        "Rates for a set of fee payers"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of this account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "owningProfile",
+            "docs": [
+              "The profile that owns this fee payer"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "docs": [
+              "The token mint for the sub tokens"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenOwner",
+            "docs": [
+              "The owner of the token mint"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenLimit",
+            "docs": [
+              "The max number of sub tokens per interaction"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "conversionRate",
+            "docs": [
+              "Math is to multiply `lamports * conversion_rate / 1_000_000_000 = sub_tokens`",
+              "A corollary to this is `conversion_rate = sub_tokens / sol`"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "SetFeePayerData",
+      "docs": [
+        "The data for `SetFeePayerValues`"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owningProfile",
+            "docs": [
+              "Sets the owning profile"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "tokenOwner",
+            "docs": [
+              "Sets the token owner"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "tokenLimit",
+            "docs": [
+              "Sets the token limit"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "conversionRate",
+            "docs": [
+              "Sets the conversion rate"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotFirstInstruction",
+      "msg": "This is not the first instruction in the transaction"
+    },
+    {
+      "code": 6001,
+      "name": "NotLastInstruction",
+      "msg": "This is not the last instruction in the transaction"
+    },
+    {
+      "code": 6002,
+      "name": "InstructionIsCPI",
+      "msg": "The instruction was called in a CPI"
+    },
+    {
+      "code": 6003,
+      "name": "ConversionRateOutOfRange",
+      "msg": "The conversion rate is out of range"
+    },
+    {
+      "code": 6004,
+      "name": "TokenLimitExceeded",
+      "msg": "The token limit was exceeded"
+    },
+    {
+      "code": 6005,
+      "name": "PaymentAccountHasData",
+      "msg": "Payment account has data"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidComputeBudgetInstruction",
+      "msg": "The transaction includes a ComputeBudget instruction type that isn't supported by the fee payer"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidData",
+      "msg": "Invalid data in instruction"
+    }
+  ]
+}

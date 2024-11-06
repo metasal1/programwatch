@@ -1,0 +1,347 @@
+{
+  "version": "0.1.0",
+  "name": "vote",
+  "instructions": [
+    {
+      "name": "initVaultData",
+      "accounts": [
+        {
+          "name": "vaultData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createProposal",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nft1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voterWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voterState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "discordId",
+          "type": "string"
+        },
+        {
+          "name": "intro",
+          "type": "string"
+        },
+        {
+          "name": "budget",
+          "type": "u64"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "timestampProposal",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "allocateVoting",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "voterWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalVotingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "voteOnProposal",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nft1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultData",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voterWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalVotingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "proposalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "voteValue",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VaultData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "votePda",
+            "type": "publicKey"
+          },
+          {
+            "name": "nft",
+            "type": "publicKey"
+          },
+          {
+            "name": "discordId",
+            "type": "string"
+          },
+          {
+            "name": "intro",
+            "type": "string"
+          },
+          {
+            "name": "budget",
+            "type": "u64"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "timestampProposal",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoterState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nft",
+            "type": "publicKey"
+          },
+          {
+            "name": "timeUntilNextProposal",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalVotesState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "votes",
+            "type": {
+              "array": [
+                "u8",
+                512
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ProposalTooSoon",
+      "msg": "You already made a proposal recently."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidVoteKey",
+      "msg": "You have entered an invalid vote."
+    },
+    {
+      "code": 6002,
+      "name": "AlreadyVoted",
+      "msg": "You have already voted on this proposal."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidCMID",
+      "msg": "Invalid CMID"
+    },
+    {
+      "code": 6004,
+      "name": "ProposalInReadOnly",
+      "msg": "Proposal is in read only mode for 7 days."
+    },
+    {
+      "code": 6005,
+      "name": "ProposalVotingOver",
+      "msg": "Proposal voting is over."
+    }
+  ]
+}

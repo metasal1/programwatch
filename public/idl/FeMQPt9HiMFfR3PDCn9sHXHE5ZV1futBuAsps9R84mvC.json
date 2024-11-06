@@ -1,0 +1,458 @@
+{
+  "version": "0.1.0",
+  "name": "escape_velocity",
+  "instructions": [
+    {
+      "name": "changeLockAmount",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createFleet",
+      "accounts": [
+        {
+          "name": "fleetOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fleet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fleetSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fleetLockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "representation",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "createGame",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lockMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lockAmount",
+          "type": "u64"
+        },
+        {
+          "name": "defaultStats",
+          "type": {
+            "defined": "FleetStatsUnpacked"
+          }
+        }
+      ]
+    },
+    {
+      "name": "disbandFleet",
+      "accounts": [
+        {
+          "name": "fleetOwner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fleet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fleetSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fleetLockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lockMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "goToWarp",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fleet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "to",
+          "type": {
+            "array": [
+              "i64",
+              2
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Fleet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of the fleet"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "game",
+            "docs": [
+              "The game this fleet is in"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "The owner of the fleet"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "lastWarpStart",
+            "docs": [
+              "The last time this fleet warped"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "lastWarpEnd",
+            "docs": [
+              "When the last warp will end"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "representation",
+            "docs": [
+              "The representation object of the fleet"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "stats",
+            "docs": [
+              "The stats of the fleet"
+            ],
+            "type": {
+              "defined": "FleetStats"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "lockMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "lockAmount",
+            "type": "u64"
+          },
+          {
+            "name": "defaultStats",
+            "type": {
+              "defined": "FleetStats"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Disbanded",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "FleetStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "warpSpeed",
+            "docs": [
+              "cAU per second, 1:10000"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "warpCooldown",
+            "docs": [
+              "Time in seconds to wait until can warp again"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "warpRange",
+            "docs": [
+              "AU, 1:10000"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FleetStatsUnpacked",
+      "docs": [
+        "Unpacked version of [`FleetStats`]"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "warpSpeed",
+            "docs": [
+              "cAU per second, 1:10000"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "warpCooldown",
+            "docs": [
+              "Time in seconds to wait until can warp again"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "warpRange",
+            "docs": [
+              "AU, 1:10000"
+            ],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Idle",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sector",
+            "type": {
+              "array": [
+                "i64",
+                2
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Warp",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "from",
+            "type": {
+              "array": [
+                "i64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "array": [
+                "i64",
+                2
+              ]
+            }
+          },
+          {
+            "name": "departureTime",
+            "type": "i64"
+          },
+          {
+            "name": "arrivalTime",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidFleetState"
+    },
+    {
+      "code": 6001,
+      "name": "WarpCooldownNotExpired"
+    },
+    {
+      "code": 6002,
+      "name": "WarpRangeExceeded"
+    }
+  ]
+}

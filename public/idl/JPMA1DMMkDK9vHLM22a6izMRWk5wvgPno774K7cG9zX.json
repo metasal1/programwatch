@@ -1,0 +1,794 @@
+{
+  "version": "1.1.0",
+  "name": "jet_margin_swap",
+  "constants": [
+    {
+      "name": "OPENBOOK_OPEN_ORDERS",
+      "type": "bytes",
+      "value": "[111, 112, 101, 110, 95, 111, 114, 100, 101, 114, 115]"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "marginSwap",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The margin account being executed on"
+          ]
+        },
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account with the source deposit to be exchanged from"
+          ]
+        },
+        {
+          "name": "destinationAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The destination account to send the deposit that is exchanged into"
+          ]
+        },
+        {
+          "name": "transitSourceAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Temporary account for moving tokens"
+          ]
+        },
+        {
+          "name": "transitDestinationAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Temporary account for moving tokens"
+          ]
+        },
+        {
+          "name": "swapInfo",
+          "accounts": [
+            {
+              "name": "swapPool",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "authority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "vaultInto",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vaultFrom",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "tokenMint",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "feeAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "swapProgram",
+              "isMut": false,
+              "isSigner": false,
+              "docs": [
+                "The address of the swap program"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sourceMarginPool",
+          "accounts": [
+            {
+              "name": "marginPool",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "depositNoteMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "destinationMarginPool",
+          "accounts": [
+            {
+              "name": "marginPool",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "depositNoteMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "marginPoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawalChangeKind",
+          "type": {
+            "defined": "ChangeKind"
+          }
+        },
+        {
+          "name": "withdrawalAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minimumAmountOut",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "routeSwap",
+      "docs": [
+        "Route a swap to one or more venues"
+      ],
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The margin account being executed on"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountIn",
+          "type": "u64"
+        },
+        {
+          "name": "minimumAmountOut",
+          "type": "u64"
+        },
+        {
+          "name": "swapRoutes",
+          "type": {
+            "array": [
+              {
+                "defined": "SwapRouteDetail"
+              },
+              3
+            ]
+          }
+        },
+        {
+          "name": "isLiquidation",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "routeSwapPool",
+      "docs": [
+        "Route a swap to one or more venues by using margin pools"
+      ],
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The margin account being executed on"
+          ]
+        },
+        {
+          "name": "sourceAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account with the source deposit to be exchanged from"
+          ]
+        },
+        {
+          "name": "destinationAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The destination account to send the deposit that is exchanged into",
+            "The swap is also atomic, and no excess funds would be taken/left in the account."
+          ]
+        },
+        {
+          "name": "sourceMarginPool",
+          "accounts": [
+            {
+              "name": "marginPool",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "depositNoteMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "destinationMarginPool",
+          "accounts": [
+            {
+              "name": "marginPool",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "vault",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "depositNoteMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "marginPoolProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawalChangeKind",
+          "type": {
+            "defined": "ChangeKind"
+          }
+        },
+        {
+          "name": "withdrawalAmount",
+          "type": "u64"
+        },
+        {
+          "name": "minimumAmountOut",
+          "type": "u64"
+        },
+        {
+          "name": "swapRoutes",
+          "type": {
+            "array": [
+              {
+                "defined": "SwapRouteDetail"
+              },
+              3
+            ]
+          }
+        },
+        {
+          "name": "isLiquidation",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "splTokenSwap",
+      "accounts": [
+        {
+          "name": "swapPool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The address of the swap program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "saberStableSwap",
+      "docs": [
+        "Swap using Saber for stable pools"
+      ],
+      "accounts": [
+        {
+          "name": "swapPool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminFeeA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminFeeB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swapProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The address of the swap program"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "openbookSwap",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "requestQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketBids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAsks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "baseVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrerAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The referrer account owned by the control program"
+          ]
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The address of the swap program"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "whirlpoolSwap",
+      "accounts": [
+        {
+          "name": "swapProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The address of the swap program"
+          ]
+        },
+        {
+          "name": "whirlpool",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The following accounts relevant to the swap pool used for the exchange"
+          ]
+        },
+        {
+          "name": "vaultA",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultB",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray0",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tickArray2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracle",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initOpenbookOpenOrders",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The margin account with the position to close"
+          ]
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The address paying for rent"
+          ]
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeOpenbookOpenOrders",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "openOrders",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The destination account to send SOL to"
+          ]
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dexProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "types": [
+    {
+      "name": "SwapRouteDetail",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "routeA",
+            "type": {
+              "defined": "SwapRouteIdentifier"
+            }
+          },
+          {
+            "name": "routeB",
+            "type": {
+              "defined": "SwapRouteIdentifier"
+            }
+          },
+          {
+            "name": "destinationMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "split",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapRouteIdentifier",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Empty"
+          },
+          {
+            "name": "Spl"
+          },
+          {
+            "name": "Whirlpool"
+          },
+          {
+            "name": "SaberStable"
+          },
+          {
+            "name": "OpenBook"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "RouteSwapped",
+      "fields": [
+        {
+          "name": "marginAccount",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "tokenIn",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amountIn",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "amountOut",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "liquidationFees",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "routes",
+          "type": {
+            "array": [
+              {
+                "defined": "SwapRouteDetail"
+              },
+              3
+            ]
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ProtocolSwapFee",
+      "fields": [
+        {
+          "name": "venue",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "venueIdentifier",
+          "type": {
+            "defined": "SwapRouteIdentifier"
+          },
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 143000,
+      "name": "NoSwapTokensWithdrawn",
+      "msg": "Zero tokens have been withdrawn from a pool for the swap"
+    },
+    {
+      "code": 143001,
+      "name": "InvalidSwapRoute",
+      "msg": "An invalid swap route has been provided"
+    },
+    {
+      "code": 143002,
+      "name": "InvalidSwapRouteParam",
+      "msg": "An invalid swap route parameter has been provided"
+    },
+    {
+      "code": 143003,
+      "name": "SlippageExceeded",
+      "msg": "The swap exceeds the maximum slippage tolerance"
+    },
+    {
+      "code": 143004,
+      "name": "DisallowedDirectInstruction",
+      "msg": "The instruction should not be called directly, use route_swap"
+    },
+    {
+      "code": 143005,
+      "name": "InvalidSplitDestination",
+      "msg": "Token swaps having a split should deposit into the same account"
+    },
+    {
+      "code": 143006,
+      "name": "InvalidLiquidator",
+      "msg": "Invalid liquidator on a liquidation swap"
+    },
+    {
+      "code": 143007,
+      "name": "InvalidFeeDestination",
+      "msg": "Invalid fee destination account due to an authority mismatch"
+    }
+  ]
+}

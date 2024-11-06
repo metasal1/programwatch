@@ -1,0 +1,299 @@
+{
+  "version": "0.1.0",
+  "name": "forge_program",
+  "instructions": [
+    {
+      "name": "createClaimMemo",
+      "accounts": [
+        {
+          "name": "claimMemoAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signerUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signerBackWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attributeNftOffChainIds",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "sessionId",
+          "type": "string"
+        },
+        {
+          "name": "claimLockPeriod",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "createAssembleClaimMemo",
+      "accounts": [
+        {
+          "name": "claimMemoAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signerUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signerBackWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "attributeNftOffChainIds",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "sessionId",
+          "type": "string"
+        },
+        {
+          "name": "claimLockPeriod",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "submitClaim",
+      "accounts": [
+        {
+          "name": "claimMemoAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signerUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signerBackWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "indexToClaim",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "submitFullAssembleClaim",
+      "accounts": [
+        {
+          "name": "claimMemoAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signerUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signerBackWallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "closeClaimAccount",
+      "accounts": [
+        {
+          "name": "claimMemoAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signerUser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signerBackWallet",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ClaimMemo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "sessionId",
+            "type": "string"
+          },
+          {
+            "name": "isAssembling",
+            "type": "bool"
+          },
+          {
+            "name": "createdAtSeconds",
+            "type": "i64"
+          },
+          {
+            "name": "lockPeriodSeconds",
+            "type": "i64"
+          },
+          {
+            "name": "attributeNftClaimStatus",
+            "type": {
+              "array": [
+                "bool",
+                4
+              ]
+            }
+          },
+          {
+            "name": "attributeNftOffChainIds",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "space1",
+            "type": "u128"
+          },
+          {
+            "name": "space2",
+            "type": "u128"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AlreadyClaimed",
+      "msg": "Attribute is already claimed!"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAttributeId",
+      "msg": "Invalid attribute id passed!"
+    },
+    {
+      "code": 6002,
+      "name": "AttributeMustBeClaimed",
+      "msg": "Can't close the account before all NFTs are not claimed!"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidClaimAccountType",
+      "msg": "Wrong type of claim memo account"
+    },
+    {
+      "code": 6004,
+      "name": "SessionIdMismatch",
+      "msg": "Session Id's doesn't match"
+    },
+    {
+      "code": 6005,
+      "name": "ClaimIsLocked",
+      "msg": "Claim Lock Period has not been passed"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidIndex",
+      "msg": "Invalid Claim Index"
+    }
+  ]
+}

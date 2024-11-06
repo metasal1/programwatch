@@ -1,0 +1,99 @@
+{
+  "version": "0.1.0",
+  "name": "arb_swap",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "executeArb",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "inputToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "intermediateToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outputToken",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SwapState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedCaller",
+      "msg": "Unauthorized caller"
+    },
+    {
+      "code": 6001,
+      "name": "DexProgramNotFound",
+      "msg": "DEX program not found"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidDexProgram",
+      "msg": "Invalid DEX program"
+    },
+    {
+      "code": 6003,
+      "name": "InsufficientOutput",
+      "msg": "Insufficient output amount"
+    }
+  ]
+}

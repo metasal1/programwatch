@@ -1,0 +1,615 @@
+{
+  "version": "0.1.0",
+  "name": "global_escrow",
+  "instructions": [
+    {
+      "name": "whitelistCollection",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "projectWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "thirdPartySigner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenReward",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionName",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initUserEscrow",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "reward",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultFromAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userDestAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "rewardType",
+          "type": "string"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "spend",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultToAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userFromAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "theType",
+          "type": "string"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "validateFloat",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "solHouse",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "houseTokenAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "awarded",
+          "type": "u64"
+        },
+        {
+          "name": "rewardType",
+          "type": "string"
+        },
+        {
+          "name": "limit",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "chargeFee",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userPdaTokenAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "theType",
+          "type": "string"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "collectionDetails",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userEscrow",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userPdaTokenAta",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "theType",
+          "type": "string"
+        },
+        {
+          "name": "collectionName",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserEscrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "pointBalance",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionDetails",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "projectWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "thirdPartySigner",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenReward",
+            "type": "publicKey"
+          },
+          {
+            "name": "decimalsToken",
+            "type": "u8"
+          },
+          {
+            "name": "collectionName",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongSolAddress",
+      "msg": "Wrong Sol address"
+    },
+    {
+      "code": 6001,
+      "name": "WrongUser",
+      "msg": "You are not the owner of this."
+    },
+    {
+      "code": 6002,
+      "name": "NotEnoughPoints",
+      "msg": "You don't have enough points for this."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAction",
+      "msg": "You are doing it wrong."
+    },
+    {
+      "code": 6004,
+      "name": "WrongProgram",
+      "msg": "Wrong program"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidRewardType",
+      "msg": "Invalid award type passed in."
+    },
+    {
+      "code": 6006,
+      "name": "WithdrawsHaulted",
+      "msg": "Invalid award type passed in."
+    },
+    {
+      "code": 6007,
+      "name": "FloatLimitExceeded",
+      "msg": "Float limit exceeded."
+    },
+    {
+      "code": 6008,
+      "name": "InvalidLimit",
+      "msg": "Limit divisor is too large."
+    }
+  ]
+}

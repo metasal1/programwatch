@@ -1,0 +1,250 @@
+{
+  "version": "0.0.0",
+  "name": "whitelist_tool",
+  "instructions": [
+    {
+      "name": "initMasterRecord",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "masterRecordPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createProject",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "projectRecordPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolWlToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterRecordPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "projectName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "getToken",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redeemerProjectRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolWlToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenRxAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterRecordPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MasterRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numProjectsCreated",
+            "type": "u64"
+          },
+          {
+            "name": "numTokensRedeemed",
+            "type": "u64"
+          },
+          {
+            "name": "numLamportsCollected",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Project",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "wlTokenMintAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolWlToken",
+            "type": "publicKey"
+          },
+          {
+            "name": "numTokensRedeemed",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthAccount",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "ProjectRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "projectAddress",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidFeeRxAtaOwner",
+      "msg": "Invalid fee receiver address"
+    },
+    {
+      "code": 301,
+      "name": "NameTooLong",
+      "msg": "Name Too Long"
+    },
+    {
+      "code": 302,
+      "name": "NoWlTokensAvailable",
+      "msg": "No WL Tokens are available."
+    },
+    {
+      "code": 303,
+      "name": "InvalidAuthPda",
+      "msg": "Invalid auth pda"
+    },
+    {
+      "code": 304,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds."
+    }
+  ]
+}

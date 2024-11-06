@@ -1,0 +1,1672 @@
+{
+  "address": "qVTD1SReAN1EXydnjn3Ee3AyNPGfq1QxD4cc62rFKRL",
+  "metadata": {
+    "name": "omcvote",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "add_delegate_address",
+      "discriminator": [
+        21,
+        143,
+        207,
+        169,
+        27,
+        95,
+        219,
+        198
+      ],
+      "accounts": [
+        {
+          "name": "delegate_account",
+          "writable": true
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "address": "7N4itNMWZLRH7bxgqkmYS933bSJkXuYL372QzM8pG4Km"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "address",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "add_owner",
+      "discriminator": [
+        211,
+        140,
+        15,
+        161,
+        64,
+        48,
+        232,
+        184
+      ],
+      "accounts": [
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "cancel_proposal",
+      "discriminator": [
+        106,
+        74,
+        128,
+        146,
+        19,
+        65,
+        39,
+        23
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  108,
+                  114,
+                  100,
+                  101,
+                  118,
+                  115
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "proposal_owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proposal_id",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "close_proposal",
+      "discriminator": [
+        213,
+        178,
+        139,
+        19,
+        50,
+        191,
+        82,
+        245
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  108,
+                  114,
+                  100,
+                  101,
+                  118,
+                  115
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "proposal_owner",
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proposal_id",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "create_delegate",
+      "discriminator": [
+        27,
+        99,
+        122,
+        21,
+        236,
+        229,
+        58,
+        10
+      ],
+      "accounts": [
+        {
+          "name": "delegate",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  100,
+                  101,
+                  108,
+                  101,
+                  103,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "delegator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "delegator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "address": "7N4itNMWZLRH7bxgqkmYS933bSJkXuYL372QzM8pG4Km"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "delegate_addresses",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "DelegateAddress"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_proposal",
+      "discriminator": [
+        132,
+        116,
+        68,
+        174,
+        216,
+        160,
+        198,
+        22
+      ],
+      "accounts": [
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  108,
+                  114,
+                  100,
+                  101,
+                  118,
+                  115
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "poster",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "address": "7N4itNMWZLRH7bxgqkmYS933bSJkXuYL372QzM8pG4Km"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "options",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "VoteOption"
+              }
+            }
+          }
+        },
+        {
+          "name": "max_options_selectable",
+          "type": "u8"
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "name": "proposal_id",
+          "type": "u32"
+        },
+        {
+          "name": "settings",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "SettingsData"
+              }
+            }
+          }
+        },
+        {
+          "name": "_additional_account_offsets",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "AdditionalAccountIndices"
+              }
+            }
+          }
+        },
+        {
+          "name": "end_time",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "votebank",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  108,
+                  114,
+                  100,
+                  101,
+                  118,
+                  115
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  111,
+                  116,
+                  101,
+                  98,
+                  97,
+                  110,
+                  107
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "title"
+              }
+            ]
+          }
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "address": "7N4itNMWZLRH7bxgqkmYS933bSJkXuYL372QzM8pG4Km"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "owners",
+          "type": {
+            "vec": "pubkey"
+          }
+        },
+        {
+          "name": "desc",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "SettingsData"
+              }
+            }
+          }
+        },
+        {
+          "name": "restrictions",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "SettingsData"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "remove_delegate_address",
+      "discriminator": [
+        132,
+        44,
+        151,
+        203,
+        142,
+        113,
+        136,
+        40
+      ],
+      "accounts": [
+        {
+          "name": "delegate_account",
+          "writable": true
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "address",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "remove_owner",
+      "discriminator": [
+        153,
+        251,
+        84,
+        208,
+        33,
+        62,
+        15,
+        247
+      ],
+      "accounts": [
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "owner",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "revoke_delegate_address",
+      "discriminator": [
+        95,
+        85,
+        202,
+        100,
+        67,
+        59,
+        63,
+        123
+      ],
+      "accounts": [
+        {
+          "name": "delegate_account",
+          "writable": true
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sign_delegate_address",
+      "discriminator": [
+        137,
+        86,
+        111,
+        154,
+        83,
+        100,
+        241,
+        192
+      ],
+      "accounts": [
+        {
+          "name": "delegate_account",
+          "writable": true
+        },
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "vote",
+      "discriminator": [
+        227,
+        110,
+        155,
+        23,
+        136,
+        126,
+        172,
+        25
+      ],
+      "accounts": [
+        {
+          "name": "voter",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  108,
+                  114,
+                  100,
+                  101,
+                  118,
+                  115
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "votes",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  111,
+                  116,
+                  101,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "account",
+                "path": "nft_vote_mint"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nft_vote_mint"
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "address": "7N4itNMWZLRH7bxgqkmYS933bSJkXuYL372QzM8pG4Km"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proposal_id",
+          "type": "u32"
+        },
+        {
+          "name": "vote_entries",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "VoteEntry"
+              }
+            }
+          }
+        },
+        {
+          "name": "additional_account_offsets",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "AdditionalAccountIndices"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "vote_delegation",
+      "discriminator": [
+        71,
+        140,
+        161,
+        196,
+        61,
+        52,
+        166,
+        233
+      ],
+      "accounts": [
+        {
+          "name": "voter",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "votebank",
+          "writable": true
+        },
+        {
+          "name": "proposal",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  111,
+                  108,
+                  114,
+                  100,
+                  101,
+                  118,
+                  115
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  112,
+                  111,
+                  115,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "votes",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  111,
+                  116,
+                  101,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "votebank"
+              },
+              {
+                "kind": "account",
+                "path": "nft_vote_mint"
+              },
+              {
+                "kind": "arg",
+                "path": "proposal_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nft_vote_mint"
+        },
+        {
+          "name": "delegate_account"
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "address": "7N4itNMWZLRH7bxgqkmYS933bSJkXuYL372QzM8pG4Km"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proposal_id",
+          "type": "u32"
+        },
+        {
+          "name": "vote_entries",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "VoteEntry"
+              }
+            }
+          }
+        },
+        {
+          "name": "additional_account_offsets",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "AdditionalAccountIndices"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DelegateAccount",
+      "discriminator": [
+        218,
+        249,
+        88,
+        50,
+        225,
+        236,
+        46,
+        241
+      ]
+    },
+    {
+      "name": "Proposal",
+      "discriminator": [
+        26,
+        94,
+        189,
+        187,
+        116,
+        136,
+        53,
+        33
+      ]
+    },
+    {
+      "name": "VoteAccount",
+      "discriminator": [
+        203,
+        238,
+        154,
+        106,
+        200,
+        131,
+        0,
+        41
+      ]
+    },
+    {
+      "name": "Votebank",
+      "discriminator": [
+        246,
+        0,
+        127,
+        171,
+        195,
+        58,
+        226,
+        102
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "ProposalCancelledEvent",
+      "discriminator": [
+        193,
+        253,
+        159,
+        226,
+        227,
+        182,
+        188,
+        160
+      ]
+    },
+    {
+      "name": "ProposalClosedEvent",
+      "discriminator": [
+        203,
+        185,
+        45,
+        224,
+        115,
+        228,
+        105,
+        157
+      ]
+    },
+    {
+      "name": "ProposalCreatedEvent",
+      "discriminator": [
+        154,
+        240,
+        33,
+        66,
+        194,
+        233,
+        203,
+        209
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BadDescriptionSetting",
+      "msg": "The description provided is not a description setting"
+    },
+    {
+      "code": 6001,
+      "name": "BadVoteRestrictionSetting",
+      "msg": "The vote restriction provided is not a vote restriction setting"
+    },
+    {
+      "code": 6100,
+      "name": "ProposalIdTooLarge",
+      "msg": "The provided proposal ID is too large an increase"
+    },
+    {
+      "code": 6200,
+      "name": "NotTokenAccount",
+      "msg": "The provided token account is not a token account"
+    },
+    {
+      "code": 6201,
+      "name": "MissingTokenRestriction",
+      "msg": "Missing the token required by the restriction"
+    },
+    {
+      "code": 6202,
+      "name": "InvalidMetadataKey",
+      "msg": "Account provided is not expected metadata key"
+    },
+    {
+      "code": 6203,
+      "name": "MetadataAccountInvalid",
+      "msg": "The provided account is not a metadata account"
+    },
+    {
+      "code": 6204,
+      "name": "NoCollectionOnMetadata",
+      "msg": "No collection set on the metadata"
+    },
+    {
+      "code": 6205,
+      "name": "MissingCollectionNftRestriction",
+      "msg": "Missing an NFT from the collection required by the restriction"
+    },
+    {
+      "code": 6206,
+      "name": "MalformedSetting",
+      "msg": "Cannot parse a setting"
+    },
+    {
+      "code": 6207,
+      "name": "InvalidRestrictionExtraAccounts",
+      "msg": "Extra account offsets invalid for this restriction type"
+    },
+    {
+      "code": 6208,
+      "name": "MissingRequiredOffsets",
+      "msg": "Must supply offsets when a proposal restriction applies"
+    },
+    {
+      "code": 6209,
+      "name": "AlreadyVoted",
+      "msg": "Already voted on this proposal"
+    },
+    {
+      "code": 6210,
+      "name": "MissingCredentials",
+      "msg": "Missing a required credential for proposal restriction"
+    },
+    {
+      "code": 6211,
+      "name": "MultipleProposalIds",
+      "msg": "Cannot vote on a proposal with different proposal ids"
+    },
+    {
+      "code": 6212,
+      "name": "MultipleSameVotedFor",
+      "msg": "Cannot vote on an option more than once"
+    },
+    {
+      "code": 6213,
+      "name": "TooManyEntriesSelected",
+      "msg": "Cannot vote for more than max allowed"
+    },
+    {
+      "code": 6214,
+      "name": "MissingSigner",
+      "msg": "There must be a signer present for this instruction"
+    },
+    {
+      "code": 6215,
+      "name": "DuplicateVoteOptionIds",
+      "msg": "Vote option IDs must be unique"
+    },
+    {
+      "code": 6216,
+      "name": "ProposalClosed",
+      "msg": "Proposal is closed for voting"
+    },
+    {
+      "code": 6217,
+      "name": "ProposalCannotBeClosed",
+      "msg": "Cannot close proposal for voting"
+    },
+    {
+      "code": 6218,
+      "name": "NotProposalOwner",
+      "msg": "Cannot cancel proposal that is not the original creator"
+    },
+    {
+      "code": 6219,
+      "name": "NotVotebankOwner",
+      "msg": "Not a votebank owner"
+    },
+    {
+      "code": 6220,
+      "name": "OwnerAlreadyExists",
+      "msg": "Already owner of the votebank"
+    },
+    {
+      "code": 6221,
+      "name": "OwnerNotFound",
+      "msg": "Owner on votebank does not exist"
+    },
+    {
+      "code": 6222,
+      "name": "LastOwnerCannotBeRemoved",
+      "msg": "There needs to be at least one owner"
+    },
+    {
+      "code": 6223,
+      "name": "TooManyDelegateAddresses",
+      "msg": "You can only delegate 5 addresses"
+    },
+    {
+      "code": 6224,
+      "name": "DelegateAddressNotFound",
+      "msg": "Signer not found in delegate addresses"
+    },
+    {
+      "code": 6225,
+      "name": "DuplicateDelegateAddresses",
+      "msg": "Duplicate delegate addresses found"
+    },
+    {
+      "code": 6226,
+      "name": "DelegateAddressAlreadySigned",
+      "msg": "Delegate address cannot be signed on creation"
+    },
+    {
+      "code": 6227,
+      "name": "CannotAddSelfAsDelegate",
+      "msg": "Cannot add self as delegate"
+    }
+  ],
+  "types": [
+    {
+      "name": "AdditionalAccountIndices",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TokenOwnership",
+            "fields": [
+              {
+                "name": "token_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "NftOwnership",
+            "fields": [
+              {
+                "name": "token_idx",
+                "type": "u8"
+              },
+              {
+                "name": "meta_idx",
+                "type": "u8"
+              },
+              {
+                "name": "collection_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "NftOwnershipV2",
+            "fields": [
+              {
+                "name": "mint_idx",
+                "type": "u8"
+              },
+              {
+                "name": "mint_meta_idx",
+                "type": "u8"
+              },
+              {
+                "name": "associated_token_idx",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DelegateAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "delegate_owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "accounts",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "DelegateAddress"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DelegateAddress",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "address",
+            "type": "pubkey"
+          },
+          {
+            "name": "signed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Proposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poster",
+            "type": "pubkey"
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "name": "options",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "VoteOption"
+                }
+              }
+            }
+          },
+          {
+            "name": "max_options_selectable",
+            "type": "u8"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "SettingsData"
+                }
+              }
+            }
+          },
+          {
+            "name": "voter_count",
+            "type": "u32"
+          },
+          {
+            "name": "vote_open",
+            "type": "bool"
+          },
+          {
+            "name": "proposal_id",
+            "type": "u32"
+          },
+          {
+            "name": "end_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalCancelledEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poster_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "votebank_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_id",
+            "type": "u32"
+          },
+          {
+            "name": "cancel_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalClosedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poster_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "votebank_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_id",
+            "type": "u32"
+          },
+          {
+            "name": "vote_open",
+            "type": "bool"
+          },
+          {
+            "name": "end_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProposalCreatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poster_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "votebank_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_pubkey",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposal_id",
+            "type": "u32"
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "name": "vote_open",
+            "type": "bool"
+          },
+          {
+            "name": "end_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "QuantifiedMint",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettingsData",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Description",
+            "fields": [
+              {
+                "name": "title",
+                "type": "string"
+              },
+              {
+                "name": "desc",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "OwnerInfo",
+            "fields": [
+              {
+                "name": "owners",
+                "type": {
+                  "vec": "pubkey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "VoteRestriction",
+            "fields": [
+              {
+                "name": "vote_restriction",
+                "type": {
+                  "defined": {
+                    "name": "VoteRestrictionRule"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "votes",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "VoteEntry"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "proposal_id",
+            "type": "u32"
+          },
+          {
+            "name": "voted_for",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteOption",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u8"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "vote_count",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteRestrictionRule",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "TokenOwnership",
+            "fields": [
+              {
+                "name": "mint",
+                "type": "pubkey"
+              },
+              {
+                "name": "amount",
+                "type": "u64"
+              }
+            ]
+          },
+          {
+            "name": "NftOwnership",
+            "fields": [
+              {
+                "name": "collection_id",
+                "type": "pubkey"
+              }
+            ]
+          },
+          {
+            "name": "NftOwnershipV2",
+            "fields": [
+              {
+                "name": "name",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "Null"
+          },
+          {
+            "name": "NftListAnyOwnership",
+            "fields": [
+              {
+                "name": "collection_ids",
+                "type": {
+                  "vec": "pubkey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "TokenOrNftAnyOwnership",
+            "fields": [
+              {
+                "name": "mints",
+                "type": {
+                  "vec": {
+                    "defined": {
+                      "name": "QuantifiedMint"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "collection_ids",
+                "type": {
+                  "vec": "pubkey"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Votebank",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "max_child_id",
+            "type": "u32"
+          },
+          {
+            "name": "moderator_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "SettingsData"
+                }
+              }
+            }
+          },
+          {
+            "name": "open_proposals",
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "closed_proposals",
+            "type": {
+              "vec": "u32"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "DELEGATE_FEE",
+      "type": "u64",
+      "value": "1000"
+    },
+    {
+      "name": "FEE_NEW_VOTEBANK",
+      "type": "u64",
+      "value": "100000"
+    },
+    {
+      "name": "FEE_PROPOSAL",
+      "type": "u64",
+      "value": "50000"
+    },
+    {
+      "name": "FEE_VOTE",
+      "type": "u64",
+      "value": "1000"
+    },
+    {
+      "name": "PROPOSALS_GROW_CHILDREN_BY",
+      "type": "u32",
+      "value": "1000"
+    }
+  ]
+}

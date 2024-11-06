@@ -1,0 +1,660 @@
+{
+  "version": "0.1.0",
+  "name": "campaign_manager",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolNonce",
+          "type": "u8"
+        },
+        {
+          "name": "feeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "wlMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "wlBurn",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updatePool",
+      "accounts": [
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeReceiver",
+          "type": "publicKey"
+        },
+        {
+          "name": "feeAmount",
+          "type": "u64"
+        },
+        {
+          "name": "wlMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "wlBurn",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "createCampaign",
+      "accounts": [
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Campaign info"
+          ]
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "campaignSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "the creator of the campaign"
+          ]
+        },
+        {
+          "name": "clockSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignName",
+          "type": "string"
+        },
+        {
+          "name": "campaignBump",
+          "type": "u8"
+        },
+        {
+          "name": "startDate",
+          "type": "i64"
+        },
+        {
+          "name": "endDate",
+          "type": "i64"
+        },
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "feeReceiver",
+          "type": "publicKey"
+        },
+        {
+          "name": "wlToken",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "transferrable",
+          "type": "bool"
+        },
+        {
+          "name": "collection",
+          "type": "publicKey"
+        },
+        {
+          "name": "maxSupply",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "wlBurn",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "updateCampaign",
+      "accounts": [
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Campaign info"
+          ]
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "the creator of the campaign"
+          ]
+        },
+        {
+          "name": "clockSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignName",
+          "type": "string"
+        },
+        {
+          "name": "startDate",
+          "type": "i64"
+        },
+        {
+          "name": "endDate",
+          "type": "i64"
+        },
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "feeReceiver",
+          "type": "publicKey"
+        },
+        {
+          "name": "wlToken",
+          "type": {
+            "option": "publicKey"
+          }
+        },
+        {
+          "name": "transferrable",
+          "type": "bool"
+        },
+        {
+          "name": "collection",
+          "type": "publicKey"
+        },
+        {
+          "name": "maxSupply",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "wlBurn",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "closeCampaign",
+      "accounts": [
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Campaign info"
+          ]
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "claimResult",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaignSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clockSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignName",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "mint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "claimWithWl",
+      "accounts": [
+        {
+          "name": "claimResult",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "campaign",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wlMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimerAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "campaignSigner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clockSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignName",
+          "type": "string"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "mint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateClaimResult",
+      "accounts": [
+        {
+          "name": "claimResult",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "campaignName",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "feeReceiver",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeAmount",
+            "type": "u64"
+          },
+          {
+            "name": "wlMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "wlBurn",
+            "type": "bool"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Campaign",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startDate",
+            "type": "i64"
+          },
+          {
+            "name": "endDate",
+            "type": "i64"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeReceiver",
+            "type": "publicKey"
+          },
+          {
+            "name": "wlToken",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "transferrable",
+            "type": "bool"
+          },
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "maxSupply",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "supplied",
+            "type": "u64"
+          },
+          {
+            "name": "wlBurn",
+            "type": "bool"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "campaignSigner",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimResult",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "campaign",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "minted",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ExpireDateInThePast",
+      "msg": "The end date is in the past."
+    },
+    {
+      "code": 6001,
+      "name": "StartDateInThePast",
+      "msg": "The start date is in the past."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidCampaignStatus",
+      "msg": "The Campaign is now closed."
+    },
+    {
+      "code": 6003,
+      "name": "CampaignIsClosed",
+      "msg": "Campaign is closed."
+    },
+    {
+      "code": 6004,
+      "name": "CampaignIsNotStarted",
+      "msg": "The Campaign is not started."
+    },
+    {
+      "code": 6005,
+      "name": "CampaignNotOpen",
+      "msg": "The Campaign is not opened."
+    },
+    {
+      "code": 6006,
+      "name": "CampaignOpened",
+      "msg": "The Campaign is opened."
+    },
+    {
+      "code": 6007,
+      "name": "WlTokenRequired",
+      "msg": "WL Token required."
+    },
+    {
+      "code": 6008,
+      "name": "WlTokenNotRequired",
+      "msg": "WL Token not required."
+    },
+    {
+      "code": 6009,
+      "name": "CampaignLimited",
+      "msg": "Campaign limited."
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyClaimed",
+      "msg": "Already claimed."
+    }
+  ]
+}

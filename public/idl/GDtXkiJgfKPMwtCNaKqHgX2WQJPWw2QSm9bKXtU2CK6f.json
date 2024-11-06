@@ -1,0 +1,200 @@
+{
+  "version": "0.1.0",
+  "name": "swap_updater",
+  "instructions": [
+    {
+      "name": "initSwapUpdater",
+      "accounts": [
+        {
+          "name": "updater",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "swap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingSwap",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketCreator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeSwapUpdaterParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setRedeem",
+      "accounts": [
+        {
+          "name": "updater",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yesMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "noMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountA",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountB",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "outcomeProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SwapUpdater",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "yesMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "noMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAccountA",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAccountB",
+            "type": "publicKey"
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeSwapUpdaterParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Overflow",
+      "msg": "arithmetic overflow"
+    },
+    {
+      "code": 6001,
+      "name": "NoTokens",
+      "msg": "no tokens in accounts"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectUpdater",
+      "msg": "incorrect updater address"
+    },
+    {
+      "code": 6003,
+      "name": "IncorrectUnderlyingSwap",
+      "msg": "incorrect underlying swap address"
+    },
+    {
+      "code": 6004,
+      "name": "IncorrectMarket",
+      "msg": "incorrect market address"
+    },
+    {
+      "code": 6005,
+      "name": "IncorrectMarketCreator",
+      "msg": "incorrect market creator address"
+    },
+    {
+      "code": 6006,
+      "name": "IncorrectYesMint",
+      "msg": "incorrect yes mint address"
+    },
+    {
+      "code": 6007,
+      "name": "IncorrectNoMint",
+      "msg": "incorrect no mint address"
+    },
+    {
+      "code": 6008,
+      "name": "IncorrectTokenAccountA",
+      "msg": "incorrect token account a address"
+    },
+    {
+      "code": 6009,
+      "name": "IncorrectTokenAccountB",
+      "msg": "incorrect token account b address"
+    },
+    {
+      "code": 6010,
+      "name": "IncorrectTokenAccountMints",
+      "msg": "token account (a, b) mints must match market (yes, no) or (no, yes) mints"
+    }
+  ]
+}

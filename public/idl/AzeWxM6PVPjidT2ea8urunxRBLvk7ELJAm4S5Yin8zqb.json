@@ -1,0 +1,318 @@
+{
+  "version": "0.1.0",
+  "name": "non_custodial_staking",
+  "instructions": [
+    {
+      "name": "initializeCollection",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collectionId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingLedger",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsVault",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "rewardsPerSecond",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "stakeNft",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingLedger",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimRewards",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingLedger",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstakeNft",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakingLedger",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAuthPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardReceiverAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "collectionId",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakingLedger",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakingAuthPda",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardsPerSecond",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakingLedger",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "activeVaults",
+            "type": "u64"
+          },
+          {
+            "name": "entries",
+            "type": {
+              "vec": {
+                "defined": "Vault"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isActive",
+            "type": "u64"
+          },
+          {
+            "name": "staker",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakingStart",
+            "type": "u64"
+          },
+          {
+            "name": "lastClaimed",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidCollectionId",
+      "msg": "Staking contract collection and sent nft collection are not matching"
+    },
+    {
+      "code": 6001,
+      "name": "CollectionNotVerified",
+      "msg": "collection is not verified"
+    },
+    {
+      "code": 6002,
+      "name": "StakedNftNotFound",
+      "msg": "Staked Nft not found"
+    },
+    {
+      "code": 6003,
+      "name": "ClaimTooSoon",
+      "msg": "No rewards to claim yet"
+    }
+  ]
+}

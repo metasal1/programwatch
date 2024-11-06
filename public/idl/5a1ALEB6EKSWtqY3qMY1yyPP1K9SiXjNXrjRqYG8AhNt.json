@@ -1,0 +1,217 @@
+{
+  "version": "0.1.0",
+  "name": "fff_randomness_consumer",
+  "instructions": [
+    {
+      "name": "createAccount",
+      "docs": [
+        "Create our request account for the FFF Randomness Service"
+      ],
+      "accounts": [
+        {
+          "name": "randomnessService",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The FFF Randomness Service program."
+          ]
+        },
+        {
+          "name": "randomnessRequest",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will be created on-chain to hold the randomness request.",
+            "Used by the off-chain oracle to pickup the request and fulfill it."
+          ]
+        },
+        {
+          "name": "randomnessEscrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The TokenAccount that will store the funds for the randomness request."
+          ]
+        },
+        {
+          "name": "randomnessState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The randomness service's state account. Responsible for storing the",
+            "reward escrow and the cost per random byte."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "STATE"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "randomness_service"
+            }
+          }
+        },
+        {
+          "name": "randomnessMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The token mint to use for paying for randomness requests."
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The account that will pay for the randomness request."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System program. Used to allocate space on-chain for the randomness_request account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana Token program. Used to transfer funds to the randomness escrow."
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana Associated Token program. Used to create the TokenAccount for the randomness escrow."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "requestRandomness",
+      "accounts": [
+        {
+          "name": "randomnessService",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The FFF Randomness Service program."
+          ]
+        },
+        {
+          "name": "randomnessRequest",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account that will be created on-chain to hold the randomness request.",
+            "Used by the off-chain oracle to pickup the request and fulfill it."
+          ],
+          "relations": [
+            "user"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The account that will pay for the randomness request."
+          ]
+        },
+        {
+          "name": "randomnessEscrow",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The TokenAccount that will store the funds for the randomness request."
+          ]
+        },
+        {
+          "name": "randomnessState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The randomness service's state account. Responsible for storing the",
+            "reward escrow and the cost per random byte."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "STATE"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "randomness_service"
+            }
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana System program. Used to allocate space on-chain for the randomness_request account."
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Solana Token program. Used to transfer funds to the randomness escrow."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "consumeRandomness",
+      "accounts": [
+        {
+          "name": "randomnessState",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "We need to make sure the randomness service signed this requests so it can only be invoked by a PDA and not a user."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "STATE"
+              }
+            ]
+          }
+        },
+        {
+          "name": "randomnessRequest",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "randomness",
+          "type": "u8"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,342 @@
+{
+  "address": "41qVTUPQMMPF72tUrrBzwkCW6riPxfnSuZEGHt7pXsva",
+  "metadata": {
+    "name": "web3_bridge_v2",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "bridge_to",
+      "discriminator": [
+        64,
+        46,
+        168,
+        54,
+        185,
+        32,
+        135,
+        47
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "Payer.",
+            "This account is user to pay for the transaction and bridge token."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_token_account",
+          "docs": [
+            "User Token Account.",
+            "ATA: mint = mint, owner = payer,",
+            "This account is used to pay for bridge token, owner by payer(user)."
+          ],
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "Mint.",
+            "This account is used to check the mint of source_token_account."
+          ],
+          "writable": true
+        },
+        {
+          "name": "associated_token_program",
+          "docs": [
+            "Associated Token Program",
+            "\"ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL\""
+          ],
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "SPL Token Program",
+            "\"TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA\""
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "System Program.",
+            "\"11111111111111111111111111111111\""
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": {
+            "defined": {
+              "name": "BridgeToArgs"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "web3_bridge_v2::instructions::meson::CrossChainDataEvent",
+      "discriminator": [
+        89,
+        222,
+        35,
+        104,
+        22,
+        13,
+        215,
+        62
+      ]
+    },
+    {
+      "name": "web3_bridge_v2::instructions::wormhole::CrossChainDataEvent",
+      "discriminator": [
+        89,
+        222,
+        35,
+        104,
+        22,
+        13,
+        215,
+        62
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidSwapType",
+      "msg": "Invalid swapType"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAdaptorId",
+      "msg": "Invalid adaptor id"
+    },
+    {
+      "code": 6002,
+      "name": "TransferNativeSolToUserATAFailed",
+      "msg": "transfer native-sol to user ATA Failed"
+    },
+    {
+      "code": 6003,
+      "name": "ApproveTransferAuthorityFailed",
+      "msg": "approve transfer authority delegate ATA Failed"
+    }
+  ],
+  "types": [
+    {
+      "name": "AdaptorID",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Bridge0"
+          },
+          {
+            "name": "Bridge1"
+          },
+          {
+            "name": "Bridge2"
+          },
+          {
+            "name": "Bridge3"
+          },
+          {
+            "name": "Bridge4"
+          },
+          {
+            "name": "Bridge5"
+          },
+          {
+            "name": "Bridge6"
+          },
+          {
+            "name": "Bridge7"
+          },
+          {
+            "name": "Bridge8"
+          },
+          {
+            "name": "Bridge9"
+          },
+          {
+            "name": "Bridge10"
+          },
+          {
+            "name": "Bridge11"
+          },
+          {
+            "name": "Bridge12"
+          },
+          {
+            "name": "Bridge13"
+          },
+          {
+            "name": "Bridge14"
+          },
+          {
+            "name": "Bridge15"
+          },
+          {
+            "name": "Bridge16"
+          },
+          {
+            "name": "Bridge17"
+          },
+          {
+            "name": "Bridge18"
+          },
+          {
+            "name": "Bridge19"
+          },
+          {
+            "name": "Bridge20"
+          },
+          {
+            "name": "Wormhole"
+          },
+          {
+            "name": "Meson"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BridgeToArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adaptor_id",
+            "type": {
+              "defined": {
+                "name": "AdaptorID"
+              }
+            }
+          },
+          {
+            "name": "to",
+            "type": "bytes"
+          },
+          {
+            "name": "order_id",
+            "type": "u64"
+          },
+          {
+            "name": "drop_gas_amount",
+            "type": "u64"
+          },
+          {
+            "name": "to_chain_id",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "swap_type",
+            "type": {
+              "defined": {
+                "name": "SwapType"
+              }
+            }
+          },
+          {
+            "name": "data",
+            "type": "bytes"
+          },
+          {
+            "name": "ext_data",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SwapType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "BRIDGE"
+          },
+          {
+            "name": "SWAPANDBRIDGE"
+          }
+        ]
+      }
+    },
+    {
+      "name": "web3_bridge_v2::instructions::meson::CrossChainDataEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adaptor_id",
+            "type": "u8"
+          },
+          {
+            "name": "swap_type",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "encoded",
+            "type": "string"
+          },
+          {
+            "name": "initiator",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "web3_bridge_v2::instructions::wormhole::CrossChainDataEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adaptor_id",
+            "type": "u8"
+          },
+          {
+            "name": "swap_type",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "encoded",
+            "type": "string"
+          },
+          {
+            "name": "initiator",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "SEED",
+      "type": "string",
+      "value": "\"anchor\""
+    }
+  ]
+}

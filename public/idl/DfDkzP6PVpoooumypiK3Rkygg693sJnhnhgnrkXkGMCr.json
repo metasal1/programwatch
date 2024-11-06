@@ -1,0 +1,642 @@
+{
+  "version": "0.2.0",
+  "name": "bid_contract",
+  "instructions": [
+    {
+      "name": "withdrawFromBiddingWallet",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "biddingWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "makeOffer",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        },
+        {
+          "name": "expireTime",
+          "type": "i64"
+        },
+        {
+          "name": "payRoyalties",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "makeCollectionOffer",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        },
+        {
+          "name": "expireTime",
+          "type": "i64"
+        },
+        {
+          "name": "payRoyalties",
+          "type": "bool"
+        },
+        {
+          "name": "itemCount",
+          "type": "u16"
+        },
+        {
+          "name": "amountOffsetPer10k",
+          "type": "i16"
+        }
+      ]
+    },
+    {
+      "name": "amendOffer",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        },
+        {
+          "name": "expireTime",
+          "type": "i64"
+        },
+        {
+          "name": "payRoyalties",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "amendCollectionOffer",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        },
+        {
+          "name": "expireTime",
+          "type": "i64"
+        },
+        {
+          "name": "payRoyalties",
+          "type": "bool"
+        },
+        {
+          "name": "itemCount",
+          "type": "u16"
+        },
+        {
+          "name": "amountOffsetPer10k",
+          "type": "i16"
+        }
+      ]
+    },
+    {
+      "name": "cancelOffer",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelCollectionOffer",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "rejectOffer",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sell",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "biddingWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "salesTaxRecipient",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructionsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAuthRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "collectionSell",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionBid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authRules",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "ownerToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "biddingWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "salesTaxRecipient",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructionsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAuthRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Bid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "bidTime",
+            "type": "i64"
+          },
+          {
+            "name": "expireTime",
+            "type": "i64"
+          },
+          {
+            "name": "payRoyalties",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionBid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          },
+          {
+            "name": "bidTime",
+            "type": "i64"
+          },
+          {
+            "name": "expireTime",
+            "type": "i64"
+          },
+          {
+            "name": "payRoyalties",
+            "type": "bool"
+          },
+          {
+            "name": "itemCount",
+            "type": "u16"
+          },
+          {
+            "name": "amountOffsetPer10k",
+            "type": "i16"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientBiddingWalletBalance",
+      "msg": "Insufficient bidding wallet balance"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidMint",
+      "msg": "Invalid mint"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidToken",
+      "msg": "Invalid token"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidMetadata",
+      "msg": "Invalid metadata"
+    },
+    {
+      "code": 6005,
+      "name": "ZeroBidAmount",
+      "msg": "Bid amount is zero"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidRoyaltyFee",
+      "msg": "Invalid Royalty fee."
+    },
+    {
+      "code": 6007,
+      "name": "CreatorMismatch",
+      "msg": "Creators are mismatched."
+    },
+    {
+      "code": 6008,
+      "name": "BidNotActive",
+      "msg": "Bid is not active"
+    },
+    {
+      "code": 6009,
+      "name": "BidExpired",
+      "msg": "Bid has expired"
+    },
+    {
+      "code": 6010,
+      "name": "NonCollectionNFT",
+      "msg": "NFT does not belong to a collection"
+    },
+    {
+      "code": 6011,
+      "name": "CollectionBidMismatch",
+      "msg": "Collection bid does not match the NFT's collection"
+    },
+    {
+      "code": 6012,
+      "name": "CollectionOfferZeroItemCount",
+      "msg": "Collection offer item count should be non-zero"
+    }
+  ]
+}

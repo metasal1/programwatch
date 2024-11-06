@@ -1,0 +1,294 @@
+{
+  "address": "7Ah8WAJw7CDxwbPQono7rKaRAmZ4ymjguouz1CfHScXY",
+  "metadata": {
+    "name": "dice",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "change_config",
+      "discriminator": [
+        24,
+        158,
+        114,
+        115,
+        94,
+        210,
+        244,
+        233
+      ],
+      "accounts": [
+        {
+          "name": "reserve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  114,
+                  118,
+                  101,
+                  45,
+                  49
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "edge_bp",
+          "type": "u64"
+        },
+        {
+          "name": "ratio",
+          "type": "u64"
+        },
+        {
+          "name": "house",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "roll_dice",
+      "discriminator": [
+        27,
+        140,
+        230,
+        215,
+        37,
+        178,
+        226,
+        114
+      ],
+      "accounts": [
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reserve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  114,
+                  118,
+                  101,
+                  45,
+                  49
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "house",
+          "writable": true
+        },
+        {
+          "name": "reserve_key",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "slot_hashes",
+          "address": "SysvarS1otHashes111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "user_seed",
+          "type": "u64"
+        },
+        {
+          "name": "multiplier_bp",
+          "type": "u64"
+        },
+        {
+          "name": "bet_size",
+          "type": "u64"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "setup_dice",
+      "discriminator": [
+        182,
+        73,
+        93,
+        179,
+        11,
+        141,
+        48,
+        9
+      ],
+      "accounts": [
+        {
+          "name": "reserve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  114,
+                  118,
+                  101,
+                  45,
+                  49
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "reserve_key",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "edge_bp",
+          "type": "u64"
+        },
+        {
+          "name": "ratio",
+          "type": "u64"
+        },
+        {
+          "name": "house",
+          "type": "pubkey"
+        },
+        {
+          "name": "update_authority",
+          "type": "pubkey"
+        },
+        {
+          "name": "initial_funds",
+          "type": "u64"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Reserve",
+      "discriminator": [
+        43,
+        242,
+        204,
+        202,
+        26,
+        247,
+        59,
+        127
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "HashConversionFailed",
+      "msg": "Failed to convert hash"
+    },
+    {
+      "code": 6001,
+      "name": "BetTooBig",
+      "msg": "Bet too big"
+    },
+    {
+      "code": 6002,
+      "name": "MismatchedHouse",
+      "msg": "Mismatched house address"
+    },
+    {
+      "code": 6003,
+      "name": "MismatchedReserveKey",
+      "msg": "Mismatched reserve-key address"
+    },
+    {
+      "code": 6004,
+      "name": "MismatchedSlotHashes",
+      "msg": "Mismatched slot-hashes key"
+    }
+  ],
+  "types": [
+    {
+      "name": "Reserve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ratio",
+            "type": "u64"
+          },
+          {
+            "name": "edge_bp",
+            "type": "u64"
+          },
+          {
+            "name": "house",
+            "type": "pubkey"
+          },
+          {
+            "name": "reserve_key",
+            "type": "pubkey"
+          },
+          {
+            "name": "update_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

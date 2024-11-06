@@ -1,0 +1,129 @@
+{
+  "version": "0.7.0",
+  "name": "profile_faction",
+  "instructions": [
+    {
+      "name": "chooseFaction",
+      "accounts": [
+        {
+          "name": "key",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "The key with auth permissions."
+          ]
+        },
+        {
+          "name": "funder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The funder for the transaction."
+          ]
+        },
+        {
+          "name": "profile",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The profile to change faction for."
+          ]
+        },
+        {
+          "name": "faction",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The faction to change to."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The system program."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "keyIndex",
+          "type": "u16"
+        },
+        {
+          "name": "faction",
+          "type": {
+            "defined": "Faction"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ProfileFactionAccount",
+      "docs": [
+        "Stores a profile's enlisted faction on-chain."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "docs": [
+              "The data version of this account."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "profile",
+            "docs": [
+              "The profile this faction enlistment is for."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "faction",
+            "docs": [
+              "The faction of the profile."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "The bump for this account."
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Faction",
+      "docs": [
+        "A faction that a player can belong to."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Unaligned"
+          },
+          {
+            "name": "MUD"
+          },
+          {
+            "name": "ONI"
+          },
+          {
+            "name": "Ustur"
+          }
+        ]
+      }
+    }
+  ]
+}

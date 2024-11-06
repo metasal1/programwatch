@@ -1,0 +1,1390 @@
+{
+  "version": "0.1.0",
+  "name": "idolz_dice",
+  "instructions": [
+    {
+      "name": "initPaymentTokenInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minBetSize",
+          "type": "u64"
+        },
+        {
+          "name": "maxWinSizeAbs",
+          "type": "u64"
+        },
+        {
+          "name": "maxWinSizeRel",
+          "type": "u16"
+        },
+        {
+          "name": "seed",
+          "type": "publicKey"
+        },
+        {
+          "name": "winnerFee",
+          "type": "u16"
+        },
+        {
+          "name": "feeReceiverAccount",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "feeReceiverPct",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawPaymentTokenAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccountAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closePaymentTokenInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccountAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "placeBet",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccountAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "playerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarSlotHashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "value",
+          "type": "u16"
+        },
+        {
+          "name": "outcome",
+          "type": "u8"
+        },
+        {
+          "name": "betSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "placeBetMines",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentTokenAccountAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "playerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarSlotHashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fieldSize",
+          "type": "u8"
+        },
+        {
+          "name": "mineCnt",
+          "type": "u8"
+        },
+        {
+          "name": "flagCnt",
+          "type": "u8"
+        },
+        {
+          "name": "flagList",
+          "type": {
+            "vec": "u16"
+          }
+        },
+        {
+          "name": "betSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "placeBetSol",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentSolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarSlotHashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "value",
+          "type": "u16"
+        },
+        {
+          "name": "outcome",
+          "type": "u8"
+        },
+        {
+          "name": "betSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "placeBetMinesSol",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentSolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarSlotHashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fieldSize",
+          "type": "u8"
+        },
+        {
+          "name": "mineCnt",
+          "type": "u8"
+        },
+        {
+          "name": "flagCnt",
+          "type": "u8"
+        },
+        {
+          "name": "flagList",
+          "type": {
+            "vec": "u16"
+          }
+        },
+        {
+          "name": "betSize",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateFeeReceiver",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeReceiverAccount",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "feeReceiverPct",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateFeeReceiverSol",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "feeReceiverAccount",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "feeReceiverPct",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateState",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "state",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateStateSol",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "state",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateBetParams",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentTokenInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minBetSize",
+          "type": "u64"
+        },
+        {
+          "name": "maxWinSizeAbs",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateBetParamsSol",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minBetSize",
+          "type": "u64"
+        },
+        {
+          "name": "maxWinSizeAbs",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initAirdropInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "claimerAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "airdropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "value",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closeAirdropInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "airdropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimAirdrop",
+      "accounts": [
+        {
+          "name": "claimerAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "airdropInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenAccountAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "claimerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assotiatedTokenAccountProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initAirdropTokenAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "airdropTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawAirdropTokenAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "airdropTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "airdropTokenAccountAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initPaymentSolInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentSolAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minBetSize",
+          "type": "u64"
+        },
+        {
+          "name": "maxWinSizeAbs",
+          "type": "u64"
+        },
+        {
+          "name": "maxWinSizeRel",
+          "type": "u16"
+        },
+        {
+          "name": "seed",
+          "type": "publicKey"
+        },
+        {
+          "name": "winnerFee",
+          "type": "u16"
+        },
+        {
+          "name": "feeReceiverAccount",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "feeReceiverPct",
+          "type": {
+            "vec": "u16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawPaymentSolAccount",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "paymentSolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawSolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "closePaymentSolInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "paymentSolInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentSolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createRefererInfo",
+      "accounts": [
+        {
+          "name": "referrer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "referrerInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "idolzTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "assotiatedTokenAccountProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateReferrerInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "referrer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "referrerInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pct",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "closeRefereeInfo",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "referee",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refereeInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PaymentTokenInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "paymentTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "paymentTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "minBetSize",
+            "type": "u64"
+          },
+          {
+            "name": "maxWinSizeAbs",
+            "type": "u64"
+          },
+          {
+            "name": "maxWinSizeRel",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "state",
+            "type": "u8"
+          },
+          {
+            "name": "paramCnt",
+            "type": "u64"
+          },
+          {
+            "name": "paramSum",
+            "type": "u64"
+          },
+          {
+            "name": "paramSeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "winnerFee",
+            "type": "u16"
+          },
+          {
+            "name": "cntWin",
+            "type": "u64"
+          },
+          {
+            "name": "cntLoss",
+            "type": "u64"
+          },
+          {
+            "name": "sumWin",
+            "type": "u64"
+          },
+          {
+            "name": "sumLoss",
+            "type": "u64"
+          },
+          {
+            "name": "feeReceiverAccount",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "feeReceiverPct",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaymentSolInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "paymentSolAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "minBetSize",
+            "type": "u64"
+          },
+          {
+            "name": "maxWinSizeAbs",
+            "type": "u64"
+          },
+          {
+            "name": "maxWinSizeRel",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "state",
+            "type": "u8"
+          },
+          {
+            "name": "paramCnt",
+            "type": "u64"
+          },
+          {
+            "name": "paramSum",
+            "type": "u64"
+          },
+          {
+            "name": "paramSeed",
+            "type": "publicKey"
+          },
+          {
+            "name": "winnerFee",
+            "type": "u16"
+          },
+          {
+            "name": "cntWin",
+            "type": "u64"
+          },
+          {
+            "name": "cntLoss",
+            "type": "u64"
+          },
+          {
+            "name": "sumWin",
+            "type": "u64"
+          },
+          {
+            "name": "sumLoss",
+            "type": "u64"
+          },
+          {
+            "name": "feeReceiverAccount",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "feeReceiverPct",
+            "type": {
+              "vec": "u16"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "AirdropInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "value",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InactiveTreasury",
+      "msg": "Inactive treasury, bets are prohibited"
+    },
+    {
+      "code": 6001,
+      "name": "InsufficientTreasuty",
+      "msg": "Insufficient amount in treasury"
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientPlayerBalance",
+      "msg": "Insufficient player balance"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidBetValue",
+      "msg": "Invalid bet value, it must be between 1 and 9999"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidBetOutcome",
+      "msg": "Invalid bet outcome, it must be 0 or 1"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidBetParams",
+      "msg": "Invalid bet parameters"
+    },
+    {
+      "code": 6006,
+      "name": "IllegalCallFromProgram",
+      "msg": "Calls from other programs are prohibited"
+    },
+    {
+      "code": 6007,
+      "name": "MaxWinSizeExceeded",
+      "msg": "Max win size exceeded"
+    },
+    {
+      "code": 6008,
+      "name": "WrongBetSize",
+      "msg": "Bet size is less than minimal"
+    },
+    {
+      "code": 6009,
+      "name": "WinSizeLessThanBet",
+      "msg": "Potential win size is less than bet"
+    },
+    {
+      "code": 6010,
+      "name": "WrongFeeReceiverCnt",
+      "msg": "Wrong fee receiver list: different count of accounts and pcts"
+    },
+    {
+      "code": 6011,
+      "name": "WrongFeeReceiverPct",
+      "msg": "Wrong fee receiver list: sum of pcts must be 100%"
+    },
+    {
+      "code": 6012,
+      "name": "WrongFeeReceiverAccountCnt",
+      "msg": "Wrong fee receiver accounts count"
+    },
+    {
+      "code": 6013,
+      "name": "WrongFeeReceiverAccount",
+      "msg": "Wrong fee receiver account"
+    },
+    {
+      "code": 6014,
+      "name": "WrongAirdropInfoAccount",
+      "msg": "Wrong airdrop info account"
+    },
+    {
+      "code": 6015,
+      "name": "WrongPaymentSolAccount",
+      "msg": "Wrong payment sol account"
+    },
+    {
+      "code": 6016,
+      "name": "WrongTxMustBeFirst",
+      "msg": "Wrong TX: bet ix must be first in TX"
+    },
+    {
+      "code": 6017,
+      "name": "WrongTxMustBeLast",
+      "msg": "Wrong TX: bet ix must be last in TX"
+    },
+    {
+      "code": 6018,
+      "name": "WrongAcc",
+      "msg": "Wrong acc"
+    },
+    {
+      "code": 6019,
+      "name": "WrongReferrerInfoAccount",
+      "msg": "Wrong referrer info account"
+    },
+    {
+      "code": 6020,
+      "name": "WrongReferralData",
+      "msg": "Wrong referral data"
+    },
+    {
+      "code": 6021,
+      "name": "WrongMinesGenerated",
+      "msg": "Wrong Mines Generated"
+    }
+  ]
+}

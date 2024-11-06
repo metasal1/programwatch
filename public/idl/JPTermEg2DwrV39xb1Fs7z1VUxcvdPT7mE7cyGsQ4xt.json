@@ -1,0 +1,3096 @@
+{
+  "version": "0.1.0",
+  "name": "jet_fixed_term",
+  "constants": [
+    {
+      "name": "MARKET",
+      "type": "bytes",
+      "value": "[109, 97, 114, 107, 101, 116]"
+    },
+    {
+      "name": "TICKET_ACCOUNT",
+      "type": "bytes",
+      "value": "[116, 105, 99, 107, 101, 116, 95, 97, 99, 99, 111, 117, 110, 116]"
+    },
+    {
+      "name": "TICKET_MINT",
+      "type": "bytes",
+      "value": "[116, 105, 99, 107, 101, 116, 95, 109, 105, 110, 116]"
+    },
+    {
+      "name": "CRANK_AUTHORIZATION",
+      "type": "bytes",
+      "value": "[99, 114, 97, 110, 107, 95, 97, 117, 116, 104, 111, 114, 105, 122, 97, 116, 105, 111, 110]"
+    },
+    {
+      "name": "CLAIM_NOTES",
+      "type": "bytes",
+      "value": "[99, 108, 97, 105, 109, 95, 110, 111, 116, 101, 115]"
+    },
+    {
+      "name": "TICKET_COLLATERAL_NOTES",
+      "type": "bytes",
+      "value": "[116, 105, 99, 107, 101, 116, 95, 99, 111, 108, 108, 97, 116, 101, 114, 97, 108, 95, 110, 111, 116, 101, 115]"
+    },
+    {
+      "name": "UNDERLYING_COLLATERAL_NOTES",
+      "type": "bytes",
+      "value": "[117, 110, 100, 101, 114, 108, 121, 105, 110, 103, 95, 99, 111, 108, 108, 97, 116, 101, 114, 97, 108, 95, 110, 111, 116, 101, 115]"
+    },
+    {
+      "name": "EVENT_ADAPTER",
+      "type": "bytes",
+      "value": "[101, 118, 101, 110, 116, 95, 97, 100, 97, 112, 116, 101, 114]"
+    },
+    {
+      "name": "TERM_LOAN",
+      "type": "bytes",
+      "value": "[116, 101, 114, 109, 95, 108, 111, 97, 110]"
+    },
+    {
+      "name": "TERM_DEPOSIT",
+      "type": "bytes",
+      "value": "[116, 101, 114, 109, 95, 100, 101, 112, 111, 115, 105, 116]"
+    },
+    {
+      "name": "USER",
+      "type": "bytes",
+      "value": "[117, 115, 101, 114]"
+    },
+    {
+      "name": "ORDERBOOK_MARKET_STATE",
+      "type": "bytes",
+      "value": "[111, 114, 100, 101, 114, 98, 111, 111, 107, 95, 109, 97, 114, 107, 101, 116, 95, 115, 116, 97, 116, 101]"
+    },
+    {
+      "name": "MARGIN_USER",
+      "type": "bytes",
+      "value": "[109, 97, 114, 103, 105, 110, 95, 117, 115, 101, 114]"
+    },
+    {
+      "name": "UNDERLYING_TOKEN_VAULT",
+      "type": "bytes",
+      "value": "[117, 110, 100, 101, 114, 108, 121, 105, 110, 103, 95, 116, 111, 107, 101, 110, 95, 118, 97, 117, 108, 116]"
+    },
+    {
+      "name": "FEE_VAULT",
+      "type": "bytes",
+      "value": "[102, 101, 101, 95, 118, 97, 117, 108, 116]"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "authorizeCrank",
+      "accounts": [
+        {
+          "name": "crank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "crankAuthorization",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "revokeCrank",
+      "accounts": [
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeMarket",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claims",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeDestination",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeMarketParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeOrderbook",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMarketState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeOrderbookParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "modifyMarket",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "name": "offset",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "recoverUninitialized",
+      "accounts": [
+        {
+          "name": "governor",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "governorId",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "uninitialized",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipient",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pauseOrderMatching",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMarketState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resumeOrderMatching",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMarketState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bids",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "asks",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "airspace",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "autoRollBorrowOrder",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "claims",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimsMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextUnpaidLoan",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rentReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "autoRollLendOrder",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newDeposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rentReceiver",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "configureAutoRollBorrow",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": "BorrowAutoRollConfig"
+          }
+        }
+      ]
+    },
+    {
+      "name": "configureAutoRollLend",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": "LendAutoRollConfig"
+          }
+        }
+      ]
+    },
+    {
+      "name": "toggleAutoRollDeposit",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "toggleAutoRollLoan",
+      "accounts": [
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeMarginUser",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "claims",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimsMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "claimsMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateralMetadata",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "marginBorrowOrder",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "termLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "claims",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimsMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingSettlement",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "OrderParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "marginSellTicketsOrder",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userTicketVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "OrderParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "marginRedeemDeposit",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "marginLendOrder",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "ticketSettlement",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lenderTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "OrderParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "refreshPosition",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ticketOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "expectPrice",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "repay",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "termLoan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nextTermLoan",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "source",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sourceAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claims",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimsMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settle",
+      "accounts": [
+        {
+          "name": "marginUser",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marginAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "claims",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimsMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingCollateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingSettlement",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketSettlement",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "sellTicketsOrder",
+      "accounts": [
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userTicketVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "OrderParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancelOrder",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "lendOrder",
+      "accounts": [
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "orderbookMut",
+          "accounts": [
+            {
+              "name": "market",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "orderbookMarketState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "eventQueue",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "bids",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "asks",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "ticketSettlement",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lenderTokens",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "OrderParams"
+          }
+        },
+        {
+          "name": "seed",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "consumeEvents",
+      "accounts": [
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "orderbookMarketState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "eventQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "crankAuthorization",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "crank",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "numEvents",
+          "type": "u32"
+        },
+        {
+          "name": "seedBytes",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "exchangeTokens",
+      "accounts": [
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTicketVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userUnderlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeemDeposit",
+      "accounts": [
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingTokenVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeTickets",
+      "accounts": [
+        {
+          "name": "permit",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketHolder",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "ticketTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ticketMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "StakeTicketsParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tranferTicketOwnership",
+      "accounts": [
+        {
+          "name": "deposit",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newOwner",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "registerAdapter",
+      "accounts": [
+        {
+          "name": "adapterQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "market",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "RegisterAdapterParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "popAdapterEvents",
+      "accounts": [
+        {
+          "name": "adapterQueue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "numEvents",
+          "type": "u32"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "versionTag",
+            "type": "u64"
+          },
+          {
+            "name": "airspace",
+            "type": "publicKey"
+          },
+          {
+            "name": "orderbookMarketState",
+            "type": "publicKey"
+          },
+          {
+            "name": "eventQueue",
+            "type": "publicKey"
+          },
+          {
+            "name": "asks",
+            "type": "publicKey"
+          },
+          {
+            "name": "bids",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingTokenVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "claimsMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketCollateralMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingCollateralMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingOracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketOracle",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeDestination",
+            "type": "publicKey"
+          },
+          {
+            "name": "seed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "orderbookPaused",
+            "type": {
+              "defined": "PodBool"
+            }
+          },
+          {
+            "name": "ticketsPaused",
+            "type": {
+              "defined": "PodBool"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                29
+              ]
+            }
+          },
+          {
+            "name": "borrowTenor",
+            "type": "u64"
+          },
+          {
+            "name": "lendTenor",
+            "type": "u64"
+          },
+          {
+            "name": "originationFee",
+            "type": "u64"
+          },
+          {
+            "name": "nonce",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CrankAuthorization",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "crank",
+            "type": "publicKey"
+          },
+          {
+            "name": "airspace",
+            "type": "publicKey"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarginUser",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "marginAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "claims",
+            "type": "publicKey"
+          },
+          {
+            "name": "ticketCollateral",
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingCollateral",
+            "type": "publicKey"
+          },
+          {
+            "name": "debt",
+            "type": {
+              "defined": "Debt"
+            }
+          },
+          {
+            "name": "assets",
+            "type": {
+              "defined": "Assets"
+            }
+          },
+          {
+            "name": "borrowRollConfig",
+            "type": {
+              "option": {
+                "defined": "BorrowAutoRollConfig"
+              }
+            }
+          },
+          {
+            "name": "lendRollConfig",
+            "type": {
+              "option": {
+                "defined": "LendAutoRollConfig"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TermLoan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sequenceNumber",
+            "type": {
+              "defined": "SequenceNumber"
+            }
+          },
+          {
+            "name": "marginUser",
+            "type": "publicKey"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
+            "name": "orderTag",
+            "type": {
+              "defined": "OrderTag"
+            }
+          },
+          {
+            "name": "maturationTimestamp",
+            "type": {
+              "defined": "UnixTimestamp"
+            }
+          },
+          {
+            "name": "strikeTimestamp",
+            "type": {
+              "defined": "UnixTimestamp"
+            }
+          },
+          {
+            "name": "principal",
+            "type": "u64"
+          },
+          {
+            "name": "interest",
+            "type": "u64"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "flags",
+            "type": {
+              "defined": "TermLoanFlags"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EventAdapterMetadata",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "orderbookUser",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TermDeposit",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "market",
+            "type": "publicKey"
+          },
+          {
+            "name": "payer",
+            "type": "publicKey"
+          },
+          {
+            "name": "sequenceNumber",
+            "type": "u64"
+          },
+          {
+            "name": "maturesAt",
+            "type": "i64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "principal",
+            "type": "u64"
+          },
+          {
+            "name": "flags",
+            "type": {
+              "defined": "TermDepositFlags"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeMarketParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "versionTag",
+            "type": "u64"
+          },
+          {
+            "name": "seed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "borrowTenor",
+            "type": "u64"
+          },
+          {
+            "name": "lendTenor",
+            "type": "u64"
+          },
+          {
+            "name": "originationFee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeOrderbookParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "minBaseOrderSize",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Debt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nextNewTermLoanSeqno",
+            "type": "u64"
+          },
+          {
+            "name": "nextUnpaidTermLoanSeqno",
+            "type": "u64"
+          },
+          {
+            "name": "nextTermLoanMaturity",
+            "type": {
+              "defined": "UnixTimestamp"
+            }
+          },
+          {
+            "name": "pending",
+            "type": "u64"
+          },
+          {
+            "name": "committed",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Assets",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "entitledTokens",
+            "type": "u64"
+          },
+          {
+            "name": "entitledTickets",
+            "type": "u64"
+          },
+          {
+            "name": "nextDepositSeqno",
+            "type": "u64"
+          },
+          {
+            "name": "nextUnredeemedDepositSeqno",
+            "type": "u64"
+          },
+          {
+            "name": "ticketsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "ticketsPosted",
+            "type": "u64"
+          },
+          {
+            "name": "tokensPosted",
+            "type": "u64"
+          },
+          {
+            "name": "reserved0",
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BorrowAutoRollConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "limitPrice",
+            "type": "u64"
+          },
+          {
+            "name": "rollTenor",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LendAutoRollConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "limitPrice",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegisterAdapterParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "numEvents",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxTicketQty",
+            "type": "u64"
+          },
+          {
+            "name": "maxUnderlyingTokenQty",
+            "type": "u64"
+          },
+          {
+            "name": "limitPrice",
+            "type": "u64"
+          },
+          {
+            "name": "matchLimit",
+            "type": "u64"
+          },
+          {
+            "name": "postOnly",
+            "type": "bool"
+          },
+          {
+            "name": "postAllowed",
+            "type": "bool"
+          },
+          {
+            "name": "autoStake",
+            "type": "bool"
+          },
+          {
+            "name": "autoRoll",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeTicketsParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "seed",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MarginBorrow"
+          },
+          {
+            "name": "MarginLend"
+          },
+          {
+            "name": "MarginSellTickets"
+          },
+          {
+            "name": "Lend"
+          },
+          {
+            "name": "SellTickets"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AutoRollConfig",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Borrow",
+            "fields": [
+              {
+                "defined": "BorrowAutoRollConfig"
+              }
+            ]
+          },
+          {
+            "name": "Lend",
+            "fields": [
+              {
+                "defined": "LendAutoRollConfig"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "EventAccounts",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Fill",
+            "fields": [
+              {
+                "defined": "FillAccounts<'info>"
+              }
+            ]
+          },
+          {
+            "name": "Out",
+            "fields": [
+              {
+                "defined": "OutAccounts<'info>"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "FillAccounts",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Margin",
+            "fields": [
+              {
+                "defined": "MarginFillAccounts<'info>"
+              }
+            ]
+          },
+          {
+            "name": "Signer",
+            "fields": [
+              {
+                "defined": "FillAccount<'info>"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "FillAccount",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Token",
+            "fields": [
+              {
+                "defined": "AccountInfo<'info>"
+              }
+            ]
+          },
+          {
+            "name": "TermDeposit",
+            "fields": [
+              {
+                "defined": "AnchorAccount<'info,TermDeposit,Mut>"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "TermAccount",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Deposit",
+            "fields": [
+              {
+                "defined": "AnchorAccount<'info,TermDeposit,Mut>"
+              }
+            ]
+          },
+          {
+            "name": "Loan",
+            "fields": [
+              {
+                "defined": "AnchorAccount<'info,TermLoan,Mut>"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "OutAccounts",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Margin",
+            "fields": [
+              {
+                "defined": "AnchorAccount<'info,MarginUser,Mut>"
+              }
+            ]
+          },
+          {
+            "name": "Signer",
+            "fields": [
+              {
+                "defined": "AccountInfo<'info>"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "PreparedEvent",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Fill",
+            "fields": [
+              {
+                "defined": "FillAccounts<'info>"
+              },
+              {
+                "defined": "FillInfo"
+              }
+            ]
+          },
+          {
+            "name": "Out",
+            "fields": [
+              {
+                "defined": "OutAccounts<'info>"
+              },
+              {
+                "defined": "OutInfo"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderbookEvent",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Fill",
+            "fields": [
+              {
+                "defined": "FillInfo"
+              }
+            ]
+          },
+          {
+            "name": "Out",
+            "fields": [
+              {
+                "defined": "OutInfo"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundingAction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PostBorrow"
+          },
+          {
+            "name": "FillBorrow"
+          },
+          {
+            "name": "CancelBorrow"
+          },
+          {
+            "name": "PostLend"
+          },
+          {
+            "name": "FillLend"
+          },
+          {
+            "name": "CancelLend"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundingDirection",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Up"
+          },
+          {
+            "name": "Down"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserCallbackInfo",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Margin",
+            "fields": [
+              {
+                "defined": "MarginCallbackInfo"
+              }
+            ]
+          },
+          {
+            "name": "Signer",
+            "fields": [
+              {
+                "defined": "SignerCallbackInfo"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketSide",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Borrow"
+          },
+          {
+            "name": "Lend"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 141500,
+      "name": "ArithmeticOverflow",
+      "msg": "overflow occured on checked_add"
+    },
+    {
+      "code": 141501,
+      "name": "ArithmeticUnderflow",
+      "msg": "underflow occured on checked_sub"
+    },
+    {
+      "code": 141502,
+      "name": "FixedPointMath",
+      "msg": "bad fixed-point operation"
+    },
+    {
+      "code": 141503,
+      "name": "DoesNotOwnTicket",
+      "msg": "owner does not own the ticket"
+    },
+    {
+      "code": 141504,
+      "name": "DoesNotOwnEventAdapter",
+      "msg": "signer does not own the event adapter"
+    },
+    {
+      "code": 141505,
+      "name": "DoesNotOwnMarket",
+      "msg": "this market owner does not own this market"
+    },
+    {
+      "code": 141506,
+      "name": "EventQueueFull",
+      "msg": "queue does not have room for another event"
+    },
+    {
+      "code": 141507,
+      "name": "FailedToDeserializeTicket",
+      "msg": "failed to deserialize the SplitTicket or ClaimTicket"
+    },
+    {
+      "code": 141508,
+      "name": "FailedToPushEvent",
+      "msg": "failed to add event to the queue"
+    },
+    {
+      "code": 141509,
+      "name": "ImmatureTicket",
+      "msg": "ticket is not mature and cannot be claimed"
+    },
+    {
+      "code": 141510,
+      "name": "InsufficientSeeds",
+      "msg": "not enough seeds were provided for the accounts that need to be initialized"
+    },
+    {
+      "code": 141511,
+      "name": "InvalidAutoRollConfig",
+      "msg": "invalid auto roll configuration"
+    },
+    {
+      "code": 141512,
+      "name": "InvalidOrderPrice",
+      "msg": "order price is prohibited"
+    },
+    {
+      "code": 141513,
+      "name": "InvalidPosition",
+      "msg": "this token account is not a valid position for this margin user"
+    },
+    {
+      "code": 141514,
+      "name": "InvokeCreateAccount",
+      "msg": "failed to invoke account creation"
+    },
+    {
+      "code": 141515,
+      "name": "IoError",
+      "msg": "failed to properly serialize or deserialize a data structure"
+    },
+    {
+      "code": 141516,
+      "name": "MarketStateNotProgramOwned",
+      "msg": "this market state account is not owned by the current program"
+    },
+    {
+      "code": 141517,
+      "name": "MissingEventAdapter",
+      "msg": "tried to access a missing adapter account"
+    },
+    {
+      "code": 141518,
+      "name": "MissingSplitTicket",
+      "msg": "tried to access a missing split ticket account"
+    },
+    {
+      "code": 141519,
+      "name": "NoEvents",
+      "msg": "consume_events instruction failed to consume a single event"
+    },
+    {
+      "code": 141520,
+      "name": "NoMoreAccounts",
+      "msg": "expected additional remaining accounts, but there were none"
+    },
+    {
+      "code": 141521,
+      "name": "NonZeroDebt",
+      "msg": "the debt has a non-zero balance"
+    },
+    {
+      "code": 141522,
+      "name": "OracleError",
+      "msg": "there was a problem loading the price oracle"
+    },
+    {
+      "code": 141523,
+      "name": "OrderNotFound",
+      "msg": "id was not found in the user's open orders"
+    },
+    {
+      "code": 141524,
+      "name": "OrderbookPaused",
+      "msg": "Orderbook is not taking orders"
+    },
+    {
+      "code": 141525,
+      "name": "OrderRejected",
+      "msg": "aaob did not match or post the order. either posting is disabled or the order was too small"
+    },
+    {
+      "code": 141526,
+      "name": "PriceMissing",
+      "msg": "price could not be accessed from oracle"
+    },
+    {
+      "code": 141527,
+      "name": "TermDepositHasWrongSequenceNumber",
+      "msg": "expected a term deposit with a different sequence number"
+    },
+    {
+      "code": 141528,
+      "name": "TermLoanHasWrongSequenceNumber",
+      "msg": "expected a term loan with a different sequence number"
+    },
+    {
+      "code": 141529,
+      "name": "TicketNotFromManager",
+      "msg": "claim ticket is not from this manager"
+    },
+    {
+      "code": 141530,
+      "name": "TicketSettlementAccountNotRegistered",
+      "msg": "ticket settlement account is not registered as a position in the margin account"
+    },
+    {
+      "code": 141531,
+      "name": "TicketsPaused",
+      "msg": "tickets are paused"
+    },
+    {
+      "code": 141532,
+      "name": "UnauthorizedCaller",
+      "msg": "this signer is not authorized to place a permissioned order"
+    },
+    {
+      "code": 141533,
+      "name": "UnderlyingSettlementAccountNotRegistered",
+      "msg": "underlying settlement account is not registered as a position in the margin account"
+    },
+    {
+      "code": 141534,
+      "name": "UserDoesNotOwnAccount",
+      "msg": "this user does not own the user account"
+    },
+    {
+      "code": 141535,
+      "name": "UserDoesNotOwnAdapter",
+      "msg": "this adapter does not belong to the user"
+    },
+    {
+      "code": 141536,
+      "name": "UserNotInMarket",
+      "msg": "this user account is not associated with this fixed term market"
+    },
+    {
+      "code": 141537,
+      "name": "WrongAdapter",
+      "msg": "the wrong adapter account was passed to this instruction"
+    },
+    {
+      "code": 141538,
+      "name": "WrongAirspace",
+      "msg": "the market is configured for a different airspace"
+    },
+    {
+      "code": 141539,
+      "name": "WrongAirspaceAuthorization",
+      "msg": "the signer is not authorized to perform this action in the current airspace"
+    },
+    {
+      "code": 141540,
+      "name": "WrongAsks",
+      "msg": "asks account does not belong to this market"
+    },
+    {
+      "code": 141541,
+      "name": "WrongBids",
+      "msg": "bids account does not belong to this market"
+    },
+    {
+      "code": 141542,
+      "name": "WrongCrankAuthority",
+      "msg": "wrong authority for this crank instruction"
+    },
+    {
+      "code": 141543,
+      "name": "WrongEventQueue",
+      "msg": "event queue account does not belong to this market"
+    },
+    {
+      "code": 141544,
+      "name": "WrongMarket",
+      "msg": "account does not belong to given market"
+    },
+    {
+      "code": 141545,
+      "name": "WrongMarketState",
+      "msg": "this market state is not associated with this market"
+    },
+    {
+      "code": 141546,
+      "name": "WrongTicketManager",
+      "msg": "wrong TicketManager account provided"
+    },
+    {
+      "code": 141547,
+      "name": "WrongClaimAccount",
+      "msg": "the wrong account was provided for the token account that represents a user's claims"
+    },
+    {
+      "code": 141548,
+      "name": "WrongTicketCollateralAccount",
+      "msg": "the wrong account was provided for the token account that represents a user's collateral"
+    },
+    {
+      "code": 141549,
+      "name": "WrongUnderlyingCollateralAccount",
+      "msg": "the wrong account was provided for the token account that represents a user's collateral"
+    },
+    {
+      "code": 141550,
+      "name": "WrongClaimMint",
+      "msg": "the wrong account was provided for the claims token mint"
+    },
+    {
+      "code": 141551,
+      "name": "WrongTicketCollateralMint",
+      "msg": "the wrong account was provided for the ticket collateral token mint"
+    },
+    {
+      "code": 141552,
+      "name": "WrongUnderlyingCollateralMint",
+      "msg": "the wrong account was provided for the underlying collateral token mint"
+    },
+    {
+      "code": 141553,
+      "name": "WrongFeeDestination",
+      "msg": "wrong fee destination"
+    },
+    {
+      "code": 141554,
+      "name": "WrongOracle",
+      "msg": "wrong oracle address was sent to instruction"
+    },
+    {
+      "code": 141555,
+      "name": "WrongMarginUser",
+      "msg": "wrong margin user account address was sent to instruction"
+    },
+    {
+      "code": 141556,
+      "name": "WrongMarginUserAuthority",
+      "msg": "wrong authority for the margin user account address was sent to instruction"
+    },
+    {
+      "code": 141557,
+      "name": "WrongProgramAuthority",
+      "msg": "incorrect authority account"
+    },
+    {
+      "code": 141558,
+      "name": "WrongTicketMint",
+      "msg": "not the ticket mint for this fixed term market"
+    },
+    {
+      "code": 141559,
+      "name": "WrongUnderlyingTokenMint",
+      "msg": "wrong underlying token mint for this fixed term market"
+    },
+    {
+      "code": 141560,
+      "name": "WrongUserAccount",
+      "msg": "wrong user account address was sent to instruction"
+    },
+    {
+      "code": 141561,
+      "name": "WrongVault",
+      "msg": "wrong vault address was sent to instruction"
+    },
+    {
+      "code": 141562,
+      "name": "ZeroDivision",
+      "msg": "attempted to divide with zero"
+    },
+    {
+      "code": 141563,
+      "name": "MissingAuthoritySignature",
+      "msg": "missing authority signature"
+    },
+    {
+      "code": 141564,
+      "name": "AutoRollDisabled",
+      "msg": "auto roll is not enabled for this item"
+    },
+    {
+      "code": 141565,
+      "name": "AutoRollNotReady",
+      "msg": "auto roll requirements not met"
+    },
+    {
+      "code": 141566,
+      "name": "MissingTermDepositParameters",
+      "msg": "missing TermDeposit initialization parameters"
+    },
+    {
+      "code": 141567,
+      "name": "WrongMarginAccount",
+      "msg": "incorrect margin account was sent to the instruction"
+    },
+    {
+      "code": 141568,
+      "name": "WrongRentReceiver",
+      "msg": "specified rent receiver differs from the account field"
+    },
+    {
+      "code": 141569,
+      "name": "WrongDepositOwner",
+      "msg": "specified owner differs from the field in the TermDeposit"
+    },
+    {
+      "code": 141570,
+      "name": "TermDepositAlreadyInitialized",
+      "msg": "attempted to initialize a TermDeposit account that is already populated"
+    },
+    {
+      "code": 141571,
+      "name": "MarginUserCannotUseInstruction",
+      "msg": "a term deposit belonging to margin account collateral must use the MarginRedeemDeposit instruction"
+    },
+    {
+      "code": 141572,
+      "name": "PriceOutOfBounds",
+      "msg": "cannot place an order with negative interest rates"
+    }
+  ]
+}

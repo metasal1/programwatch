@@ -1,0 +1,332 @@
+{
+  "version": "0.1.0",
+  "name": "crypto_reserve_fund",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commissionFeeAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "commissionTokenAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metaAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeTokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeSaleAccounts",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "saleAccount1",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "saleAccount2",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pickMrp",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "saleAccount1",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "commissionFeeAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "getFund",
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "fundAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "commissionFeeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "commissionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "rebalanceMrp",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "saleAccount2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "commissionTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "commissionFeeAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "MetaAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "feeTokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "saleAccount1",
+            "type": "publicKey"
+          },
+          {
+            "name": "saleAccount2",
+            "type": "publicKey"
+          },
+          {
+            "name": "commissionFeeAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "commissionTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "frozenTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "mrpNumerator",
+            "type": "u64"
+          },
+          {
+            "name": "mrpDenominator",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NumberOverflow",
+      "msg": "Number overflow"
+    },
+    {
+      "code": 6001,
+      "name": "SaleAccount1NotEmpty",
+      "msg": "Sale wallet 1 is not empty"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidSaleAccount1",
+      "msg": "Sale account 1 is invalid"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidSaleAccount2",
+      "msg": "Sale account 2 is invalid"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidCommissionFeeAccount",
+      "msg": "Commission fee account is invalid"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidCommissionTokenAccount",
+      "msg": "Commission token account is invalid"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidMetaAccountStatus",
+      "msg": "Meta account status is invalid"
+    },
+    {
+      "code": 6007,
+      "name": "InsufficientBalance",
+      "msg": "Token balance is too low"
+    },
+    {
+      "code": 6008,
+      "name": "LowExchangeAmount",
+      "msg": "Low exchange amount"
+    },
+    {
+      "code": 6009,
+      "name": "LowMRPDiff",
+      "msg": "Low MRP diff"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidSupply",
+      "msg": "Total supply mismatch"
+    },
+    {
+      "code": 6011,
+      "name": "InsufficientCommossionToken",
+      "msg": "Commission token amount is insufficient"
+    }
+  ]
+}

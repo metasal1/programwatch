@@ -1,0 +1,224 @@
+{
+  "version": "0.0.0",
+  "name": "nft_staking",
+  "instructions": [
+    {
+      "name": "initUserAccount",
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccountPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeNft",
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccountPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexMetadataPda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstakeNft",
+      "accounts": [
+        {
+          "name": "staker",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "nftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccountPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "simulateCreateMetadata",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nftStakeRecords",
+            "type": {
+              "vec": {
+                "defined": "NftRecord"
+              }
+            }
+          },
+          {
+            "name": "numNftsStaked",
+            "type": "u16"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NftRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isStaked",
+            "type": "bool"
+          },
+          {
+            "name": "stakeTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "cumulativeSecondsStaked",
+            "type": "i64"
+          },
+          {
+            "name": "nftAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakerAccount",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "NftAlreadyStaked",
+      "msg": "Nft is already staked"
+    },
+    {
+      "code": 301,
+      "name": "NftNotAlreadyStaked",
+      "msg": "Nft is not already staked"
+    },
+    {
+      "code": 302,
+      "name": "InvalidCreatorAddress",
+      "msg": "Invalid creators address"
+    },
+    {
+      "code": 303,
+      "name": "ReachedMaxStakedNftsCount",
+      "msg": "Cannot stake more NFTs on this account"
+    },
+    {
+      "code": 304,
+      "name": "InvalidStakerAccount",
+      "msg": "Staker account does not match original staker of this NFT"
+    },
+    {
+      "code": 305,
+      "name": "InvalidTokenAmount",
+      "msg": "NFT account should have exactly 1 token in it."
+    },
+    {
+      "code": 306,
+      "name": "InvalidAccountOwner",
+      "msg": "Invalid account owner"
+    },
+    {
+      "code": 307,
+      "name": "InvalidMetaplexMetadataPda",
+      "msg": "Invalid metaplex metadata pda"
+    }
+  ]
+}

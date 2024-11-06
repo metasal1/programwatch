@@ -1,0 +1,322 @@
+{
+  "version": "0.1.0",
+  "name": "admin_board",
+  "instructions": [
+    {
+      "name": "initAdmins",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminRolesAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "superAdmin",
+          "type": "publicKey"
+        },
+        {
+          "name": "feeReceiver",
+          "type": "publicKey"
+        },
+        {
+          "name": "operator1",
+          "type": "publicKey"
+        },
+        {
+          "name": "operator2",
+          "type": "publicKey"
+        },
+        {
+          "name": "operator3",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateAdmin",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "adminRolesAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateFeeReceiver",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "adminRolesAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newReceiver",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "getFeeReceiver",
+      "accounts": [
+        {
+          "name": "adminRolesAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": "publicKey"
+    },
+    {
+      "name": "updateOperator",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "adminRolesAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "oldOp",
+          "type": "publicKey"
+        },
+        {
+          "name": "newOp",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "addDomain",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "domainAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminRolesAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "domain",
+          "type": "u32"
+        },
+        {
+          "name": "destChainId",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "getDomain",
+      "accounts": [
+        {
+          "name": "domainAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "domain",
+          "type": "u32"
+        }
+      ],
+      "returns": "u32"
+    },
+    {
+      "name": "setFee",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminRolesAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "fee",
+          "type": "u64"
+        },
+        {
+          "name": "destChainId",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "getFee",
+      "accounts": [
+        {
+          "name": "domainAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "domain",
+          "type": "u32"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "getFeeByDestchain",
+      "accounts": [
+        {
+          "name": "feeAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "destChainId",
+          "type": "u32"
+        }
+      ],
+      "returns": "u64"
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DomainData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "destChainId",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fee",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminRoleData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initialized",
+            "type": "bool"
+          },
+          {
+            "name": "adminRole",
+            "type": "publicKey"
+          },
+          {
+            "name": "operators",
+            "type": {
+              "array": [
+                "publicKey",
+                3
+              ]
+            }
+          },
+          {
+            "name": "feeReceiver",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotAnAdmin"
+    },
+    {
+      "code": 6001,
+      "name": "NotAnOperator"
+    },
+    {
+      "code": 6002,
+      "name": "HasInitialized"
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+{
+  "version": "1.0.0",
+  "name": "jet_metadata",
+  "instructions": [
+    {
+      "name": "createEntry",
+      "accounts": [
+        {
+          "name": "keyAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The account used as the key to lookup"
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account containing the metadata for the key"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority that must sign to make this change"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The address paying the rent for the account"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seed",
+          "type": "string"
+        },
+        {
+          "name": "space",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setEntry",
+      "accounts": [
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account containing the metadata to change"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority that must sign to make this change"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "offset",
+          "type": "u64"
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "removeEntry",
+      "accounts": [
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account containing the metadata to change"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The authority that must sign to make this change"
+          ]
+        },
+        {
+          "name": "receiver",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The address receiving the rent"
+          ]
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PositionTokenMetadata",
+      "docs": [
+        "A metadata account referencing information about a position token"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "positionTokenMint",
+            "docs": [
+              "The mint for the position token"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "underlyingTokenMint",
+            "docs": [
+              "The underlying token represented by this position"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "adapterProgram",
+            "docs": [
+              "The adapter program in control of this position"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenKind",
+            "docs": [
+              "Description of this token"
+            ],
+            "type": {
+              "defined": "TokenKind"
+            }
+          },
+          {
+            "name": "valueModifier",
+            "docs": [
+              "A modifier to adjust the token value, based on the kind of token"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "maxStaleness",
+            "docs": [
+              "The maximum staleness (seconds) that's acceptable for balances of this token"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenMetadata",
+      "docs": [
+        "An account that references information about a token's price oracle"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMint",
+            "docs": [
+              "The address of the mint for the token being referenced"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pythPrice",
+            "docs": [
+              "The address of the price oracle which contains the price data for",
+              "the associated token."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "pythProduct",
+            "docs": [
+              "The address of the pyth product metadata associated with the price oracle"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarginAdapterMetadata",
+      "docs": [
+        "An account that references a program that's allowed to be invoked by",
+        "proxy via a margin account."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adapterProgram",
+            "docs": [
+              "The address of the allowed program"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidatorMetadata",
+      "docs": [
+        "An account referencing a liquidator, allowed to use the liquidation",
+        "instructions on margin accounts."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "liquidator",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TokenKind",
+      "docs": [
+        "Description of the token's usage"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NonCollateral"
+          },
+          {
+            "name": "Collateral"
+          },
+          {
+            "name": "Claim"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PositionOwner",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MarginAccount"
+          },
+          {
+            "name": "Adapter"
+          }
+        ]
+      }
+    }
+  ]
+}

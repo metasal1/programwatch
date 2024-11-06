@@ -1,0 +1,780 @@
+{
+  "version": "0.1.0",
+  "name": "leancoin",
+  "docs": [
+    "This program is used to mint, burn and transfer tokens. It includes also a vesting mechanism."
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initializes accounts and set states. It is the first function that must be called and it can be called only once.",
+        "",
+        "### Arguments",
+        "",
+        "* `contract_state_nonce` - nonce for contract state account",
+        "* `vesting_state_nonce` - nonce for vesting state account",
+        "* `mint_nonce` - nonce for mint account",
+        "* `program_account_nonce` - nonce for program account",
+        "* `burning_account_nonce` - nonce for burning account",
+        "* `community_wallet_nonce` - nonce for community wallet account",
+        "* `liquidity_wallet_nonce` - nonce for liquidity wallet account",
+        "* `marketing_wallet_nonce` - nonce for marketing wallet account",
+        "* `partnership_wallet_nonce` - nonce for partnership wallet account"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "burningAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partnershipAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "contractStateNonce",
+          "type": "u8"
+        },
+        {
+          "name": "vestingStateNonce",
+          "type": "u8"
+        },
+        {
+          "name": "mintNonce",
+          "type": "u8"
+        },
+        {
+          "name": "programAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "burningAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "communityWalletNonce",
+          "type": "u8"
+        },
+        {
+          "name": "liquidityWalletNonce",
+          "type": "u8"
+        },
+        {
+          "name": "marketingWalletNonce",
+          "type": "u8"
+        },
+        {
+          "name": "partnershipWalletNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "importEthereumTokenState",
+      "docs": [
+        "Imports token state from Ethereum. It mints, burns and transfer tokens based on the passed parameters that should specify the current token state on Ethereum.",
+        "Additionally, it sets initial data related to burning and vesting like date (year and month) of the initial burning or initial state of accounts participating in vesting.",
+        "The data is used later by burning and vesting functions.",
+        "",
+        "It is the second function that should be called and it can be called only once.",
+        "",
+        "### Arguments",
+        "",
+        "* `account_info_from_ethereum` - a set of accounts reflecting those used on Ethereum; Leancoin tokens are transferred to these accounts",
+        "* `amount_token_to_mint` - amount of tokens to mint to Program Account",
+        "* `amount_token_to_burn` - amount of tokens to burn (also applied to Program Account)"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "accountInfoFromEthereum",
+          "type": {
+            "vec": {
+              "defined": "AccountInfoFromEthereum"
+            }
+          }
+        },
+        {
+          "name": "amountTokenToMint",
+          "type": "u64"
+        },
+        {
+          "name": "amountTokenToBurn",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "burn",
+      "docs": [
+        "Burns 5% of all the tokens currently held by the burning account.",
+        "This function can be called only once per month and only between the 1st and the 5th day of the month."
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "burningAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawTokensFromCommunityWallet",
+      "docs": [
+        "Withdraws vested tokens from community wallet, if available.",
+        "2.5% of the initial wallet's balance is unlocked every month.",
+        "",
+        "### Arguments",
+        "",
+        "* `amount_to_withdraw` - amount of tokens to withdraw"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountToWithdraw",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTokensFromPartnershipWallet",
+      "docs": [
+        "Withdraws vested tokens from partnership wallet, if available.",
+        "50% of the initial wallet's balance is unlocked after 1 month.",
+        "The remaining part is unlocked after 2 months.",
+        "",
+        "### Arguments",
+        "",
+        "* `amount_to_withdraw` - amount of tokens to withdraw"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "partnershipAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountToWithdraw",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTokensFromMarketingWallet",
+      "docs": [
+        "Withdraws vested tokens from marketing wallet, if available.",
+        "40% of the initial wallet's balance is unlocked after 1 year.",
+        "Starting from the 13th month, 5% of the initial wallet's balance is unlocked every month.",
+        "",
+        "### Arguments",
+        "",
+        "* `amount_to_withdraw` - amount of tokens to withdraw"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountToWithdraw",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawTokensFromLiquidityWallet",
+      "docs": [
+        "Withdraws vested tokens from liquidity wallet, if available.",
+        "50% of the initial wallet's balance is unlocked immediately.",
+        "The remaining part is unlocked after 1 year.",
+        "",
+        "### Arguments",
+        "",
+        "* `amount_to_withdraw` - amount of tokens to withdraw"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vestingState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidityAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "depositWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amountToWithdraw",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeAuthority",
+      "docs": [
+        "Sets new authority",
+        "",
+        "### Arguments",
+        "",
+        "* `new_authority` - new authority"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setTokenMetadata",
+      "docs": [
+        "Sets new token metadata",
+        "",
+        "### Arguments",
+        "",
+        "* `name` - new token name",
+        "* `symbol` - new token symbol",
+        "* `uri` - new token uri",
+        "* `token_metadata_action` - enum that specifies which token metadata instruction to use"
+      ],
+      "accounts": [
+        {
+          "name": "contractState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "tokenMetadataAction",
+          "type": {
+            "defined": "TokenMetadataAction"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ContractState",
+      "docs": [
+        "The account that holds the state of the contract.",
+        "It is initialized only once during contract initialization.",
+        "Part of the state is never updated (nonces and authority) while the other parts can be updated one or more times.",
+        "",
+        "It is used to store the following data:",
+        "- information if the Ethereum token state import has already been performed,",
+        "- contract state nonce,",
+        "- the mint nonce,",
+        "- the program account nonce,",
+        "- the burning account nonce,",
+        "- the last burning month and year,",
+        "- the authority which is set to the signer of the transaction when contract is initialized so the signer becomes contract's owner."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "importEthereumTokenStateAlreadyPerformed",
+            "type": "bool"
+          },
+          {
+            "name": "contractStateNonce",
+            "type": "u8"
+          },
+          {
+            "name": "mintNonce",
+            "type": "u8"
+          },
+          {
+            "name": "programAccountNonce",
+            "type": "u8"
+          },
+          {
+            "name": "burningAccountNonce",
+            "type": "u8"
+          },
+          {
+            "name": "lastBurningMonth",
+            "type": "u8"
+          },
+          {
+            "name": "lastBurningYear",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VestingState",
+      "docs": [
+        "The account that holds the state of the vesting.",
+        "It is initialized only once during contract initialization.",
+        "The state is updated only once after the initialization - during Ethereum token state import.",
+        "",
+        "It is used to store the following data:",
+        "- vesting state nonce,",
+        "- the community wallet nonce,",
+        "- the community wallet initial balance after Ethereum token state import,",
+        "- the partnership wallet nonce,",
+        "- the partnership wallet initial balance after Ethereum token state import,",
+        "- the marketing wallet nonce,",
+        "- the marketing wallet initial balance after Ethereum token state import,",
+        "- the liquidity wallet nonce,",
+        "- the liquidity wallet initial balance after Ethereum token state import,",
+        "- the vesting start timestamp which is used to calculate the amount of unlocked tokens for each wallet, it is set to the timestamp of Ethereum token state import."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vestingStateNonce",
+            "type": "u8"
+          },
+          {
+            "name": "communityWalletNonce",
+            "type": "u8"
+          },
+          {
+            "name": "initialCommunityWalletBalance",
+            "type": "u64"
+          },
+          {
+            "name": "alreadyWithdrawnCommunityWalletAmount",
+            "type": "u64"
+          },
+          {
+            "name": "partnershipWalletNonce",
+            "type": "u8"
+          },
+          {
+            "name": "initialPartnershipWalletBalance",
+            "type": "u64"
+          },
+          {
+            "name": "alreadyWithdrawnPartnershipWalletAmount",
+            "type": "u64"
+          },
+          {
+            "name": "marketingWalletNonce",
+            "type": "u8"
+          },
+          {
+            "name": "initialMarketingWalletBalance",
+            "type": "u64"
+          },
+          {
+            "name": "alreadyWithdrawnMarketingWalletAmount",
+            "type": "u64"
+          },
+          {
+            "name": "liquidityWalletNonce",
+            "type": "u8"
+          },
+          {
+            "name": "initialLiquidityWalletBalance",
+            "type": "u64"
+          },
+          {
+            "name": "alreadyWithdrawnLiquidityWalletAmount",
+            "type": "u64"
+          },
+          {
+            "name": "startTimestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AccountInfoFromEthereum",
+      "docs": [
+        "structure for storing information about the account"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "walletName",
+            "type": "string"
+          },
+          {
+            "name": "accountPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "accountBalance",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenMetadataAction",
+      "docs": [
+        "The `TokenMetadataAction` enum is used to indicate whether the `set_token_metadata` function should create new metadata for a token, or update the existing metadata.",
+        "",
+        "* `Create` - Indicates that new metadata should be created. This should be used when the token does not have any existing metadata.",
+        "* `Update` - Indicates that the existing metadata should be updated. This should be used when the token already has metadata, and it needs to be modified.",
+        ""
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Create"
+          },
+          {
+            "name": "Update"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "You are not an owner"
+    },
+    {
+      "code": 6001,
+      "name": "EndTimeMustBeLaterThanStartTime",
+      "msg": "End time must be later than start time"
+    },
+    {
+      "code": 6002,
+      "name": "EthereumTokenStateMappingAlreadyPerformed",
+      "msg": "Ethereum token state mapping already performed"
+    },
+    {
+      "code": 6003,
+      "name": "MismatchBetweenRemainingAccountsAndUserInfo",
+      "msg": "Account from remaining accounts not found in user info"
+    },
+    {
+      "code": 6004,
+      "name": "TooLateToBurnTokens",
+      "msg": "Tokens can be burned only between the 1st and the 5th day of the month"
+    },
+    {
+      "code": 6005,
+      "name": "TokensAlreadyBurned",
+      "msg": "Tokens already burned this month."
+    },
+    {
+      "code": 6006,
+      "name": "NotEnoughTokens",
+      "msg": "Not enough tokens to withdraw"
+    },
+    {
+      "code": 6007,
+      "name": "NonUniqueAccountInfo",
+      "msg": "Account info must be unique"
+    },
+    {
+      "code": 6008,
+      "name": "DuplicatedWalletName",
+      "msg": "Wallet name must be unique"
+    },
+    {
+      "code": 6009,
+      "name": "ProgramAccountBalanceIsNotZero",
+      "msg": "Program account balance is not zero"
+    },
+    {
+      "code": 6010,
+      "name": "CommunityWalletBalanceIsZero",
+      "msg": "Community wallet balance is zero"
+    },
+    {
+      "code": 6011,
+      "name": "PartnershipWalletBalanceIsZero",
+      "msg": "Partnership wallet balance is zero"
+    },
+    {
+      "code": 6012,
+      "name": "MarketingWalletBalanceIsZero",
+      "msg": "Marketing wallet balance is zero"
+    },
+    {
+      "code": 6013,
+      "name": "LiquidityWalletBalanceIsZero",
+      "msg": "Liquidity wallet balance is zero"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidTimestamp",
+      "msg": "Invalid timestamp"
+    }
+  ]
+}

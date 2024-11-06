@@ -1,0 +1,983 @@
+{
+  "version": "0.1.0",
+  "name": "solana_ibc",
+  "instructions": [
+    {
+      "name": "initialise",
+      "docs": [
+        "Initialises the guest blockchain with given configuration and genesis",
+        "epoch."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding private IBC storage.",
+            "",
+            "This account isn’t used directly by the instruction.  It is however",
+            "initialised."
+          ]
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding the trie which corresponds to guest blockchain’s",
+            "state root.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": "chain::Config"
+          }
+        },
+        {
+          "name": "genesisEpoch",
+          "type": {
+            "defined": "chain::Epoch"
+          }
+        },
+        {
+          "name": "stakingProgramId",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "generateBlock",
+      "docs": [
+        "Attempts to generate a new guest block.",
+        "",
+        "The request fails if there’s a pending guest block or conditions for",
+        "creating a new block haven’t been met.",
+        "",
+        "TODO(mina86): Per the guest blockchain paper, generating a guest block",
+        "should offer rewards to account making the generate block call.  This is",
+        "currently not implemented and will be added at a later time."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding private IBC storage."
+          ]
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding the trie which corresponds to guest blockchain’s",
+            "state root.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "program is calling the method."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "signBlock",
+      "docs": [
+        "Accepts pending block’s signature from the validator.",
+        "",
+        "Sender of the transaction is the validator of the guest blockchain.",
+        "Their Solana key is used as the key in the guest blockchain.",
+        "",
+        "`signature` is signature of the pending guest block made with private",
+        "key corresponding to the sender account’s public key.",
+        "",
+        "TODO(mina86): At the moment the call doesn’t provide rewards and doesn’t",
+        "allow to submit signatures for finalised guest blocks.  Those features",
+        "will be added at a later time."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding the trie which corresponds to guest blockchain’s",
+            "state root.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "ixSysvar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "signature",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "setStake",
+      "docs": [
+        "Changes stake of a guest validator.",
+        "",
+        "Sender’s stake will be set to the given amount.  Note that if sender is",
+        "a validator in current epoch, their stake in current epoch won’t change.",
+        "This also means that reducing stake takes effect only after the epoch",
+        "changes.",
+        "",
+        "TODO(mina86): At the moment we’re operating on pretend tokens and each",
+        "validator can set whatever stake they want.  This is purely for testing",
+        "and not intended for production use.",
+        "",
+        "Can only be called through CPI from our staking program whose",
+        "id is stored in chain account."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding the trie which corresponds to guest blockchain’s",
+            "state root.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instruction",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "program is calling the method."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "validator",
+          "type": "publicKey"
+        },
+        {
+          "name": "amount",
+          "type": "u128"
+        }
+      ]
+    },
+    {
+      "name": "initMint",
+      "docs": [
+        "Called to set up escrow and mint accounts for given channel",
+        "and denom.",
+        "",
+        "The body of this method is empty since it is called to",
+        "initialise the accounts only.  Anchor sets up the accounts",
+        "given in this call’s context before the body of the method is",
+        "executed."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "portId",
+          "type": {
+            "defined": "ibc::PortId"
+          }
+        },
+        {
+          "name": "channelIdOnB",
+          "type": {
+            "defined": "ibc::ChannelId"
+          }
+        },
+        {
+          "name": "hashedBaseDenom",
+          "type": {
+            "defined": "CryptoHash"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deliver",
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding private IBC storage."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding provable IBC storage, i.e. the trie.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "message",
+          "type": {
+            "defined": "ibc::MsgEnvelope"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mockDeliver",
+      "docs": [
+        "Called to set up a connection, channel and store the next",
+        "sequence.  Will panic if called without `mocks` feature."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding private IBC storage."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding provable IBC storage, i.e. the trie.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "portId",
+          "type": {
+            "defined": "ibc::PortId"
+          }
+        },
+        {
+          "name": "commitmentPrefix",
+          "type": {
+            "defined": "ibc::CommitmentPrefix"
+          }
+        },
+        {
+          "name": "clientId",
+          "type": {
+            "defined": "ibc::ClientId"
+          }
+        },
+        {
+          "name": "counterpartyClientId",
+          "type": {
+            "defined": "ibc::ClientId"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendPacket",
+      "docs": [
+        "Should be called after setting up client, connection and channels."
+      ],
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding private IBC storage."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding provable IBC storage, i.e. the trie.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "portId",
+          "type": {
+            "defined": "ibc::PortId"
+          }
+        },
+        {
+          "name": "channelId",
+          "type": {
+            "defined": "ibc::ChannelId"
+          }
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "name": "timeoutHeight",
+          "type": {
+            "defined": "ibc::TimeoutHeight"
+          }
+        },
+        {
+          "name": "timeoutTimestamp",
+          "type": {
+            "defined": "ibc::Timestamp"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendTransfer",
+      "accounts": [
+        {
+          "name": "sender",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "receiver",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "storage",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding private IBC storage."
+          ]
+        },
+        {
+          "name": "trie",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The account holding provable IBC storage, i.e. the trie.",
+            "",
+            "function."
+          ]
+        },
+        {
+          "name": "chain",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The guest blockchain data."
+          ]
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "receiverTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "portId",
+          "type": {
+            "defined": "ibc::PortId"
+          }
+        },
+        {
+          "name": "channelId",
+          "type": {
+            "defined": "ibc::ChannelId"
+          }
+        },
+        {
+          "name": "hashedBaseDenom",
+          "type": {
+            "defined": "CryptoHash"
+          }
+        },
+        {
+          "name": "msg",
+          "type": {
+            "defined": "ibc::MsgTransfer"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ChainData",
+      "docs": [
+        "Guest blockchain data held in Solana account."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "inner",
+            "type": {
+              "option": {
+                "defined": "Box<ChainInner>"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PrivateStorage",
+      "docs": [
+        "The private IBC storage, i.e. data which doesn’t require proofs."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "clients",
+            "docs": [
+              "Per-client information.",
+              "",
+              "Entry at index `N` corresponds to the client with IBC identifier",
+              "`client-<N>`."
+            ],
+            "type": {
+              "vec": {
+                "defined": "ClientStore"
+              }
+            }
+          },
+          {
+            "name": "connections",
+            "docs": [
+              "Information about the counterparty on given connection.",
+              "",
+              "Entry at index `N` corresponds to the connection with IBC identifier",
+              "`connection-<N>`."
+            ],
+            "type": {
+              "vec": {
+                "defined": "Serialised<ibc::ConnectionEnd>"
+              }
+            }
+          },
+          {
+            "name": "portChannel",
+            "docs": [
+              "Information about a each `(part, channel)` endpoint."
+            ],
+            "type": {
+              "defined": "map::Map<trie_ids::PortChannelPK,PortChannelStore>"
+            }
+          },
+          {
+            "name": "channelCounter",
+            "type": "u32"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AnyClientState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Tendermint",
+            "fields": [
+              {
+                "defined": "ibc::tm::ClientState"
+              }
+            ]
+          },
+          {
+            "name": "Mock",
+            "fields": [
+              {
+                "defined": "ibc::mock::MockClientState"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "AnyConsensusState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Tendermint",
+            "fields": [
+              {
+                "defined": "crate::ibc::tm::ConsensusState"
+              }
+            ]
+          },
+          {
+            "name": "Guest",
+            "fields": [
+              {
+                "defined": "blockchain::ibc_state::ConsensusState"
+              }
+            ]
+          },
+          {
+            "name": "Mock",
+            "fields": [
+              {
+                "defined": "crate::ibc::mock::MockConsensusState"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Error",
+      "docs": [
+        "Error returned when handling a request."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Internal",
+            "fields": [
+              "string"
+            ]
+          },
+          {
+            "name": "ContextError",
+            "fields": [
+              {
+                "defined": "crate::ibc::ContextError"
+              }
+            ]
+          },
+          {
+            "name": "TokenTransferError",
+            "fields": [
+              {
+                "defined": "crate::ibc::TokenTransferError"
+              }
+            ]
+          },
+          {
+            "name": "ChainNotInitialised"
+          },
+          {
+            "name": "ChainAlreadyInitialised"
+          },
+          {
+            "name": "GenerationAlreadyAttempted"
+          },
+          {
+            "name": "HasPendingBlock"
+          },
+          {
+            "name": "HeadBlockTooYoung"
+          },
+          {
+            "name": "UnchangedGuestState"
+          },
+          {
+            "name": "UnknownBlock"
+          },
+          {
+            "name": "BadSignature"
+          },
+          {
+            "name": "BadValidator"
+          },
+          {
+            "name": "NotEnoughValidatorStake"
+          },
+          {
+            "name": "NotEnoughTotalStake"
+          },
+          {
+            "name": "NotEnoughValidators"
+          },
+          {
+            "name": "InvalidCPICall"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Event",
+      "docs": [
+        "Possible events emitted by the smart contract.",
+        "",
+        "The events are logged in their borsh-serialised form."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "IbcEvent",
+            "fields": [
+              {
+                "defined": "ibc::IbcEvent"
+              }
+            ]
+          },
+          {
+            "name": "Initialised",
+            "fields": [
+              {
+                "defined": "Initialised<'a>"
+              }
+            ]
+          },
+          {
+            "name": "NewBlock",
+            "fields": [
+              {
+                "defined": "NewBlock<'a>"
+              }
+            ]
+          },
+          {
+            "name": "BlockSigned",
+            "fields": [
+              {
+                "defined": "BlockSigned"
+              }
+            ]
+          },
+          {
+            "name": "BlockFinalised",
+            "fields": [
+              {
+                "defined": "BlockFinalised"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Epoch",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "defined": "blockchain::Epoch<PubKey>"
+        }
+      }
+    },
+    {
+      "name": "Block",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "defined": "blockchain::Block<PubKey>"
+        }
+      }
+    },
+    {
+      "name": "BlockHeader",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "defined": "blockchain::BlockHeader"
+        }
+      }
+    },
+    {
+      "name": "Manager",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "defined": "blockchain::ChainManager<PubKey>"
+        }
+      }
+    },
+    {
+      "name": "Validator",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "defined": "blockchain::Validator<PubKey>"
+        }
+      }
+    },
+    {
+      "name": "Candidate",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "defined": "blockchain::Candidate<PubKey>"
+        }
+      }
+    }
+  ]
+}

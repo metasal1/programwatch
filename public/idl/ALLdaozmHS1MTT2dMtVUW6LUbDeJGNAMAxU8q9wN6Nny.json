@@ -1,0 +1,768 @@
+{
+  "version": "0.1.0",
+  "name": "sallar",
+  "docs": [
+    "This program is used to mint and distribute Sallar tokens."
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initializes accounts and set their states. It also mints initial tokens for top and bottom distribution block accounts.",
+        "It is the first function that must be called and it can be called only once.",
+        "",
+        "### Arguments",
+        "",
+        "* `ctx` - the initialization context where all the accounts are provided,",
+        "* `token_metadata_name` - token's name to set in metadata,",
+        "* `token_metadata_symbol` - token's symbol to set in metadata,",
+        "* `token_metadata_uri` - token's uri to set in metadata,"
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Decimals are set to 8 because it is the highest possible precision,",
+            "considering the desired total supply of Sallar which is 54_600_000_000.",
+            "",
+            "Adding 8 digits there results in a number that still fits u64 range:",
+            "54_600_000_000_000_000_00 (total supply in base units - dusts - with 8 digits)",
+            "18_446_744_073_709_551_615 (max number in u64)",
+            "",
+            "Increasing decimals to 9 would result in a number exceeding u64 range."
+          ]
+        },
+        {
+          "name": "distributionTopBlockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionBottomBlockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "finalStakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "finalMiningAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokenMetadataName",
+          "type": "string"
+        },
+        {
+          "name": "tokenMetadataSymbol",
+          "type": "string"
+        },
+        {
+          "name": "tokenMetadataUri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialTokenDistribution",
+      "docs": [
+        "Distributes 2 600 000 000 tokens to the organization account provided in the context by minting tokens to the account.",
+        "This function can be called only once and it can be called at any time after the initialization.",
+        "",
+        "### Arguments",
+        "",
+        "* `ctx` - the initial token distribution context where the organization account is provided."
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "organizationAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "solveTopBlock",
+      "docs": [
+        "Solves current top block.",
+        "Distributes tokens from top block distribution account to the accounts solving the block, i.e. to the accounts passed in the context and in the `users_info` parameter.",
+        "Once the block is solved and all tokens from top block distribution account are distributed, the block is switched to the next one and the distribution account is refilled.",
+        "This function can be called multiple times, until all blocks are solved or the blocks would collide after the switch to the next block (i.e. the next block number is already used as the current bottom block number).",
+        "The function cannot be invoked for 3 minutes after the block has been solved.",
+        "",
+        "### Arguments",
+        "",
+        "* `ctx` - the solve top block context where all required accounts are provided,",
+        "* `users_info` - a vector of accounts solving the current top block, containing the information for each of the accounts needed to calculate the number of tokens to distribute to the accounts.",
+        "",
+        "### Returns",
+        "Number of current top block after processing all input accounts"
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionTopBlockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "usersInfo",
+          "type": {
+            "vec": {
+              "defined": "UserInfoTopBlock"
+            }
+          }
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "solveBottomBlock",
+      "docs": [
+        "Solves current bottom block.",
+        "Distributes tokens from bottom block distribution account to the accounts solving the block, i.e. to the accounts passed in the context and in the `users_info` parameter.",
+        "Once the block is solved and all tokens are from bottom block distribution account are distributed, the block is switched to the next one and the distribution account is refilled.",
+        "This function can be called multiple times, until all blocks are solved or the blocks would collide after the switch to the next block (i.e. the next block number is already used as the current top block number).",
+        "The function cannot be invoked for 3 minutes after the block has been solved.",
+        "",
+        "### Arguments",
+        "",
+        "* `ctx` - the solve bottom block context where all required accounts are provided,",
+        "* `users_info` - a vector of accounts solving the current bottom block, containing the information for each of the accounts needed to calculate the number of tokens to distribute to the accounts.",
+        "",
+        "### Returns",
+        "Number of current bottom block after processing all input accounts"
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "distributionBottomBlockAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "usersInfo",
+          "type": {
+            "vec": {
+              "defined": "UserInfoBottomBlock"
+            }
+          }
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "finalMining",
+      "docs": [
+        "Distributes tokens from final mining account to accounts passed in the input to this function.",
+        "The amount of tokens transferred to particular account depends on the final mining account's balance in the moment when user requested participation in final mining on the client side so the balance is passed in the input.",
+        "This function can be called unlimited number of times but only after all top and bottom blocks are solved.",
+        "",
+        "### Arguments",
+        "",
+        "* `ctx` - the final mining context where all required accounts are provided,",
+        "* `users_info` - a vector of accounts participating in the final mining process, containing the information for each of the accounts needed to calculate the number of tokens to distribute to the accounts."
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "finalMiningAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "usersInfo",
+          "type": {
+            "vec": {
+              "defined": "UserInfoFinalMining"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "finalStaking",
+      "docs": [
+        "Distributes tokens from final staking account to accounts passed in the input to this function.",
+        "Final staking processed is organized as rounds. At the beginning of each round 0.1% of the current final staking account balance is reserved as the prize pool for the round.",
+        "The amount of tokens transferred to particular account depends on the account's balance and the prize pool of the current round.",
+        "This function can be called unlimited number of times but only after all top and bottom blocks are solved.",
+        "The function cannot be invoked for 20 hours after the final staking round has been completed.",
+        "",
+        "### Arguments",
+        "",
+        "* `ctx` - the final staking context where all required accounts are provided,",
+        "* `users_info` - a vector of accounts participating in the final staking process, containing the information for each of the accounts needed to calculate the number of tokens to distribute to the accounts."
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "finalStakingAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "usersInfo",
+          "type": {
+            "vec": {
+              "defined": "UserInfoFinalStaking"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "changeAuthority",
+      "docs": [
+        "Sets new authority",
+        "",
+        "### Arguments",
+        "",
+        "* `new_authority` - new authority"
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setBlocksCollided",
+      "docs": [
+        "Set blocks collided flag",
+        "This function is only available in tests",
+        "",
+        "### Arguments",
+        "",
+        "* `collided` - new value of blocks collided flag"
+      ],
+      "accounts": [
+        {
+          "name": "blocksStateAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "collided",
+          "type": "bool"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BlocksState",
+      "docs": [
+        "Struct defining the current blocks state in the program.",
+        "Consists of the following attributes:",
+        "* `authority` - the authority that initialized the contract, an owner of the contract,",
+        "* `block_state_nonce` - the nonce of the block state account,",
+        "* `mint_nonce` - the nonce of the mint account,",
+        "",
+        "* `initial_token_distribution_already_performed` - true if initial_token_distribution function was already invoked and completed successfully, false otherwise,",
+        "* `blocks_collided` - true if blocks cannot be switched to the next ones, i.e. the current top block number is less than the current bottom block number by 1,",
+        "",
+        "* `top_block_number` - current top block number,",
+        "* `top_block_available_bp` - the number of left bp for the current top block number (when bp is decreased to 0, then the current block is solved),",
+        "* `top_block_solution_timestamp` - the timestamp of recently solved top block,",
+        "* `top_block_balance` - amount of tokens left on the current top block to be distributed as the part of the block solution process,",
+        "* `top_block_distribution_address` - the address of the top block distribution account,",
+        "* `top_block_distribution_nonce` - the nonce of the top block distribution account,",
+        "* `top_block_last_account_address` - address of the last account that participated in top block solving,",
+        "* `top_block_last_account_rest_bp` - the number of BP that the last account - that participated in top block solving - did not receive due to too low amount of remaining BP on the block,",
+        "",
+        "* `bottom_block_number` - current bottom block number,",
+        "* `bottom_block_available_bp` - the number of left bp for the current bottom block number (when bp is decreased to 0, then the current block is solved),",
+        "* `bottom_block_solution_timestamp` - the timestamp of recently solved bottom block,",
+        "* `bottom_block_balance` - amount of tokens left on the current bottom block to be distributed as the part of the block solution process,",
+        "* `bottom_block_distribution_address` - the address of the bottom block distribution account,",
+        "* `bottom_block_distribution_nonce` - the nonce of the bottom block distribution account,",
+        "* `bottom_block_last_account_address` - address of the last account that participated in bottom block solving,",
+        "* `bottom_block_last_account_rest_bp` - the number of BP that the last account - that participated in bottom block solving - did not receive due to too low amount of remaining BP on the block,",
+        "",
+        "* `final_staking_account_nonce` - the nonce of the final staking account,",
+        "* `final_staking_pool_in_round` - prize pool (amount of tokens) to be distributed in the current final staking round,",
+        "* `final_staking_last_staking_timestamp` - the timestamp of the recently completed final staking round,",
+        "* `final_staking_left_reward_parts_in_round` - the number of left reward parts for the current final staking round (the number starts at 1.0 and is decreased by reward parts of the input accounts participating in the final staking process) - final staking round is completed when this number is decreased to 0,",
+        "* `final_staking_left_balance_in_round` - left amount of tokens to be distributed in the current final staking round,",
+        "",
+        "* `final_mining_account_nonce` - the nonce of the final mining account."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "blockStateNonce",
+            "type": "u8"
+          },
+          {
+            "name": "mintNonce",
+            "type": "u8"
+          },
+          {
+            "name": "initialTokenDistributionAlreadyPerformed",
+            "type": "bool"
+          },
+          {
+            "name": "blocksCollided",
+            "type": "bool"
+          },
+          {
+            "name": "topBlockNumber",
+            "type": "u64"
+          },
+          {
+            "name": "topBlockAvailableBp",
+            "type": "u64"
+          },
+          {
+            "name": "topBlockSolutionTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "topBlockBalance",
+            "type": "u64"
+          },
+          {
+            "name": "topBlockDistributionAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "topBlockDistributionNonce",
+            "type": "u8"
+          },
+          {
+            "name": "topBlockLastAccountAddress",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "topBlockLastAccountRestBp",
+            "type": "u64"
+          },
+          {
+            "name": "bottomBlockNumber",
+            "type": "u64"
+          },
+          {
+            "name": "bottomBlockAvailableBp",
+            "type": "u64"
+          },
+          {
+            "name": "bottomBlockSolutionTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bottomBlockBalance",
+            "type": "u64"
+          },
+          {
+            "name": "bottomBlockDistributionAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "bottomBlockDistributionNonce",
+            "type": "u8"
+          },
+          {
+            "name": "bottomBlockLastAccountAddress",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "bottomBlockLastAccountRestBp",
+            "type": "u64"
+          },
+          {
+            "name": "finalStakingAccountNonce",
+            "type": "u8"
+          },
+          {
+            "name": "finalStakingPoolInRound",
+            "type": "u64"
+          },
+          {
+            "name": "finalStakingLastStakingTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "finalStakingLeftRewardPartsInRound",
+            "type": "f64"
+          },
+          {
+            "name": "finalStakingLeftBalanceInRound",
+            "type": "u64"
+          },
+          {
+            "name": "finalMiningAccountNonce",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "UserInfoTopBlock",
+      "docs": [
+        "Struct defining single account participating in the top block solution process.",
+        "Consists of the account address and data required to calculate the number of tokens to transfer to the account (number of requests to participate in the current top block solution on the client side)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "userRequestWithoutBoost",
+            "type": "u8"
+          },
+          {
+            "name": "userRequestWithBoost",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfoBottomBlock",
+      "docs": [
+        "Struct defining single account participating in the bottom block solution process.",
+        "Consists of the account address and data required to calculate the number of tokens to transfer to the account (account's balance and number of requests to participate in the current bottom block solution on the client side)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "userBalance",
+            "type": "u64"
+          },
+          {
+            "name": "userRequestWithoutBoost",
+            "type": "u8"
+          },
+          {
+            "name": "userRequestWithBoost",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfoFinalMining",
+      "docs": [
+        "Struct defining single account participating in the final mining process.",
+        "Consists of the account address and data required to calculate the number of tokens to be transferred to the account (final mining account balance at the time the account requested participation in the final mining process on the client side)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "finalMiningBalance",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserInfoFinalStaking",
+      "docs": [
+        "Struct defining single account participating in the final staking process.",
+        "Consists of the account address and data required to calculate the number of tokens to be transferred to the account (part of the total prize pool declared for the current final staking round)."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardPart",
+            "type": "f64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "You are not an owner"
+    },
+    {
+      "code": 6001,
+      "name": "BlockSolutionAheadOfTime",
+      "msg": "Required time interval between solved blocks not passed (3 minutes)."
+    },
+    {
+      "code": 6002,
+      "name": "FinalStakingAheadOfTime",
+      "msg": "Required time interval between final staking not passed (3 minutes)."
+    },
+    {
+      "code": 6003,
+      "name": "BlockAlreadySolved",
+      "msg": "Block already solved"
+    },
+    {
+      "code": 6004,
+      "name": "TopBlockNotSolvedYet",
+      "msg": "Top block not solved yet"
+    },
+    {
+      "code": 6005,
+      "name": "BottomBlockNotSolvedYet",
+      "msg": "Bottom block not solved yet"
+    },
+    {
+      "code": 6006,
+      "name": "InitialTokenDistributionAlreadyPerformed",
+      "msg": "Initial token distribution already performed"
+    },
+    {
+      "code": 6007,
+      "name": "BlocksNotCollidedYet",
+      "msg": "Blocks not collided yet"
+    },
+    {
+      "code": 6008,
+      "name": "FinalStakingPoolInRoundIsEmpty",
+      "msg": "Final staking pool in round is empty"
+    },
+    {
+      "code": 6009,
+      "name": "MissingUserInfo",
+      "msg": "Missing user info"
+    },
+    {
+      "code": 6010,
+      "name": "UserRequestForSolvedBlock",
+      "msg": "User request received for solved block"
+    },
+    {
+      "code": 6011,
+      "name": "UserRestExistsButBlockIsNotNew",
+      "msg": "Last account did not receive all BPs but the current block is not a new one"
+    },
+    {
+      "code": 6012,
+      "name": "UserRestExistsButFirstRequestForNewBlockIsNotForThisAccount",
+      "msg": "Last account did not receive all BPs but the first user info for a new block is not this account"
+    },
+    {
+      "code": 6013,
+      "name": "UserRestExistsButFirstRequestForNewBlockMissedTheAccount",
+      "msg": "Last account did not receive all BPs but the first call to solve block for a new block does not contain this account"
+    },
+    {
+      "code": 6014,
+      "name": "UserRequestExceedsAvailableRewardParts",
+      "msg": "User request exceeds available reward parts"
+    },
+    {
+      "code": 6015,
+      "name": "MismatchBetweenRemainingAccountsAndUserInfo",
+      "msg": "Account from remaining accounts not found in user info"
+    },
+    {
+      "code": 6016,
+      "name": "UserRewardPartsSumTooHigh",
+      "msg": "Sum of user reward parts exceeds 1"
+    },
+    {
+      "code": 6017,
+      "name": "LackOfFundsToPayTheReward",
+      "msg": "Lack of funds to pay the reward"
+    },
+    {
+      "code": 6018,
+      "name": "MismatchBetweenAvailableBlockBPAndBalance",
+      "msg": "Mismatch between available block BP and balance"
+    },
+    {
+      "code": 6019,
+      "name": "F64ConversionError",
+      "msg": "F64 conversion error occurred"
+    },
+    {
+      "code": 6020,
+      "name": "U64ConversionError",
+      "msg": "U64 conversion error occurred"
+    },
+    {
+      "code": 6021,
+      "name": "ExecutionOfSetBlocksCollidedFunctionOutsideTests",
+      "msg": "Illegal execution of set_blocks_collided function outside tests"
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "version": "0.1.0",
+  "name": "pika_game",
+  "instructions": [
+    {
+      "name": "initVault",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initFlipAccount",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initFlipAccountAdmin",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "flipSolanaTelegram",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refWalletUserState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "refFeeWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gameFeeWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "betAmmount",
+          "type": "u64"
+        },
+        {
+          "name": "refFeeAmmount",
+          "type": "u64"
+        },
+        {
+          "name": "gameFeeAmmount",
+          "type": "u64"
+        },
+        {
+          "name": "winningAmount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "loseStreak",
+            "type": "u16"
+          },
+          {
+            "name": "winStreak",
+            "type": "u16"
+          },
+          {
+            "name": "points",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VaultState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongProgram",
+      "msg": "Wrong program provided"
+    },
+    {
+      "code": 6001,
+      "name": "IncorrectAdminKey",
+      "msg": "Incorrect admin key"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectGameToken",
+      "msg": "Incorrect game token"
+    },
+    {
+      "code": 6003,
+      "name": "WrongOwnerWallet",
+      "msg": "Wrong owner wallet"
+    },
+    {
+      "code": 6004,
+      "name": "RaffleHasEnded",
+      "msg": "Raffle has ended."
+    },
+    {
+      "code": 6005,
+      "name": "WrongTokenLockDest",
+      "msg": "Wrong raffle dest."
+    },
+    {
+      "code": 6006,
+      "name": "WrongRaffleWinner",
+      "msg": "Wrong raffle winner ata."
+    },
+    {
+      "code": 6007,
+      "name": "IncorrectRewardVault",
+      "msg": "Wrong reward vault."
+    },
+    {
+      "code": 6008,
+      "name": "UnlockedTooSoon",
+      "msg": "Unlocked token too soon."
+    },
+    {
+      "code": 6009,
+      "name": "InvalidWelcomePackTier",
+      "msg": "Invalid welcome pack tier passed in."
+    },
+    {
+      "code": 6010,
+      "name": "InvalidSeed",
+      "msg": "Invalid seed."
+    },
+    {
+      "code": 6011,
+      "name": "NFTInMission",
+      "msg": "Nft is in a mission."
+    },
+    {
+      "code": 6012,
+      "name": "NFTNotLocked",
+      "msg": "Nft not locked."
+    }
+  ]
+}

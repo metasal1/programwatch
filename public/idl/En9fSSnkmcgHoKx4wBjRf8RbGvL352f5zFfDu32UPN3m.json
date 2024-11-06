@@ -1,0 +1,188 @@
+{
+  "version": "0.1.0",
+  "name": "spl_snapshot",
+  "instructions": [
+    {
+      "name": "snapshot",
+      "accounts": [
+        {
+          "name": "snapshotAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for storing the balance of the owner account"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to snapshot its balance to determine the increment later"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer for the PDA temporary rent"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transfer",
+      "accounts": [
+        {
+          "name": "snapshotAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA with the snapshot balance of the owner account"
+          ]
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where to send the increment in lamports to"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Owner of the system account to approve the transfer of the balance increment"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Refund the PDA temporary rent to the original payer"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "tokenSnapshot",
+      "accounts": [
+        {
+          "name": "snapshotAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA for storing the balance of the token account"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Account to snapshot its balance to determine the increment later"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer for the PDA temporary rent"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "tokenTransfer",
+      "accounts": [
+        {
+          "name": "snapshotAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "PDA with the snapshot balance of the token account"
+          ]
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to read its updated balance and transfer the increment since the snapshot"
+          ]
+        },
+        {
+          "name": "destinationAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Where to send the increment in tokens to. Mint should match to token account's"
+          ]
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Owner of the token account to approve the transfer of the balance increment"
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Refund the PDA temporary rent to the original payer"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Snapshot",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

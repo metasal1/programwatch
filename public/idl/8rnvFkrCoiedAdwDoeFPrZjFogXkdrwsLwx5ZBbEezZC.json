@@ -1,0 +1,338 @@
+{
+  "version": "0.0.0",
+  "name": "bid_contract",
+  "instructions": [
+    {
+      "name": "addToVault",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "bumpVault",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "withdrawFromVault",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "bumpVault",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initBid",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        },
+        {
+          "name": "bumpBid",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateBid",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelBid",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "acceptBid",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "token",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bidderToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bid",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "salesTaxRecipient",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        },
+        {
+          "name": "bumpVault",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BidAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bidder",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "bidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Key",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "EditionV1"
+          },
+          {
+            "name": "MasterEditionV1"
+          },
+          {
+            "name": "ReservationListV1"
+          },
+          {
+            "name": "MetadataV1"
+          },
+          {
+            "name": "ReservationListV2"
+          },
+          {
+            "name": "MasterEditionV2"
+          },
+          {
+            "name": "EditionMarker"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BidError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidInstruction"
+          },
+          {
+            "name": "NotRentExempt"
+          },
+          {
+            "name": "ExpectedAmountMismatch"
+          },
+          {
+            "name": "AmountOverflow"
+          },
+          {
+            "name": "InvalidSalesTaxRecipient"
+          },
+          {
+            "name": "NumericConversionFailed"
+          },
+          {
+            "name": "InvalidMintAccount"
+          },
+          {
+            "name": "InvalidTokenAmount"
+          },
+          {
+            "name": "InvalidMetadata"
+          },
+          {
+            "name": "MissingMetadata"
+          },
+          {
+            "name": "InvalidFinalAmount"
+          },
+          {
+            "name": "InvalidRoyaltyFee"
+          },
+          {
+            "name": "CreatorMismatch"
+          },
+          {
+            "name": "BidAmountMismatch"
+          }
+        ]
+      }
+    }
+  ]
+}

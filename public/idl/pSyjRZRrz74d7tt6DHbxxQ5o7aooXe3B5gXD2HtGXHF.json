@@ -1,0 +1,770 @@
+{
+  "version": "0.1.0",
+  "name": "psyker_staking",
+  "constants": [
+    {
+      "name": "GLOBAL_STATE_SEED",
+      "type": "string",
+      "value": "\"global_state\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setRewardMint",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "rewardMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setRates",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "keycardRates",
+          "type": {
+            "defined": "Rates"
+          }
+        },
+        {
+          "name": "hideoutRates",
+          "type": {
+            "defined": "Rates"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setMerkleRoot",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "merkleRoot",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "setAuthority",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userStake",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rewardVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stake",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userStake",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "nftType",
+          "type": "u8"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global_state"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userStake",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u64"
+        },
+        {
+          "name": "nftType",
+          "type": "u8"
+        },
+        {
+          "name": "proof",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "merkleRoot",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "keycardRates",
+            "type": {
+              "defined": "Rates"
+            }
+          },
+          {
+            "name": "hideoutRates",
+            "type": {
+              "defined": "Rates"
+            }
+          },
+          {
+            "name": "totalKeycardsStaked",
+            "type": "u16"
+          },
+          {
+            "name": "totalHideoutsStaked",
+            "type": "u16"
+          },
+          {
+            "name": "totalToBeDistributed",
+            "type": "u64"
+          },
+          {
+            "name": "remainingToDistribute",
+            "type": "u64"
+          },
+          {
+            "name": "totalRatePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "lastRateChangeTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "endOfDistributionTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved4",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved5",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved6",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "keycardsStaked",
+            "type": "u16"
+          },
+          {
+            "name": "hideoutsStaked",
+            "type": "u16"
+          },
+          {
+            "name": "ratePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "lastClaimTimestamp",
+            "type": "u64"
+          },
+          {
+            "name": "pendingClaim",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved4",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Rates",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "commonRatePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "uncommonRatePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "rareRatePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "epicRatePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "legendaryRatePerSecond",
+            "type": "u64"
+          },
+          {
+            "name": "mythicRatePerSecond",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftTypeDef",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "KeycardCommon"
+          },
+          {
+            "name": "KeycardUncommon"
+          },
+          {
+            "name": "KeycardRare"
+          },
+          {
+            "name": "KeycardEpic"
+          },
+          {
+            "name": "KeycardLegendary"
+          },
+          {
+            "name": "KeycardMythic"
+          },
+          {
+            "name": "HideoutCommon"
+          },
+          {
+            "name": "HideoutUncommon"
+          },
+          {
+            "name": "HideoutRare"
+          },
+          {
+            "name": "HideoutEpic"
+          },
+          {
+            "name": "HideoutLegendary"
+          },
+          {
+            "name": "HideoutMythic"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidProof",
+      "msg": "Invalid Merkle proof."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidNftTypeDef",
+      "msg": "Invalid NFT type definition."
+    },
+    {
+      "code": 6002,
+      "name": "RemainingToDistributeIsImmutable",
+      "msg": "Cannot alter remaining to distribute."
+    },
+    {
+      "code": 6003,
+      "name": "DistributionExhausted",
+      "msg": "No token left to distribute."
+    },
+    {
+      "code": 6004,
+      "name": "KeycardRequired",
+      "msg": "Keycard must be staked to enable staking Hideouts."
+    },
+    {
+      "code": 6005,
+      "name": "SupplyTooHigh",
+      "msg": "Supply too high."
+    }
+  ]
+}

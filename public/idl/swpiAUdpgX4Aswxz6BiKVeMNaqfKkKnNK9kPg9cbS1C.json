@@ -1,0 +1,603 @@
+{
+  "version": "0.1.0",
+  "name": "swap",
+  "instructions": [
+    {
+      "name": "initiateSwap",
+      "accounts": [
+        {
+          "name": "leafOwner",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "signerA",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userB",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "leafDelegate",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nft3",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newLeafOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "requestedNfts",
+          "type": {
+            "vec": "publicKey"
+          }
+        },
+        {
+          "name": "nftsTrading",
+          "type": "u8"
+        },
+        {
+          "name": "root",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "dataHash",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "creatorHash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "index",
+          "type": {
+            "vec": "u32"
+          }
+        },
+        {
+          "name": "path1",
+          "type": "u8"
+        },
+        {
+          "name": "path2",
+          "type": "u8"
+        },
+        {
+          "name": "path3",
+          "type": "u8"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "swapPartTwo",
+      "accounts": [
+        {
+          "name": "userB",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "signerA",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userA",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "totalNftsInSwap",
+          "type": "u8"
+        },
+        {
+          "name": "root",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "dataHash",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "creatorHash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "index",
+          "type": {
+            "vec": "u32"
+          }
+        },
+        {
+          "name": "path1",
+          "type": "u8"
+        },
+        {
+          "name": "path2",
+          "type": "u8"
+        },
+        {
+          "name": "path3",
+          "type": "u8"
+        },
+        {
+          "name": "path4",
+          "type": "u8"
+        },
+        {
+          "name": "path5",
+          "type": "u8"
+        },
+        {
+          "name": "path6",
+          "type": "u8"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "reclaimExpiredNfts",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "signerA",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userA",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "userB",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tradeState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "leafDelegate",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newLeafOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "requestedNftsLen",
+          "type": "u8"
+        },
+        {
+          "name": "root",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "dataHash",
+          "type": {
+            "vec": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        },
+        {
+          "name": "creatorHash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nonce",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "index",
+          "type": {
+            "vec": "u32"
+          }
+        },
+        {
+          "name": "path1",
+          "type": "u8"
+        },
+        {
+          "name": "path2",
+          "type": "u8"
+        },
+        {
+          "name": "path3",
+          "type": "u8"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "TradeState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "userA",
+            "type": "publicKey"
+          },
+          {
+            "name": "userB",
+            "type": "publicKey"
+          },
+          {
+            "name": "userANfts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "userBNfts",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "totalSentFromEscrow",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "tradeState",
+            "type": "u8"
+          },
+          {
+            "name": "userANftCount",
+            "type": "u8"
+          },
+          {
+            "name": "userANftsTrading",
+            "type": "u8"
+          },
+          {
+            "name": "userBNftCount",
+            "type": "u8"
+          },
+          {
+            "name": "userBNftsSent",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongToken",
+      "msg": "You have used an incorrect Token Account"
+    },
+    {
+      "code": 6001,
+      "name": "UnauthorizedAccess",
+      "msg": "You are not authorized to sign this transaction"
+    },
+    {
+      "code": 6002,
+      "name": "WrongSolAddress",
+      "msg": "Wrong Sol address"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidAction",
+      "msg": "You are doing it wrong."
+    },
+    {
+      "code": 6004,
+      "name": "WrongNftRequested",
+      "msg": "You may not request this nft."
+    },
+    {
+      "code": 6005,
+      "name": "ReclaimingTooSoon",
+      "msg": "You are reclaiming too soon."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidCMID",
+      "msg": "Invalid CMID"
+    },
+    {
+      "code": 6007,
+      "name": "OutOfTime",
+      "msg": "Out of time"
+    },
+    {
+      "code": 6008,
+      "name": "WrongLeafOwner",
+      "msg": "wrong leaf owner"
+    },
+    {
+      "code": 6009,
+      "name": "WrongSwapAmount",
+      "msg": "wrong swap amount"
+    }
+  ]
+}

@@ -1,0 +1,563 @@
+{
+  "version": "0.1.0",
+  "name": "solana_twentyfourtyeight",
+  "instructions": [
+    {
+      "name": "initPlayer",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "highscore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "avatar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resetWeeklyHighscore",
+      "accounts": [
+        {
+          "name": "highscore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "place1",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "place2",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "place3",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "pricePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Address to assign to the newly created thread."
+          ]
+        },
+        {
+          "name": "threadAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pda that will own and manage the thread."
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resetAndDistribute",
+      "accounts": [
+        {
+          "name": "highscore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "Verify that only this thread can execute the ThreadTick Instruction"
+          ]
+        },
+        {
+          "name": "threadAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Thread Admin",
+            "The authority that was used as a seed to derive the thread address",
+            "`thread_authority` should equal `thread.thread_authority`"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": "ThreadResponse"
+      }
+    },
+    {
+      "name": "pushInDirection",
+      "accounts": [
+        {
+          "name": "sessionToken",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "highscore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "avatar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "direction",
+          "type": "u8"
+        },
+        {
+          "name": "counter",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "restart",
+      "accounts": [
+        {
+          "name": "sessionToken",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "highscore",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pricePool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "avatar",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "startThread",
+      "accounts": [
+        {
+          "name": "highscore",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pricePool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clockworkProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Clockwork thread program."
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "The signer who will pay to initialize the program.",
+            "(not to be confused with the thread executions)."
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Address to assign to the newly created thread."
+          ]
+        },
+        {
+          "name": "threadAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pda that will own and manage the thread."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "threadId",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "pauseThread",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clockworkProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Clockwork thread program."
+          ]
+        },
+        {
+          "name": "thread",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Address to assign to the newly created thread."
+          ]
+        },
+        {
+          "name": "threadAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pda that will own and manage the thread."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "threadId",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "resumeThread",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clockworkProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Clockwork thread program."
+          ]
+        },
+        {
+          "name": "thread",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Address to assign to the newly created thread."
+          ]
+        },
+        {
+          "name": "threadAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pda that will own and manage the thread."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "threadId",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "resetThread",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clockworkProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The Clockwork thread program."
+          ]
+        },
+        {
+          "name": "thread",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The thread to reset."
+          ]
+        },
+        {
+          "name": "threadAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The pda that owns and manages the thread."
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "threadId",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PlayerData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "board",
+            "type": {
+              "defined": "BoardData"
+            }
+          },
+          {
+            "name": "score",
+            "type": "u32"
+          },
+          {
+            "name": "gameOver",
+            "type": "bool"
+          },
+          {
+            "name": "direction",
+            "type": "u8"
+          },
+          {
+            "name": "topTile",
+            "type": "u32"
+          },
+          {
+            "name": "newTileX",
+            "type": "u8"
+          },
+          {
+            "name": "newTileY",
+            "type": "u8"
+          },
+          {
+            "name": "newTileLevel",
+            "type": "u32"
+          },
+          {
+            "name": "xp",
+            "type": "u32"
+          },
+          {
+            "name": "level",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Highscore",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "global",
+            "type": {
+              "vec": {
+                "defined": "HighscoreEntry"
+              }
+            }
+          },
+          {
+            "name": "weekly",
+            "type": {
+              "vec": {
+                "defined": "HighscoreEntry"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pricepool",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "HighscoreEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "score",
+            "type": "u32"
+          },
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "nft",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BoardData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "data",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u32",
+                    4
+                  ]
+                },
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WrongAuthority"
+          },
+          {
+            "name": "GameNotOverYet"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongAuthority",
+      "msg": "Wrong Authority"
+    },
+    {
+      "code": 6001,
+      "name": "GameNotOverYet",
+      "msg": "Game not over yet"
+    }
+  ]
+}

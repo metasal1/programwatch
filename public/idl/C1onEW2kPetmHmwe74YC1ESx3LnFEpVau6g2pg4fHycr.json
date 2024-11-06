@@ -1,0 +1,2484 @@
+{
+  "version": "0.1.0",
+  "name": "clone",
+  "instructions": [
+    {
+      "name": "initializeClone",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cometCollateralIldLiquidatorFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "cometOnassetIldLiquidatorFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "borrowLiquidatorFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "treasuryAddress",
+          "type": "publicKey"
+        },
+        {
+          "name": "collateralOracleIndex",
+          "type": "u8"
+        },
+        {
+          "name": "collateralizationRatio",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initializePools",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initializeOracles",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateCloneParameters",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "CloneParameters"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updatePoolParameters",
+      "accounts": [
+        {
+          "name": "auth",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u8"
+        },
+        {
+          "name": "params",
+          "type": {
+            "defined": "PoolParameters"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateOracles",
+      "accounts": [
+        {
+          "name": "auth",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UpdateOracleParameters"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeUser",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "authority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "addPool",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "onassetTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minOvercollateralRatio",
+          "type": "u16"
+        },
+        {
+          "name": "maxLiquidationOvercollateralRatio",
+          "type": "u16"
+        },
+        {
+          "name": "liquidityTradingFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "treasuryTradingFeeBps",
+          "type": "u16"
+        },
+        {
+          "name": "ilHealthScoreCoefficient",
+          "type": "u16"
+        },
+        {
+          "name": "positionHealthScoreCoefficient",
+          "type": "u16"
+        },
+        {
+          "name": "oracleInfoIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updatePrices",
+      "accounts": [
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "oracleIndices",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "initializeBorrowPosition",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolIndex",
+          "type": "u8"
+        },
+        {
+          "name": "onassetAmount",
+          "type": "u64"
+        },
+        {
+          "name": "collateralAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addCollateralToBorrow",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "borrowIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateralFromBorrow",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "borrowIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "payBorrowDebt",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payerOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        },
+        {
+          "name": "borrowIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "borrowMore",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "borrowIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addCollateralToComet",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collateralAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawCollateralFromComet",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collateralAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "addLiquidityToComet",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolIndex",
+          "type": "u8"
+        },
+        {
+          "name": "collateralAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawLiquidityFromComet",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cometPositionIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "liquidateCometCollateralIld",
+      "accounts": [
+        {
+          "name": "liquidator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidatorCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        },
+        {
+          "name": "cometPositionIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "liquidateCometOnassetIld",
+      "accounts": [
+        {
+          "name": "liquidator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidatorOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidatorCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        },
+        {
+          "name": "cometPositionIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "liquidateBorrowPosition",
+      "accounts": [
+        {
+          "name": "liquidator",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidatorCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidatorOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        },
+        {
+          "name": "borrowIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "collectLpRewards",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cometPositionIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "payImpermanentLossDebt",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        },
+        {
+          "name": "cometPositionIndex",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "paymentType",
+          "type": {
+            "defined": "PaymentType"
+          }
+        }
+      ]
+    },
+    {
+      "name": "closeUserAccount",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "wrapAsset",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAssetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "poolIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "unwrapOnasset",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "assetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userAssetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "poolIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "removeCometPosition",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "cometPositionIndex",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "swap",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "oracles",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "onassetMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryOnassetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryCollateralTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cloneStaking",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "userStakingAccount",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        },
+        {
+          "name": "cloneStakingProgram",
+          "isMut": false,
+          "isSigner": false,
+          "isOptional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "poolIndex",
+          "type": "u8"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "quantityIsInput",
+          "type": "bool"
+        },
+        {
+          "name": "quantityIsCollateral",
+          "type": "bool"
+        },
+        {
+          "name": "resultThreshold",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createTokenMetadata",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metaplexProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "metadataArgs",
+          "type": {
+            "defined": "MetadataArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "removePool",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "clone",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pools",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "underlyingAssetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAssetTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "poolIndex",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Clone",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "auth",
+            "type": {
+              "array": [
+                "publicKey",
+                10
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "collateral",
+            "type": {
+              "defined": "Collateral"
+            }
+          },
+          {
+            "name": "cometCollateralIldLiquidatorFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "cometOnassetIldLiquidatorFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "borrowLiquidatorFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "treasuryAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "eventCounter",
+            "type": "u64"
+          },
+          {
+            "name": "nonAuthLiquidationsEnabled",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pools",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pools",
+            "type": {
+              "vec": {
+                "defined": "Pool"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Oracles",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oracles",
+            "type": {
+              "vec": {
+                "defined": "OracleInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "User",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "borrows",
+            "type": {
+              "vec": {
+                "defined": "Borrow"
+              }
+            }
+          },
+          {
+            "name": "comet",
+            "type": {
+              "defined": "Comet"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "MetadataArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AssetInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "onassetMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "oracleInfoIndex",
+            "type": "u8"
+          },
+          {
+            "name": "ilHealthScoreCoefficient",
+            "type": "u16"
+          },
+          {
+            "name": "positionHealthScoreCoefficient",
+            "type": "u16"
+          },
+          {
+            "name": "minOvercollateralRatio",
+            "type": "u16"
+          },
+          {
+            "name": "maxLiquidationOvercollateralRatio",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "source",
+            "type": {
+              "defined": "OracleSource"
+            }
+          },
+          {
+            "name": "address",
+            "type": "publicKey"
+          },
+          {
+            "name": "price",
+            "type": "i64"
+          },
+          {
+            "name": "expo",
+            "type": "u8"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "Status"
+            }
+          },
+          {
+            "name": "lastUpdateSlot",
+            "type": "u64"
+          },
+          {
+            "name": "rescaleFactor",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "underlyingAssetTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "committedCollateralLiquidity",
+            "type": "u64"
+          },
+          {
+            "name": "collateralIld",
+            "type": "i64"
+          },
+          {
+            "name": "onassetIld",
+            "type": "i64"
+          },
+          {
+            "name": "treasuryTradingFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "liquidityTradingFeeBps",
+            "type": "u16"
+          },
+          {
+            "name": "assetInfo",
+            "type": {
+              "defined": "AssetInfo"
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "Status"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Collateral",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "oracleInfoIndex",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralizationRatio",
+            "type": "u8"
+          },
+          {
+            "name": "scale",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Comet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collateralAmount",
+            "type": "u64"
+          },
+          {
+            "name": "positions",
+            "type": {
+              "vec": {
+                "defined": "LiquidityPosition"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiquidityPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poolIndex",
+            "type": "u8"
+          },
+          {
+            "name": "committedCollateralLiquidity",
+            "type": "u64"
+          },
+          {
+            "name": "collateralIldRebate",
+            "type": "i64"
+          },
+          {
+            "name": "onassetIldRebate",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Borrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "poolIndex",
+            "type": "u8"
+          },
+          {
+            "name": "borrowedOnasset",
+            "type": "u64"
+          },
+          {
+            "name": "collateralAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaymentType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Onasset"
+          },
+          {
+            "name": "Collateral"
+          },
+          {
+            "name": "CollateralFromWallet"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CloneParameters",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "AddAuth",
+            "fields": [
+              {
+                "name": "address",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "RemoveAuth",
+            "fields": [
+              {
+                "name": "address",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "CometCollateralLiquidationFee",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "CometOnassetLiquidationFee",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "BorrowLiquidationFee",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "TreasuryAddress",
+            "fields": [
+              {
+                "name": "address",
+                "type": "publicKey"
+              }
+            ]
+          },
+          {
+            "name": "CollateralizationRatio",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "NonAuthLiquidationsEnabled",
+            "fields": [
+              {
+                "name": "value",
+                "type": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateOracleParameters",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Add",
+            "fields": [
+              {
+                "name": "address",
+                "type": "publicKey"
+              },
+              {
+                "name": "source",
+                "type": {
+                  "defined": "OracleSource"
+                }
+              },
+              {
+                "name": "rescale_factor",
+                "type": {
+                  "option": "u8"
+                }
+              }
+            ]
+          },
+          {
+            "name": "Remove",
+            "fields": [
+              {
+                "name": "index",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "Modify",
+            "fields": [
+              {
+                "name": "index",
+                "type": "u8"
+              },
+              {
+                "name": "address",
+                "type": {
+                  "option": "publicKey"
+                }
+              },
+              {
+                "name": "source",
+                "type": {
+                  "option": {
+                    "defined": "OracleSource"
+                  }
+                }
+              },
+              {
+                "name": "status",
+                "type": {
+                  "option": {
+                    "defined": "Status"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolParameters",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Status",
+            "fields": [
+              {
+                "name": "value",
+                "type": {
+                  "defined": "Status"
+                }
+              }
+            ]
+          },
+          {
+            "name": "TreasuryTradingFee",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "LiquidityTradingFee",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "OracleInfoIndex",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u8"
+              }
+            ]
+          },
+          {
+            "name": "MinOvercollateralRatio",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "MaxLiquidationOvercollateralRatio",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "IlHealthScoreCoefficient",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          },
+          {
+            "name": "PositionHealthScoreCoefficient",
+            "fields": [
+              {
+                "name": "value",
+                "type": "u16"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Status",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Frozen"
+          },
+          {
+            "name": "Extraction"
+          },
+          {
+            "name": "Liquidation"
+          },
+          {
+            "name": "Deprecation"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleSource",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PYTH"
+          },
+          {
+            "name": "SWITCHBOARD"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "SwapEvent",
+      "fields": [
+        {
+          "name": "eventId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "userAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "poolIndex",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "inputIsCollateral",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "input",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "output",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "tradingFee",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "treasuryFee",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "LiquidityDelta",
+      "fields": [
+        {
+          "name": "eventId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "userAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "poolIndex",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "committedCollateralDelta",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "collateralIldDelta",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "onassetIldDelta",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PoolState",
+      "fields": [
+        {
+          "name": "eventId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "poolIndex",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "onassetIld",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "collateralIld",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "committedCollateralLiquidity",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "poolPrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "poolScale",
+          "type": "u32",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BorrowUpdate",
+      "fields": [
+        {
+          "name": "eventId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "poolIndex",
+          "type": "u8",
+          "index": false
+        },
+        {
+          "name": "userAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "isLiquidation",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "collateralSupplied",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "collateralDelta",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "borrowedAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "borrowedDelta",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CometCollateralUpdate",
+      "fields": [
+        {
+          "name": "eventId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "userAddress",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "collateralSupplied",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "collateralDelta",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMintCollateralRatio",
+      "msg": "Invalid Mint Collateral Ratio"
+    },
+    {
+      "code": 6002,
+      "name": "IntTypeConversionError",
+      "msg": "Integer Type Conversion Error"
+    },
+    {
+      "code": 6003,
+      "name": "PoolNotFound",
+      "msg": "Pool Not Found"
+    },
+    {
+      "code": 6004,
+      "name": "BumpNotFound",
+      "msg": "Bump not found"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidTokenAmount",
+      "msg": "Invalid Token Amount"
+    },
+    {
+      "code": 6006,
+      "name": "ExpectedAccountNotFound",
+      "msg": "Expected Account Not Found"
+    },
+    {
+      "code": 6007,
+      "name": "OutdatedOracle",
+      "msg": "Outdated Oracle"
+    },
+    {
+      "code": 6008,
+      "name": "CheckedMathError",
+      "msg": "Checked Math Error"
+    },
+    {
+      "code": 6009,
+      "name": "BorrowPositionUnableToLiquidate",
+      "msg": "Mint Position Unable to Liquidate"
+    },
+    {
+      "code": 6010,
+      "name": "HealthScoreTooLow",
+      "msg": "Health Score Too Low"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidInputCollateralAccount",
+      "msg": "Invalid input collateral account"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidAccountLoaderOwner",
+      "msg": "Invalid Account loader owner"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidInputPositionIndex",
+      "msg": "Invalid input position index"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidTokenAccountBalance",
+      "msg": "Invalid token account balance"
+    },
+    {
+      "code": 6015,
+      "name": "InequalityComparisonViolated",
+      "msg": "Inequality comparison violated"
+    },
+    {
+      "code": 6016,
+      "name": "CometNotEmpty",
+      "msg": "Comet Not Empty"
+    },
+    {
+      "code": 6017,
+      "name": "NotSubjectToLiquidation",
+      "msg": "Not Subject to Liquidation"
+    },
+    {
+      "code": 6018,
+      "name": "LiquidationAmountTooLarge",
+      "msg": "Liquidation amount too large"
+    },
+    {
+      "code": 6019,
+      "name": "NoRemainingAccountsSupplied",
+      "msg": "No remaining accounts supplied"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidOvercollateralizationRatios",
+      "msg": "Invalid over-collateralization ratios"
+    },
+    {
+      "code": 6021,
+      "name": "IncorrectOracleAddress",
+      "msg": "Incorrect oracle address provided"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidValueRange",
+      "msg": "Value is in an incorrect range"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidAssetStability",
+      "msg": "Asset stable requirement violated"
+    },
+    {
+      "code": 6024,
+      "name": "SlippageToleranceExceeded",
+      "msg": "Slippage tolerance exceeded"
+    },
+    {
+      "code": 6025,
+      "name": "RequireOnlyonUSDCollateral",
+      "msg": "Collateral must be all in onUSD"
+    },
+    {
+      "code": 6026,
+      "name": "RequireAllPositionsClosed",
+      "msg": "Positions must be all closed"
+    },
+    {
+      "code": 6027,
+      "name": "FailedToLoadPyth",
+      "msg": "Failed to Load Pyth Price Feed"
+    },
+    {
+      "code": 6028,
+      "name": "StatusPreventsAction",
+      "msg": "Status Prevents Action"
+    },
+    {
+      "code": 6029,
+      "name": "PoolEmpty",
+      "msg": "Pool is empty"
+    },
+    {
+      "code": 6030,
+      "name": "NoLiquidityToWithdraw",
+      "msg": "No liquidity to withdraw"
+    },
+    {
+      "code": 6031,
+      "name": "InvalidStatus",
+      "msg": "Invalid Status"
+    },
+    {
+      "code": 6032,
+      "name": "AuthArrayFull",
+      "msg": "Auth Array Full"
+    },
+    {
+      "code": 6033,
+      "name": "AuthNotFound",
+      "msg": "Auth Not Found"
+    },
+    {
+      "code": 6034,
+      "name": "InvalidOracleIndex",
+      "msg": "Invalid oracle index"
+    },
+    {
+      "code": 6035,
+      "name": "InvalidPaymentType",
+      "msg": "Invalid Payment Type"
+    },
+    {
+      "code": 6036,
+      "name": "InvalidConversion",
+      "msg": "Invalid Conversion"
+    },
+    {
+      "code": 6037,
+      "name": "AuthAlreadyExists",
+      "msg": "Auth Already Exists"
+    }
+  ]
+}

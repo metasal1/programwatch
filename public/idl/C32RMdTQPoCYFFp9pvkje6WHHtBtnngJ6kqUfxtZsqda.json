@@ -1,0 +1,589 @@
+{
+  "version": "0.1.0",
+  "name": "nft_vault",
+  "instructions": [
+    {
+      "name": "init",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "launch",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "startTime",
+          "type": "u64"
+        },
+        {
+          "name": "unlockAvailableTime",
+          "type": "u64"
+        },
+        {
+          "name": "endTime",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setNftsToWhitelist",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nfts",
+          "type": {
+            "vec": {
+              "defined": "NftInfoData"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "removeNftsFromWhitelist",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "fundsReceiver",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nfts",
+          "type": {
+            "vec": "publicKey"
+          }
+        }
+      ]
+    },
+    {
+      "name": "setRarityLimits",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "manager",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rarityLimits",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rarityConfigs",
+          "type": {
+            "vec": {
+              "defined": "RarityLimitConfig"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "depositNft",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rarityLimits",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerDepositsInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawNft",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rarityLimits",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ownerDepositsInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "test",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NftDepositReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftBox",
+            "type": "publicKey"
+          },
+          {
+            "name": "depositTime",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NftInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rarity",
+            "type": {
+              "defined": "Rarity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RarityLimits",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rarityLimits",
+            "type": {
+              "vec": {
+                "defined": "RarityLimitInfo"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserDepositsInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "deposited",
+            "type": "u16"
+          },
+          {
+            "name": "withdrawn",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vault",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "manager",
+            "type": "publicKey"
+          },
+          {
+            "name": "startTime",
+            "type": "u64"
+          },
+          {
+            "name": "unlockAvailableTime",
+            "type": "u64"
+          },
+          {
+            "name": "endTime",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NftInfoData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rarity",
+            "type": {
+              "defined": "Rarity"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RarityLimitConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rarity",
+            "type": {
+              "defined": "Rarity"
+            }
+          },
+          {
+            "name": "max",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RarityLimitInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rarity",
+            "type": {
+              "defined": "Rarity"
+            }
+          },
+          {
+            "name": "current",
+            "type": "u16"
+          },
+          {
+            "name": "max",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Rarity",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Poor"
+          },
+          {
+            "name": "Common"
+          },
+          {
+            "name": "Uncommon"
+          },
+          {
+            "name": "Rare"
+          },
+          {
+            "name": "Epic"
+          },
+          {
+            "name": "Legendary"
+          },
+          {
+            "name": "Artifact"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AlreadyLaunched",
+      "msg": "Already launched"
+    },
+    {
+      "code": 6001,
+      "name": "NotLaunched",
+      "msg": "Not launched"
+    },
+    {
+      "code": 6002,
+      "name": "AlreadyStarted",
+      "msg": "Staking already started"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidTime",
+      "msg": "Invalid start/unlock/end time"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidNftAccountPubkey",
+      "msg": "Mismatch passed nft acc & derived pubkey"
+    },
+    {
+      "code": 6005,
+      "name": "EmptyInfoAccount",
+      "msg": "Nft info account is empty"
+    },
+    {
+      "code": 6006,
+      "name": "LimitsNotFound",
+      "msg": "Nft limit info not found"
+    },
+    {
+      "code": 6007,
+      "name": "RarityLimitReached",
+      "msg": "Rarity limit reached"
+    },
+    {
+      "code": 6008,
+      "name": "ReceiptAccountAlreadyInitialized",
+      "msg": "Receipt account already initialized"
+    },
+    {
+      "code": 6009,
+      "name": "UnlockUnavailable",
+      "msg": "Unlock unavailable"
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyCompleted",
+      "msg": "Nft receipt already completed"
+    },
+    {
+      "code": 6011,
+      "name": "ExceedLimits",
+      "msg": "Exceed limits"
+    }
+  ]
+}

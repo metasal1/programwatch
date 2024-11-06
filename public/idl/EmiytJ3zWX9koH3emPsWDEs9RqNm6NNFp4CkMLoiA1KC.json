@@ -1,0 +1,4160 @@
+{
+  "address": "EmiytJ3zWX9koH3emPsWDEs9RqNm6NNFp4CkMLoiA1KC",
+  "metadata": {
+    "name": "mintfx",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "commit_redeem",
+      "discriminator": [
+        162,
+        44,
+        90,
+        13,
+        218,
+        224,
+        27,
+        33
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "redemption_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "idempotent_account",
+          "docs": [
+            "This account takes advantage of anchor's account re-initialization guarantees to prevent the replay of a signed transaction"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "ik"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  101,
+                  109
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "ik",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_authority",
+      "discriminator": [
+        71,
+        142,
+        133,
+        59,
+        152,
+        175,
+        52,
+        241
+      ],
+      "accounts": [
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "The newly created user permission account for the authority"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "authority"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "initial_permissions",
+          "type": {
+            "defined": {
+              "name": "AuthorityPermissionArgs"
+            }
+          }
+        },
+        {
+          "name": "initial_mint_limits",
+          "type": {
+            "defined": {
+              "name": "RiskManagerArgs"
+            }
+          }
+        },
+        {
+          "name": "initial_redeem_limits",
+          "type": {
+            "defined": {
+              "name": "RiskManagerArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_metadata",
+      "discriminator": [
+        30,
+        35,
+        117,
+        134,
+        196,
+        139,
+        44,
+        25
+      ],
+      "accounts": [
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint_metadata",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "metadata_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "metadata_program"
+            }
+          }
+        },
+        {
+          "name": "metadata_program",
+          "docs": [
+            "The Metadata program"
+          ],
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ],
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "docs": [
+            "The Rent Sysvar"
+          ],
+          "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "create_mint_swap_wallet",
+      "discriminator": [
+        26,
+        12,
+        142,
+        215,
+        119,
+        156,
+        154,
+        239
+      ],
+      "accounts": [
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "input_mint"
+        },
+        {
+          "name": "input_wallet_authority",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "wallet_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  115,
+                  119,
+                  97,
+                  112,
+                  95,
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "signer": true
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "wallet_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_redemption_escrow_for_token",
+      "discriminator": [
+        213,
+        52,
+        193,
+        108,
+        136,
+        92,
+        112,
+        168
+      ],
+      "accounts": [
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "redemption_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "create_redemption_wallet",
+      "discriminator": [
+        150,
+        71,
+        1,
+        167,
+        65,
+        21,
+        10,
+        81
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "redemption_wallet_authority",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "wallet_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "redemption_wallet",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "redemption_wallet_authority"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "signer": true
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "wallet_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_token",
+      "discriminator": [
+        84,
+        52,
+        204,
+        228,
+        24,
+        140,
+        234,
+        75
+      ],
+      "accounts": [
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ],
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "create_token_2022",
+      "discriminator": [
+        122,
+        75,
+        16,
+        217,
+        248,
+        141,
+        155,
+        169
+      ],
+      "accounts": [
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "args.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "args.id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ],
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "CreateToken2022Args"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "destroy_authority",
+      "discriminator": [
+        83,
+        102,
+        88,
+        143,
+        16,
+        71,
+        139,
+        247
+      ],
+      "accounts": [
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "The authority's user permission account to destroy"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "authority"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "mint",
+      "discriminator": [
+        51,
+        57,
+        225,
+        47,
+        182,
+        146,
+        137,
+        166
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "destination",
+          "writable": true
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "idempotent_account",
+          "docs": [
+            "This account takes advantage of anchor's account re-initialization guarantees to prevent the replay of a signed transaction"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "ik"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "ik",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "mint_via_swap",
+      "discriminator": [
+        62,
+        234,
+        76,
+        93,
+        65,
+        160,
+        213,
+        38
+      ],
+      "accounts": [
+        {
+          "name": "output_mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint_destination_wallet",
+          "writable": true
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "input_mint"
+        },
+        {
+          "name": "input_wallet_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "wallet_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116,
+                  95,
+                  115,
+                  119,
+                  97,
+                  112,
+                  95,
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "input_wallet",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "input_wallet_authority"
+              },
+              {
+                "kind": "account",
+                "path": "input_token_program"
+              },
+              {
+                "kind": "account",
+                "path": "input_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "output_wallet",
+          "writable": true
+        },
+        {
+          "name": "idempotent_account",
+          "docs": [
+            "This account takes advantage of anchor's account re-initialization guarantees to prevent the replay of a signed transaction"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "ik"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "output_token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "input_token_program"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "wallet_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "ik",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "amount_in",
+          "type": "u64"
+        },
+        {
+          "name": "amount_out",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "pause_token",
+      "discriminator": [
+        226,
+        150,
+        72,
+        211,
+        159,
+        51,
+        226,
+        39
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "redeem",
+      "discriminator": [
+        184,
+        12,
+        86,
+        149,
+        70,
+        196,
+        97,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "redemption_wallet_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "wallet_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  119,
+                  97,
+                  108,
+                  108,
+                  101,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "redemption_wallet",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "redemption_wallet_authority"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "redemption_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "idempotent_account",
+          "docs": [
+            "This account takes advantage of anchor's account re-initialization guarantees to prevent the replay of a signed transaction"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "ik"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  101,
+                  109
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "The payer account responsible for transaction fees"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "wallet_id",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "ik",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unpause_token",
+      "discriminator": [
+        108,
+        117,
+        62,
+        30,
+        200,
+        92,
+        255,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_authority",
+      "discriminator": [
+        32,
+        46,
+        64,
+        28,
+        149,
+        75,
+        243,
+        88
+      ],
+      "accounts": [
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "The user permission account for the authority"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin_authority",
+          "docs": [
+            "The admin account"
+          ],
+          "signer": true,
+          "address": "H8e2NAcg9TjgVjDiW2oj1HkKYf8Nxty1qMFMa15uUawk"
+        },
+        {
+          "name": "authority"
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "new_permissions",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "AuthorityPermissionArgs"
+              }
+            }
+          }
+        },
+        {
+          "name": "new_mint_limits",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "RiskManagerArgs"
+              }
+            }
+          }
+        },
+        {
+          "name": "new_redeem_limits",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "RiskManagerArgs"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "void_redeem",
+      "discriminator": [
+        101,
+        203,
+        91,
+        138,
+        6,
+        72,
+        159,
+        105
+      ],
+      "accounts": [
+        {
+          "name": "mint",
+          "docs": [
+            "The mint of the currency"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_info",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  105,
+                  110,
+                  102,
+                  111
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "destination",
+          "docs": [
+            "The token account to send the tokens to"
+          ],
+          "writable": true
+        },
+        {
+          "name": "redemption_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  109,
+                  112,
+                  116,
+                  105,
+                  111,
+                  110,
+                  95,
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority_permissions",
+          "docs": [
+            "This account holds the authority's permissions, and the limits for the authority"
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "token_id"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  99,
+                  99,
+                  101,
+                  115,
+                  115,
+                  95,
+                  99,
+                  111,
+                  110,
+                  116,
+                  114,
+                  111,
+                  108,
+                  95,
+                  118,
+                  50
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "The authority for the transaction, must have permission."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "idempotent_account",
+          "docs": [
+            "This account takes advantage of anchor's account re-initialization guarantees to prevent the replay of a signed transaction"
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "ik"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  100,
+                  101,
+                  101,
+                  109
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "The token program"
+          ]
+        },
+        {
+          "name": "system_program",
+          "docs": [
+            "The system program"
+          ],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "event_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  95,
+                  95,
+                  101,
+                  118,
+                  101,
+                  110,
+                  116,
+                  95,
+                  97,
+                  117,
+                  116,
+                  104,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program"
+        }
+      ],
+      "args": [
+        {
+          "name": "token_id",
+          "type": "string"
+        },
+        {
+          "name": "ik",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AuthorityPermissionsV2",
+      "discriminator": [
+        197,
+        47,
+        58,
+        245,
+        170,
+        75,
+        212,
+        197
+      ]
+    },
+    {
+      "name": "IdempotentMintAccount",
+      "discriminator": [
+        17,
+        166,
+        138,
+        166,
+        148,
+        111,
+        133,
+        106
+      ]
+    },
+    {
+      "name": "MintSwapWallet",
+      "discriminator": [
+        57,
+        133,
+        152,
+        156,
+        60,
+        196,
+        1,
+        154
+      ]
+    },
+    {
+      "name": "RedemptionInfo",
+      "discriminator": [
+        62,
+        100,
+        128,
+        6,
+        203,
+        172,
+        181,
+        67
+      ]
+    },
+    {
+      "name": "RedemptionWallet",
+      "discriminator": [
+        162,
+        134,
+        46,
+        250,
+        100,
+        113,
+        3,
+        27
+      ]
+    },
+    {
+      "name": "TokenInfo",
+      "discriminator": [
+        109,
+        162,
+        52,
+        125,
+        77,
+        166,
+        37,
+        202
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "CommitRedeemEvent",
+      "discriminator": [
+        165,
+        63,
+        146,
+        88,
+        45,
+        132,
+        57,
+        159
+      ]
+    },
+    {
+      "name": "CreateAuthorityEvent",
+      "discriminator": [
+        187,
+        178,
+        59,
+        216,
+        85,
+        88,
+        74,
+        167
+      ]
+    },
+    {
+      "name": "CreateMintSwapWalletEvent",
+      "discriminator": [
+        22,
+        120,
+        38,
+        183,
+        45,
+        109,
+        90,
+        176
+      ]
+    },
+    {
+      "name": "CreateRedemptionEscrowEvent",
+      "discriminator": [
+        236,
+        252,
+        41,
+        252,
+        72,
+        118,
+        191,
+        142
+      ]
+    },
+    {
+      "name": "CreateRedemptionWalletEvent",
+      "discriminator": [
+        200,
+        254,
+        10,
+        32,
+        184,
+        171,
+        64,
+        185
+      ]
+    },
+    {
+      "name": "CreateToken2022Event",
+      "discriminator": [
+        175,
+        18,
+        32,
+        194,
+        109,
+        108,
+        40,
+        126
+      ]
+    },
+    {
+      "name": "CreateTokenEvent",
+      "discriminator": [
+        4,
+        4,
+        86,
+        151,
+        191,
+        94,
+        245,
+        193
+      ]
+    },
+    {
+      "name": "DestroyAuthorityEvent",
+      "discriminator": [
+        196,
+        251,
+        3,
+        51,
+        12,
+        166,
+        209,
+        232
+      ]
+    },
+    {
+      "name": "MigrateAuthorityEvent",
+      "discriminator": [
+        224,
+        159,
+        164,
+        200,
+        215,
+        110,
+        201,
+        45
+      ]
+    },
+    {
+      "name": "MintEvent",
+      "discriminator": [
+        197,
+        144,
+        146,
+        149,
+        66,
+        164,
+        95,
+        16
+      ]
+    },
+    {
+      "name": "MintViaSwapEvent",
+      "discriminator": [
+        193,
+        124,
+        228,
+        220,
+        119,
+        197,
+        7,
+        217
+      ]
+    },
+    {
+      "name": "PauseTokenEvent",
+      "discriminator": [
+        186,
+        55,
+        236,
+        90,
+        164,
+        236,
+        17,
+        127
+      ]
+    },
+    {
+      "name": "RedeemEvent",
+      "discriminator": [
+        90,
+        114,
+        83,
+        146,
+        212,
+        26,
+        217,
+        59
+      ]
+    },
+    {
+      "name": "UpdateAuthorityEvent",
+      "discriminator": [
+        18,
+        34,
+        243,
+        151,
+        72,
+        51,
+        65,
+        156
+      ]
+    },
+    {
+      "name": "VoidRedeemEvent",
+      "discriminator": [
+        120,
+        55,
+        75,
+        172,
+        221,
+        172,
+        203,
+        88
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "MathOverflow",
+      "msg": "Math Overflow"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidThrottleConfig",
+      "msg": "Invalid throttle config"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidThrottleInput",
+      "msg": "Invalid throttle input"
+    },
+    {
+      "code": 6003,
+      "name": "VelocityLimitExceeded",
+      "msg": "Velocity limit exceeded"
+    },
+    {
+      "code": 6004,
+      "name": "AboveMintSupplyLimit",
+      "msg": "Total supply after mint is greater than the mint supply limit"
+    },
+    {
+      "code": 6005,
+      "name": "BelowRedeemSupplyLimit",
+      "msg": "Total supply after redeem is less than the redeem supply limit"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidAuthorityPermissions",
+      "msg": "Authority does not have permission to perform action"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidIK",
+      "msg": "Invalid redemption IK state"
+    },
+    {
+      "code": 6008,
+      "name": "TokenIsPaused",
+      "msg": "Token is Paused"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidSwapAmount",
+      "msg": "Invalid swap amount"
+    },
+    {
+      "code": 6010,
+      "name": "TokenIsNotPaused",
+      "msg": "Token is Not Paused"
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorityPermissionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "can_mint",
+            "type": "bool"
+          },
+          {
+            "name": "can_redeem",
+            "type": "bool"
+          },
+          {
+            "name": "can_pause_token",
+            "type": "bool"
+          },
+          {
+            "name": "can_unpause_token",
+            "type": "bool"
+          },
+          {
+            "name": "can_commit_redeem",
+            "type": "bool"
+          },
+          {
+            "name": "can_void_redeem",
+            "type": "bool"
+          },
+          {
+            "name": "can_create_redemption_wallet",
+            "type": "bool"
+          },
+          {
+            "name": "can_create_mint_swap_wallet",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityPermissionsV2",
+      "docs": [
+        "This struct encodes the roles of a signer as bitflags and their associated limits."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "token_id",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority_permission_flags",
+            "docs": [
+              "The account flags for the user"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "mint_limits",
+            "type": {
+              "defined": {
+                "name": "MintRiskManager"
+              }
+            }
+          },
+          {
+            "name": "redeem_limits",
+            "type": {
+              "defined": {
+                "name": "RedeemRiskManager"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CommitRedeemEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "ik",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateAuthorityEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority_permissions",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "permissions",
+            "type": {
+              "defined": {
+                "name": "AuthorityPermissionArgs"
+              }
+            }
+          },
+          {
+            "name": "mint_limits",
+            "type": {
+              "defined": {
+                "name": "RiskManagerArgs"
+              }
+            }
+          },
+          {
+            "name": "redeem_limits",
+            "type": {
+              "defined": {
+                "name": "RiskManagerArgs"
+              }
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateMintSwapWalletEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet_id",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "swap_input_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRedemptionEscrowEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateRedemptionWalletEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "wallet_id",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateToken2022Args",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateToken2022Event",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateTokenEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DestroyAuthorityEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority_permissions",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IdempotentMintAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "_reserved",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MigrateAuthorityEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority_permissions_old",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority_permissions_new",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "ik",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintRiskManager",
+      "docs": [
+        "This struct holds information about the risk manager"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "throttle",
+            "docs": [
+              "The throttle for redeeming/minting"
+            ],
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "Throttle"
+                }
+              }
+            }
+          },
+          {
+            "name": "supply_limit",
+            "docs": [
+              "The limit on total supply for CFX"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintSwapWallet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "_reserved",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintViaSwapEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "amount_out",
+            "type": "u64"
+          },
+          {
+            "name": "source_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "destination",
+            "type": "pubkey"
+          },
+          {
+            "name": "ik",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PauseTokenEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedeemEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "ik",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedeemRiskManager",
+      "docs": [
+        "This struct holds information about the redeem risk manager"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "throttle",
+            "docs": [
+              "The throttle for redeeming/minting"
+            ],
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "Throttle"
+                }
+              }
+            }
+          },
+          {
+            "name": "supply_limit",
+            "docs": [
+              "The limit on total supply for CFX"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedemptionInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "redeemer",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_id",
+            "type": {
+              "array": [
+                "u8",
+                8
+              ]
+            }
+          },
+          {
+            "name": "stage",
+            "type": {
+              "defined": {
+                "name": "RedemptionState"
+              }
+            }
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedemptionState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Submitted"
+          },
+          {
+            "name": "Committed"
+          },
+          {
+            "name": "Voided"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RedemptionWallet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "_reserved",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RiskManagerArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "throttle_args",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "ThrottleArgs"
+                }
+              }
+            }
+          },
+          {
+            "name": "supply_limit",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Throttle",
+      "docs": [
+        "The throttle is using the sliding window based rate limit method",
+        "Summary: when a request arrives, if the total amount of usdx swapped for mint in the last slot window is more than “limit” then discard, else the request goes through.",
+        "To address the situation when there is a burst of traffic towards the end of a window, the method splits the slot window into many small buckets by the “slots_per_bucket” and each bucket keeps the amount of usdx swapped within itself, e.g. one of the bucket could be from slot 152401382 (open) to slots 152401400 (close)",
+        "The amounts array is fixed-size (num of buckets is fixed) and it does not necessarily only capture the slot window;",
+        "it could captures at least the entire slot window (when slots_per_bucket = slot window / num of buckets) and at most slot window * number of window (when slots_per_bucket = slot_window)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slot_window",
+            "docs": [
+              "total look-back period (in slots) to consider rate limit"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "limit",
+            "docs": [
+              "amount of usdx allowed to swap for mint in look-back period"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "slots_per_bucket",
+            "docs": [
+              "slots per bucket"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "to_slot",
+            "docs": [
+              "to_slot of the last slots bucket. slot bucket: (to_slot - slots_per_bucket, to_slot]"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "amounts",
+            "docs": [
+              "accumulated amounts in each slots bucket"
+            ],
+            "type": {
+              "array": [
+                "u64",
+                10
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ThrottleArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slot_window",
+            "type": "u64"
+          },
+          {
+            "name": "limit",
+            "type": "u64"
+          },
+          {
+            "name": "slots_per_bucket",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenInfo",
+      "docs": [
+        "This struct holds information about each mintfx token"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "paused",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateAuthorityEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority_permissions",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "permissions",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "AuthorityPermissionArgs"
+                }
+              }
+            }
+          },
+          {
+            "name": "mint_limits",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "RiskManagerArgs"
+                }
+              }
+            }
+          },
+          {
+            "name": "redeem_limits",
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "RiskManagerArgs"
+                }
+              }
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoidRedeemEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          },
+          {
+            "name": "ik",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "token_id",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}

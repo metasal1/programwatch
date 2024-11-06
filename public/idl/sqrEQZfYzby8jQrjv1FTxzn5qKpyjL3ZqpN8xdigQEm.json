@@ -1,0 +1,1466 @@
+{
+  "version": "0.1.0",
+  "name": "super_squares",
+  "constants": [
+    {
+      "name": "SEED",
+      "type": "string",
+      "value": "\"anchor\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initConfig",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dev",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initCounter",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SquaresConfig",
+                "path": "squares_config.admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "InitCounterArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresCounter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "counter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitCounterArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createGame",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "CreateGameArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "prizes",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "prizes"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateGameArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createPrizes",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "CreatePrizesArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "prizes",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "prizes"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "firstQuarter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "secondQuarter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "name": "thirdQuarter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fourthQuarter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "4"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreatePrizesArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createQuarters",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "CreateQuartersArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "firstQuarter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "1"
+              }
+            ]
+          }
+        },
+        {
+          "name": "secondQuarter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "name": "thirdQuarter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "3"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fourthQuarter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "4"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateQuartersArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "buySquare",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "square",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "square"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "game"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BuySquareArgs"
+                },
+                "path": "args.grid_x"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BuySquareArgs"
+                },
+                "path": "args.grid_y"
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SquaresConfig",
+                "path": "squares_config.admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "BuySquareArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "configWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "associatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK - address"
+          ]
+        },
+        {
+          "name": "masterEditionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "walletCounter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "counter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "payer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "BuySquareArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateQuarter",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "quarter",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "UpdateQuarterArgs"
+                },
+                "path": "args.quarter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "UpdateQuarterArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateQuarterArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimPrize",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "quarter",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "quarter"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "ClaimPrizeArgs"
+                },
+                "path": "args.quarter"
+              }
+            ]
+          }
+        },
+        {
+          "name": "square",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "square"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Game",
+                "path": "game"
+              },
+              {
+                "kind": "account",
+                "type": "u8",
+                "account": "Quarter",
+                "path": "quarter.team_x"
+              },
+              {
+                "kind": "account",
+                "type": "u8",
+                "account": "Quarter",
+                "path": "quarter.team_y"
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SquaresConfig",
+                "path": "squares_config.admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "ClaimPrizeArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "configWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "winningNft",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK - address"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "ClaimPrizeArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateGame",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "UpdateGameArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateGameArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateMeta",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK - address"
+          ]
+        },
+        {
+          "name": "masterEditionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "game"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "admin"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "UpdateMetaArgs"
+                },
+                "path": "args.game_seed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "squaresConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateMetaArgs"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SquaresConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "dev",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "teamX",
+            "type": "bytes"
+          },
+          {
+            "name": "teamY",
+            "type": "bytes"
+          },
+          {
+            "name": "prizes",
+            "type": "publicKey"
+          },
+          {
+            "name": "startTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "endTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Prizes",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "firstQuarter",
+            "type": "publicKey"
+          },
+          {
+            "name": "secondQuarter",
+            "type": "publicKey"
+          },
+          {
+            "name": "thirdQuarter",
+            "type": "publicKey"
+          },
+          {
+            "name": "fourthQuarter",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Quarter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "quarter",
+            "type": "u8"
+          },
+          {
+            "name": "teamX",
+            "type": "u8"
+          },
+          {
+            "name": "teamY",
+            "type": "u8"
+          },
+          {
+            "name": "prize",
+            "type": "i64"
+          },
+          {
+            "name": "winner",
+            "type": "publicKey"
+          },
+          {
+            "name": "ended",
+            "type": "u8"
+          },
+          {
+            "name": "claimed",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Square",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "gridX",
+            "type": "u8"
+          },
+          {
+            "name": "gridY",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Counter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "BuySquareArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gridX",
+            "type": "u8"
+          },
+          {
+            "name": "gridY",
+            "type": "u8"
+          },
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimPrizeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "quarter",
+            "type": "u8"
+          },
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateGameArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gridX",
+            "type": "u8"
+          },
+          {
+            "name": "gridY",
+            "type": "u8"
+          },
+          {
+            "name": "startTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreatePrizesArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateQuartersArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitCounterArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateGameArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startTimestamp",
+            "type": "i64"
+          },
+          {
+            "name": "teamX",
+            "type": {
+              "array": [
+                "u8",
+                10
+              ]
+            }
+          },
+          {
+            "name": "teamY",
+            "type": {
+              "array": [
+                "u8",
+                10
+              ]
+            }
+          },
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateMetaArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "gridX",
+            "type": "u8"
+          },
+          {
+            "name": "gridY",
+            "type": "u8"
+          },
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateQuarterArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "prize",
+            "type": "i64"
+          },
+          {
+            "name": "winner",
+            "type": "publicKey"
+          },
+          {
+            "name": "quarter",
+            "type": "u8"
+          },
+          {
+            "name": "gameSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CustomError",
+      "msg": "Custom error message"
+    }
+  ]
+}

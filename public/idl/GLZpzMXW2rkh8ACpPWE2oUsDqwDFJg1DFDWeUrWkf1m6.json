@@ -1,0 +1,460 @@
+{
+  "version": "0.0.1",
+  "name": "gimmicks",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hodor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokensPerVote",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateHodorSettings",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hodor",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "tokensPerVote",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "addAdmin",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hodor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAdmin",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "adminMarker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createVote",
+      "accounts": [
+        {
+          "name": "voteCreator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hodor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "numOptions",
+          "type": "u64"
+        },
+        {
+          "name": "numVoters",
+          "type": "u64"
+        },
+        {
+          "name": "start",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "end",
+          "type": {
+            "option": "i64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateVoteSettings",
+      "accounts": [
+        {
+          "name": "voteUpdater",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hodor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vote",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "settings",
+          "type": {
+            "defined": "VoteSettings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "castVote",
+      "accounts": [
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hodor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voter",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "voterAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voterNftAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "voterMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "option",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "transfer",
+      "accounts": [
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hodor",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sender",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "srcAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "srcNftAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "srcMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstNftAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Hodor",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "multisig",
+            "type": "publicKey"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokensPerVote",
+            "type": "u64"
+          },
+          {
+            "name": "votesHeld",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminMarker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hodor",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vote",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hodor",
+            "type": "publicKey"
+          },
+          {
+            "name": "voteNo",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "defined": "VoteSettings"
+            }
+          },
+          {
+            "name": "votes",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "voted",
+            "type": "bytes"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "VoteSettings",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "start",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "end",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidMultisig"
+          },
+          {
+            "name": "InvalidMint"
+          },
+          {
+            "name": "InvalidMetadataCreator"
+          },
+          {
+            "name": "InvalidMetadataMint"
+          },
+          {
+            "name": "InvalidMetadataName"
+          },
+          {
+            "name": "InvalidNftAccount"
+          },
+          {
+            "name": "InvalidOwner"
+          },
+          {
+            "name": "ArithmeticOverflow"
+          },
+          {
+            "name": "AlreadyVoted"
+          },
+          {
+            "name": "OutsideVoteTime"
+          },
+          {
+            "name": "InvalidAdminMarker"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,414 @@
+{
+  "version": "0.1.0",
+  "name": "udf_solana",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "endpoint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "protocolId",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "getLastPrice",
+      "accounts": [
+        {
+          "name": "publisher",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "lastPriceMessage",
+          "type": {
+            "defined": "LastPriceMessage"
+          }
+        }
+      ],
+      "returns": {
+        "array": [
+          "u8",
+          32
+        ]
+      }
+    },
+    {
+      "name": "updateMultipleAssets",
+      "accounts": [
+        {
+          "name": "publisher",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "protocolInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "multipleUpdateMessage",
+          "type": {
+            "defined": "MultipleUpdateMessage"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lastPrice",
+      "accounts": [
+        {
+          "name": "lastPrice",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "asset",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "publicKey"
+          },
+          {
+            "name": "endpoint",
+            "type": "publicKey"
+          },
+          {
+            "name": "protocolId",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LatestUpdate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dataKey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "data",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dataTimestamp",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "MultipleUpdateMessage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "merkleRoot",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dataFeeds",
+            "type": {
+              "vec": {
+                "defined": "DataFeed"
+              }
+            }
+          },
+          {
+            "name": "signatures",
+            "type": {
+              "vec": {
+                "defined": "TransmitterSignature"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "LastPriceMessage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "merkleRoot",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dataFeed",
+            "type": {
+              "defined": "DataFeed"
+            }
+          },
+          {
+            "name": "signatures",
+            "type": {
+              "vec": {
+                "defined": "TransmitterSignature"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "DataFeed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "timestamp",
+            "type": "u64"
+          },
+          {
+            "name": "dataKey",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "data",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "merkleProof",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransmitterSignature",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "v",
+            "type": "u8"
+          },
+          {
+            "name": "r",
+            "type": "bytes"
+          },
+          {
+            "name": "s",
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isInit",
+            "type": "bool"
+          },
+          {
+            "name": "consensusTargetRate",
+            "type": "u64"
+          },
+          {
+            "name": "protocolAddress",
+            "type": "publicKey"
+          },
+          {
+            "name": "transmitters",
+            "type": {
+              "array": [
+                {
+                  "defined": "EthAddress"
+                },
+                20
+              ]
+            }
+          },
+          {
+            "name": "executors",
+            "type": {
+              "array": [
+                "publicKey",
+                20
+              ]
+            }
+          },
+          {
+            "name": "proposers",
+            "type": {
+              "array": [
+                "publicKey",
+                20
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Hash",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "array": [
+            "u8",
+            32
+          ]
+        }
+      }
+    },
+    {
+      "name": "EthAddress",
+      "type": {
+        "kind": "alias",
+        "value": {
+          "array": [
+            "u8",
+            20
+          ]
+        }
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "IsNotAdmin",
+      "msg": "Is not admin"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidSignature",
+      "msg": "Invalid signature"
+    },
+    {
+      "code": 6002,
+      "name": "ConsensusNotReached",
+      "msg": "Consensus not reached"
+    },
+    {
+      "code": 6003,
+      "name": "MerkleProofNotVerified",
+      "msg": "Merkle proof not verified"
+    },
+    {
+      "code": 6004,
+      "name": "InconsistentData",
+      "msg": "Inconsistent data"
+    }
+  ]
+}

@@ -1,0 +1,1952 @@
+{
+  "version": "2.1.0",
+  "name": "mallow_auction",
+  "instructions": [
+    {
+      "name": "initMarketplaceConfig",
+      "accounts": [
+        {
+          "name": "marketplaceAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Marketplace authority wallet."
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardsConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "MarketplaceConfigArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateMarketplaceConfig",
+      "accounts": [
+        {
+          "name": "marketplaceAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Marketplace authority wallet."
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateMarketplaceConfigArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createAuctionV2",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "sellerTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's token account for the NFT to sell"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "bidMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The SPL token mint to use for bids (e.g. FOXY). Use NATIVE_MINT for SOL."
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Metadata for the mint is used to determine fees."
+          ]
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config's token account for the NFT"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateAuctionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createCoreAuction",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Core asset to list"
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Core asset's collection if it's part of one."
+          ]
+        },
+        {
+          "name": "bidMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "The SPL token mint to use for bids (e.g. FOXY). Use NATIVE_MINT for SOL."
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplCoreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateAuctionArgs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pauseAuction",
+      "accounts": [
+        {
+          "name": "marketplaceAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only the marketplace can pause auctions"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "resumeAuction",
+      "accounts": [
+        {
+          "name": "marketplaceAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only the marketplace can pause auctions"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "extendAuction",
+      "accounts": [
+        {
+          "name": "marketplaceAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Only the marketplace can pause auctions"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "seconds",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelAuction",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Wallet paying for any account rent expenses"
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "sellerTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint account to sell."
+          ]
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config's token account for the NFT"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelCoreAuction",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Wallet paying for any account rent expenses"
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Core asset's collection if it's part of one."
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "mplCoreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "bid",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Bidder's wallet"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config's token account for the NFT"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "bidV2",
+      "accounts": [
+        {
+          "name": "bidder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Bidder's wallet"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to bid on. Only needed so txs show up in asset's history."
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bidAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settleAuctionV3",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer for fees to settle the auction"
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "buyer",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Highest bidder's wallet"
+          ]
+        },
+        {
+          "name": "sellerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Seller user rewards."
+          ]
+        },
+        {
+          "name": "buyerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer user rewards."
+          ]
+        },
+        {
+          "name": "bidderTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Highest bidder's token account for the NFT"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metadata for the mint is used to distribute royalties."
+          ]
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config's token account for the NFT"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to receive fees"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settleCoreAuction",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Payer for fees to settle the auction"
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "buyer",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Highest bidder's wallet"
+          ]
+        },
+        {
+          "name": "sellerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Seller user rewards."
+          ]
+        },
+        {
+          "name": "buyerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer user rewards."
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Core asset's collection if it's part of one."
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to receive fees"
+          ]
+        },
+        {
+          "name": "mplCoreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settleBurnAuctionV3",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "sellerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Seller user rewards."
+          ]
+        },
+        {
+          "name": "buyerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer user rewards."
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metadata for the mint is used to distribute royalties."
+          ]
+        },
+        {
+          "name": "edition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Edition account for the mint being burned."
+          ]
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config's token account for the NFT"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to receive fees"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "settleCoreBurnAuction",
+      "accounts": [
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "sellerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Seller user rewards."
+          ]
+        },
+        {
+          "name": "buyerUserRewards",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "Buyer user rewards."
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Core asset's collection if it's part of one."
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "marketplaceConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account to receive fees"
+          ]
+        },
+        {
+          "name": "mplCoreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "ackBurnAuction",
+      "accounts": [
+        {
+          "name": "highestBidder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Highest bidder's wallet"
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Metadata for the mint is used to distribute royalties."
+          ]
+        },
+        {
+          "name": "edition",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Edition account for the mint being burned."
+          ]
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config's token account for the NFT"
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "ackCoreBurnAuction",
+      "accounts": [
+        {
+          "name": "highestBidder",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Highest bidder's wallet"
+          ]
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Seller's wallet"
+          ]
+        },
+        {
+          "name": "asset",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Mint of the NFT to sell."
+          ]
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "isOptional": true,
+          "docs": [
+            "Core asset's collection if it's part of one."
+          ]
+        },
+        {
+          "name": "auctionConfig",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Auction config holding information about the auction"
+          ]
+        },
+        {
+          "name": "mplCoreProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AuctionConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "marketplaceAuthority",
+            "docs": [
+              "Pubkey of the marketplace authority's wallet"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "seller",
+            "docs": [
+              "Seller of the NFT"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "Mint account of the NFT"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bidMint",
+            "docs": [
+              "Mint account of the bid token (e.g. FOXY)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "startTime",
+            "docs": [
+              "Start time as unix timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "endTime",
+            "docs": [
+              "End time as unix timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "highestBidAmount",
+            "docs": [
+              "The current highest bid amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "highestBidder",
+            "docs": [
+              "The current highest bidder or default pubkey if no bids have been made"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "reservePrice",
+            "docs": [
+              "The minimum bid price"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "duration",
+            "docs": [
+              "The duration of auction in seconds. It is used to determine the end time",
+              "of reserve price auctions when the first bid is made."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "minBidIncrementBps",
+            "docs": [
+              "The minimum increase basis points in bid price from the previous bid"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "timeExtPeriod",
+            "docs": [
+              "Time in seconds before the end time where an extension will be made when bidding"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "timeExtDelta",
+            "docs": [
+              "Time in seconds to increase the end time by when an extension is made"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "feeAccount",
+            "docs": [
+              "Account to receive fees determined by the fee config"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "feeBps",
+            "docs": [
+              "The resolved fee_bps for this auction based on user/nft status at time of creating auction"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "pausedAt",
+            "docs": [
+              "The timestamp of when the auction was paused, or 0 if not paused"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "burnOnComplete",
+            "docs": [
+              "True if the mint should be burned when the auction ends (DRiP Ultimate auctions)"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "buyerAck",
+            "docs": [
+              "True if the buyer has acknowledged winning a burn_on_complete auction"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "sellerAck",
+            "docs": [
+              "True if the seller has acknowledged sale of a burn_on_complete auction"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "tokenStandard",
+            "type": {
+              "defined": "TokenStandard"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketplaceConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": {
+              "array": [
+                "u8",
+                1
+              ]
+            }
+          },
+          {
+            "name": "version",
+            "type": "u8"
+          },
+          {
+            "name": "marketplaceAuthority",
+            "docs": [
+              "Pubkey of the marketplace authority's wallet."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "feeConfig",
+            "docs": [
+              "Fee information for the marketplace."
+            ],
+            "type": {
+              "defined": "FeeConfig"
+            }
+          },
+          {
+            "name": "rewardsConfig",
+            "docs": [
+              "Rewards config to use for user rewards"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "MarketplaceConfigArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "feeConfig",
+            "type": {
+              "defined": "FeeConfig"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateMarketplaceConfigArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "feeConfig",
+            "type": {
+              "defined": "FeeConfig"
+            }
+          },
+          {
+            "name": "rewardsConfig",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateAuctionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "reservePrice",
+            "type": "u64"
+          },
+          {
+            "name": "duration",
+            "type": "u32"
+          },
+          {
+            "name": "minBidIncrementBps",
+            "type": "u16"
+          },
+          {
+            "name": "timeExtPeriod",
+            "type": "u32"
+          },
+          {
+            "name": "timeExtDelta",
+            "type": "u32"
+          },
+          {
+            "name": "burnOnComplete",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeeConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "feeAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "primaryBps",
+            "type": "u16"
+          },
+          {
+            "name": "secondaryBps",
+            "type": "u16"
+          },
+          {
+            "name": "tokenDiscountBps",
+            "type": "u16"
+          },
+          {
+            "name": "discountToken",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenStandard",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NonFungible"
+          },
+          {
+            "name": "Core"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "Bid",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidder",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "startTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "endTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "bidMint",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "BuyerAck",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "sellerAck",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CancelAuction",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreateAuction",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "feeBps",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "startTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "endTime",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "reservePrice",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "duration",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "minBidIncrementBps",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "timeExtPeriod",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "timeExtDelta",
+          "type": "u32",
+          "index": false
+        },
+        {
+          "name": "burnOnComplete",
+          "type": "bool",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ExtendAuction",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "endTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "PauseAuction",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pausedAt",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "endTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ResumeAuction",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "pauseDuration",
+          "type": "i64",
+          "index": false
+        },
+        {
+          "name": "endTime",
+          "type": "i64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "SettleAuction",
+      "fields": [
+        {
+          "name": "marketplaceAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "feeBps",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "seller",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "highestBidder",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "highestBidAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "mint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "bidMint",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "burnOnComplete",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "buyerAck",
+          "type": "bool",
+          "index": false
+        },
+        {
+          "name": "rewardsConfig",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "buyerPointsMultiplierPct",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "sellerPointsMultiplierPct",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BumpSeedNotInHashMap",
+      "msg": "Bump seed not in hash map"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidDates",
+      "msg": "Invalid start/end date"
+    },
+    {
+      "code": 6002,
+      "name": "AuctionHasBid",
+      "msg": "Auction has a bid"
+    },
+    {
+      "code": 6003,
+      "name": "AuctionHasNoBid",
+      "msg": "Auction has no bid"
+    },
+    {
+      "code": 6004,
+      "name": "AuctionNotStarted",
+      "msg": "Auction has not started"
+    },
+    {
+      "code": 6005,
+      "name": "AuctionEnded",
+      "msg": "Auction has ended"
+    },
+    {
+      "code": 6006,
+      "name": "AuctionNotEnded",
+      "msg": "Auction has not ended"
+    },
+    {
+      "code": 6007,
+      "name": "BidTooLow",
+      "msg": "Bid too low"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidBidder",
+      "msg": "Invalid bidder"
+    },
+    {
+      "code": 6009,
+      "name": "CreatorNotFound",
+      "msg": "Creator not found"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidRoyalty",
+      "msg": "Invalid royalty"
+    },
+    {
+      "code": 6011,
+      "name": "ATANotFound",
+      "msg": "Associated token address not found"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidBidMintTokenAccount",
+      "msg": "Invalid bid mint token account"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidAuctionConfigBidTokenAccount",
+      "msg": "Invalid auction config bid token account"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidFeeSchedule",
+      "msg": "Invalid reduced fee whitelist account"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidMetadataAccount",
+      "msg": "Invalid metadata account"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidArg",
+      "msg": "Invalid argument"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidPayeeShares",
+      "msg": "Invalid payee shares"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidBidMint",
+      "msg": "Invalid bid mint"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidPDATransferSource",
+      "msg": "Invalid PDA transfer source"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidPDATransferDestination",
+      "msg": "Invalid PDA transfer destination"
+    },
+    {
+      "code": 6021,
+      "name": "PublicKeyMismatch",
+      "msg": "Invalid public key"
+    },
+    {
+      "code": 6022,
+      "name": "IncorrectOwner",
+      "msg": "Incorrect owner"
+    },
+    {
+      "code": 6023,
+      "name": "UninitializedAccount",
+      "msg": "Account not initialized"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidDuration",
+      "msg": "Invalid duration"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidReservePrice",
+      "msg": "Invalid reserve price"
+    },
+    {
+      "code": 6026,
+      "name": "InvalidAuthority",
+      "msg": "Invalid authority"
+    },
+    {
+      "code": 6027,
+      "name": "InvalidFeeAccount",
+      "msg": "Invalid fee account"
+    },
+    {
+      "code": 6028,
+      "name": "AuctionPaused",
+      "msg": "Auction is paused"
+    },
+    {
+      "code": 6029,
+      "name": "WrongSettleIx",
+      "msg": "Wrong ix type for settle"
+    },
+    {
+      "code": 6030,
+      "name": "AlreadyAcknowledged",
+      "msg": "Already acknowledged"
+    },
+    {
+      "code": 6031,
+      "name": "InvalidMarketplaceAuthority",
+      "msg": "Invalid marketplace authority"
+    }
+  ]
+}

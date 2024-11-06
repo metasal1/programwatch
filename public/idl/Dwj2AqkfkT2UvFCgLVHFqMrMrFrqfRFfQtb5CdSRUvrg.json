@@ -1,0 +1,265 @@
+{
+  "version": "0.1.0",
+  "name": "solana_router",
+  "instructions": [
+    {
+      "name": "initRamp",
+      "accounts": [
+        {
+          "name": "kadoGasWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipientWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "targetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rampAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferNative",
+      "accounts": [
+        {
+          "name": "kadoGasWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rampAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "abortNative",
+      "accounts": [
+        {
+          "name": "kadoGasWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rampAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "transferSpl",
+      "accounts": [
+        {
+          "name": "kadoGasWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "kadoGasWalletAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rampAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rampAccountAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "abortSpl",
+      "accounts": [
+        {
+          "name": "kadoGasWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "kadoGasWalletAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rampAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rampAccountAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "executeRamp",
+      "accounts": [
+        {
+          "name": "programAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "programSplAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "kadoGasWallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "recipientAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "targetMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rampAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "jupiterProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "RampAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "recipientWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "targetMint",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidReturnData"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidJupiterProgram"
+    },
+    {
+      "code": 6002,
+      "name": "IncorrectOwner"
+    },
+    {
+      "code": 6003,
+      "name": "IncorrectRecipient"
+    },
+    {
+      "code": 6004,
+      "name": "AlreadyInitialized"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidTargetMint"
+    }
+  ]
+}

@@ -1,0 +1,1378 @@
+{
+  "version": "0.0.1",
+  "name": "helium_entity_manager",
+  "instructions": [
+    {
+      "name": "initializeHotspotConfigV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "collection"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SubDaoV0",
+                "path": "sub_dao"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "InitializeHotspotConfigArgsV0"
+                },
+                "path": "args.symbol"
+              }
+            ]
+          }
+        },
+        {
+          "name": "subDao",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "token_metadata_program"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "collection"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "token_metadata_program"
+            }
+          }
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "token_metadata_program"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "collection"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "edition"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "token_metadata_program"
+            }
+          }
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hotspotConfig",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "hotspot_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "SubDaoV0",
+                "path": "sub_dao"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "InitializeHotspotConfigArgsV0"
+                },
+                "path": "args.symbol"
+              }
+            ]
+          }
+        },
+        {
+          "name": "dcMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "merkle_tree"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bubblegum_program"
+            }
+          }
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeHotspotConfigArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "initializeHotspotIssuerV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "hotspotConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "hotspot_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "HotspotConfigV0",
+                "path": "hotspot_config.sub_dao"
+              },
+              {
+                "kind": "account",
+                "type": "string",
+                "account": "HotspotConfigV0",
+                "path": "hotspot_config.symbol"
+              }
+            ]
+          }
+        },
+        {
+          "name": "hotspotIssuer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "hotspot_issuer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "HotspotConfigV0",
+                "path": "hotspot_config"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "InitializeHotspotIssuerArgsV0"
+                },
+                "path": "args.maker"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "InitializeHotspotIssuerArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "issueIotHotspotV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "dcFeePayer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "maker",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "token_metadata_program"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "collection"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "token_metadata_program"
+            }
+          }
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "metadata"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "token_metadata_program"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "collection"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "edition"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "token_metadata_program"
+            }
+          }
+        },
+        {
+          "name": "hotspotConfig",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "collection",
+            "dc_mint",
+            "merkle_tree",
+            "sub_dao"
+          ]
+        },
+        {
+          "name": "subDao",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hotspotIssuer",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "hotspot_issuer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "HotspotConfigV0",
+                "path": "hotspot_config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "maker"
+              }
+            ]
+          },
+          "relations": [
+            "hotspot_config",
+            "maker"
+          ]
+        },
+        {
+          "name": "info",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "merkle_tree"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bubblegum_program"
+            }
+          }
+        },
+        {
+          "name": "recipient",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumSigner",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "collection_cpi"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bubblegum_program"
+            }
+          }
+        },
+        {
+          "name": "dc",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dc"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "dc_mint"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "data_credits_program"
+            }
+          },
+          "relations": [
+            "dc_mint"
+          ]
+        },
+        {
+          "name": "dcMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dcBurner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dataCreditsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "IssueIotHotspotArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "genesisIssueHotspotV0",
+      "accounts": [
+        {
+          "name": "lazySigner",
+          "isMut": true,
+          "isSigner": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "lazy_signer"
+              },
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "helium"
+              }
+            ]
+          }
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hotspotConfig",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "collection",
+            "merkle_tree"
+          ]
+        },
+        {
+          "name": "info",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "recipient",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "merkleTree",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumSigner",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "collection_cpi"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bubblegum_program"
+            }
+          }
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "logWrapper",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "GenesisIssueHotspotArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateHotspotConfigV0",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hotspotConfig",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateHotspotConfigArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateHotspotIssuerV0",
+      "accounts": [
+        {
+          "name": "hotspotIssuer",
+          "isMut": true,
+          "isSigner": false,
+          "relations": [
+            "authority"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateHotspotIssuerArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateIotInfoV0",
+      "accounts": [
+        {
+          "name": "info",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hotspotOwner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "merkleTree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treeAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "merkle_tree"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "bubblegum_program"
+            }
+          }
+        },
+        {
+          "name": "ownerDcAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hotspotConfig",
+          "isMut": false,
+          "isSigner": false,
+          "relations": [
+            "dc_mint",
+            "merkle_tree"
+          ]
+        },
+        {
+          "name": "dcMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dc",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "dc"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "dc_mint"
+              }
+            ],
+            "programId": {
+              "kind": "account",
+              "type": "publicKey",
+              "path": "data_credits_program"
+            }
+          },
+          "relations": [
+            "dc_mint"
+          ]
+        },
+        {
+          "name": "bubblegumProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "compressionProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dataCreditsProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "UpdateIotInfoArgsV0"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "HotspotConfigV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collection",
+            "type": "publicKey"
+          },
+          {
+            "name": "dcMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "onboardingServer",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "subDao",
+            "type": "publicKey"
+          },
+          {
+            "name": "merkleTree",
+            "type": "publicKey"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "defined": "ConfigSettingsV0"
+            }
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "collectionBumpSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HotspotIssuerV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "count",
+            "type": "u64"
+          },
+          {
+            "name": "maker",
+            "type": "publicKey"
+          },
+          {
+            "name": "hotspotConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IotHotspotInfoV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "asset",
+            "type": "publicKey"
+          },
+          {
+            "name": "hotspotKey",
+            "type": "string"
+          },
+          {
+            "name": "bumpSeed",
+            "type": "u8"
+          },
+          {
+            "name": "location",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "elevation",
+            "type": {
+              "option": "i32"
+            }
+          },
+          {
+            "name": "gain",
+            "type": {
+              "option": "i32"
+            }
+          },
+          {
+            "name": "isFullHotspot",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "GenesisIssueHotspotArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hotspotKey",
+            "type": "string"
+          },
+          {
+            "name": "location",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "elevation",
+            "type": {
+              "option": "i32"
+            }
+          },
+          {
+            "name": "gain",
+            "type": {
+              "option": "i32"
+            }
+          },
+          {
+            "name": "isFullHotspot",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeHotspotConfigArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "metadataUrl",
+            "type": "string"
+          },
+          {
+            "name": "onboardingServer",
+            "type": "publicKey"
+          },
+          {
+            "name": "settings",
+            "type": {
+              "defined": "ConfigSettingsV0"
+            }
+          },
+          {
+            "name": "maxDepth",
+            "type": "u32"
+          },
+          {
+            "name": "maxBufferSize",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeHotspotIssuerArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IssueIotHotspotArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hotspotKey",
+            "type": "string"
+          },
+          {
+            "name": "isFullHotspot",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateHotspotConfigArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "newAuthority",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "onboardingServer",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateHotspotIssuerArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "authority",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UpdateIotInfoArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "location",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "elevation",
+            "type": {
+              "option": "i32"
+            }
+          },
+          {
+            "name": "gain",
+            "type": {
+              "option": "i32"
+            }
+          },
+          {
+            "name": "hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "index",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Collection",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "verified",
+            "type": "bool"
+          },
+          {
+            "name": "key",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateMetadataAccountArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "docs": [
+              "The name of the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "docs": [
+              "The symbol for the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "docs": [
+              "URI pointing to JSON representing the asset"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "collection",
+            "type": {
+              "option": {
+                "defined": "Collection"
+              }
+            }
+          },
+          {
+            "name": "collectionDetails",
+            "type": {
+              "option": {
+                "defined": "CollectionDetails"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateMasterEditionArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxSupply",
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VerifySizedCollectionItemArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "collectionAuthorityRecord",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConfigSettingsV0",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "IotConfig",
+            "fields": [
+              {
+                "name": "min_gain",
+                "type": "i32"
+              },
+              {
+                "name": "max_gain",
+                "type": "i32"
+              },
+              {
+                "name": "full_location_staking_fee",
+                "type": "u64"
+              },
+              {
+                "name": "dataonly_location_staking_fee",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollectionDetails",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "V1",
+            "fields": [
+              {
+                "name": "size",
+                "type": "u64"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidEccCompact",
+      "msg": "Invalid ecc compcat"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidStringLength",
+      "msg": "Invalid string length, your string was likely too long"
+    },
+    {
+      "code": 6002,
+      "name": "StringNotAlphanumeric",
+      "msg": "The string was not alphanumeric"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidMetadataProgram",
+      "msg": "Metadata Program Mismatch"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidDataIncrease",
+      "msg": "The realloc increase was too large"
+    }
+  ]
+}

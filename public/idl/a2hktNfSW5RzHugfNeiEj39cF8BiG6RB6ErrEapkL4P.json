@@ -1,0 +1,386 @@
+{
+  "version": "0.1.0",
+  "name": "hackathon",
+  "instructions": [
+    {
+      "name": "createHackathonV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hackathon",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "hackathon"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "type": {
+                  "defined": "CreateHackathonArgsV0"
+                },
+                "path": "args.name"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateHackathonArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createTrackV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hackathon",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "trackConfig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trackProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": "CreateHackathonTrackArgsV0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "createPrizeV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hackathon",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK in cpi"
+          ]
+        },
+        {
+          "name": "prize",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK in cpi"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trackProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeStateV0",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "hackathon",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "track",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "CHECK in cpi"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "trackProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "state",
+          "type": {
+            "defined": "HackathonTrackStateV0"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "HackathonV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": {
+              "defined": "HackathonStateV0"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "defaultTrackConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "registrationPeriod",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "judger",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RegistrationV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hackathon",
+            "type": "publicKey"
+          },
+          {
+            "name": "projectName",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateHackathonArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "judger",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          },
+          {
+            "name": "defaultTrackConfig",
+            "type": "publicKey"
+          },
+          {
+            "name": "registrationPeriod",
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateHackathonTrackArgsV0",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "judger",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HackathonTrackStateV0",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Draft"
+          },
+          {
+            "name": "Live"
+          },
+          {
+            "name": "OpenForSubmissions",
+            "fields": [
+              {
+                "name": "ts",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "Judging",
+            "fields": [
+              {
+                "name": "ts",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "Judged",
+            "fields": [
+              {
+                "name": "ts",
+                "type": "i64"
+              }
+            ]
+          },
+          {
+            "name": "Closed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HackathonStateV0",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Draft"
+          },
+          {
+            "name": "RegistrationOpen"
+          },
+          {
+            "name": "SubmissionsOpen"
+          },
+          {
+            "name": "Complete"
+          },
+          {
+            "name": "Closed"
+          }
+        ]
+      }
+    }
+  ]
+}

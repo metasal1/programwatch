@@ -1,0 +1,951 @@
+{
+  "version": "0.2.0",
+  "name": "redemption",
+  "instructions": [
+    {
+      "name": "initializeRealm",
+      "docs": [
+        "Initialize the program and setup the redemption's configuration",
+        "Transfer the Liquid funds into the Realm and initialize all realm's fields.",
+        "Also initialize UCT's mint."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissionless IX, can be called by anyone willing to give away their funds"
+          ]
+        },
+        {
+          "name": "funding",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "fundingUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "uctMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        },
+        {
+          "name": "uxpMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#7"
+          ]
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#8"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#9"
+          ]
+        },
+        {
+          "name": "spill",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#10"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#11"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#12"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "InitializeRealmParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "convertUxpToUct",
+      "docs": [
+        "Conversion of UXP to UCT (1 to 1 conversion)."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissionless IX, can be called by anyone"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2 - Whoever is converting their token must sign"
+          ]
+        },
+        {
+          "name": "userUxp",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "userUct",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "uctMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        },
+        {
+          "name": "uxpMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#7"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#8"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#9"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "uxpAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeemPhaseOne",
+      "docs": [
+        "Redemption of the UCT Liquid part and creation of the wallet bound PDA for the",
+        "upcoming Phase Two, where user will be able to claim the Illiquid part."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissionless IX, can be called by anyone"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2 - The redeeming user must sign"
+          ]
+        },
+        {
+          "name": "userUct",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "userUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        },
+        {
+          "name": "uctMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#7"
+          ]
+        },
+        {
+          "name": "claimAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#8"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#9"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#10"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "uctAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "redeemPhaseTwo",
+      "docs": [
+        "Redemption of the previously illiquid assets during phase two."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissionless IX, can be called by anyone"
+          ]
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2 - The redeeming user must sign"
+          ]
+        },
+        {
+          "name": "userUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "claimAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#7"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#8"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "usdcAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositIlliquidInsuranceFundIntoRealmUsdc",
+      "docs": [
+        "Deposits previously illiquid assets (USDC) into the vault."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissionless IX, can be called by anyone willing to give away their funds"
+          ]
+        },
+        {
+          "name": "funding",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "fundingUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#7"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "usdcAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "liquidateCredixLp",
+      "docs": [
+        "Schedule the liquidation of credix lp tokens toward the illiquid vault"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissionless IX, can be called by anyone"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "realmCredixLp",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "usdcMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "credixProgramState",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        },
+        {
+          "name": "credixGlobalMarketState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#7"
+          ]
+        },
+        {
+          "name": "credixLpMint",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#8"
+          ]
+        },
+        {
+          "name": "credixPass",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#9"
+          ]
+        },
+        {
+          "name": "credixTreasuryPoolVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#10"
+          ]
+        },
+        {
+          "name": "credixLiquidityPoolVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#11"
+          ]
+        },
+        {
+          "name": "credixSigningAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#12"
+          ]
+        },
+        {
+          "name": "credixTreasury",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#13"
+          ]
+        },
+        {
+          "name": "credixTreasuryVault",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#14"
+          ]
+        },
+        {
+          "name": "credixWithdrawEpoch",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#15"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#16"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#17"
+          ]
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#18"
+          ]
+        },
+        {
+          "name": "credixProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#19"
+          ]
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#20"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "startPhaseOne",
+      "docs": [
+        "Sets the \"phase_one_end_timestamp_seconds\" realm's value,",
+        "which officially starts the phase_one."
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissioned IX, can be called only by the realm's authority"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "startPhaseTwo",
+      "docs": [
+        "Sets the \"phase_two_end_timestamp_seconds\" realm's value,",
+        "which officially starts the phase_two.",
+        "Also must set \"phase_two_total_redeemable_usdc_amount\",",
+        "which is the total amount that will be redeemable in phase 2"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissioned IX, can be called only by the realm's authority"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "spillRealm",
+      "docs": [
+        "Once all phases are finished, we can withdraw remaining funds",
+        "The requested usdc will be transfered back to the spill account"
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "#1 - Permissioned IX, can be called only by the realm's authority"
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "realm",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#2"
+          ]
+        },
+        {
+          "name": "realmUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#3"
+          ]
+        },
+        {
+          "name": "spillUsdc",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "#4"
+          ]
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#5"
+          ]
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "#6"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "usdcAmount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ClaimAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "burntUctAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseOneRedeemedUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseTwoRedeemedUsdcAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Realm",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "realmUsdcBump",
+            "type": "u8"
+          },
+          {
+            "name": "uctMintBump",
+            "type": "u8"
+          },
+          {
+            "name": "realmUsdc",
+            "type": "publicKey"
+          },
+          {
+            "name": "uctMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "uxpMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "usdcMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "spill",
+            "type": "publicKey"
+          },
+          {
+            "name": "uxpInitialSupply",
+            "type": "u64"
+          },
+          {
+            "name": "phaseOneTotalRedeemableUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseTwoTotalRedeemableUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseOneEndTimestampSeconds",
+            "type": "i64"
+          },
+          {
+            "name": "phaseTwoEndTimestampSeconds",
+            "type": "i64"
+          },
+          {
+            "name": "burntUxpAmount",
+            "type": "u64"
+          },
+          {
+            "name": "outstandingUctAmount",
+            "type": "u64"
+          },
+          {
+            "name": "redeemedUctAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseOneRedeemedUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseTwoRedeemedUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseOneDurationSeconds",
+            "type": "u64"
+          },
+          {
+            "name": "phaseTwoDurationSeconds",
+            "type": "u64"
+          },
+          {
+            "name": "spilledUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                488
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeRealmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "liquidInsuranceFundUsdcAmount",
+            "type": "u64"
+          },
+          {
+            "name": "phaseOneDurationSeconds",
+            "type": "u64"
+          },
+          {
+            "name": "phaseTwoDurationSeconds",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Overflow",
+      "msg": "Overflow in arithmetic operation."
+    },
+    {
+      "code": 6001,
+      "name": "Expired",
+      "msg": "This instruction was time-limited and is not available anymore."
+    },
+    {
+      "code": 6002,
+      "name": "TooEarly",
+      "msg": "This instruction is time-gated and is not available yet."
+    },
+    {
+      "code": 6003,
+      "name": "AmountTooHigh",
+      "msg": "Amount requested is beyond your claim rights."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidParameters",
+      "msg": "The provided parameters are invalid."
+    }
+  ]
+}

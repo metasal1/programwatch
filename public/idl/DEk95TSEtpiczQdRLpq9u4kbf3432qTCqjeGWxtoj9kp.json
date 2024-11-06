@@ -1,0 +1,549 @@
+{
+  "version": "0.1.0",
+  "name": "squads_store",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initializes a new store. Takes the price, treasury, and payment mint as args",
+        "Use this to setup an instance of a new storefront"
+      ],
+      "accounts": [
+        {
+          "name": "collectionMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "the settings account which will also be the collection authority"
+          ]
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEditionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "treasury",
+          "type": "publicKey"
+        },
+        {
+          "name": "paymentMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "purchase",
+      "docs": [
+        "the initial purchase instruction, takes the interval (number of days) as an argument"
+      ],
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "purchaser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "purchaserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisigNftAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEditionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "storeIntervalDiscount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "interval",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "renew",
+      "docs": [
+        "process the payment, and then update the NFT metadata"
+      ],
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "purchaser",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "purchaserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "paymentMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "storeIntervalDiscount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "interval",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "changePrice",
+      "docs": [
+        "Lets the store authority change the price"
+      ],
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "changeStoreAuthority",
+      "docs": [
+        "changes the authority of the store"
+      ],
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newAuthority",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "changeStoreTreasury",
+      "docs": [
+        "changes the treasury"
+      ],
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTreasury",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "changeStorePaymentMint",
+      "docs": [
+        "changes the mint thats used for payments"
+      ],
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newPaymentMint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initIntervalDiscounts",
+      "accounts": [
+        {
+          "name": "storeSettings",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "storeIntervalDiscount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "intervalDiscounts",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": "IntervalDiscount"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StoreSettings",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "docs": [
+              "Price per day (interval)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "storeAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "collectionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "paymentMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "purchases",
+            "type": "u64"
+          },
+          {
+            "name": "renewals",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StoreIntervalDiscount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "store",
+            "type": "publicKey"
+          },
+          {
+            "name": "intervalDiscounts",
+            "type": {
+              "option": {
+                "vec": {
+                  "defined": "IntervalDiscount"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "IntervalDiscount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "interval",
+            "type": "u16"
+          },
+          {
+            "name": "discount",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidCollectionAuthority",
+      "msg": "Invalid Collection Authority"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidUSDCMint",
+      "msg": "Invalid Collection Mint"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidBillingInterval",
+      "msg": "Invalid Billing Interval"
+    }
+  ]
+}

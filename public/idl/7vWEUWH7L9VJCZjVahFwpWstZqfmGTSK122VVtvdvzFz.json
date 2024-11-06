@@ -1,0 +1,402 @@
+{
+  "version": "0.1.0",
+  "name": "rpsx",
+  "instructions": [
+    {
+      "name": "newGame",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "joinHarder",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "piece",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "threadProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "recentBlockhashes",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "printEditionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEditionMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "printEditionToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEditionToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "printEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionMarker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection2",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collection3",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "x",
+          "type": "u64"
+        },
+        {
+          "name": "y",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "newPlayer",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "team",
+          "type": {
+            "defined": "Team"
+          }
+        }
+      ]
+    },
+    {
+      "name": "newPiece",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "piece",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "threadProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "x",
+          "type": "u64"
+        },
+        {
+          "name": "y",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "movePiece",
+      "accounts": [
+        {
+          "name": "game",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "piece",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "thread",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": "ThreadResponse"
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Player",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "numPieces",
+            "type": "u64"
+          },
+          {
+            "name": "team",
+            "type": {
+              "defined": "Team"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "board",
+            "type": {
+              "vec": {
+                "vec": "u8"
+              }
+            }
+          },
+          {
+            "name": "isOpen",
+            "type": "bool"
+          },
+          {
+            "name": "numPieces",
+            "type": "u64"
+          },
+          {
+            "name": "numPlayersTotal",
+            "type": "u64"
+          },
+          {
+            "name": "numPlayersRock",
+            "type": "u64"
+          },
+          {
+            "name": "numPlayersPaper",
+            "type": "u64"
+          },
+          {
+            "name": "numPlayersScissors",
+            "type": "u64"
+          },
+          {
+            "name": "startedAt",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Piece",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "thread",
+            "type": "publicKey"
+          },
+          {
+            "name": "x",
+            "type": "u64"
+          },
+          {
+            "name": "y",
+            "type": "u64"
+          },
+          {
+            "name": "superPower",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Team",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Rock"
+          },
+          {
+            "name": "Paper"
+          },
+          {
+            "name": "Scissors"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BoardPositionOccupied",
+      "msg": "This board position is already occupied by another piece"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidBoardPosition",
+      "msg": "Invalid board position"
+    },
+    {
+      "code": 6002,
+      "name": "BadTeam",
+      "msg": "Invalid team"
+    }
+  ]
+}

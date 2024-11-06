@@ -1,0 +1,1759 @@
+{
+  "version": "0.1.0",
+  "name": "anchor_bet",
+  "instructions": [
+    {
+      "name": "deployConfig",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "authority1",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority2",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority3",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority4",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority5",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMintSpwn",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMintUsdc",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint3",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint4",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint5",
+          "type": "publicKey"
+        },
+        {
+          "name": "treasuryWallet",
+          "type": "publicKey"
+        },
+        {
+          "name": "depositInsurancePercentage",
+          "type": "u64"
+        },
+        {
+          "name": "feeNonSpwnMintAmount",
+          "type": "u64"
+        },
+        {
+          "name": "feeWinningsBasisPoints",
+          "type": "u64"
+        },
+        {
+          "name": "maxSecondsToStartMatch",
+          "type": "u64"
+        },
+        {
+          "name": "maxSecondsWagerOpen",
+          "type": "u64"
+        },
+        {
+          "name": "maxSecondsGameLength",
+          "type": "u64"
+        },
+        {
+          "name": "minSecondsNoticeToStartMatch",
+          "type": "u64"
+        },
+        {
+          "name": "graceSecondsMatchStart",
+          "type": "u64"
+        },
+        {
+          "name": "graceSecondsSubmitResults",
+          "type": "u64"
+        },
+        {
+          "name": "graceSecondsReviewResults",
+          "type": "u64"
+        },
+        {
+          "name": "graceSecondsAdminReview",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateConfig",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "authority1",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority2",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority3",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority4",
+          "type": "publicKey"
+        },
+        {
+          "name": "authority5",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMintSpwn",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMintUsdc",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint3",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint4",
+          "type": "publicKey"
+        },
+        {
+          "name": "tokenMint5",
+          "type": "publicKey"
+        },
+        {
+          "name": "treasuryWallet",
+          "type": "publicKey"
+        },
+        {
+          "name": "depositInsurancePercentage",
+          "type": "u64"
+        },
+        {
+          "name": "feeNonSpwnMintAmount",
+          "type": "u64"
+        },
+        {
+          "name": "feeWinningsBasisPoints",
+          "type": "u64"
+        },
+        {
+          "name": "maxSecondsToStartMatch",
+          "type": "u64"
+        },
+        {
+          "name": "maxSecondsWagerOpen",
+          "type": "u64"
+        },
+        {
+          "name": "maxSecondsGameLength",
+          "type": "u64"
+        },
+        {
+          "name": "minSecondsNoticeToStartMatch",
+          "type": "u64"
+        },
+        {
+          "name": "graceTimeMatchStart",
+          "type": "u64"
+        },
+        {
+          "name": "graceTimeReportResults",
+          "type": "u64"
+        },
+        {
+          "name": "graceTimeReviewResults",
+          "type": "u64"
+        },
+        {
+          "name": "graceTimeAdminReview",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initializeBet",
+      "docs": [
+        "Maker creates a wager",
+        "Initialize the two accounts (maker vault + bet account)",
+        "Transfer token from initializer's token account to the vault",
+        "Set the authority of the vault to itself (PDA)"
+      ],
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mintSpwn",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializerSpwnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "makerVaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "spwnVaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "initializer"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GlobalConfig",
+                "path": "global_config.token_mint_spwn"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GlobalConfig",
+                "path": "global_config.token_mint_spwn"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositWagerAmount",
+          "type": "u64"
+        },
+        {
+          "name": "askAmount",
+          "type": "u64"
+        },
+        {
+          "name": "console",
+          "type": "u16"
+        },
+        {
+          "name": "game",
+          "type": "u16"
+        },
+        {
+          "name": "gameType",
+          "type": "u16"
+        },
+        {
+          "name": "teamType",
+          "type": "u8"
+        },
+        {
+          "name": "availableStartTime",
+          "type": "u64"
+        },
+        {
+          "name": "availableUpToTime",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelOpenWager",
+      "docs": [
+        "Maker can cancel Wager if no one has accepted yet. Send the tokens from the vault back to original token accounts."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "makerVaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "spwnVaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GlobalConfig",
+                "path": "global_config.token_mint_spwn"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GlobalConfig",
+                "path": "global_config.token_mint_spwn"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "makerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "makerSpwnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "makerVaultAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "spwnVaultAccountNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "acceptBet",
+      "docs": [
+        "Taker accepts bet and deposits the token to the vault",
+        "note: taker vault account created in the instructions section"
+      ],
+      "accounts": [
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "takerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Checks that there is no taker yet."
+          ]
+        },
+        {
+          "name": "takerVaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "taker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Mint",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "depositAmount",
+          "type": "u64"
+        },
+        {
+          "name": "takerChosenStartTimeTs",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "submitResults",
+      "docs": [
+        "Any one of the two players can submit the result after the game.",
+        "The other player then has to review and choose to accept the result or decline and submit their own."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "The Wager Account"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "submittedWinner",
+          "type": {
+            "defined": "SelectedWinner"
+          }
+        },
+        {
+          "name": "submittedEvidenceLink",
+          "type": "string"
+        },
+        {
+          "name": "submittedAdditionalNotes",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "peerReviewResults",
+      "docs": [
+        "Other player has to reivew the submitted results",
+        "If player approves, the result then update the vaults with correct amounts and mark state as 'Approved'.",
+        "If player disapproves, then the player has to submit their own results and mark state as 'Admin Required'."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.taker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "makerVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.maker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "makerVaultAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "takerVaultAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "submittedWinner",
+          "type": {
+            "defined": "SelectedWinner"
+          }
+        },
+        {
+          "name": "submittedEvidenceLink",
+          "type": "string"
+        },
+        {
+          "name": "submittedAdditionalNotes",
+          "type": "string"
+        },
+        {
+          "name": "mint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "disputeResolution",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasuryWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.taker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "makerVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.maker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "makerVaultAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "takerVaultAccountNonce",
+          "type": "u8"
+        },
+        {
+          "name": "disputedWinner",
+          "type": {
+            "defined": "SelectedWinner"
+          }
+        },
+        {
+          "name": "makerAllocatedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "takerAllocatedAmount",
+          "type": "u64"
+        },
+        {
+          "name": "adminNotes",
+          "type": "string"
+        },
+        {
+          "name": "mint",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "claimVault",
+      "docs": [
+        "Allow player to claim whatever is left in their respective vault.",
+        "By this time, the awards would have been distributed to the vault."
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "Can be the maker or taker."
+          ]
+        },
+        {
+          "name": "globalConfig",
+          "isMut": false,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "global-config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "maker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintSpwn",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "takerVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.taker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "makerVault",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.maker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "spwnVaultAccount",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account.maker"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Wager",
+                "path": "bet_account"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GlobalConfig",
+                "path": "global_config.token_mint_spwn"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "GlobalConfig",
+                "path": "global_config.token_mint_spwn"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasuryWallet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasurySpwnTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "betAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "makerVaultBump",
+          "type": "u8"
+        },
+        {
+          "name": "takerVaultBump",
+          "type": "u8"
+        },
+        {
+          "name": "spwnVaultAccountNonce",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Wager",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "docs": [
+              "The bet initializer system account pubkey."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "taker",
+            "docs": [
+              "The bet taker system account pubkey."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "docs": [
+              "The token chosen to create wager with."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "console",
+            "docs": [
+              "0:Crossplay, 1:PC, ..."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "game",
+            "docs": [
+              "0:HALO INIFINITE, 1:CSGO, ..."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "gameType",
+            "docs": [
+              "// 0:Private, 1:Public, ..."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "teamType",
+            "docs": [
+              "// 0:None, 1:Team, ..."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "state",
+            "docs": [
+              "The current bet state."
+            ],
+            "type": {
+              "defined": "BetState"
+            }
+          },
+          {
+            "name": "createdTs",
+            "docs": [
+              "Epoch time that the wager got created."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "gameWindowMinTs",
+            "docs": [
+              "Min time window maker is availabe to play."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "gameWindowMaxTs",
+            "docs": [
+              "Max time window maker is available to play."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "makerAmount",
+            "docs": [
+              "The deposit amount put up for wager."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "makerInsuranceAmount",
+            "docs": [
+              "The amount required for insurance incase of disputes fees."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "askAmount",
+            "docs": [
+              "The amount required by the Taker to fill the Maker's request."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "askInsuranceAmount",
+            "docs": [
+              "The amount required for insurance incase of disputes fees."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "takenTs",
+            "docs": [
+              "Epoch time that the wager got accepted."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "agreedTimeStartTs",
+            "docs": [
+              "Epoch time that both Maker and Taker agrees on"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "resultsSubmitterKey",
+            "docs": [
+              "Pub key of the player who submitted the result."
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "resultsDeliveryTime",
+            "docs": [
+              "Epoch time that of the report submission."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "resultsReportedWinner",
+            "docs": [
+              "The winner as reported by the submitter."
+            ],
+            "type": {
+              "defined": "SelectedWinner"
+            }
+          },
+          {
+            "name": "resultsEvidenceLink",
+            "docs": [
+              "Submitted link of media evidence."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "resultsAdditionalNotes",
+            "docs": [
+              "Additional notes if required."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "peerReviewDeliveryTime",
+            "docs": [
+              "Epoch time of the peer reviewed results"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "peerReviewNotes",
+            "docs": [
+              "Notes of the peer reviewer"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "peerReviewEvidenceLink",
+            "docs": [
+              "Submitted link of media evidence."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "peerReviewReportedWinner",
+            "docs": [
+              "The winner as reported by the peer reviewer."
+            ],
+            "type": {
+              "defined": "SelectedWinner"
+            }
+          },
+          {
+            "name": "resultsDisputerKey",
+            "docs": [
+              "Pub key of the player who dispute result"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "resultsDisputeWinner",
+            "docs": [
+              "Player disputed winner."
+            ],
+            "type": {
+              "defined": "SelectedWinner"
+            }
+          },
+          {
+            "name": "resultsDisputeEvidenceLink",
+            "docs": [
+              "Evidence link of the disputer"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "resultsDisputeDeliveryTime",
+            "docs": [
+              "Epoch time that taker uploaded results."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "resultsDisputeAdditionalNotes",
+            "docs": [
+              "Additional notes if required."
+            ],
+            "type": "string"
+          },
+          {
+            "name": "modDisputeKey",
+            "docs": [
+              "Pubkey of admin"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "modResolutionDeliveryTime",
+            "docs": [
+              "Admin resolution delivery time if required."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "modResolutionAdditionalNotes",
+            "docs": [
+              "Additional notes if required."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "winner",
+            "docs": [
+              "Winner of the Wager, programatically determined by peer review or set by an admin."
+            ],
+            "type": {
+              "defined": "SelectedWinner"
+            }
+          },
+          {
+            "name": "reserved1",
+            "type": "u64"
+          },
+          {
+            "name": "reserved2",
+            "type": "u64"
+          },
+          {
+            "name": "reserved3",
+            "type": "u64"
+          },
+          {
+            "name": "reserved4",
+            "type": "u64"
+          },
+          {
+            "name": "reserved5",
+            "type": "u64"
+          },
+          {
+            "name": "reserved6",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GlobalConfig",
+      "docs": [
+        "Global Config is a single account that is around forever once deployed",
+        "Contains fields relating to rules, fees, settings and authorities."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "authority1",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority2",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority3",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority4",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority5",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMintSpwn",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMintUsdc",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint3",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint4",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint5",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasuryWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "depositInsurancePercentage",
+            "type": "u64"
+          },
+          {
+            "name": "feeNonSpwnMintAmount",
+            "type": "u64"
+          },
+          {
+            "name": "feeWinningsBasisPoints",
+            "type": "u64"
+          },
+          {
+            "name": "maxSecondsToStartMatch",
+            "type": "u64"
+          },
+          {
+            "name": "maxSecondsWagerOpen",
+            "type": "u64"
+          },
+          {
+            "name": "maxSecondsGameLength",
+            "type": "u64"
+          },
+          {
+            "name": "minSecondsNoticeToStartMatch",
+            "type": "u64"
+          },
+          {
+            "name": "graceSecondsMatchStart",
+            "type": "u64"
+          },
+          {
+            "name": "graceSecondsSubmitResults",
+            "type": "u64"
+          },
+          {
+            "name": "graceSecondsReviewResults",
+            "type": "u64"
+          },
+          {
+            "name": "graceSecondsAdminReview",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "BetState",
+      "docs": [
+        "State of the bet program:",
+        "- Pending: Waiting for a Taker.",
+        "- Active: If bet is accepted by a taker then the state is active.",
+        "- SubmittedInitial: A player has to submit results",
+        "- ResultsApproved: Other player then has to review and approve the result",
+        "- AdminRequired: If the other player does not approve initial submitted results then they an admin has to review"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "SubmittedForReview"
+          },
+          {
+            "name": "Approved"
+          },
+          {
+            "name": "AdminRequired"
+          },
+          {
+            "name": "PartialClaimed"
+          },
+          {
+            "name": "Claimed"
+          },
+          {
+            "name": "Closed"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DisputePenalty",
+      "docs": [
+        "Admin decides the deposit penalty to impose if required"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PenaltyMinor"
+          },
+          {
+            "name": "PenaltyMajor"
+          },
+          {
+            "name": "PenaltyFlat"
+          },
+          {
+            "name": "None"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SelectedWinner",
+      "docs": [
+        "Game can only end in one of the outcomes below"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MakerSelectedWinner"
+          },
+          {
+            "name": "TakerSelectedWinner"
+          },
+          {
+            "name": "DrawSelected"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "DepositAmountIncorrect",
+      "msg": "Deposit not matching required amount"
+    },
+    {
+      "code": 6001,
+      "name": "ClaimWindowOpeningSoon",
+      "msg": "Please wait until cooling period is over before claim request"
+    },
+    {
+      "code": 6002,
+      "name": "DisputeWindowPassed",
+      "msg": "Window has passed to make a dispute"
+    },
+    {
+      "code": 6003,
+      "name": "NotWinner",
+      "msg": "You did not win the bet"
+    },
+    {
+      "code": 6004,
+      "name": "CancelRequestPending",
+      "msg": "Waiting for other player to cancel the bet"
+    },
+    {
+      "code": 6005,
+      "name": "NotAnAdmin",
+      "msg": "Address do not belong to an admin"
+    },
+    {
+      "code": 6006,
+      "name": "NotAnTreasuryAccount",
+      "msg": "Account does not belong to treasury"
+    },
+    {
+      "code": 6007,
+      "name": "DisputeResolutionNotFound",
+      "msg": "Dispute resolution not found"
+    },
+    {
+      "code": 6008,
+      "name": "BetCancellationFailed",
+      "msg": "Failed to cancel Wager"
+    },
+    {
+      "code": 6009,
+      "name": "BetAcceptFailed",
+      "msg": "Failed to accept Wager"
+    },
+    {
+      "code": 6010,
+      "name": "BetError",
+      "msg": "Bet Error"
+    },
+    {
+      "code": 6011,
+      "name": "TokenMismatch",
+      "msg": "Wrong token selected"
+    },
+    {
+      "code": 6012,
+      "name": "NonPlayer",
+      "msg": "Request is not from one of the players."
+    },
+    {
+      "code": 6013,
+      "name": "BetStateError",
+      "msg": "Wager is not ready for this action"
+    },
+    {
+      "code": 6014,
+      "name": "StartTimeInPast",
+      "msg": "Chosen start time is in the past"
+    },
+    {
+      "code": 6015,
+      "name": "EndTimeUnavailable",
+      "msg": "Chosen end time is unavailable"
+    },
+    {
+      "code": 6016,
+      "name": "StartTimeUnavailable",
+      "msg": "Chosen start time is unavailable"
+    },
+    {
+      "code": 6017,
+      "name": "UnAuthorizedUser",
+      "msg": "Not Authorized to update global config"
+    },
+    {
+      "code": 6018,
+      "name": "OutsideTimeWindow",
+      "msg": "Action is outside time window"
+    },
+    {
+      "code": 6019,
+      "name": "OverAllocationMaker",
+      "msg": "Over allocated amount for Maker"
+    },
+    {
+      "code": 6020,
+      "name": "OverAllocationTaker",
+      "msg": "Over allocated amount for Taker"
+    },
+    {
+      "code": 6021,
+      "name": "InsufficientSPWN",
+      "msg": "Insufficient SPWN to meet fee requirements"
+    }
+  ]
+}

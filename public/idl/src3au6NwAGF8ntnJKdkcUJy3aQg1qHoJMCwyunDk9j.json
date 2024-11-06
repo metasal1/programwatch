@@ -1,0 +1,946 @@
+{
+  "version": "0.1.1",
+  "name": "pmm_src",
+  "instructions": [
+    {
+      "name": "createOrder",
+      "docs": [
+        "Create new order for pmm system",
+        "",
+        "# Args",
+        "* `args` - Input parameters for new order",
+        "* `referral_code` - referral code, if Some then used in event",
+        "",
+        "# Allowed",
+        "Anyone who have [`CreateOrderArgs::give_original_amount`] of [`CreateOrderArgs::give_token_address`] token"
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "giveOrderState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Account with GiveOrderState",
+            "seeds = [GiveOrderState::SEED, &order_id.to_bytes()],",
+            "Will be initialized inside [`create_order`]"
+          ]
+        },
+        {
+          "name": "authorizedNativeSender",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "makerWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "giveOrderWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Wallet of `give_order_state`",
+            "Will be initialized inside [`create_order`]"
+          ]
+        },
+        {
+          "name": "nonceMaster",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "feeLedgerWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedSplTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderArgs",
+          "type": {
+            "defined": "CreateOrderArgs"
+          }
+        },
+        {
+          "name": "affiliateFee",
+          "type": {
+            "option": {
+              "defined": "AffiliateFee"
+            }
+          }
+        },
+        {
+          "name": "referralCode",
+          "type": {
+            "option": "u32"
+          }
+        }
+      ]
+    },
+    {
+      "name": "patchOrderGive",
+      "accounts": [
+        {
+          "name": "giveOrderState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "giveOrderWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "givePatchAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "givePatchAuthorityWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": {
+            "defined": "OrderId"
+          }
+        },
+        {
+          "name": "inputAdditionToGiveAmount",
+          "type": {
+            "defined": "NonZeroU64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimUnlock",
+      "docs": [
+        "Claim unlock from order take chain",
+        "Implying that the order was fullfilled and sent unlock by taker from [`OrderState::FullFilled { taker }`]",
+        "",
+        "# Args",
+        "* `order_id` - order id for claim",
+        "",
+        "# Allowed",
+        "Only debridge external call executor with debridge transaction in source chain from taker of order"
+      ],
+      "accounts": [
+        {
+          "name": "submission",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "0"
+          ]
+        },
+        {
+          "name": "submissionAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "1"
+          ]
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "2",
+            "State account with service information",
+            "There is a single state account for the entire program"
+          ]
+        },
+        {
+          "name": "feeLedger",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "3"
+          ]
+        },
+        {
+          "name": "feeLedgerWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "4"
+          ]
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "5"
+          ]
+        },
+        {
+          "name": "giveOrderState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "6"
+          ]
+        },
+        {
+          "name": "actionBeneficiaryWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Action beneficiary ATA",
+            "If empty, then automatically initialized ATA (determined based on [`AccountInfo::owner`])"
+          ]
+        },
+        {
+          "name": "actionBeneficiary",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "8"
+          ]
+        },
+        {
+          "name": "giveOrderWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "9"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "10"
+          ]
+        },
+        {
+          "name": "authorizedNativeSender",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "11"
+          ]
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "12"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": {
+            "defined": "OrderId"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimOrderCancel",
+      "docs": [
+        "Claim cancel from order take chain",
+        "Implying that the order was not fullfilled and sent canceled by [`Order::order_authority_address_dst`]",
+        "",
+        "# Args",
+        "* `order_id` - order id for claim",
+        "",
+        "# Allowed",
+        "Only debridge external call executor with debridge transaction in source chain from [`Order::order_authority_address_dst`]"
+      ],
+      "accounts": [
+        {
+          "name": "submission",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "0"
+          ]
+        },
+        {
+          "name": "submissionAuthority",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "1"
+          ]
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "2",
+            "State account with service information",
+            "There is a single state account for the entire program"
+          ]
+        },
+        {
+          "name": "feeLedger",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "3"
+          ]
+        },
+        {
+          "name": "feeLedgerWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "4"
+          ]
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "5"
+          ]
+        },
+        {
+          "name": "giveOrderState",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "6"
+          ]
+        },
+        {
+          "name": "actionBeneficiaryWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Action beneficiary ATA",
+            "If empty, then automatically initialized ATA (determined based on [`AccountInfo::owner`])"
+          ]
+        },
+        {
+          "name": "actionBeneficiary",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "8"
+          ]
+        },
+        {
+          "name": "giveOrderWallet",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "9"
+          ]
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "10"
+          ]
+        },
+        {
+          "name": "authorizedNativeSender",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "11"
+          ]
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false,
+          "docs": [
+            "12"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": {
+            "defined": "OrderId"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawAffiliateFee",
+      "accounts": [
+        {
+          "name": "affiliateFeeBeneficiary",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "affiliateFeeWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "giveOrderState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "giveOrderWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "splTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "orderId",
+          "type": {
+            "defined": "OrderId"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "State",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "protocolAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "fixedFee",
+            "docs": [
+              "Fixed fee in native chain tokes"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "percentFeeBps",
+            "docs": [
+              "Fee as bps of process amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "isFeeRefund",
+            "docs": [
+              "If true in `claim_order_cancel` we return all fix fee back to maker"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "feeBeneficiary",
+            "docs": [
+              "Address for transfers fees"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump from pubkey of `State` account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "stopTap",
+            "docs": [
+              "Pubkey for pause program"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "isWorking",
+            "docs": [
+              "Is protocol working right now"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GiveOrderState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "status",
+            "type": {
+              "defined": "GiveOrderStatus"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "walletBump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NonceMaster",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "nonce",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorizedNativeSender",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "dstAddress",
+            "type": {
+              "defined": "Address"
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "NewState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fixedFee",
+            "docs": [
+              "Fixed fee in native chain tokes"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "percentFeeBps",
+            "docs": [
+              "Fee as bps of process amount"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "isFeeRefund",
+            "docs": [
+              "If true in `claim_order_cancel` we return fix fee back to maker"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "feeBeneficiary",
+            "docs": [
+              "Address for transfers fees"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AffiliateFee",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "beneficiary",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateOrderArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "giveOriginalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "take",
+            "type": {
+              "defined": "Offer"
+            }
+          },
+          {
+            "name": "receiverDst",
+            "type": {
+              "defined": "Address"
+            }
+          },
+          {
+            "name": "externalCall",
+            "type": {
+              "option": {
+                "defined": "ExternalCallParams"
+              }
+            }
+          },
+          {
+            "name": "givePatchAuthoritySrc",
+            "type": "publicKey"
+          },
+          {
+            "name": "allowedCancelBeneficiarySrc",
+            "type": {
+              "option": "publicKey"
+            }
+          },
+          {
+            "name": "orderAuthorityAddressDst",
+            "type": {
+              "defined": "Address"
+            }
+          },
+          {
+            "name": "allowedTakerDst",
+            "type": {
+              "option": {
+                "defined": "Address"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GiveOrderStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Created",
+            "fields": [
+              {
+                "name": "give_amount",
+                "type": {
+                  "option": "u64"
+                }
+              },
+              {
+                "name": "fix_fee",
+                "type": {
+                  "option": "u64"
+                }
+              },
+              {
+                "name": "percent_fee",
+                "type": {
+                  "option": "u64"
+                }
+              },
+              {
+                "name": "affiliate_fee",
+                "type": {
+                  "option": {
+                    "defined": "AffiliateFee"
+                  }
+                }
+              },
+              {
+                "name": "allowed_cancel_beneficiary",
+                "type": {
+                  "option": "publicKey"
+                }
+              },
+              {
+                "name": "give_patch_authority",
+                "type": "publicKey"
+              },
+              {
+                "name": "take_chain_id",
+                "type": {
+                  "defined": "U256"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ClaimedUnlock",
+            "fields": [
+              {
+                "name": "affiliate_fee",
+                "type": {
+                  "option": {
+                    "defined": "AffiliateFee"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "ClaimedCancel",
+            "fields": [
+              {
+                "name": "affiliate_fee",
+                "type": {
+                  "option": {
+                    "defined": "AffiliateFee"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "CreatedOrder",
+      "fields": [
+        {
+          "name": "order",
+          "type": {
+            "defined": "Order"
+          },
+          "index": false
+        },
+        {
+          "name": "fixFee",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "percentFee",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CreatedOrderId",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": {
+            "defined": "U256"
+          },
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "ClaimedOrderCancel",
+      "fields": []
+    },
+    {
+      "name": "ClaimedUnlock",
+      "fields": []
+    },
+    {
+      "name": "IncreasedGiveAmount",
+      "fields": [
+        {
+          "name": "orderGiveFinalAmount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "finalPercentFee",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GiveOrderStateWrongPubkey"
+    },
+    {
+      "code": 6001,
+      "name": "GiveOrderStateWrongStatus"
+    },
+    {
+      "code": 6002,
+      "name": "GiveOrderWalletWrongPubkey"
+    },
+    {
+      "code": 6003,
+      "name": "CalculationOrderIdError"
+    },
+    {
+      "code": 6004,
+      "name": "OverflowError"
+    },
+    {
+      "code": 6005,
+      "name": "OrderAlreadyProcessed"
+    },
+    {
+      "code": 6006,
+      "name": "WrongPatchAmount"
+    },
+    {
+      "code": 6007,
+      "name": "WrongAffiliantFeeWallet"
+    },
+    {
+      "code": 6008,
+      "name": "WrongClaimParentProgramId"
+    },
+    {
+      "code": 6009,
+      "name": "WrongClaimParentInstruction"
+    },
+    {
+      "code": 6010,
+      "name": "WrongClaimParentInstructionAccounts"
+    },
+    {
+      "code": 6011,
+      "name": "WrongClaimParentSubmission"
+    },
+    {
+      "code": 6012,
+      "name": "WrongClaimParentSubmissionAuth"
+    },
+    {
+      "code": 6013,
+      "name": "WrongClaimParentNativeSender"
+    },
+    {
+      "code": 6014,
+      "name": "WrongClaimParentSourceChain"
+    },
+    {
+      "code": 6015,
+      "name": "BadReceiverDstSize"
+    },
+    {
+      "code": 6016,
+      "name": "BadOrderAuthorityDstSize"
+    },
+    {
+      "code": 6017,
+      "name": "BadAllowedTakerDst"
+    },
+    {
+      "code": 6018,
+      "name": "BadFallbackAddressDstSize"
+    },
+    {
+      "code": 6019,
+      "name": "AffiliateFeeNotReadyToPay"
+    },
+    {
+      "code": 6020,
+      "name": "FixFeeAlreadyPaid"
+    },
+    {
+      "code": 6021,
+      "name": "PercentFeeAlreadyPaid"
+    },
+    {
+      "code": 6022,
+      "name": "ExternalCallDisables"
+    },
+    {
+      "code": 6023,
+      "name": "FeeLedgerWalletWrongKey"
+    },
+    {
+      "code": 6024,
+      "name": "NotAllowedCancelBeneficiary"
+    },
+    {
+      "code": 6025,
+      "name": "WrongActionBeneficiaryWallet"
+    },
+    {
+      "code": 6026,
+      "name": "StateAlreadyPaused"
+    },
+    {
+      "code": 6027,
+      "name": "StateAlreadyWorking"
+    },
+    {
+      "code": 6028,
+      "name": "WrongSigner"
+    },
+    {
+      "code": 6029,
+      "name": "ReallocNotNeeded"
+    }
+  ]
+}

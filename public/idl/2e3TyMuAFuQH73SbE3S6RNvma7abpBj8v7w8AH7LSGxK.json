@@ -1,0 +1,2258 @@
+{
+  "version": "0.0.0",
+  "name": "hh_vault",
+  "instructions": [
+    {
+      "name": "initVault",
+      "accounts": [
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collateralAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collateralMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "poolMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventSet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "sponsorMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u8"
+        },
+        {
+          "name": "platformIndex",
+          "type": {
+            "defined": "Platform"
+          }
+        },
+        {
+          "name": "depositTicketAmount",
+          "type": "u64"
+        },
+        {
+          "name": "lockupExpiry",
+          "type": "u64"
+        },
+        {
+          "name": "entryDeadline",
+          "type": "u64"
+        },
+        {
+          "name": "poolId",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "nftCollection",
+          "type": {
+            "option": {
+              "vec": "publicKey"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "initPlayerState",
+      "accounts": [
+        {
+          "name": "playerState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u8"
+        },
+        {
+          "name": "playerPubkey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initSponsorState",
+      "accounts": [
+        {
+          "name": "sponsor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u8"
+        },
+        {
+          "name": "sponsorPubkey",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "closeSponsorState",
+      "accounts": [
+        {
+          "name": "sponsorState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "sponsor",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositNullPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositNullSponsor",
+      "accounts": [
+        {
+          "name": "commonSponsorAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawNullPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawNullSponsor",
+      "accounts": [
+        {
+          "name": "commonSponsorAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositApricotPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "apricotAccounts",
+          "accounts": [
+            {
+              "name": "baseAccounts",
+              "accounts": [
+                {
+                  "name": "userInfo",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPool",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPoolSpl",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "poolSummaries",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "priceSummaries",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "apricotProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "usersPage",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userPagesStats",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "pageId",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "depositApricotSponsor",
+      "accounts": [
+        {
+          "name": "commonSponsorAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "apricotAccounts",
+          "accounts": [
+            {
+              "name": "baseAccounts",
+              "accounts": [
+                {
+                  "name": "userInfo",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPool",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPoolSpl",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "poolSummaries",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "priceSummaries",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "apricotProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "usersPage",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userPagesStats",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "systemProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "pageId",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "withdrawApricotPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "apricotAccounts",
+          "accounts": [
+            {
+              "name": "baseAccounts",
+              "accounts": [
+                {
+                  "name": "userInfo",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPool",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPoolSpl",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "poolSummaries",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "priceSummaries",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "apricotProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "basePda",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawApricotSponsor",
+      "accounts": [
+        {
+          "name": "commonSponsorAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "apricotAccounts",
+          "accounts": [
+            {
+              "name": "baseAccounts",
+              "accounts": [
+                {
+                  "name": "userInfo",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPool",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPoolSpl",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "poolSummaries",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "priceSummaries",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "apricotProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "basePda",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositPortPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "portAccounts",
+          "accounts": [
+            {
+              "name": "poolAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "poolMint",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "reserve",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "reserveLiquiditySupply",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "lendingMarket",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "lendingMarketAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "portProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "reserveLiquidityOracle",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositPortSponsor",
+      "accounts": [
+        {
+          "name": "commonSponsorAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "portAccounts",
+          "accounts": [
+            {
+              "name": "poolAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "poolMint",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "reserve",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "reserveLiquiditySupply",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "lendingMarket",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "lendingMarketAuthority",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "portProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "reserveLiquidityOracle",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawAllPort",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultCollateral",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserve",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "reserveLiquiditySupply",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lendingMarket",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingMarketAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "portProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "reserveLiquidityOracle",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdrawPlayerV2",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawSponsorV2",
+      "accounts": [
+        {
+          "name": "commonSponsorAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "sponsorMint",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositNftPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftVaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "metadataNonce",
+          "type": "u8"
+        },
+        {
+          "name": "nftVaultNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "withdrawNftPlayer",
+      "accounts": [
+        {
+          "name": "commonPlayerAccounts",
+          "accounts": [
+            {
+              "name": "commonAccounts",
+              "accounts": [
+                {
+                  "name": "vault",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "userCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "vaultCollateral",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "user",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "payer",
+                  "isMut": false,
+                  "isSigner": true
+                },
+                {
+                  "name": "clock",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "tokenProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "userState",
+              "isMut": true,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftVaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserAccount",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftVaultNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initRewardInfo",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "claimRewardNull",
+      "accounts": [
+        {
+          "name": "commonAccounts",
+          "accounts": [
+            {
+              "name": "vault",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "eventSet",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userRewardAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "leaderboard",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "rewardSource",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "rewardInfo",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "playerState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userBucket",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userRoiInfo",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "user",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "clock",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "parimutuelProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimRewardApricot",
+      "accounts": [
+        {
+          "name": "commonAccounts",
+          "accounts": [
+            {
+              "name": "vault",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "eventSet",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userRewardAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "leaderboard",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "rewardSource",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "rewardInfo",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "playerState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userBucket",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userRoiInfo",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "user",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "clock",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "parimutuelProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "apricotAccounts",
+          "accounts": [
+            {
+              "name": "baseAccounts",
+              "accounts": [
+                {
+                  "name": "userInfo",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPool",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "assetPoolSpl",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "poolSummaries",
+                  "isMut": true,
+                  "isSigner": false
+                },
+                {
+                  "name": "priceSummaries",
+                  "isMut": false,
+                  "isSigner": false
+                },
+                {
+                  "name": "apricotProgram",
+                  "isMut": false,
+                  "isSigner": false
+                }
+              ]
+            },
+            {
+              "name": "basePda",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claimRewardPortV2",
+      "accounts": [
+        {
+          "name": "commonAccounts",
+          "accounts": [
+            {
+              "name": "vault",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "eventSet",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userRewardAccount",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "leaderboard",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "rewardSource",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "rewardInfo",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "playerState",
+              "isMut": true,
+              "isSigner": false
+            },
+            {
+              "name": "userBucket",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "userRoiInfo",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "user",
+              "isMut": false,
+              "isSigner": true
+            },
+            {
+              "name": "clock",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "tokenProgram",
+              "isMut": false,
+              "isSigner": false
+            },
+            {
+              "name": "parimutuelProgram",
+              "isMut": false,
+              "isSigner": false
+            }
+          ]
+        },
+        {
+          "name": "poolAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mintGameToken",
+      "accounts": [
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "eventSet",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "playerState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userRoiInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "userTokenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "parimutuelProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "upgradePlayerState",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "playerState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftVaultNonce",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "VaultState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": {
+              "defined": "VaultStateVersion"
+            }
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "eventSetPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "collateralMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolId",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "platformIndex",
+            "type": {
+              "defined": "Platform"
+            }
+          },
+          {
+            "name": "depositTicketAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalAmountDeposited",
+            "type": "u64"
+          },
+          {
+            "name": "totalAmountSponsored",
+            "type": "u64"
+          },
+          {
+            "name": "lockupExpiry",
+            "type": "u64"
+          },
+          {
+            "name": "entryDeadline",
+            "type": "u64"
+          },
+          {
+            "name": "rewardSources",
+            "type": "u64"
+          },
+          {
+            "name": "sponsorMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "nftCollections",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": {
+              "defined": "PlayerStateVersion"
+            }
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "tokensMinted",
+            "type": "bool"
+          },
+          {
+            "name": "rewardsClaimed",
+            "type": "u64"
+          },
+          {
+            "name": "nftAccount",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SponsorState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "version",
+            "type": {
+              "defined": "SponsorStateVersion"
+            }
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "sponsorTokensOwned",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "index",
+            "type": "u64"
+          },
+          {
+            "name": "totalRewardSnapshot",
+            "type": "u64"
+          },
+          {
+            "name": "rewardAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "VaultStateVersion",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "V0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerStateVersion",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "V0"
+          },
+          {
+            "name": "V1"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SponsorStateVersion",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "V0"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Platform",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Null"
+          },
+          {
+            "name": "Port"
+          },
+          {
+            "name": "Apricot"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidEntryDeadline",
+      "msg": "Lockup expiry must exceed entry deadline."
+    },
+    {
+      "code": 301,
+      "name": "AlreadyStaked",
+      "msg": "Player has already entered the competition."
+    },
+    {
+      "code": 302,
+      "name": "AfterEntryDeadline",
+      "msg": "Entry deadline has passed."
+    },
+    {
+      "code": 303,
+      "name": "MismatchedYieldSource",
+      "msg": "Requested yield source does not match vault's source."
+    },
+    {
+      "code": 304,
+      "name": "BeforeLockupExpiry",
+      "msg": "Lockup has not expired yet."
+    },
+    {
+      "code": 305,
+      "name": "AlreadyMinted",
+      "msg": "Game tokens already minted to this account."
+    },
+    {
+      "code": 306,
+      "name": "MissingPoolID",
+      "msg": "Expected this vault to have an asset pool ID; none found."
+    },
+    {
+      "code": 307,
+      "name": "Overflow",
+      "msg": "Overflow when applying an arithmetic operation."
+    },
+    {
+      "code": 308,
+      "name": "BeforeFinalUpdateExpiry",
+      "msg": "User's position on the leaderboard can still change."
+    },
+    {
+      "code": 309,
+      "name": "NoReward",
+      "msg": "No reward for user to claim."
+    },
+    {
+      "code": 310,
+      "name": "AlreadyClaimed",
+      "msg": "User already claimed this reward."
+    },
+    {
+      "code": 311,
+      "name": "MaxRewardAccounts",
+      "msg": "Maximum number of reward accounts have been assigned for this competition."
+    },
+    {
+      "code": 312,
+      "name": "CastError",
+      "msg": "Value does not fit in casted type."
+    },
+    {
+      "code": 313,
+      "name": "VaultNotFull",
+      "msg": "There are funds outstanding for this vault."
+    },
+    {
+      "code": 314,
+      "name": "Deprecated",
+      "msg": "This instruction is deprecated."
+    },
+    {
+      "code": 315,
+      "name": "AfterLockupExpiry",
+      "msg": "Cannot enter a vault after the lockup has expired."
+    },
+    {
+      "code": 316,
+      "name": "PrematureAccountClose",
+      "msg": "Account cannot be closed yet."
+    },
+    {
+      "code": 317,
+      "name": "InvalidAmount",
+      "msg": "Amount must be greater than zero."
+    },
+    {
+      "code": 318,
+      "name": "NftOnly",
+      "msg": "This instruction is only allowed on NFT vaults."
+    },
+    {
+      "code": 319,
+      "name": "NftInvalidInstruction",
+      "msg": "This instruction is not allowed on NFT vaults."
+    },
+    {
+      "code": 320,
+      "name": "InvalidNft",
+      "msg": "No valid NFT was submitted."
+    },
+    {
+      "code": 321,
+      "name": "ExceededMaxLen",
+      "msg": "NFT collections exceeded max len."
+    },
+    {
+      "code": 322,
+      "name": "InvalidPlayerStateVersion",
+      "msg": "This version of the PlayerState account is invalid for this instruction."
+    }
+  ]
+}
