@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Copy, Check, ArrowUpRight, Package, PackageX, SnowflakeIcon, SquareTerminalIcon, CircleX, ShieldCheck, ShieldX, Upload, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 interface TooltipComponentProps {
     title: string;
