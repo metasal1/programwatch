@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Programs from "@/components/Programs";
-import { StatisticsDashboard } from "@/components/StatisticsDashboard";
 import Stats from "@/components/Stats";
 import { Legend } from "@/components/Legend";
 

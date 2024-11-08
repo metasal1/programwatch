@@ -72,12 +72,6 @@ export function StatisticsDashboard() {
             </div>
         );
     }
-
-    const formatOwnerName = (owner: string) => {
-        // Shorten the owner name for display
-        return owner.slice(0, 12) + '...' + owner.slice(-4);
-    };
-
     return (
         <div className="space-y-8">
             <div>
