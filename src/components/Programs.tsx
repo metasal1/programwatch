@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, ArrowUpRight, Package as IDLIcon, PackageX as NoIDLIcon, SnowflakeIcon as FrozenIcon, SquareTerminalIcon as ExecutableIcon, CircleX as ClosedIcon, ShieldCheck as VerifiedIcon, ShieldX as NotVerifiedIcon, Upload as UpgradeableIcon } from "lucide-react";
+import { Copy, ArrowUpRight, Package as IDLIcon, PackageX as NoIDLIcon, SnowflakeIcon as FrozenIcon, SquareTerminalIcon as ExecutableIcon, CircleX as ClosedIcon, ShieldX as NotVerifiedIcon, Upload as UpgradeableIcon } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import TooltipComponent from '@/components/TooltipComponent';
-
+import SecurityModal from '@/components/SecurityModal';
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
 interface Program {
@@ -173,8 +173,13 @@ export default function Programs() {
                                 <TableCell>{program.version}</TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-2">
-                                        {TooltipComponent({ title: '', content: program.mutable ? 'The program is mutable.' : 'The program is not mutable.', icon: program.mutable ? UpgradeableIcon : FrozenIcon, iconColor: program.mutable ? 'text-green-500' : 'text-gray-500' })}
-                                        {TooltipComponent({ title: '', content: program.verified ? 'The program is verified.' : 'The program is not verified.', icon: program.verified ? VerifiedIcon : NotVerifiedIcon, iconColor: program.verified ? 'text-green-500' : 'text-gray-500' })}
+                                        {TooltipComponent({ title: '', content: program.mutable ? 'The program is upgradeable.' : 'The program is not upgradeable.', icon: program.mutable ? UpgradeableIcon : FrozenIcon, iconColor: program.mutable ? 'text-green-500' : 'text-gray-500' })}
+                                        {program.verified ?
+                                            <SecurityModal program_address={program.program_address} />
+                                            // TooltipComponent({title: '', content: 'The program is verified.', icon: VerifiedIcon, iconColor: 'text-green-500' })
+                                            :
+                                            TooltipComponent({ title: '', content: 'The program is not verified.', icon: NotVerifiedIcon, iconColor: 'text-gray-500' })
+                                        }
                                         {TooltipComponent({ title: '', content: program.executable ? 'The program is executable.' : 'The program is not executable.', icon: program.executable ? ExecutableIcon : ClosedIcon, iconColor: program.executable ? 'text-green-500' : 'text-gray-500' })}
                                         <div onClick={program.idl ? () => handleOpen(program.program_address || '') : undefined}>
                                             {TooltipComponent({ title: '', content: program.idl ? 'The program has an IDL.' : 'The program does not have an IDL.', icon: program.idl ? IDLIcon : NoIDLIcon, iconColor: program.idl ? 'text-green-500' : 'text-gray-500' })}

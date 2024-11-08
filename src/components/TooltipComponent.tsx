@@ -9,6 +9,7 @@ interface TooltipComponentProps {
     iconColor?: string;
     textColor?: string;
     bgColor?: string;
+    className?: string;
 }
 
 const TooltipComponent = ({
@@ -18,12 +19,13 @@ const TooltipComponent = ({
     iconSize = 16,
     iconColor = "text-gray-600",
     textColor = "text-gray-700",
-    bgColor = "bg-white"
+    bgColor = "bg-white",
+    className = ""
 }: TooltipComponentProps) => {
     return (
         <TooltipProvider>
             <Tooltip>
-                <TooltipTrigger className={`inline-flex items-center gap-2 rounded px-2 py-1 hover:bg-gray-100 ${bgColor}`}>
+                <TooltipTrigger className={`inline-flex items-center gap-2 rounded px-2 py-1 hover:bg-gray-100 ${bgColor} ${className}`}>
                     {Icon && (
                         <span className={iconColor}>
                             <Icon size={iconSize} />

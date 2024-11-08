@@ -1,135 +1,172 @@
-'use client'
-
-import { useState } from 'react'
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Shield, ShieldCheck, ShieldX } from 'lucide-react'
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import TooltipComponent from '@/components/TooltipComponent';
+import { ShieldCheck as VerifiedIcon, Loader2, Github, Copy, ArrowUpRight, Check } from "lucide-react";
+import { useState, useEffect } from 'react';
 
-interface SecurityVerification {
-    message: string
-    onChainHash: string
-    executableHash: string
-    lastVerifiedAt: string
-    repoUrl: string
-    commit: string
+interface VerificationData {
+    is_verified: boolean;
+    message: string;
+    on_chain_hash: string;
+    executable_hash: string;
+    last_verified_at: string;
+    repo_url: string;
+    commit: string;
 }
 
-interface SecurityResponse {
-    programId: string
-    verified: boolean
-    verification?: SecurityVerification
-    performance: {
-        totalTime: number
-        verificationApiFetch: number
-    }
-}
+export default function SecurityModal({ program_address }: { program_address: string }) {
+    const [verificationData, setVerificationData] = useState<VerificationData | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [copied, setCopied] = useState(false);
 
-export default function SecurityModal({ programAddress }: { programAddress: string }) {
-    const [securityInfo, setSecurityInfo] = useState<SecurityResponse | null>(null)
-    const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        const fetchVerificationData = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(`/api/verification?address=${encodeURIComponent(program_address)}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch verification data');
+                }
+                const data: VerificationData = await response.json();
+                setVerificationData(data);
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'An error occurred');
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    const fetchSecurityInfo = async () => {
-        if (loading || securityInfo) return
-
-        setLoading(true)
-        try {
-            const response = await fetch(`/api/security?programId=${programAddress}`)
-            const data = await response.json()
-            setSecurityInfo(data)
-        } catch (error) {
-            console.error('Error fetching security info:', error)
-        } finally {
-            setLoading(false)
+        if (program_address) {
+            fetchVerificationData();
         }
-    }
+    }, [program_address]);
+
+    const getTimeAgo = (dateString: string) => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+        let interval = seconds / 31536000; // years
+        if (interval > 1) return Math.floor(interval) + ' years ago';
+
+        interval = seconds / 2592000; // months
+        if (interval > 1) return Math.floor(interval) + ' months ago';
+
+        interval = seconds / 86400; // days
+        if (interval > 1) return Math.floor(interval) + ' days ago';
+
+        interval = seconds / 3600; // hours
+        if (interval > 1) return Math.floor(interval) + ' hours ago';
+
+        interval = seconds / 60; // minutes
+        if (interval > 1) return Math.floor(interval) + ' minutes ago';
+
+        return Math.floor(seconds) + ' seconds ago';
+    };
+
+    const shortenHash = (hash: string) => {
+        return `${hash.slice(0, 6)}...${hash.slice(-6)}`;
+    };
+
+    const copyToClipboard = async () => {
+        try {
+            await navigator.clipboard.writeText(program_address);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+        }
+    };
 
     return (
-        <Dialog>
-            <DialogTrigger onClick={fetchSecurityInfo}>
-                {loading ? (
-                    <Shield className="h-4 w-4 animate-pulse" />
-                ) : securityInfo ? (
-                    securityInfo.verified ? (
-                        <ShieldCheck className="h-4 w-4 text-green-500" />
-                    ) : (
-                        <ShieldX className="h-4 w-4 text-red-500" />
-                    )
-                ) : (
-                    <Shield className="h-4 w-4" />
-                )}
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                    <DialogTitle>Security Verification</DialogTitle>
-                </DialogHeader>
-                {loading ? (
-                    <div className="flex justify-center py-4">Loading...</div>
-                ) : securityInfo ? (
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                            <span className="font-bold">Status:</span>
-                            {securityInfo.verified ? (
-                                <span className="text-green-500 flex items-center gap-1">
-                                    <ShieldCheck className="h-4 w-4" />
-                                    Verified
-                                </span>
-                            ) : (
-                                <span className="text-red-500 flex items-center gap-1">
-                                    <ShieldX className="h-4 w-4" />
-                                    Not Verified
-                                </span>
-                            )}
-                        </div>
-
-                        {securityInfo.verification && (
+        <AlertDialog>
+            <AlertDialogTrigger>
+                <TooltipComponent
+                    title={''}
+                    content={verificationData?.message || 'Loading verification status...'}
+                    icon={isLoading ? Loader2 : VerifiedIcon}
+                    iconColor={error ? 'text-red-500' : 'text-green-500'}
+                    className={isLoading ? 'animate-spin' : ''}
+                />
+            </AlertDialogTrigger>
+            <AlertDialogContent className="max-w-2xl">
+                <AlertDialogHeader>
+                    <AlertDialogTitle className="flex items-center gap-2">
+                        <VerifiedIcon className="text-green-500" />
+                        <span className="text-green-500">Verified Program</span>
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="space-y-4">
+                        {isLoading ? (
+                            <div className="flex justify-center">
+                                <Loader2 className="animate-spin" />
+                            </div>
+                        ) : error ? (
+                            <p className="text-red-500">{error}</p>
+                        ) : verificationData && (
                             <>
-                                <div>
-                                    <span className="font-bold">Message:</span>
-                                    <p>{securityInfo.verification.message}</p>
+                                <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                                    <p className="text-sm font-bold">Program Address</p>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <p className="font-mono text-xs break-all">{program_address}</p>
+                                        <button
+                                            onClick={copyToClipboard}
+                                            className="flex-shrink-0 p-1 hover:bg-gray-200 rounded transition-colors"
+                                        >
+                                            {copied ? (
+                                                <Check size={16} className="text-green-500" />
+                                            ) : (
+                                                <Copy size={16} className="text-gray-500" />
+                                            )}
+                                        </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span className="font-bold">On-Chain Hash:</span>
-                                    <p className="font-mono text-sm">{securityInfo.verification.onChainHash}</p>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <p className="text-sm font-bold">On-chain Hash</p>
+                                        <p className="font-mono text-xs">{shortenHash(verificationData.on_chain_hash)}</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <p className="text-sm font-bold">Executable Hash</p>
+                                        <p className="font-mono text-xs">{shortenHash(verificationData.executable_hash)}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span className="font-bold">Executable Hash:</span>
-                                    <p className="font-mono text-sm">{securityInfo.verification.executableHash}</p>
+
+                                <div className="space-y-2">
+                                    <p className="text-sm font-bold">Last Verified</p>
+                                    <p className="text-sm">{verificationData.last_verified_at}</p>
+                                    <p className="text-sm">{getTimeAgo(verificationData.last_verified_at)}</p>
                                 </div>
-                                <div>
-                                    <span className="font-bold">Last Verified:</span>
-                                    <p>{new Date(securityInfo.verification.lastVerifiedAt).toLocaleString()}</p>
-                                </div>
-                                <div>
-                                    <span className="font-bold">Repository:</span>
-                                    <a
-                                        href={securityInfo.verification.repoUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-blue-500 hover:underline ml-2"
-                                    >
-                                        View Source
-                                    </a>
-                                </div>
-                                <div>
-                                    <span className="font-bold">Commit:</span>
-                                    <p className="font-mono text-sm">{securityInfo.verification.commit}</p>
-                                </div>
+
+                                <a
+                                    href={verificationData.repo_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-600"
+                                >
+                                    <Github size={16} />
+                                    <span>View Source Code</span>
+                                    <span className="font-mono text-xs">({shortenHash(verificationData.commit)})</span>
+                                    <ArrowUpRight size={14} />
+                                </a>
                             </>
                         )}
-
-                        <div className="text-sm text-gray-500 mt-4">
-                            Verification completed in {(securityInfo.performance.totalTime / 1000).toFixed(2)}s
-                        </div>
-                    </div>
-                ) : (
-                    <div className="text-center text-red-500">Failed to load security information</div>
-                )}
-            </DialogContent>
-        </Dialog>
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex justify-center">
+                    <AlertDialogAction>Close</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     )
-} 
+}
