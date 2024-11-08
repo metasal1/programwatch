@@ -2,11 +2,15 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check, ArrowUpRight, Package, PackageX, SnowflakeIcon, SquareTerminalIcon, CircleX, ShieldCheck, ShieldX, Upload } from "lucide-react";
+import { Copy, Check, ArrowUpRight, Package as IDLIcon, PackageX as NoIDLIcon, SnowflakeIcon as FrozenIcon, SquareTerminalIcon as ExecutableIcon, CircleX as ClosedIcon, ShieldCheck as VerifiedIcon, ShieldX as NotVerifiedIcon, Upload as UpgradeableIcon } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-
+// import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import TooltipComponent from '@/components/TooltipComponent';
+import { TooltipContent } from '@radix-ui/react-tooltip';
+import { TooltipTrigger } from '@radix-ui/react-tooltip';
+import { Tooltip } from '@radix-ui/react-tooltip';
+import { TooltipProvider } from '@radix-ui/react-tooltip';
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
 interface Program {
@@ -90,6 +94,8 @@ export default function Programs() {
         <div className="flex items-center gap-2">
             <span className="font-mono hidden md:block">{address}</span>
             <span className="font-mono md:hidden">{truncateAddress(address)}</span>
+            {TooltipComponent('Copy', copiedAddress === address ? 'Copied!' : 'Copy to clipboard')}
+
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>
@@ -189,15 +195,10 @@ export default function Programs() {
                                 <TableCell>{program.version}</TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-2">
-                                        {program.mutable ? <Upload className="h-4 w-4 text-green-500" /> : <SnowflakeIcon className="h-4 w-4 text-gray-500" />}
-                                        {program.verified ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <ShieldX className="h-4 w-4 text-gray-500" />}
-                                        {program.idl ?
-                                            <>
-                                                <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" />
-                                                <CopyableAddress address={program.idl_address!} />
-                                            </>
-                                            : <PackageX className="h-4 w-4 text-gray-500" />}
-                                        {program.executable ? <SquareTerminalIcon className="h-4 w-4 text-green-500" /> : <CircleX className="h-4 w-4 text-gray-500" />}
+                                        {TooltipComponent({ title: '', content: program.mutable ? 'The program is mutable.' : 'The program is not mutable.', icon: program.mutable ? UpgradeableIcon : FrozenIcon, iconColor: program.mutable ? '#text-green-500' : 'text-gray-500' })}
+                                        {TooltipComponent({ title: '', content: program.verified ? 'The program is verified.' : 'The program is not verified.', icon: program.verified ? VerifiedIcon : NotVerifiedIcon, iconColor: program.verified ? 'text-green-500' : 'text-gray-500' })}
+                                        {TooltipComponent({ title: '', content: program.idl ? 'The program has an IDL.' : 'The program does not have an IDL.', icon: program.idl ? IDLIcon : NoIDLIcon, iconColor: program.idl ? 'text-green-500' : 'text-gray-500' })}
+                                        {TooltipComponent({ title: '', content: program.executable ? 'The program is executable.' : 'The program is not executable.', icon: program.executable ? ExecutableIcon : ClosedIcon, iconColor: program.executable ? 'text-green-500' : 'text-gray-500' })}
                                     </div>
                                 </TableCell>
                                 <TableCell>
