@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check, Package, ShieldX, ShieldCheck } from 'lucide-react'
+import { Copy, Check, Package, ShieldX, ShieldCheck, ArrowUpRight } from 'lucide-react'
 import {
     Table,
     TableBody,
@@ -124,6 +124,17 @@ export default function Programs() {
         </div>
     );
 
+    const OpenInNewTab = ({ address }: { address: string }) => (
+        <div className="flex items-center gap-2">
+            <button
+                onClick={() => window.open(`https://solana.fm/address/${address}`, '_blank')}
+                className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+            >
+                <ArrowUpRight className="h-4 w-4 text-gray-500" />
+            </button>
+        </div>
+    );
+
     const filteredPrograms = useMemo(() => {
         const searchLower = searchQuery.toLowerCase();
         return programs.filter(program =>
@@ -191,11 +202,15 @@ export default function Programs() {
                                 <TableCell>{program.program_name}</TableCell>
                                 <TableCell>{program.version}</TableCell>
                                 <TableCell>
-                                    {program.program_address && <CopyableAddress address={program.program_address} />}
+                                    {program.program_address && <div className="flex items-center gap-2"><CopyableAddress address={program.program_address} />
+                                        <OpenInNewTab address={program.program_address} />
+                                    </div>}
                                 </TableCell>
                                 <TableCell>
                                     {program.program_address && (
-                                        <CopyableAddress address={getDerivedAddress(program.program_address)} />
+                                        <div className="flex items-center gap-2"><CopyableAddress address={getDerivedAddress(program.program_address)} />
+                                            <OpenInNewTab address={getDerivedAddress(program.program_address)} />
+                                        </div>
                                     )}
                                 </TableCell>
                                 <TableCell>

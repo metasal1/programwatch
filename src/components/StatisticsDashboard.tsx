@@ -81,10 +81,10 @@ export function StatisticsDashboard() {
             <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <StatisticsCard title="Total Programs" value={data.stats.totalCount} />
-                    <StatisticsCard title="Executable Programs" value={data.stats.executableCount} />
-                    <StatisticsCard title="Verified Programs" value={data.stats.verifiedCount} />
-                    <StatisticsCard title="Mutable Programs" value={data.stats.mutableCount} />
-                    <StatisticsCard title="Programs with IDL" value={data.stats.hasIdlCount} />
+                    <StatisticsCard title="Executable" value={data.stats.executableCount} />
+                    <StatisticsCard title="Verified" value={data.stats.verifiedCount} />
+                    <StatisticsCard title="Upgradable" value={data.stats.mutableCount} />
+                    <StatisticsCard title="IDL Available" value={data.stats.hasIdlCount} />
                 </div>
             </div>
             <div className="rounded-lg border bg-card">
