@@ -49,6 +49,7 @@ export async function GET(request: NextRequest) {
                 accounts_used,
                 error_messages,
                 mutable,
+                executable,
                 idl,
                 idl_address,
                 deployed,

@@ -2,22 +2,10 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, Check, Package, ShieldX, ShieldCheck, ArrowUpRight } from 'lucide-react'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
+import { Copy, Check, ArrowUpRight, Package, PackageX, SnowflakeIcon, SquareTerminalIcon, CircleX, ShieldCheck, ShieldX, Upload } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import SecurityModal from './SecurityModal';
 
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
@@ -30,6 +18,7 @@ interface Program {
     instructions_referenced: string
     accounts_used: string
     error_messages: string
+    executable: boolean | null
     mutable: boolean | null
     idl: string | null
     idl_address: string | null
@@ -199,14 +188,18 @@ export default function Programs() {
                             <TableRow key={program.program_address || `program-${index}`}>
                                 <TableCell>{program.program_name}</TableCell>
                                 <TableCell>{program.version}</TableCell>
-                                <TableCell>{program.mutable ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <ShieldX className="h-4 w-4 text-red-500" />}
-                                    {!program.verified && <SecurityModal programAddress={program.program_address} />}
-                                    {program.idl ?
-                                        <>
-                                            <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" />
-                                            <CopyableAddress address={program.idl_address!} />
-                                        </>
-                                        : ''}
+                                <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        {program.mutable ? <Upload className="h-4 w-4 text-green-500" /> : <SnowflakeIcon className="h-4 w-4 text-gray-500" />}
+                                        {program.verified ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <ShieldX className="h-4 w-4 text-gray-500" />}
+                                        {program.idl ?
+                                            <>
+                                                <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" />
+                                                <CopyableAddress address={program.idl_address!} />
+                                            </>
+                                            : <PackageX className="h-4 w-4 text-gray-500" />}
+                                        {program.executable ? <SquareTerminalIcon className="h-4 w-4 text-green-500" /> : <CircleX className="h-4 w-4 text-gray-500" />}
+                                    </div>
                                 </TableCell>
                                 <TableCell>
                                     {program.program_address && <div className="flex items-center gap-2"><CopyableAddress address={program.program_address} />
