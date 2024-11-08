@@ -39,24 +39,7 @@ export async function GET(request: NextRequest) {
         const totalItems = parseInt(countResult.rows[0].count);
         const totalPages = Math.ceil(totalItems / limit);
 
-        let dataQuery = `
-            SELECT 
-                program_name,
-                version,
-                program_address,
-                program_derived_address,
-                instructions_referenced,
-                accounts_used,
-                error_messages,
-                mutable,
-                executable,
-                idl,
-                idl_address,
-                deployed,
-                verified
-            FROM programs
-        `;
-
+        let dataQuery = 'SELECT * FROM programs';
         let dataParams: (string | number)[] = [];
 
         if (searchQuery) {
@@ -66,7 +49,15 @@ export async function GET(request: NextRequest) {
             dataParams = [limit, offset];
         }
 
-        dataQuery += ' ORDER BY program_name LIMIT $1 OFFSET $2';
+        // Single ORDER BY clause with all conditions
+        dataQuery += `
+            ORDER BY 
+                CASE 
+                    WHEN TRIM(program_name) = '' OR program_name IS NULL THEN 2
+                    ELSE 1 
+                END,
+                program_name ASC
+            LIMIT $1 OFFSET $2`;
 
         // Log the data query for debugging
         console.log('Data query:', dataQuery, dataParams);
