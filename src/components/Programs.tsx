@@ -183,11 +183,9 @@ export default function Programs() {
                         <TableRow>
                             <TableHead>Program</TableHead>
                             <TableHead>Version</TableHead>
+                            <TableHead>Status</TableHead>
                             <TableHead>Address</TableHead>
                             <TableHead>Derived Address</TableHead>
-                            <TableHead>Verified</TableHead>
-                            <TableHead>Upgradable</TableHead>
-                            <TableHead>IDL</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -201,6 +199,15 @@ export default function Programs() {
                             <TableRow key={program.program_address || `program-${index}`}>
                                 <TableCell>{program.program_name}</TableCell>
                                 <TableCell>{program.version}</TableCell>
+                                <TableCell>{program.mutable ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <ShieldX className="h-4 w-4 text-red-500" />}
+                                    {!program.verified && <SecurityModal programAddress={program.program_address} />}
+                                    {program.idl ?
+                                        <>
+                                            <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" />
+                                            <CopyableAddress address={program.idl_address!} />
+                                        </>
+                                        : ''}
+                                </TableCell>
                                 <TableCell>
                                     {program.program_address && <div className="flex items-center gap-2"><CopyableAddress address={program.program_address} />
                                         <OpenInNewTab address={program.program_address} />
@@ -213,18 +220,7 @@ export default function Programs() {
                                         </div>
                                     )}
                                 </TableCell>
-                                <TableCell>
-                                    {!program.verified && <SecurityModal programAddress={program.program_address} />}
-                                </TableCell>
-                                <TableCell>{program.mutable ? <ShieldCheck className="h-4 w-4 text-green-500" /> : <ShieldX className="h-4 w-4 text-red-500" />}</TableCell>
-                                <TableCell>
-                                    {program.idl ?
-                                        <>
-                                            <Package onClick={() => handleOpen(program.program_address!)} className="h-4 w-4 text-green-500 cursor-pointer hover:text-green-900-600" />
-                                            <CopyableAddress address={program.idl_address!} />
-                                        </>
-                                        : ''}
-                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>

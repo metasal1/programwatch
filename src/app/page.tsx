@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Programs from "@/components/Programs";
 import { StatisticsDashboard } from "@/components/StatisticsDashboard";
+import Stats from "@/components/Stats";
+import { Legend } from "@/components/Legend";
 
 export default function Home() {
   return (
@@ -53,7 +55,8 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <StatisticsDashboard />
+          <Stats />
+          <Legend />
 
           <Programs />
         </main>
