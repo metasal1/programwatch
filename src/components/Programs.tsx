@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input"
 import TooltipComponent from '@/components/TooltipComponent';
 import SecurityModal from '@/components/SecurityModal';
 import { Button } from './ui/button';
+import { Skeleton } from "@/components/ui/skeleton"
+import TableSkeleton from './TableSkeleton';
+
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
 interface Program {
@@ -163,11 +166,7 @@ export default function Programs() {
                     </TableHeader>
                     <TableBody>
                         {loading ? (
-                            <TableRow>
-                                <TableCell colSpan={9} className="text-center">
-                                    Loading...
-                                </TableCell>
-                            </TableRow>
+                            <TableSkeleton />
                         ) : filteredPrograms.map((program, index) => (
                             <TableRow key={program.program_address || `program-${index}`}>
                                 <TableCell>{program.program_name}</TableCell>
