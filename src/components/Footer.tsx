@@ -18,11 +18,10 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
     return (
-        <div className="sticky bottom-0 w-full z-50 bg-white p-2 flex justify-center ">
+        <div className="sticky bottom-0 w-full z-50 p-2 flex justify-center ">
             <Drawer>
                 <DrawerTrigger>
-                    <Badge>
-
+                    <Badge className="cursor-pointer animate-bounce">
                     </Badge>
                 </DrawerTrigger>
                 <DrawerContent>

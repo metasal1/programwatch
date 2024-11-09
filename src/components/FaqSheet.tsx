@@ -6,11 +6,14 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import { Badge } from "@/components/ui/badge"
 
 export default function FaqSheet() {
     return (
         <Sheet>
-            <SheetTrigger>Frequently Asked Questions</SheetTrigger>
+            <SheetTrigger>
+                <Badge>Frequently Asked Questions</Badge>
+            </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
                     <SheetTitle>Frequently Asked Questions</SheetTitle>
@@ -34,6 +37,6 @@ export default function FaqSheet() {
                     </SheetDescription>
                 </SheetHeader>
             </SheetContent>
-        </Sheet>
+        </Sheet >
     )
 }

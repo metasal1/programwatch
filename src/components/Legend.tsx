@@ -3,8 +3,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 export function Legend() {
     return (
-        <>
-            <div className="text-xs grid grid-cols-4 gap-2 lg:grid-cols-8">
+        <div className="flex justify-center items-center w-full">
+            <div className="text-xs grid grid-cols-2 gap-2 lg:grid-cols-8">
                 <div className="flex items-center gap-2 bg-green-500/10 p-1 rounded-md">
                     <TooltipProvider>
                         <Tooltip>
@@ -117,7 +117,7 @@ export function Legend() {
                     </Tooltip>
                 </TooltipProvider>
             </div>
-        </>
+        </div>
     );
 }
 
