@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import TooltipComponent from '@/components/TooltipComponent';
 import SecurityModal from '@/components/SecurityModal';
 import { Button } from './ui/button';
-import { Skeleton } from "@/components/ui/skeleton"
 import TableSkeleton from './TableSkeleton';
+import { toast } from "sonner";
 
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
@@ -87,7 +87,10 @@ export default function Programs() {
     };
 
     const handleOpen = (idlAddress: string) => {
-        window.open(`/idl/${idlAddress}.json`, '_blank');
+        toast.info(`Opening IDL for ${idlAddress} in new window.`);
+        setTimeout(() => {
+            window.open(`/idl/${idlAddress}.json`, '_blank');
+        }, 1000);
     };
 
     const CopyableAddress = ({ address }: { address: string }) => (
