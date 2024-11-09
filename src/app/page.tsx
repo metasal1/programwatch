@@ -4,6 +4,7 @@ import Image from "next/image";
 import Programs from "@/components/Programs";
 import Stats from "@/components/Stats";
 import { Legend } from "@/components/Legend";
+import FaqSheet from "@/components/FaqSheet";
 
 export default function Home() {
   return (
@@ -55,6 +56,7 @@ export default function Home() {
             </div>
           </div>
           <Stats />
+          <FaqSheet />
           <Programs />
           <Legend />
         </main>

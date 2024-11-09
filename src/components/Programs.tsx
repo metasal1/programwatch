@@ -214,7 +214,7 @@ export default function Programs() {
                 >
                     <ArrowLeft /> Previous
                 </Button>
-                <span className="px-4 py-2">
+                <span className="px-4 py-2 text-sm">
                     Page {currentPage} of {totalPages}
                 </span>
                 <Button
