@@ -14,8 +14,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "./ui/badge";
-import { ArrowUpRight, Link } from "lucide-react";
-
+import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
     return (
@@ -28,8 +27,8 @@ export default function Footer() {
                 </DrawerTrigger>
                 <DrawerContent>
                     <DrawerHeader>
-                        <DrawerTitle>
-                            By Metasal
+                        <DrawerTitle className="flex items-center justify-center hover:text-red-600 cursor-pointer" onClick={() => window.open("https://metasal.xyz", "_blank")}>
+                            by Metasal <ArrowUpRight />
                         </DrawerTitle>
                         <DrawerDescription className="text-center p-4">
                             <strong>
@@ -48,7 +47,7 @@ export default function Footer() {
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
-        </div>
+        </div >
 
 
     )
