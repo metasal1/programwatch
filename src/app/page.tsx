@@ -56,7 +56,6 @@ export default function Home() {
           </div>
           <Stats />
           <Legend />
-
           <Programs />
         </main>
       </div>

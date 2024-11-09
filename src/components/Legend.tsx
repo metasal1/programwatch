@@ -9,7 +9,7 @@ export function Legend() {
                 <AccordionItem value="item-1">
                     <AccordionTrigger>Legend</AccordionTrigger>
                     <AccordionContent>
-                        <div className="text-sm grid grid-cols-2 gap-2">
+                        <div className="text-xs grid grid-cols-4 gap-2 lg:grid-cols-8">
                             <div className="flex items-center gap-2 bg-green-500/10 p-1 rounded-md">
                                 <TooltipProvider>
                                     <Tooltip>
