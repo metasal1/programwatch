@@ -1,3 +1,13 @@
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+
+
 interface StatProps {
     title: string;
     value: number;
@@ -5,11 +15,14 @@ interface StatProps {
 
 export function StatisticsCard({ title, value }: StatProps) {
     return (
-        <div className="flex flex-col">
-            <h3 className="text-black font-bold text-sm mb-1">{title}</h3>
-            <p className="text-2xl  text-green-600">
+
+        <Card>
+            <CardHeader>
+                <CardTitle>{title}</CardTitle>
+            </CardHeader>
+            <CardContent className="text-2xl text-green-600">
                 {value.toLocaleString()}
-            </p>
-        </div>
+            </CardContent>
+        </Card>
     );
 } 
