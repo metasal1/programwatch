@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { PublicKey } from '@solana/web3.js'
-import { Copy, ArrowUpRight, Package as IDLIcon, PackageX as NoIDLIcon, SnowflakeIcon as FrozenIcon, SquareTerminalIcon as ExecutableIcon, CircleX as ClosedIcon, ShieldX as NotVerifiedIcon, Upload as UpgradeableIcon } from "lucide-react";
+import { Copy, ArrowUpRight, ArrowRight, Package as IDLIcon, PackageX as NoIDLIcon, SnowflakeIcon as FrozenIcon, SquareTerminalIcon as ExecutableIcon, CircleX as ClosedIcon, ShieldX as NotVerifiedIcon, Upload as UpgradeableIcon, ArrowLeft } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import TooltipComponent from '@/components/TooltipComponent';
 import SecurityModal from '@/components/SecurityModal';
+import { Button } from './ui/button';
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
 interface Program {
@@ -206,23 +207,23 @@ export default function Programs() {
             </div>
 
             <div className="flex justify-center gap-2 mt-4">
-                <button
+                <Button
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                     className="px-4 py-2 border rounded disabled:opacity-50"
                 >
-                    Previous
-                </button>
+                    <ArrowLeft /> Previous
+                </Button>
                 <span className="px-4 py-2">
                     Page {currentPage} of {totalPages}
                 </span>
-                <button
+                <Button
                     onClick={() => setCurrentPage(prev => prev + 1)}
                     disabled={currentPage >= totalPages}
                     className="px-4 py-2 border rounded disabled:opacity-50"
                 >
-                    Next
-                </button>
+                    Next <ArrowRight />
+                </Button>
             </div>
         </div >
     )
