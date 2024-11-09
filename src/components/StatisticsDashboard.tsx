@@ -68,7 +68,6 @@ export function StatisticsDashboard() {
                         <div key={i} className="h-32 rounded-lg bg-muted animate-pulse" />
                     ))}
                 </div>
-                <div className="rounded-lg bg-muted h-64 animate-pulse" />
             </div>
         );
     }
