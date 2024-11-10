@@ -6,13 +6,13 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
+import { Book } from "lucide-react"
 
 export default function FaqSheet() {
     return (
         <Sheet>
             <SheetTrigger>
-                <Badge>Frequently Asked Questions</Badge>
+                <Book className="w-8 h-8" />
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>

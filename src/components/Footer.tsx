@@ -21,7 +21,7 @@ export default function Footer() {
         <div className="sticky bottom-0 w-full z-50 p-2 flex justify-center ">
             <Drawer>
                 <DrawerTrigger>
-                    <Badge className="cursor-pointer animate-bounce">
+                    <Badge className="cursor-pointer animate-bounce">@metasal
                     </Badge>
                 </DrawerTrigger>
                 <DrawerContent>
