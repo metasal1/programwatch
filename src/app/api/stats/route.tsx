@@ -21,6 +21,7 @@ export async function GET() {
                 COUNT(CASE WHEN executable = true THEN 1 END) as executable_count,
                 COUNT(CASE WHEN verified = true THEN 1 END) as verified_count,
                 COUNT(CASE WHEN mutable = true THEN 1 END) as mutable_count,
+                COUNT(CASE WHEN mutable = false THEN 1 END) as non_mutable_count,
                 COUNT(CASE WHEN idl = true THEN 1 END) as has_idl_count
             FROM programs
         `;
@@ -33,6 +34,7 @@ export async function GET() {
                 COUNT(CASE WHEN executable = true THEN 1 END) as executable_count,
                 COUNT(CASE WHEN verified = true THEN 1 END) as verified_count,
                 COUNT(CASE WHEN mutable = true THEN 1 END) as mutable_count,
+                COUNT(CASE WHEN mutable = false THEN 1 END) as non_mutable_count,
                 COUNT(CASE WHEN idl = true THEN 1 END) as has_idl_count
             FROM programs
             GROUP BY owner
@@ -54,6 +56,7 @@ export async function GET() {
                 executableCount: parseInt(stats.executable_count),
                 verifiedCount: parseInt(stats.verified_count),
                 mutableCount: parseInt(stats.mutable_count),
+                nonMutableCount: parseInt(stats.non_mutable_count),
                 hasIdlCount: parseInt(stats.has_idl_count)
             },
             ownerStats: ownerStats.map(row => ({
@@ -62,6 +65,7 @@ export async function GET() {
                 executableCount: parseInt(row.executable_count),
                 verifiedCount: parseInt(row.verified_count),
                 mutableCount: parseInt(row.mutable_count),
+                nonMutableCount: parseInt(row.non_mutable_count),
                 hasIdlCount: parseInt(row.has_idl_count)
             }))
         });

@@ -34,6 +34,8 @@ export default function FaqSheet() {
                             Upgradeable vs Frozen
                         </h2>
                         To learn more about upgradeable and frozen programs, please visit...
+                        <h2>Native Program List</h2>
+                        <a target="_blank" href="https://docs.solanalabs.com/runtime/programs">https://docs.solanalabs.com/runtime/programs</a>
                     </SheetDescription>
                 </SheetHeader>
             </SheetContent>

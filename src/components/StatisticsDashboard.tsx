@@ -8,6 +8,7 @@ interface Stats {
     executableCount: number;
     verifiedCount: number;
     mutableCount: number;
+    nonMutableCount: number;
     hasIdlCount: number;
 }
 
@@ -17,6 +18,7 @@ interface OwnerStat {
     executableCount: number;
     verifiedCount: number;
     mutableCount: number;
+    nonMutableCount: number;
     hasIdlCount: number;
 }
 
@@ -74,12 +76,13 @@ export function StatisticsDashboard() {
     return (
         <div className="space-y-8">
             <div>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                     <StatisticsCard title="Total Programs" value={data.stats.totalCount} />
                     <StatisticsCard title="Executable" value={data.stats.executableCount} />
                     <StatisticsCard title="Verified" value={data.stats.verifiedCount} />
-                    <StatisticsCard title="Upgradable" value={data.stats.mutableCount} />
                     <StatisticsCard title="IDL Available" value={data.stats.hasIdlCount} />
+                    <StatisticsCard title="Upgradable" value={data.stats.mutableCount} />
+                    <StatisticsCard title="Frozen" value={data.stats.nonMutableCount} />
                 </div>
             </div>
             {/* <div className="rounded-lg border bg-card">
