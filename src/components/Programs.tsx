@@ -138,7 +138,7 @@ export default function Programs() {
     return (
         <div className="w-full space-y-4">
             <div className="flex justify-between items-center">
-                <div>
+                <div className="text-sm italic">
                     Showing {filteredPrograms.length} of {totalItems} programs
                     {searchQuery && ` (filtered by "${searchQuery}")`}
                 </div>

@@ -3,7 +3,7 @@
 import Programs from "@/components/Programs";
 import { Legend } from "@/components/Legend";
 import Header from "@/components/Header";
-import { StatisticsDashboard } from "@/components/StatisticsDashboard";
+import StatsTabs from "@/components/StatsTabs";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
           <div className="w-full flex gap-4">
             <Header />
           </div>
-          <StatisticsDashboard />
+          <StatsTabs />
           <Programs />
           <Legend />
         </main>

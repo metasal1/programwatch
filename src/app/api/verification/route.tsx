@@ -14,8 +14,5 @@ export async function GET(request: NextRequest) {
 
     const verified = await fetch(`https://verify.osec.io/status/${programAddress}`)
     const verifiedData = await verified.json();
-
-    return NextResponse.json(
-        verifiedData
-    );
+    return NextResponse.json(verifiedData);
 }

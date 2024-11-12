@@ -18,7 +18,7 @@ export function StatisticsCard({ title, value }: StatProps) {
                 <CardTitle>{title}</CardTitle>
             </CardHeader>
             <CardContent className="text-2xl text-green-600">
-                {value.toLocaleString()}
+                {value?.toLocaleString()}
             </CardContent>
         </Card>
     );
