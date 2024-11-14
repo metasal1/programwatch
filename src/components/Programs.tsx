@@ -169,7 +169,7 @@ export default function Programs() {
                         executable: value === 'Yes' ? true : value === 'No' ? false : null
                     }))}
                 >
-                    <ToggleGroupItem value="Any" aria-label="Any Executable">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Any" aria-label="Any Executable">Doesn&apos;t Matter</ToggleGroupItem>
                     <ToggleGroupItem value="Yes" aria-label="Executable">Yes</ToggleGroupItem>
                     <ToggleGroupItem value="No" aria-label="Not Executable">No</ToggleGroupItem>
                 </ToggleGroup>
@@ -183,7 +183,7 @@ export default function Programs() {
                         upgradeable: value === 'Yes' ? true : value === 'No' ? false : null
                     }))}
                 >
-                    <ToggleGroupItem value="Any" aria-label="Any Upgradeable">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Any" aria-label="Any Upgradeable">Doesn&apos;t Matter</ToggleGroupItem>
                     <ToggleGroupItem value="Yes" aria-label="Upgradeable">Yes</ToggleGroupItem>
                     <ToggleGroupItem value="No" aria-label="Not Upgradeable">No</ToggleGroupItem>
                 </ToggleGroup>
@@ -197,7 +197,7 @@ export default function Programs() {
                         verified: value === 'Yes' ? true : value === 'No' ? false : null
                     }))}
                 >
-                    <ToggleGroupItem value="Any" aria-label="Any Verified">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Any" aria-label="Any Verified">Doesn&apos;t Matter</ToggleGroupItem>
                     <ToggleGroupItem value="Yes" aria-label="Verified">Yes</ToggleGroupItem>
                     <ToggleGroupItem value="No" aria-label="Not Verified">No</ToggleGroupItem>
                 </ToggleGroup>
@@ -211,19 +211,13 @@ export default function Programs() {
                         hasIdl: value === 'Yes' ? true : value === 'No' ? false : null
                     }))}
                 >
-                    <ToggleGroupItem value="Any" aria-label="Any IDL">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Any" aria-label="Any IDL">Doesn&apos;t Matter</ToggleGroupItem>
                     <ToggleGroupItem value="Yes" aria-label="Has IDL">Yes</ToggleGroupItem>
                     <ToggleGroupItem value="No" aria-label="No IDL">No</ToggleGroupItem>
                 </ToggleGroup>
             </div>
         </div>
     );
-
-    const getToggleValue = (value: boolean | null): string => {
-        if (value === true) return 'Yes';
-        if (value === false) return 'No';
-        return 'Any';
-    };
 
     return (
         <div className="w-full space-y-4">
