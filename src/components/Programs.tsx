@@ -10,6 +10,7 @@ import SecurityModal from '@/components/SecurityModal';
 import { Button } from './ui/button';
 import TableSkeleton from './TableSkeleton';
 import { toast } from "sonner";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 const BPF_LOADER_UPGRADEABLE = new PublicKey('BPFLoaderUpgradeab1e11111111111111111111111');
 
@@ -20,6 +21,8 @@ interface Program {
     program_derived_address: string
     instructions_referenced: string
     accounts_used: string
+    size: string
+    slot: string
     error_messages: string
     executable: boolean | null
     mutable: boolean | null
@@ -27,6 +30,13 @@ interface Program {
     idl_address: string | null
     deployed: string | null
     verified: boolean | null
+}
+
+interface Filters {
+    executable: boolean | null
+    upgradeable: boolean | null
+    verified: boolean | null
+    hasIdl: boolean | null
 }
 
 const truncateAddress = (address: string) => {
@@ -42,12 +52,27 @@ export default function Programs() {
     const [totalPages, setTotalPages] = useState(1)
     const [totalItems, setTotalItems] = useState(0)
     const [error, setError] = useState<string | null>(null)
+    const [filters, setFilters] = useState<Filters>({
+        executable: null,
+        upgradeable: null,
+        verified: null,
+        hasIdl: null,
+    })
 
     useEffect(() => {
         const fetchPrograms = async () => {
             try {
                 setError(null);
-                const response = await fetch(`/api/database?page=${currentPage}&query=${encodeURIComponent(searchQuery)}`);
+                const queryParams = new URLSearchParams({
+                    page: currentPage.toString(),
+                    query: searchQuery,
+                    ...(filters.executable !== null && { executable: filters.executable.toString() }),
+                    ...(filters.upgradeable !== null && { mutable: filters.upgradeable.toString() }),
+                    ...(filters.verified !== null && { verified: filters.verified.toString() }),
+                    ...(filters.hasIdl !== null && { idl: filters.hasIdl.toString() }),
+                });
+
+                const response = await fetch(`/api/database?${queryParams}`);
                 const result = await response.json();
 
                 if (result.success) {
@@ -72,13 +97,12 @@ export default function Programs() {
         };
 
         setLoading(true);
-        // Debounce the search to avoid too many requests
         const timeoutId = setTimeout(() => {
             fetchPrograms();
         }, 300);
 
         return () => clearTimeout(timeoutId);
-    }, [searchQuery, currentPage]);
+    }, [searchQuery, currentPage, filters]);
 
     const handleCopy = async (text: string) => {
         await navigator.clipboard.writeText(text);
@@ -135,19 +159,88 @@ export default function Programs() {
         }
     };
 
+    const FilterButtons = () => (
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+            <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Executable:</span>
+                <ToggleGroup type="single" value={filters.executable === null ? 'Any' : filters.executable ? 'Yes' : 'No'}
+                    onValueChange={(value) => setFilters(prev => ({
+                        ...prev,
+                        executable: value === 'Yes' ? true : value === 'No' ? false : null
+                    }))}
+                >
+                    <ToggleGroupItem value="Any" aria-label="Any Executable">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Yes" aria-label="Executable">Yes</ToggleGroupItem>
+                    <ToggleGroupItem value="No" aria-label="Not Executable">No</ToggleGroupItem>
+                </ToggleGroup>
+            </div>
+
+            <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Upgradeable:</span>
+                <ToggleGroup type="single" value={filters.upgradeable === null ? 'Any' : filters.upgradeable ? 'Yes' : 'No'}
+                    onValueChange={(value) => setFilters(prev => ({
+                        ...prev,
+                        upgradeable: value === 'Yes' ? true : value === 'No' ? false : null
+                    }))}
+                >
+                    <ToggleGroupItem value="Any" aria-label="Any Upgradeable">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Yes" aria-label="Upgradeable">Yes</ToggleGroupItem>
+                    <ToggleGroupItem value="No" aria-label="Not Upgradeable">No</ToggleGroupItem>
+                </ToggleGroup>
+            </div>
+
+            <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Verified:</span>
+                <ToggleGroup type="single" value={filters.verified === null ? 'Any' : filters.verified ? 'Yes' : 'No'}
+                    onValueChange={(value) => setFilters(prev => ({
+                        ...prev,
+                        verified: value === 'Yes' ? true : value === 'No' ? false : null
+                    }))}
+                >
+                    <ToggleGroupItem value="Any" aria-label="Any Verified">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Yes" aria-label="Verified">Yes</ToggleGroupItem>
+                    <ToggleGroupItem value="No" aria-label="Not Verified">No</ToggleGroupItem>
+                </ToggleGroup>
+            </div>
+
+            <div className="flex items-center gap-2">
+                <span className="text-sm font-medium">Has IDL:</span>
+                <ToggleGroup type="single" value={filters.hasIdl === null ? 'Any' : filters.hasIdl ? 'Yes' : 'No'}
+                    onValueChange={(value) => setFilters(prev => ({
+                        ...prev,
+                        hasIdl: value === 'Yes' ? true : value === 'No' ? false : null
+                    }))}
+                >
+                    <ToggleGroupItem value="Any" aria-label="Any IDL">Doesn't Matter</ToggleGroupItem>
+                    <ToggleGroupItem value="Yes" aria-label="Has IDL">Yes</ToggleGroupItem>
+                    <ToggleGroupItem value="No" aria-label="No IDL">No</ToggleGroupItem>
+                </ToggleGroup>
+            </div>
+        </div>
+    );
+
+    const getToggleValue = (value: boolean | null): string => {
+        if (value === true) return 'Yes';
+        if (value === false) return 'No';
+        return 'Any';
+    };
+
     return (
         <div className="w-full space-y-4">
-            <div className="flex justify-between items-center">
-                <div className="text-sm italic">
-                    Showing {filteredPrograms.length} of {totalItems} programs
-                    {searchQuery && ` (filtered by "${searchQuery}")`}
+            <div className="flex flex-col gap-4">
+                <div className="flex justify-between items-center">
+                    <div className="text-sm italic">
+                        Showing {filteredPrograms.length} of {totalItems} programs
+                        {searchQuery && ` (filtered by "${searchQuery}")`}
+                    </div>
+                    <Input
+                        placeholder="Search by program name or address..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="max-w-sm"
+                    />
                 </div>
-                <Input
-                    placeholder="Search by program name or address..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="max-w-sm"
-                />
+                <FilterButtons />
             </div>
 
             {error && (
@@ -163,6 +256,8 @@ export default function Programs() {
                             <TableHead>Program</TableHead>
                             <TableHead>Version</TableHead>
                             <TableHead>Status</TableHead>
+                            <TableHead>Size</TableHead>
+                            <TableHead>Slot</TableHead>
                             <TableHead>Address</TableHead>
                             <TableHead>Derived Address</TableHead>
                         </TableRow>
@@ -189,6 +284,8 @@ export default function Programs() {
                                         </div>
                                     </div>
                                 </TableCell>
+                                <TableCell>{program.size}</TableCell>
+                                <TableCell>{program.slot}</TableCell>
                                 <TableCell>
                                     {program.program_address && <div className="flex items-center gap-2"><CopyableAddress address={program.program_address} />
                                         <OpenInNewTab address={program.program_address} />
