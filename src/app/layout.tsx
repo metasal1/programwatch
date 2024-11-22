@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner"
+import { Analytics } from "@vercel/analytics/react"
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -16,7 +18,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "ProgramWatch",
-  description: "keep an on Solana programs",
+  description: "keep your eyse 👀 on Solana Programs",
 };
 
 export default function RootLayout({
@@ -33,7 +35,7 @@ export default function RootLayout({
         <Toaster />
         <Footer />
       </body>
-
+      <Analytics />
     </html>
   );
 }

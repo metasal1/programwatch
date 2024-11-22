@@ -224,8 +224,14 @@ export default function Programs() {
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between items-center">
                     <div className="text-sm italic">
-                        Showing {filteredPrograms.length} of {totalItems} programs
-                        {searchQuery && ` (filtered by "${searchQuery}")`}
+                        {loading ? (
+                            <div className="h-4 w-48 bg-gray-200 animate-pulse rounded" />
+                        ) : (
+                            <>
+                                Showing {filteredPrograms.length} of {totalItems} programs
+                                {searchQuery && ` (filtered by "${searchQuery}")`}
+                            </>
+                        )}
                     </div>
                     <Input
                         placeholder="Search by program name or address..."
