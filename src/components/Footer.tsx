@@ -33,7 +33,8 @@ export default function Footer() {
                             <strong>
                                 Disclaimer:
                             </strong>
-                            This data is from the Solana blockchain and is updated periodically. IDLs and verification were correct at time of last update. IDL may be incorrect if program is not verified. IDL may be missing if it was not generated.
+                            This data is from the Solana blockchain and is updated periodically. IDLs and verification were correct at time of last update. IDL may be incorrect if program is not verified. IDL may be missing if it was not generated. 
+                            Donations 🙏 welcome to programwatch.sol to cover RPC, DB and hosting costs
                             <div className="text-center p-2">
                                 <DeployTimestamp />
                             </div>
@@ -51,3 +52,4 @@ export default function Footer() {
 
     )
 }
+
